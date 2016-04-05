@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\DataSource;
+namespace Tlapnet\Report\DataSources;
 
 use Tlapnet\Report\Heap\Heap;
 use Tlapnet\Report\HeapBox\ParameterList;

@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\HeapBox;
 
-use Tlapnet\Report\DataSource\DataSource;
+use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 use Tlapnet\Report\Heap\Heap;
 use Tlapnet\Report\Renderers\Renderer;

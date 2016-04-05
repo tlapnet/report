@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\DataSource;
+namespace Tlapnet\Report\DataSources;
 
 abstract class AbstractRemoteDataSource implements DataSource
 {

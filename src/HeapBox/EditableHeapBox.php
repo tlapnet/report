@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\HeapBox;
 
-use Tlapnet\Report\DataSource\DataSource;
+use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Renderers\Renderer;
 
 class EditableHeapBox extends HeapBox

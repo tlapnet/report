@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\Bridges\Dibi\DataSources;
 
-use Tlapnet\Report\DataSource\AbstractDatabaseDataSource;
+use Tlapnet\Report\DataSources\AbstractDatabaseDataSource;
 use Tlapnet\Report\Heap\Heap;
 use Tlapnet\Report\HeapBox\ParameterList;
 
