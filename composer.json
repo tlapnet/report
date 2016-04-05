@@ -1,0 +1,44 @@
+{
+  "name": "tlapnet/report",
+  "require": {
+    "php": ">=5.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": ">=5.0.0",
+    "nette/application": ">=2.3.0",
+    "nette/di": ">=2.3.0",
+    "nette/database": ">=2.3.0",
+    "nette/neon": ">=2.3.0"
+  },
+  "suggest": {
+    "dibi/dibi": "Allows use DibiDataSource",
+    "nette/di": "Allows use this library as Nette extension",
+    "nette/database": "Allows use NetteDatabaseDataSource",
+    "nette/neon": "Allows use NeonLoader"
+  },
+  "autoload": {
+    "psr-4": {
+      "Tlapnet\\Report\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tlapnet\\Report\\": "tests/"
+    }
+  },
+  "prefer-stable": true,
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Tlapnet",
+      "email": "webmaster@tlapnet.cz"
+    }
+  ],
+  "license": "proprietary",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packagist.tlapnet.cz/"
+    }
+  ]
+}
