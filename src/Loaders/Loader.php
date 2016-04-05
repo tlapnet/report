@@ -5,9 +5,9 @@ namespace Tlapnet\Report\Loaders;
 interface Loader
 {
 
-    /**
-     * @return 
-     */
-    public function load();
+	/**
+	 * @return
+	 */
+	public function load();
 
 }

@@ -9,38 +9,38 @@ use Tlapnet\Report\Loaders\AbstractLoader;
 class NeonLoader extends AbstractLoader
 {
 
-    /** @var array */
-    private $files = [];
+	/** @var array */
+	private $files = [];
 
-    /** @var array */
-    private $folders = [];
+	/** @var array */
+	private $folders = [];
 
-    /**
-     * @param string $file
-     */
-    public function addFile($file)
-    {
-        if (!file_exists($file)) throw new InvalidArgumentException("Folder '$file' not found.");
+	/**
+	 * @param string $file
+	 */
+	public function addFile($file)
+	{
+		if (!file_exists($file)) throw new InvalidArgumentException("Folder '$file' not found.");
 
-        $this->files[] = $file;
-    }
+		$this->files[] = $file;
+	}
 
-    /**
-     * @param string $folder
-     */
-    public function addFolder($folder)
-    {
-        if (!is_dir($folder)) throw new InvalidArgumentException("Folder '$folder' not found.'");
+	/**
+	 * @param string $folder
+	 */
+	public function addFolder($folder)
+	{
+		if (!is_dir($folder)) throw new InvalidArgumentException("Folder '$folder' not found.'");
 
-        $this->folders[] = $folder;
-    }
+		$this->folders[] = $folder;
+	}
 
-    /**
-     * @return HeapBox[]
-     */
-    public function load()
-    {
-        $stop();
-    }
+	/**
+	 * @return HeapBox[]
+	 */
+	public function load()
+	{
+		$stop();
+	}
 
 }

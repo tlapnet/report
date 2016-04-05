@@ -7,10 +7,10 @@ use Tlapnet\Report\Heap\Heap;
 interface Renderer
 {
 
-    /**
-     * @param Heap $heap
-     * @return mixed
-     */
-    public function render(Heap $heap);
+	/**
+	 * @param Heap $heap
+	 * @return mixed
+	 */
+	public function render(Heap $heap);
 
 }

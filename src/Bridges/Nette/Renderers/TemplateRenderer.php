@@ -10,23 +10,23 @@ use Tlapnet\Report\Renderers\Renderer;
 abstract class TemplateRenderer implements Renderer
 {
 
-    /** @var ITemplateFactory */
-    private $templateFactory;
+	/** @var ITemplateFactory */
+	private $templateFactory;
 
-    /**
-     * @param ITemplateFactory $templateFactory
-     */
-    public function __construct(ITemplateFactory $templateFactory)
-    {
-        $this->templateFactory = $templateFactory;
-    }
+	/**
+	 * @param ITemplateFactory $templateFactory
+	 */
+	public function __construct(ITemplateFactory $templateFactory)
+	{
+		$this->templateFactory = $templateFactory;
+	}
 
-    /**
-     * @return ITemplate|Template
-     */
-    protected function createTemplate()
-    {
-        return $this->templateFactory->createTemplate();
-    }
+	/**
+	 * @return ITemplate|Template
+	 */
+	protected function createTemplate()
+	{
+		return $this->templateFactory->createTemplate();
+	}
 
 }

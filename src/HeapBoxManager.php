@@ -10,57 +10,57 @@ use Tlapnet\Report\Utils\Suggestions;
 class HeapBoxManager
 {
 
-    /** @var HeapBox[]|Heapable[] */
-    private $boxes = [];
+	/** @var HeapBox[]|Heapable[] */
+	private $boxes = [];
 
-    /**
-     * @param HeapBox $box
-     */
-    public function addHeapBox(HeapBox $box)
-    {
-        $this->boxes[] = $box;
-    }
+	/**
+	 * @param HeapBox $box
+	 */
+	public function addHeapBox(HeapBox $box)
+	{
+		$this->boxes[] = $box;
+	}
 
-    /**
-     * @return HeapBox[]
-     */
-    public function getHeapBoxes()
-    {
-        return $this->boxes;
-    }
+	/**
+	 * @return HeapBox[]
+	 */
+	public function getHeapBoxes()
+	{
+		return $this->boxes;
+	}
 
-    /**
-     * @param string $uid
-     * @return HeapBox
-     */
-    public function getHeapBox($uid)
-    {
-        foreach ($this->boxes as $box) {
-            if ($box->getUid() == $uid) {
-                return $box;
-            }
-        }
+	/**
+	 * @param string $uid
+	 * @return HeapBox
+	 */
+	public function getHeapBox($uid)
+	{
+		foreach ($this->boxes as $box) {
+			if ($box->getUid() == $uid) {
+				return $box;
+			}
+		}
 
-        $hint = Suggestions::getSuggestion(array_map(function (HeapBox $box) {
-            return $box->getUid();
-        }, $this->boxes), $uid);
+		$hint = Suggestions::getSuggestion(array_map(function (HeapBox $box) {
+			return $box->getUid();
+		}, $this->boxes), $uid);
 
-        throw new InvalidStateException("HeapBox '$uid' not found" . ($hint ? ", did you mean '$hint'?" : '.'));
-    }
+		throw new InvalidStateException("HeapBox '$uid' not found" . ($hint ? ", did you mean '$hint'?" : '.'));
+	}
 
-    /**
-     * @param string $uid
-     * @return bool
-     */
-    public function hasHeapBox($uid)
-    {
-        foreach ($this->boxes as $box) {
-            if ($box->getUid() == $uid) {
-                return TRUE;
-            }
-        }
+	/**
+	 * @param string $uid
+	 * @return bool
+	 */
+	public function hasHeapBox($uid)
+	{
+		foreach ($this->boxes as $box) {
+			if ($box->getUid() == $uid) {
+				return TRUE;
+			}
+		}
 
-        return FALSE;
-    }
+		return FALSE;
+	}
 
 }

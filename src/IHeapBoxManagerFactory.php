@@ -5,9 +5,9 @@ namespace Tlapnet\Report;
 interface IHeapBoxManagerFactory
 {
 
-    /**
-     * @return HeapBoxManager
-     */
-    public function create();
+	/**
+	 * @return HeapBoxManager
+	 */
+	public function create();
 
 }

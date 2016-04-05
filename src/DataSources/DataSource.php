@@ -8,10 +8,10 @@ use Tlapnet\Report\HeapBox\ParameterList;
 interface DataSource
 {
 
-    /**
-     * @param ParameterList $parameters
-     * @return Heap
-     */
-    public function compile(ParameterList $parameters);
+	/**
+	 * @param ParameterList $parameters
+	 * @return Heap
+	 */
+	public function compile(ParameterList $parameters);
 
 }
