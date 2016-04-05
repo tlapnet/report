@@ -12,7 +12,7 @@ use Nette\Utils\Validators;
 use Tlapnet\Report\Bridges\Nette\Exceptions\FileNotFoundException;
 use Tlapnet\Report\Bridges\Nette\Exceptions\FolderNotFoundException;
 use Tlapnet\Report\Bridges\Nette\Exceptions\InvalidConfigException;
-use Tlapnet\Report\DataSource\DataSource;
+use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\HeapBox\HeapBox;
 use Tlapnet\Report\HeapBox\ParameterListFactory;
 use Tlapnet\Report\HeapBoxManager;
@@ -40,10 +40,10 @@ class ReportExtension extends CompilerExtension
         $builder = $this->getContainerBuilder();
 
         // Assert config
-        Validators::assert($config['folders'], 'array');
-        Validators::assert($config['files'], 'array');
-        Validators::assert($config['heaps'], 'array');
-        Validators::assert($config['services'], 'array');
+        Validators::assert($config['folders'], 'array', "'folders'");
+        Validators::assert($config['files'], 'array', "'files'");
+        Validators::assert($config['heaps'], 'array', "'heaps'");
+        Validators::assert($config['services'], 'array', "'services'");
 
         // Setup one class, HeapBoxManager which holds all HeapBoxes
 
