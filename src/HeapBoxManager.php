@@ -30,21 +30,37 @@ class HeapBoxManager
     }
 
     /**
+     * @param string $uid
      * @return HeapBox
      */
-    public function getHeapBox($name)
+    public function getHeapBox($uid)
     {
         foreach ($this->boxes as $box) {
-            if ($box->getUid() == $name) {
+            if ($box->getUid() == $uid) {
                 return $box;
             }
         }
 
         $hint = Suggestions::getSuggestion(array_map(function (HeapBox $box) {
             return $box->getUid();
-        }, $this->boxes), $name);
+        }, $this->boxes), $uid);
 
-        throw new InvalidStateException("HeapBox '$name' not found" . ($hint ? ", did you mean '$hint'?" : '.'));
+        throw new InvalidStateException("HeapBox '$uid' not found" . ($hint ? ", did you mean '$hint'?" : '.'));
+    }
+
+    /**
+     * @param string $uid
+     * @return bool
+     */
+    public function hasHeapBox($uid)
+    {
+        foreach ($this->boxes as $box) {
+            if ($box->getUid() == $uid) {
+                return TRUE;
+            }
+        }
+
+        return FALSE;
     }
 
 }
