@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\Bridges\Nette\DataSources;
+namespace Tlapnet\Report\Bridges\Nette\Database\DataSources;
 
 use Nette\Database\Connection;
 use Nette\Database\Helpers;
@@ -36,12 +36,18 @@ class NetteDatabaseDataSource extends AbstractDatabaseDataSource
 	}
 
 	/**
-	 * Register this datasource to Tracy panel
+	 * Show or hide tracy panel
+	 *
+	 * @param bool $show
 	 */
-	public function registerTracyPanel()
+	public function setTracyPanel($show)
 	{
-		if (class_exists(Debugger::class)) {
-			Helpers::createDebugPanel($this->connection);
+		if ($show === TRUE) {
+			if (class_exists(Debugger::class)) {
+				$this->connection->onConnect[] = function () {
+					Helpers::createDebugPanel($this->connection);
+				};
+			}
 		}
 	}
 
