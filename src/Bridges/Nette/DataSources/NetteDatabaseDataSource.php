@@ -13,17 +13,20 @@ class NetteDatabaseDataSource extends AbstractDatabaseDataSource
 	/** @var Connection */
 	protected $connection;
 
+	/**
+	 * @param array $config
+	 */
 	public function __construct(array $config)
 	{
 		parent::__construct($config);
 
 		$this->connection = new Connection(
-			$this->config['dns'],
-			$this->config['user'],
-			$this->config['password']
+			$this->getConfig('dns'),
+			$this->getConfig('user'),
+			$this->getConfig('password'),
+			$this->getConfig('options', ['lazy' => TRUE])
 		);
 	}
-
 
 	/**
 	 * @param ParameterList $parameters
