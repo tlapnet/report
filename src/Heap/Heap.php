@@ -23,6 +23,14 @@ class Heap implements Countable, ArrayAccess, IteratorAggregate
 	}
 
 	/**
+	 * @return array
+	 */
+	public function getData()
+	{
+		return $this->data;
+	}
+
+	/**
 	 * COUNTABLE ***************************************************************
 	 */
 
