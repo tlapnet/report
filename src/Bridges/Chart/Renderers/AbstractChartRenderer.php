@@ -4,7 +4,6 @@ namespace Tlapnet\Report\Bridges\Chart\Renderers;
 
 use Tlapnet\Chart\AbstractChart;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
-use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 use Tlapnet\Report\Renderers\Renderer;
 use Tlapnet\Report\Utils\Suggestions;
 
@@ -16,6 +15,7 @@ abstract class AbstractChartRenderer implements Renderer
 		'segments' => [],
 		'series' => [],
 		'seriesBy' => [],
+		'groups' => [],
 	];
 
 	/** @var string */
@@ -58,47 +58,6 @@ abstract class AbstractChartRenderer implements Renderer
 	}
 
 	/**
-	 * @param string $id
-	 * @param string $column
-	 * @param mixed $value
-	 */
-	public function addSerieBy($id, $column, $value)
-	{
-		if (isset($this->mapping['seriesBy'][$id])) {
-			throw new InvalidStateException("Serie by '$id' already exists.");
-		}
-
-		$this->mapping['seriesBy'][$id] = (object)[
-			'id' => $id,
-			'column' => $column,
-			'value' => $value,
-		];
-	}
-
-	/**
-	 * @param string $id
-	 */
-	public function addSerieByAll($id)
-	{
-		$this->addSerieBy($id, NULL, NULL);
-	}
-
-	/**
-	 * @param string $key
-	 * @param mixed $default
-	 * @return mixed
-	 */
-	protected function getSerieBy($key)
-	{
-		if (isset($this->mapping['seriesBy'][$key])) {
-			return $this->mapping['seriesBy'][$key];
-		}
-
-		$hint = Suggestions::getSuggestion($this->mapping['seriesBy'], $key);
-		throw new InvalidArgumentException("Unknown by mapping key '$key'" . ($hint ? ", did you mean '$hint'?" : '.'));
-	}
-
-	/**
 	 * @return array
 	 */
 	protected function getSeriesBys()
@@ -107,23 +66,30 @@ abstract class AbstractChartRenderer implements Renderer
 	}
 
 	/**
-	 * @param string $id
+	 * @param array $conditions
 	 * @param string $type
 	 * @param string $title
 	 * @param string $color
+	 * @param string $group
 	 */
-	public function addSerie($id, $type, $title, $color = NULL)
+	public function addSerie(array $conditions = [], $type, $title, $color = NULL, $group = NULL)
 	{
-		if (!isset($this->mapping['seriesBy'][$id])) {
-			throw new InvalidStateException("Serie by '$id' does not exist. Please add it first.");
-		}
+		// Generate unique serie ID
+		$sid = md5(serialize([$conditions, $type, $title, $color]));
 
-		$this->mapping['series'][$id] = (object)[
-			'id' => $id,
+		$this->mapping['series'][$sid] = (object)[
+			'id' => $sid,
 			'type' => $type,
 			'title' => $title,
 			'color' => $color,
 		];
+
+		$this->mapping['seriesBy'][$sid] = (object)[
+			'id' => $sid,
+			'conditions' => $conditions,
+		];
+
+		$this->mapping['groups'][$sid] = $group;
 	}
 
 	/**
@@ -147,6 +113,29 @@ abstract class AbstractChartRenderer implements Renderer
 	protected function getSeries()
 	{
 		return $this->mapping['series'];
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getGroups()
+	{
+		return $this->mapping['groups'];
+	}
+
+	/**
+	 * @param string $sid
+	 * @return string|NULL
+	 */
+	protected function getGroupBySerie($sid)
+	{
+		foreach ($this->mapping['groups'] as $_sid => $group) {
+			if ($_sid == $sid) {
+				return $group;
+			}
+		}
+
+		return NULL;
 	}
 
 	/**

@@ -50,7 +50,7 @@ class DateChartRenderer extends SeriesChartRenderer
 		}
 
 		// Create series
-		$series = $this->doPrepareSeries($chart, $this->getSeries());
+		$series = $this->doPrepareSeries($this->getSeries());
 
 		// Filter data
 		$filtered = $this->doFilterData($this->getSeriesBys(), $heap->getData());

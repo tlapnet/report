@@ -17,15 +17,14 @@ abstract class SeriesChartRenderer extends AbstractChartRenderer
 	abstract protected function createSerie($serie);
 
 	/**
-	 * @param CategoryChart|Chart|DateChart $chart
 	 * @param array $series
 	 * @return AbstractSerie[]
 	 */
-	protected function doPrepareSeries($chart, array $series)
+	protected function doPrepareSeries(array $series)
 	{
 		$_series = [];
-		foreach ($series as $serie) {
-			$_series[$serie->id] = $this->createSerie($serie);
+		foreach ($series as $sid => $serie) {
+			$_series[$sid] = $this->createSerie($serie);
 		}
 
 		return $_series;
@@ -37,35 +36,35 @@ abstract class SeriesChartRenderer extends AbstractChartRenderer
 	 */
 	protected function doAddSeries($chart, array $series)
 	{
-		foreach ($series as $serie) {
-			$chart->addSerie($serie);
+		foreach ($series as $sid => $serie) {
+			$chart->addSerie($serie, $this->getGroupBySerie($sid));
 		}
 	}
 
 	/**
-	 * @param $groups
+	 * @param array $seriesBys
 	 * @param array $data
 	 * @return array
 	 */
-	protected function doFilterData($groups, array $data)
+	protected function doFilterData($seriesBys, array $data)
 	{
 		$filtered = [];
 
 		// Prepare array
-		foreach ($groups as $key => $group) {
+		foreach ($seriesBys as $key => $serieBy) {
 			$filtered[$key] = [];
 		}
 
 		// Filter data
 		foreach ($data as $item) {
-			foreach ($groups as $group) {
-				if ($group->column === NULL && $group->value === NULL) {
-					// Common group
-					$filtered[$group->id][] = $item;
+			foreach ($seriesBys as $serieBy) {
+				if (empty($serieBy->conditions)) {
+					// Common serie
+					$filtered[$serieBy->id][] = $item;
 				} else {
-					// Test if row belongs to group
-					if ($item[$group->column] == $group->value) {
-						$filtered[$group->id][] = $item;
+					// Test if row belongs to serie
+					if ($this->isItemMatched($item, $serieBy)) {
+						$filtered[$serieBy->id][] = $item;
 					}
 				}
 
@@ -73,6 +72,22 @@ abstract class SeriesChartRenderer extends AbstractChartRenderer
 		}
 
 		return $filtered;
+	}
+
+	/**
+	 * @param array $item
+	 * @param object $serieBy
+	 * @return bool
+	 */
+	protected function isItemMatched($item, $serieBy)
+	{
+		foreach ($serieBy->conditions as $column => $value) {
+			if ($item[$column] == $value) {
+				return TRUE;
+			}
+		}
+
+		return FALSE;
 	}
 
 }
