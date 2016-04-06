@@ -15,7 +15,7 @@ abstract class AbstractChartRenderer implements Renderer
 	protected $mapping = [
 		'segments' => [],
 		'series' => [],
-		'groups' => [],
+		'seriesBy' => [],
 	];
 
 	/** @var string */
@@ -62,13 +62,13 @@ abstract class AbstractChartRenderer implements Renderer
 	 * @param string $column
 	 * @param mixed $value
 	 */
-	public function addSerieGroup($id, $column, $value)
+	public function addSerieBy($id, $column, $value)
 	{
-		if (isset($this->mapping['groups'][$id])) {
-			throw new InvalidStateException("SerieGroup '$id' already exists.");
+		if (isset($this->mapping['seriesBy'][$id])) {
+			throw new InvalidStateException("Serie by '$id' already exists.");
 		}
 
-		$this->mapping['groups'][$id] = (object)[
+		$this->mapping['seriesBy'][$id] = (object)[
 			'id' => $id,
 			'column' => $column,
 			'value' => $value,
@@ -78,9 +78,9 @@ abstract class AbstractChartRenderer implements Renderer
 	/**
 	 * @param string $id
 	 */
-	public function addSerieSimpleGroup($id)
+	public function addSerieByAll($id)
 	{
-		$this->addSerieGroup($id, NULL, NULL);
+		$this->addSerieBy($id, NULL, NULL);
 	}
 
 	/**
@@ -88,22 +88,22 @@ abstract class AbstractChartRenderer implements Renderer
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	protected function getSerieGroup($key)
+	protected function getSerieBy($key)
 	{
-		if (isset($this->mapping['groups'][$key])) {
-			return $this->mapping['groups'][$key];
+		if (isset($this->mapping['seriesBy'][$key])) {
+			return $this->mapping['seriesBy'][$key];
 		}
 
-		$hint = Suggestions::getSuggestion($this->mapping['groups'], $key);
-		throw new InvalidArgumentException("Unknown group mapping key '$key'" . ($hint ? ", did you mean '$hint'?" : '.'));
+		$hint = Suggestions::getSuggestion($this->mapping['seriesBy'], $key);
+		throw new InvalidArgumentException("Unknown by mapping key '$key'" . ($hint ? ", did you mean '$hint'?" : '.'));
 	}
 
 	/**
 	 * @return array
 	 */
-	protected function getSeriesGroups()
+	protected function getSeriesBys()
 	{
-		return $this->mapping['groups'];
+		return $this->mapping['seriesBy'];
 	}
 
 	/**
@@ -114,8 +114,8 @@ abstract class AbstractChartRenderer implements Renderer
 	 */
 	public function addSerie($id, $type, $title, $color = NULL)
 	{
-		if (!isset($this->mapping['groups'][$id])) {
-			throw new InvalidStateException("SerieGroup '$id' does not exist. Please add it first.");
+		if (!isset($this->mapping['seriesBy'][$id])) {
+			throw new InvalidStateException("Serie by '$id' does not exist. Please add it first.");
 		}
 
 		$this->mapping['series'][$id] = (object)[

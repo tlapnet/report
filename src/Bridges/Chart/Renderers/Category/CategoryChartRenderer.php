@@ -2,6 +2,7 @@
 
 namespace Tlapnet\Report\Bridges\Chart\Renderers\Category;
 
+use Tlapnet\Chart\Category;
 use Tlapnet\Chart\CategoryChart;
 use Tlapnet\Chart\Segment\CategorySegment;
 use Tlapnet\Chart\Serie\CategorySerie;
@@ -11,6 +12,26 @@ use Tlapnet\Report\Heap\Heap;
 
 class CategoryChartRenderer extends SeriesChartRenderer
 {
+
+	/** @var Category[] */
+	private $categories = [];
+
+	/**
+	 * @param Category[] $categories
+	 */
+	public function __construct(array $categories = [])
+	{
+		$this->categories = $categories;
+	}
+
+	/**
+	 * @param mixed $key
+	 * @param string $title
+	 */
+	public function addCategory($key, $title)
+	{
+		$this->categories[] = new Category($key, $title);
+	}
 
 	/**
 	 * @param object $serie
@@ -32,13 +53,13 @@ class CategoryChartRenderer extends SeriesChartRenderer
 	public function render(Heap $heap)
 	{
 		/** @var CategoryChart $chart */
-		$chart = $this->createChart(new CategoryChart());
+		$chart = $this->createChart(new CategoryChart($this->categories));
 
 		// Create series
 		$series = $this->doPrepareSeries($chart, $this->getSeries());
 
 		// Filter data
-		$filtered = $this->doFilterData($this->getSeriesGroups(), $heap->getData());
+		$filtered = $this->doFilterData($this->getSeriesBys(), $heap->getData());
 
 		$xKey = $this->getSegment('x');
 		$yKey = $this->getSegment('y');
@@ -50,6 +71,9 @@ class CategoryChartRenderer extends SeriesChartRenderer
 				$serie->addSegment(new CategorySegment($item[$xKey], $item[$yKey]));
 			}
 		}
+
+		// Add series to chart
+		$this->doAddSeries($chart, $series);
 
 		return $chart;
 	}

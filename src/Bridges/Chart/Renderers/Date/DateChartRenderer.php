@@ -53,7 +53,7 @@ class DateChartRenderer extends SeriesChartRenderer
 		$series = $this->doPrepareSeries($chart, $this->getSeries());
 
 		// Filter data
-		$filtered = $this->doFilterData($this->getSeriesGroups(), $heap->getData());
+		$filtered = $this->doFilterData($this->getSeriesBys(), $heap->getData());
 
 		$xKey = $this->getSegment('x');
 		$yKey = $this->getSegment('y');
@@ -65,6 +65,9 @@ class DateChartRenderer extends SeriesChartRenderer
 				$serie->addSegment(new DateSegment(new DateTime($item[$xKey]), $item[$yKey]));
 			}
 		}
+
+		// Add series to chart
+		$this->doAddSeries($chart, $series);
 
 		return $chart;
 	}

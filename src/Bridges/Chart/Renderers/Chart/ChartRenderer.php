@@ -37,7 +37,7 @@ class ChartRenderer extends SeriesChartRenderer
 		$series = $this->doPrepareSeries($chart, $this->getSeries());
 
 		// Filter data
-		$filtered = $this->doFilterData($this->getSeriesGroups(), $heap->getData());
+		$filtered = $this->doFilterData($this->getSeriesBys(), $heap->getData());
 
 		$xKey = $this->getSegment('x');
 		$yKey = $this->getSegment('y');
@@ -49,6 +49,9 @@ class ChartRenderer extends SeriesChartRenderer
 				$serie->addSegment(new Segment($item[$xKey], $item[$yKey]));
 			}
 		}
+
+		// Add series to chart
+		$this->doAddSeries($chart, $series);
 
 		return $chart;
 	}

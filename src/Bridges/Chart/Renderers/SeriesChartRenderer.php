@@ -26,10 +26,20 @@ abstract class SeriesChartRenderer extends AbstractChartRenderer
 		$_series = [];
 		foreach ($series as $serie) {
 			$_series[$serie->id] = $this->createSerie($serie);
-			$chart->addSerie($_series[$serie->id]);
 		}
 
 		return $_series;
+	}
+
+	/**
+	 * @param CategoryChart|Chart|DateChart $chart
+	 * @param AbstractSerie[] $series
+	 */
+	protected function doAddSeries($chart, array $series)
+	{
+		foreach ($series as $serie) {
+			$chart->addSerie($serie);
+		}
 	}
 
 	/**
