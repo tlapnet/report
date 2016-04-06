@@ -3,9 +3,11 @@
 namespace Tlapnet\Report\Bridges\Nette\DataSources;
 
 use Nette\Database\Connection;
+use Nette\Database\Helpers;
 use Tlapnet\Report\DataSources\AbstractDatabaseDataSource;
 use Tlapnet\Report\Heap\Heap;
 use Tlapnet\Report\HeapBox\ParameterList;
+use Tracy\Debugger;
 
 class NetteDatabaseDataSource extends AbstractDatabaseDataSource
 {
@@ -31,6 +33,16 @@ class NetteDatabaseDataSource extends AbstractDatabaseDataSource
 			$this->getConfig('password'),
 			$this->getConfig('options', ['lazy' => TRUE])
 		);
+	}
+
+	/**
+	 * Register this datasource to Tracy panel
+	 */
+	public function registerTracyPanel()
+	{
+		if (class_exists(Debugger::class)) {
+			Helpers::createDebugPanel($this->connection);
+		}
 	}
 
 	/**
