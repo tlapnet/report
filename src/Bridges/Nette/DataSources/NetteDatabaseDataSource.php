@@ -21,7 +21,12 @@ class NetteDatabaseDataSource extends AbstractDatabaseDataSource
 		parent::__construct($config);
 
 		$this->connection = new Connection(
-			$this->getConfig('dns'),
+			sprintf(
+				'%s:host=%s;dbname=%s',
+				$this->getConfig('driver'),
+				$this->getConfig('host'),
+				$this->getConfig('database')
+			),
 			$this->getConfig('user'),
 			$this->getConfig('password'),
 			$this->getConfig('options', ['lazy' => TRUE])
