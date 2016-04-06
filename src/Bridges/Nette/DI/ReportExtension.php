@@ -26,12 +26,23 @@ class ReportExtension extends CompilerExtension
 		'files' => [],
 		'heaps' => [],
 		'folders' => [],
-		'services' => [],
+		'definitions' => [],
 	];
 
 	/** @var array */
-	protected $definitions = [
+	protected $configuration = [
 		'heaps' => [],
+	];
+
+	/** @var array */
+	protected $requirements = [
+		'heap' => [
+			'metadata' => [
+				'name' => NULL,
+				'title' => NULL,
+				'description' => NULL,
+			],
+		],
 	];
 
 	public function loadConfiguration()
@@ -43,7 +54,7 @@ class ReportExtension extends CompilerExtension
 		Validators::assert($config['folders'], 'array', "'folders'");
 		Validators::assert($config['files'], 'array', "'files'");
 		Validators::assert($config['heaps'], 'array', "'heaps'");
-		Validators::assert($config['services'], 'array', "'services'");
+		Validators::assert($config['definitions'], 'array', "'definitions'");
 
 		// Setup one class, HeapBoxManager which holds all HeapBoxes
 
@@ -51,8 +62,10 @@ class ReportExtension extends CompilerExtension
 			->setClass(HeapBoxManager::class);
 
 		// Load common services
-		if ($config['services']) {
-			Compiler::parseServices($builder, $config, 'report');
+		if ($config['definitions']) {
+			// Temporary fix fox services inner extension..
+			$services = ['services' => $config['definitions']];
+			Compiler::parseServices($builder, $services, 'report');
 		}
 
 		// Load from folders
@@ -136,29 +149,34 @@ class ReportExtension extends CompilerExtension
 	 */
 	protected function loadHeap($name, array $heap)
 	{
-		// Validate heap
-		if (isset($heap['metadata'])) {
-			Validators::assertField($heap, 'metadata', 'array', "item '%' in '$name' heap");
-		} else {
-			$heap['metadata'] = [];
+		// Validate heap.metadata
+		Validators::assertField($heap, 'metadata', 'array', "item '%' in '$name'");
+
+		// Validate heap.metadata scheme
+		foreach ($this->requirements['heap']['metadata'] as $key => $val) {
+			Validators::assertField($heap['metadata'], $key, NULL, "item '%' in '$name.metadata'");
 		}
 
+		// Validate heap.params
 		if (isset($heap['params'])) {
 			Validators::assertField($heap, 'params', 'array', "item '%' in '$name' heap");
 		} else {
 			$heap['params'] = [];
 		}
 
+		// Validate heap.datasource
 		Validators::assertField($heap, 'datasource', NULL, "item '%' in '$name' heap");
+
+		// Validate heap.renderer
 		Validators::assertField($heap, 'renderer', NULL, "item '%' in '$name' heap");
 
 		// =====================================================================
 
 		// Check duplicates
-		if (in_array($name, $this->definitions['heaps'])) throw new AssertionException("Duplicate heaps '$name'.");
+		if (in_array($name, $this->configuration['heaps'])) throw new AssertionException("Duplicate heaps '$name'.");
 
 		// Append to definitions
-		$this->definitions['heaps'][] = $name;
+		$this->configuration['heaps'][] = $name;
 
 		// Prepare builder
 		$builder = $this->getContainerBuilder();
