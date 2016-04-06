@@ -16,15 +16,12 @@ class PieChartRenderer extends AbstractChartRenderer
 	 */
 	public function render(Heap $heap)
 	{
-		$chart = new PieChart();
-
-		if ($this->valueSuffix) {
-			$chart->setValueSuffix($this->valueSuffix);
-		}
+		/** @var PieChart $chart */
+		$chart = $this->createChart(new PieChart());
 
 		$titleKey = $this->getSegment('title');
 		$valueKey = $this->getSegment('value');
-		
+
 		foreach ($heap->getData() as $item) {
 			$chart->addSegment(new PieSegment($item[$titleKey], $item[$valueKey]));
 		}

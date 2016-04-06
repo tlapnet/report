@@ -42,11 +42,8 @@ class DonutChartRenderer extends AbstractChartRenderer
 	 */
 	public function render(Heap $heap)
 	{
-		$chart = new DonutChart();
-
-		if ($this->valueSuffix) {
-			$chart->setValueSuffix($this->valueSuffix);
-		}
+		/** @var DonutChart $chart */
+		$chart = $this->createChart(new DonutChart());
 
 		if ($this->title) {
 			$chart->setTitle($this->title);

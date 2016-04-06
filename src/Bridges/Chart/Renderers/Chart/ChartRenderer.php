@@ -5,11 +5,24 @@ namespace Tlapnet\Report\Bridges\Chart\Renderers\Chart;
 use Tlapnet\Chart\Chart;
 use Tlapnet\Chart\Segment\Segment;
 use Tlapnet\Chart\Serie\Serie;
-use Tlapnet\Report\Bridges\Chart\Renderers\AbstractChartRenderer;
+use Tlapnet\Report\Bridges\Chart\Renderers\SeriesChartRenderer;
 use Tlapnet\Report\Heap\Heap;
 
-class ChartRenderer extends AbstractChartRenderer
+class ChartRenderer extends SeriesChartRenderer
 {
+
+	/**
+	 * @param object $serie
+	 * @return Serie
+	 */
+	protected function createSerie($serie)
+	{
+		return new Serie($serie->type, $serie->title, $serie->color);
+	}
+
+	/**
+	 * RENDERERING *************************************************************
+	 */
 
 	/**
 	 * @param Heap $heap
@@ -17,19 +30,11 @@ class ChartRenderer extends AbstractChartRenderer
 	 */
 	public function render(Heap $heap)
 	{
-		$chart = new Chart();
-
-		if ($this->valueSuffix) {
-			$chart->setValueSuffix($this->valueSuffix);
-		}
+		/** @var Chart $chart */
+		$chart = $this->createChart(new Chart());
 
 		// Create series
-		/** @var Serie[] $series */
-		$series = [];
-		foreach ($this->getSeries() as $serie) {
-			$series[$serie->id] = new Serie($serie->type, $serie->title, $serie->color);
-			$chart->addSerie($series[$serie->id]);
-		}
+		$series = $this->doPrepareSeries($chart, $this->getSeries());
 
 		// Filter data
 		$filtered = $this->doFilterData($this->getSeriesGroups(), $heap->getData());
@@ -38,6 +43,7 @@ class ChartRenderer extends AbstractChartRenderer
 		$yKey = $this->getSegment('y');
 
 		foreach ($filtered as $serieName => $items) {
+			/** @var Serie $serie */
 			$serie = $series[$serieName];
 			foreach ($items as $item) {
 				$serie->addSegment(new Segment($item[$xKey], $item[$yKey]));

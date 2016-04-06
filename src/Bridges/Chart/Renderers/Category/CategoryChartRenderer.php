@@ -1,14 +1,29 @@
 <?php
 
-namespace Tlapnet\Report\Bridges\Chart\Renderers\Chart;
+namespace Tlapnet\Report\Bridges\Chart\Renderers\Category;
 
-use Tlapnet\Chart\DateChart;
-use Tlapnet\Chart\Segment\PieSegment;
-use Tlapnet\Report\Bridges\Chart\Renderers\AbstractChartRenderer;
+use Tlapnet\Chart\CategoryChart;
+use Tlapnet\Chart\Segment\CategorySegment;
+use Tlapnet\Chart\Serie\CategorySerie;
+use Tlapnet\Chart\Serie\Serie;
+use Tlapnet\Report\Bridges\Chart\Renderers\SeriesChartRenderer;
 use Tlapnet\Report\Heap\Heap;
 
-class CategoryChartRenderer extends AbstractChartRenderer
+class CategoryChartRenderer extends SeriesChartRenderer
 {
+
+	/**
+	 * @param object $serie
+	 * @return Serie
+	 */
+	protected function createSerie($serie)
+	{
+		return new CategorySerie($serie->type, $serie->title, $serie->color);
+	}
+
+	/**
+	 * RENDERERING *************************************************************
+	 */
 
 	/**
 	 * @param Heap $heap
@@ -16,16 +31,24 @@ class CategoryChartRenderer extends AbstractChartRenderer
 	 */
 	public function render(Heap $heap)
 	{
-		$chart = new DateChart();
+		/** @var CategoryChart $chart */
+		$chart = $this->createChart(new CategoryChart());
 
-		if ($this->valueSuffix) {
-			$chart->setValueSuffix($this->valueSuffix);
-		}
+		// Create series
+		$series = $this->doPrepareSeries($chart, $this->getSeries());
 
-		foreach ($heap->getData() as $item) {
-			$titleKey = $this->getMapping('title');
-			$valueKey = $this->getMapping('value');
-			$chart->addSegment(new PieSegment($item[$titleKey, $item->$valueKey));
+		// Filter data
+		$filtered = $this->doFilterData($this->getSeriesGroups(), $heap->getData());
+
+		$xKey = $this->getSegment('x');
+		$yKey = $this->getSegment('y');
+
+		foreach ($filtered as $serieName => $items) {
+			/** @var CategorySerie $serie */
+			$serie = $series[$serieName];
+			foreach ($items as $item) {
+				$serie->addSegment(new CategorySegment($item[$xKey], $item[$yKey]));
+			}
 		}
 
 		return $chart;

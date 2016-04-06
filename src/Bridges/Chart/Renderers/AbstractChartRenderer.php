@@ -2,6 +2,7 @@
 
 namespace Tlapnet\Report\Bridges\Chart\Renderers;
 
+use Tlapnet\Chart\AbstractChart;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 use Tlapnet\Report\Renderers\Renderer;
@@ -72,6 +73,14 @@ abstract class AbstractChartRenderer implements Renderer
 			'column' => $column,
 			'value' => $value,
 		];
+	}
+
+	/**
+	 * @param string $id
+	 */
+	public function addSerieSimpleGroup($id)
+	{
+		$this->addSerieGroup($id, NULL, NULL);
 	}
 
 	/**
@@ -153,28 +162,16 @@ abstract class AbstractChartRenderer implements Renderer
 	 */
 
 	/**
-	 * @param $groups
-	 * @param array $data
-	 * @return array
+	 * @param AbstractChart $chart
+	 * @return AbstractChart
 	 */
-	protected function doFilterData($groups, array $data)
+	protected function createChart(AbstractChart $chart)
 	{
-		$filtered = [];
-
-		// Prepare array
-		foreach ($groups as $key => $group) {
-			$filtered[$key] = [];
+		if ($this->valueSuffix) {
+			$chart->setValueSuffix($this->valueSuffix);
 		}
 
-		// Filter data
-		foreach ($data as $item) {
-			foreach ($groups as $group) {
-				if ($item[$group->column] == $group->value) {
-					$filtered[$group->id][] = $item;
-				}
-			}
-		}
-
-		return $filtered;
+		return $chart;
 	}
+
 }

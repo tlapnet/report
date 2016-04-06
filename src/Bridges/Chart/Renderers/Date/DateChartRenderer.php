@@ -2,13 +2,39 @@
 
 namespace Tlapnet\Report\Bridges\Chart\Renderers\Date;
 
+use DateTime;
 use Tlapnet\Chart\DateChart;
-use Tlapnet\Chart\Segment\PieSegment;
-use Tlapnet\Report\Bridges\Chart\Renderers\AbstractChartRenderer;
+use Tlapnet\Chart\Segment\DateSegment;
+use Tlapnet\Chart\Serie\DateSerie;
+use Tlapnet\Report\Bridges\Chart\Renderers\SeriesChartRenderer;
 use Tlapnet\Report\Heap\Heap;
 
-class DateChartRenderer extends AbstractChartRenderer
+class DateChartRenderer extends SeriesChartRenderer
 {
+
+	/** @var bool */
+	protected $useTimePrecision;
+
+	/**
+	 * @param boolean $use
+	 */
+	public function setUseTimePrecision($use = TRUE)
+	{
+		$this->useTimePrecision = $use;
+	}
+
+	/**
+	 * @param object $serie
+	 * @return DateSerie
+	 */
+	protected function createSerie($serie)
+	{
+		return new DateSerie($serie->type, $serie->title, $serie->color);
+	}
+
+	/**
+	 * RENDERERING *************************************************************
+	 */
 
 	/**
 	 * @param Heap $heap
@@ -16,16 +42,28 @@ class DateChartRenderer extends AbstractChartRenderer
 	 */
 	public function render(Heap $heap)
 	{
-		$chart = new DateChart();
+		/** @var DateChart $chart */
+		$chart = $this->createChart(new DateChart());
 
-		if ($this->valueSuffix) {
-			$chart->setValueSuffix($this->valueSuffix);
+		if ($this->useTimePrecision) {
+			$this->setUseTimePrecision($this->useTimePrecision);
 		}
 
-		foreach ($heap->getData() as $item) {
-			$titleKey = $this->getMapping('title');
-			$valueKey = $this->getMapping('value');
-			$chart->addSegment(new PieSegment($item->$titleKey, $item->$valueKey));
+		// Create series
+		$series = $this->doPrepareSeries($chart, $this->getSeries());
+
+		// Filter data
+		$filtered = $this->doFilterData($this->getSeriesGroups(), $heap->getData());
+
+		$xKey = $this->getSegment('x');
+		$yKey = $this->getSegment('y');
+
+		foreach ($filtered as $serieName => $items) {
+			/** @var DateSerie $serie */
+			$serie = $series[$serieName];
+			foreach ($items as $item) {
+				$serie->addSegment(new DateSegment(new DateTime($item[$xKey]), $item[$yKey]));
+			}
 		}
 
 		return $chart;
