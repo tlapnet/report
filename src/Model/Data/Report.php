@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\Heap;
+namespace Tlapnet\Report\Model\Data;
 
 use ArrayAccess;
 use ArrayIterator;
@@ -8,7 +8,7 @@ use Countable;
 use IteratorAggregate;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 
-class Heap implements Countable, ArrayAccess, IteratorAggregate
+class Report implements Countable, ArrayAccess, IteratorAggregate
 {
 
 	/** @var array */

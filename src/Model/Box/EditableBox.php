@@ -1,11 +1,11 @@
 <?php
 
-namespace Tlapnet\Report\HeapBox;
+namespace Tlapnet\Report\Model\Box;
 
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Renderers\Renderer;
 
-class EditableHeapBox extends HeapBox
+class EditableBox extends Box
 {
 
 	/**

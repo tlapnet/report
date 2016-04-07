@@ -1,0 +1,13 @@
+{block}
+
+<section class="box-report" id="box-report-{$box->getBid()}">
+    <h2>{$box->getOption('name')}</h2>
+
+    <div class="well" n:if="$box->hasOption('description')">
+        {$box->getOption('description')|nl2br|noescape}
+    </div>
+
+    <section class="box-result">
+        {$box->render()|noescape}
+    </section>
+</section>

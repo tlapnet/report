@@ -6,7 +6,7 @@ use Tlapnet\Chart\Chart;
 use Tlapnet\Chart\Segment\Segment;
 use Tlapnet\Chart\Serie\Serie;
 use Tlapnet\Report\Bridges\Chart\Renderers\SeriesChartRenderer;
-use Tlapnet\Report\Heap\Heap;
+use Tlapnet\Report\Model\Data\Report;
 
 class ChartRenderer extends SeriesChartRenderer
 {
@@ -25,10 +25,10 @@ class ChartRenderer extends SeriesChartRenderer
 	 */
 
 	/**
-	 * @param Heap $heap
+	 * @param Report $heap
 	 * @return mixed
 	 */
-	public function render(Heap $heap)
+	public function render(Report $heap)
 	{
 		/** @var Chart $chart */
 		$chart = $this->createChart(new Chart());

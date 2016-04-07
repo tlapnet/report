@@ -4,7 +4,7 @@ namespace Tlapnet\Report;
 
 use Tlapnet\Report\Loaders\Loader;
 
-class HeapBoxManagerFactory implements IHeapBoxManagerFactory
+class ReportManagerFactory implements IReportManagerFactory
 {
 
 	/** @var Loader */
@@ -19,7 +19,7 @@ class HeapBoxManagerFactory implements IHeapBoxManagerFactory
 	}
 
 	/**
-	 * @return HeapBoxManager
+	 * @return ReportManager
 	 */
 	public function create()
 	{

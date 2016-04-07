@@ -1,10 +1,9 @@
 <?php
 
-namespace Tlapnet\Report\HeapBox;
+namespace Tlapnet\Report\Model\Box;
 
 class Parameter
 {
-
 
 	/** @var string */
 	private $name;

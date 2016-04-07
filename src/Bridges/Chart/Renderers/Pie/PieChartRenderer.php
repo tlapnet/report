@@ -5,16 +5,16 @@ namespace Tlapnet\Report\Bridges\Chart\Renderers\Pie;
 use Tlapnet\Chart\PieChart;
 use Tlapnet\Chart\Segment\PieSegment;
 use Tlapnet\Report\Bridges\Chart\Renderers\AbstractChartRenderer;
-use Tlapnet\Report\Heap\Heap;
+use Tlapnet\Report\Model\Data\Report;
 
 class PieChartRenderer extends AbstractChartRenderer
 {
 
 	/**
-	 * @param Heap $heap
+	 * @param Report $heap
 	 * @return mixed
 	 */
-	public function render(Heap $heap)
+	public function render(Report $heap)
 	{
 		/** @var PieChart $chart */
 		$chart = $this->createChart(new PieChart());

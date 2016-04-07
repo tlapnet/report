@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\Bridges\Neon\Loaders;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
-use Tlapnet\Report\HeapBox\HeapBox;
+use Tlapnet\Report\ReportBox\ReportBox;
 use Tlapnet\Report\Loaders\AbstractLoader;
 
 class NeonLoader extends AbstractLoader
@@ -36,7 +36,7 @@ class NeonLoader extends AbstractLoader
 	}
 
 	/**
-	 * @return HeapBox[]
+	 * @return ReportBox[]
 	 */
 	public function load()
 	{

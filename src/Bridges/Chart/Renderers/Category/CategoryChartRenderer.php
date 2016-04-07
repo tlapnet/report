@@ -8,7 +8,7 @@ use Tlapnet\Chart\Segment\CategorySegment;
 use Tlapnet\Chart\Serie\CategorySerie;
 use Tlapnet\Chart\Serie\Serie;
 use Tlapnet\Report\Bridges\Chart\Renderers\SeriesChartRenderer;
-use Tlapnet\Report\Heap\Heap;
+use Tlapnet\Report\Model\Data\Report;
 
 class CategoryChartRenderer extends SeriesChartRenderer
 {
@@ -47,10 +47,10 @@ class CategoryChartRenderer extends SeriesChartRenderer
 	 */
 
 	/**
-	 * @param Heap $heap
+	 * @param Report $heap
 	 * @return mixed
 	 */
-	public function render(Heap $heap)
+	public function render(Report $heap)
 	{
 		/** @var CategoryChart $chart */
 		$chart = $this->createChart(new CategoryChart($this->categories));

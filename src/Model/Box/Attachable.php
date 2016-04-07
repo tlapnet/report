@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\HeapBox;
+namespace Tlapnet\Report\Model\Box;
 
 interface Attachable
 {

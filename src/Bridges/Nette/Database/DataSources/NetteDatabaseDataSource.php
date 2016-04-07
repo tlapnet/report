@@ -5,8 +5,8 @@ namespace Tlapnet\Report\Bridges\Nette\Database\DataSources;
 use Nette\Database\Connection;
 use Nette\Database\Helpers;
 use Tlapnet\Report\DataSources\AbstractDatabaseDataSource;
-use Tlapnet\Report\Heap\Heap;
-use Tlapnet\Report\HeapBox\ParameterList;
+use Tlapnet\Report\Model\Box\ParameterList;
+use Tlapnet\Report\Model\Data\Report;
 use Tracy\Debugger;
 
 class NetteDatabaseDataSource extends AbstractDatabaseDataSource
@@ -53,7 +53,7 @@ class NetteDatabaseDataSource extends AbstractDatabaseDataSource
 
 	/**
 	 * @param ParameterList $parameters
-	 * @return Heap
+	 * @return Report
 	 */
 	public function compile(ParameterList $parameters)
 	{
@@ -66,7 +66,7 @@ class NetteDatabaseDataSource extends AbstractDatabaseDataSource
 		// Execute query
 		$resulset = $this->connection->query($query);
 
-		$heap = new Heap($resulset->fetchAll());
+		$heap = new Report($resulset->fetchAll());
 
 		return $heap;
 	}

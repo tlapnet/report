@@ -2,15 +2,15 @@
 
 namespace Tlapnet\Report\Renderers;
 
-use Tlapnet\Report\Heap\Heap;
+use Tlapnet\Report\Model\Data\Report;
 
 interface Renderer
 {
 
 	/**
-	 * @param Heap $heap
+	 * @param Report $heap
 	 * @return mixed
 	 */
-	public function render(Heap $heap);
+	public function render(Report $heap);
 
 }

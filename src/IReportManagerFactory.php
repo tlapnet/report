@@ -2,11 +2,11 @@
 
 namespace Tlapnet\Report;
 
-interface IHeapBoxManagerFactory
+interface IReportManagerFactory
 {
 
 	/**
-	 * @return HeapBoxManager
+	 * @return ReportManager
 	 */
 	public function create();
 

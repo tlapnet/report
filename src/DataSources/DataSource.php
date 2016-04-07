@@ -2,15 +2,15 @@
 
 namespace Tlapnet\Report\DataSources;
 
-use Tlapnet\Report\Heap\Heap;
-use Tlapnet\Report\HeapBox\ParameterList;
+use Tlapnet\Report\Model\Box\ParameterList;
+use Tlapnet\Report\Model\Data\Report;
 
 interface DataSource
 {
 
 	/**
 	 * @param ParameterList $parameters
-	 * @return Heap
+	 * @return Report
 	 */
 	public function compile(ParameterList $parameters);
 

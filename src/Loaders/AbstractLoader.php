@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\Loaders;
 
 use Tlapnet\Report\DataSources\DataSource;
-use Tlapnet\Report\HeapBox\ParameterList;
+use Tlapnet\Report\ReportBox\ParameterList;
 use Tlapnet\Report\Renderers\Renderer;
 
 abstract class AbstractLoader implements Loader

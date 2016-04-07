@@ -1,13 +1,13 @@
 <?php
 
-namespace Tlapnet\Report\HeapBox;
+namespace Tlapnet\Report\Model\Box;
 
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Heap\Heap;
+use Tlapnet\Report\Model\Data\Report;
 use Tlapnet\Report\Renderers\Renderer;
 
-class HeapBox implements Heapable
+class Box implements Reportable
 {
 
 	/** States */
@@ -17,7 +17,7 @@ class HeapBox implements Heapable
 	const STATE_RENDERED = 4;
 
 	/** @var mixed */
-	protected $uid;
+	protected $bid;
 
 	/** @var ParameterList */
 	protected $parameters;
@@ -31,24 +31,24 @@ class HeapBox implements Heapable
 	/** @var Metadata */
 	protected $metadata;
 
-	/** @var Heap */
-	protected $heap;
+	/** @var Report */
+	protected $report;
 
 	/** @var int */
 	protected $state;
 
 	/**
-	 * @param mixed $uid
+	 * @param mixed $bid
 	 * @param ParameterList $parameters
 	 * @param DataSource $dataSource
 	 * @param Renderer $renderer
 	 */
-	public function __construct($uid, ParameterList $parameters, DataSource $dataSource, Renderer $renderer)
+	public function __construct($bid, ParameterList $parameters, DataSource $dataSource, Renderer $renderer)
 	{
-		$this->uid = $uid;
+		$this->bid = $bid;
 		$this->parameters = $parameters;
 		$this->renderer = $renderer;
-		$this->datasource = $dataSource;
+		$this->dataSource = $dataSource;
 		$this->metadata = new Metadata();
 		$this->state = self::STATE_CREATED;
 	}
@@ -56,9 +56,9 @@ class HeapBox implements Heapable
 	/**
 	 * @return mixed
 	 */
-	public function getUid()
+	public function getBid()
 	{
-		return $this->uid;
+		return $this->bid;
 	}
 
 	/**
@@ -113,6 +113,15 @@ class HeapBox implements Heapable
 	}
 
 	/**
+	 * @param string $key
+	 * @return bool
+	 */
+	public function hasOption($key)
+	{
+		return $this->metadata->has($key);
+	}
+
+	/**
 	 * ATTACHING ***************************************************************
 	 */
 
@@ -135,14 +144,14 @@ class HeapBox implements Heapable
 	 */
 	public function compile()
 	{
-		$this->heap = $this->datasource->compile($this->parameters);
+		$this->report = $this->dataSource->compile($this->parameters);
 
-		if ($this->heap === NULL) {
+		if ($this->report === NULL) {
 			throw new InvalidStateException('Compilation cannot return NULL.');
 		}
 
-		if (!$this->heap instanceof Heap) {
-			throw new InvalidStateException('Compilation returned object (' . get_class($this->heap) . ') is not subclass of Heap.');
+		if (!$this->report instanceof Report) {
+			throw new InvalidStateException('Compilation returned object (' . get_class($this->report) . ') is not subclass of Heap.');
 		}
 
 		$this->state = self::STATE_COMPILED;
@@ -163,7 +172,7 @@ class HeapBox implements Heapable
 
 		$this->state = self::STATE_RENDERED;
 
-		return $this->renderer->render($this->heap);
+		return $this->renderer->render($this->report);
 	}
 
 }

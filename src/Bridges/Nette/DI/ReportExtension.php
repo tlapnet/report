@@ -13,10 +13,13 @@ use Tlapnet\Report\Bridges\Nette\Exceptions\FileNotFoundException;
 use Tlapnet\Report\Bridges\Nette\Exceptions\FolderNotFoundException;
 use Tlapnet\Report\Bridges\Nette\Exceptions\InvalidConfigException;
 use Tlapnet\Report\DataSources\DataSource;
-use Tlapnet\Report\HeapBox\HeapBox;
-use Tlapnet\Report\HeapBox\ParameterListFactory;
-use Tlapnet\Report\HeapBoxManager;
+use Tlapnet\Report\Model\Box\Box;
+use Tlapnet\Report\Model\Box\ParameterListFactory;
+use Tlapnet\Report\Model\Collection\Collection;
+use Tlapnet\Report\Model\Group\Group;
+use Tlapnet\Report\Model\ReportService;
 use Tlapnet\Report\Renderers\Renderer;
+use Tlapnet\Report\ReportManager;
 
 class ReportExtension extends CompilerExtension
 {
@@ -24,23 +27,35 @@ class ReportExtension extends CompilerExtension
 	/** @var array */
 	protected $defaults = [
 		'files' => [],
-		'heaps' => [],
+		'reports' => [],
 		'folders' => [],
+		'groups' => [],
 		'definitions' => [],
 	];
 
 	/** @var array */
 	protected $configuration = [
-		'heaps' => [],
+		'collections' => [],
+		'groups' => [],
+		'boxes' => [],
 	];
 
 	/** @var array */
-	protected $requirements = [
-		'heap' => [
+	protected $scheme = [
+		'box' => [
+			'groups' => NULL,
+			'subreports' => NULL,
+		],
+		'group' => [
 			'metadata' => [
 				'name' => NULL,
 				'title' => NULL,
 				'description' => NULL,
+			],
+		],
+		'report' => [
+			'metadata' => [
+				'name' => NULL,
 			],
 		],
 	];
@@ -53,13 +68,18 @@ class ReportExtension extends CompilerExtension
 		// Assert config
 		Validators::assert($config['folders'], 'array', "'folders'");
 		Validators::assert($config['files'], 'array', "'files'");
-		Validators::assert($config['heaps'], 'array', "'heaps'");
+		Validators::assert($config['reports'], 'array', "'reports'");
+		Validators::assert($config['groups'], 'array', "'groups'");
 		Validators::assert($config['definitions'], 'array', "'definitions'");
 
-		// Setup one class, HeapBoxManager which holds all HeapBoxes
+		// =====================================================================
 
+		// Setup ReportManager which holds all ReportGroups
 		$builder->addDefinition($this->prefix('manager'))
-			->setClass(HeapBoxManager::class);
+			->setClass(ReportManager::class);
+
+		$builder->addDefinition($this->prefix('service'))
+			->setClass(ReportService::class);
 
 		// Load common services
 		if ($config['definitions']) {
@@ -68,31 +88,70 @@ class ReportExtension extends CompilerExtension
 			Compiler::parseServices($builder, $services, 'report');
 		}
 
+		// Load collections
+		if ($config['groups']) {
+			$this->loadCollections($config['groups']);
+		}
+
 		// Load from folders
 		if ($config['folders']) {
-			$this->loadHeapsFromFolders($config['folders']);
+			$this->loadGroupsFromFolders($config['folders']);
 		}
 
 		// Load from files
 		if ($config['files']) {
-			$this->loadHeapsFromFiles($config['files']);
+			$this->loadGroupsFromFiles($config['files']);
 		}
 
 		// Load from config
-		if ($config['heaps']) {
-			$this->loadHeapsFromConfig($config['heaps']);
+		if ($config['reports']) {
+			$this->loadGroupsFromConfig($config['reports']);
+		}
+	}
+
+	/**
+	 * @param array $collections
+	 */
+	protected function loadCollections(array $collections)
+	{
+		$builder = $this->getContainerBuilder();
+		$managerDef = $builder->getDefinition($this->prefix('manager'));
+
+		foreach ($collections as $cid => $name) {
+
+			// Check duplicates
+			if (in_array($cid, $this->configuration['collections'])) throw new AssertionException("Duplicate collections '$cid'.'$name'");
+
+			// Append to definitions
+			$this->configuration['collections'][] = $cid;
+
+			// Create collection definition
+			$collectionDef = $builder->addDefinition($this->prefix('collections.' . $cid))
+				->setClass(Collection::class, [
+					'cid' => $cid,
+					'name' => $name,
+				]);
+
+			// Do not autowire!
+			$collectionDef->setAutowired(FALSE);
+
+			// Append to configuration
+			$this->configuration['collections'][$cid] = $collectionDef;
+
+			// Append to manager
+			$managerDef->addSetup('addCollection', [$collectionDef]);
 		}
 	}
 
 	/**
 	 * @param array $folders
 	 */
-	protected function loadHeapsFromFolders(array $folders)
+	protected function loadGroupsFromFolders(array $folders)
 	{
 		$files = [];
 		foreach ($folders as $folder) {
 			// Validate folder
-			if (!is_dir($folder)) throw new FolderNotFoundException("Folder '$folder' not found.'");
+			if (!is_dir($folder)) throw new FolderNotFoundException("Folder '$folder' not found'");
 
 			// Find all configs
 			foreach (Finder::findFiles('*.neon')->from($folder) as $file) {
@@ -100,116 +159,172 @@ class ReportExtension extends CompilerExtension
 			}
 		}
 
-		$this->loadHeapsFromFiles($files);
+		$this->loadGroupsFromFiles($files);
 	}
 
 	/**
 	 * @param array $files
 	 */
-	protected function loadHeapsFromFiles(array $files)
+	protected function loadGroupsFromFiles(array $files)
 	{
 		$loader = new NeonAdapter();
+		$groups = [];
+
 		foreach ($files as $file) {
 			// Validate file
-			if (!file_exists($file)) throw new FileNotFoundException("File '$file' not found.");
+			if (!file_exists($file)) throw new FileNotFoundException("File '$file' not found");
 
-			// File is included as heap section
+			// File is included as report section
 			$filedata = $loader->load($file);
 
-			// Check if heap has a appropriate configuration
-			if (!$filedata || count($filedata) <= 0) throw new InvalidConfigException('Heap configuration cannot be empty.');
+			// Check if report has a appropriate configuration
+			if (!$filedata || count($filedata) <= 0) throw new InvalidConfigException('Report configuration cannot be empty');
 
-			// Check if heap has a appropriate configuration
-			if (count($filedata) > 1) throw new InvalidConfigException('Heap must have a name. Specific root node as name of heap.');
+			// Check if report has a appropriate configuration
+			if (count($filedata) > 1) throw new InvalidConfigException('Report must have a name. Specific root node as name of report');
 
 			$name = key($filedata);
-			$heap = $filedata[$name];
+			$group = $filedata[$name];
 
-			// Load heap
-			$this->loadHeap($name, $heap);
+			// Append group
+			$groups[$name] = $group;
 		}
+
+		// Load groups
+		$this->loadGroupsFromConfig($groups);
 
 		// Add as dependencies
 		$this->compiler->addDependencies($files);
 	}
 
 	/**
-	 * @param array $files
+	 * @param array $groups
 	 */
-	protected function loadHeapsFromConfig(array $heaps)
+	protected function loadGroupsFromConfig(array $groups)
 	{
-		foreach ($heaps as $name => $heap) {
-			$this->loadHeap($name, $heap);
+		$builder = $this->getContainerBuilder();
+
+		foreach ($groups as $gid => $group) {
+			// Validate group
+			Validators::assertField($group, 'groups', 'array', "item '%' in '$gid'");
+			Validators::assertField($group, 'metadata', 'array', "item '%' in '$gid'");
+			Validators::assertField($group, 'subreports', 'array', "item '%' in '$gid'");
+
+			// Validate group.metadata scheme
+			foreach ($this->scheme['group']['metadata'] as $key => $val) {
+				Validators::assertField($group['metadata'], $key, NULL, "item '%' in '$gid.metadata'");
+			}
+
+			// Check duplicates
+			if (in_array($gid, $this->configuration['groups'])) throw new AssertionException("Duplicate reports '$gid'");
+			$this->configuration['groups'][] = $gid;
+
+			// =================================================================
+
+			// Add group
+			$groupDef = $builder->addDefinition($this->prefix('groups.' . $gid))
+				->setClass(Group::class, [$gid]);
+
+			// Add group metadata
+			foreach ((array)$group['metadata'] as $key => $value) {
+				$groupDef->addSetup('setOption', [$key, $value]);
+			}
+
+
+			// Add group to collections
+			foreach ($group['groups'] as $cid) {
+
+				// Validate groups (collection)
+				if (!in_array($cid, $this->configuration['collections'])) throw new AssertionException("Group '$cid' not exists");
+
+				$collectionDef = $builder->getDefinition($this->prefix('collections.' . $cid));
+				$collectionDef->addSetup('addGroup', [$groupDef]);
+			}
+
+			// Load group report boxes
+			$this->loadBoxes($gid, $group['subreports']);
 		}
 	}
 
 	/**
-	 * @param string $name
-	 * @param array $heap
+	 * @param string $gid
+	 * @param array $boxes
 	 */
-	protected function loadHeap($name, array $heap)
+	protected function loadBoxes($gid, array $boxes)
 	{
-		// Validate heap.metadata
-		Validators::assertField($heap, 'metadata', 'array', "item '%' in '$name'");
-
-		// Validate heap.metadata scheme
-		foreach ($this->requirements['heap']['metadata'] as $key => $val) {
-			Validators::assertField($heap['metadata'], $key, NULL, "item '%' in '$name.metadata'");
+		foreach ($boxes as $bid => $subreport) {
+			$this->loadBox($gid, $bid, $subreport);
 		}
+	}
 
-		// Validate heap.params
-		if (isset($heap['params'])) {
-			Validators::assertField($heap, 'params', 'array', "item '%' in '$name' heap");
-		} else {
-			$heap['params'] = [];
-		}
-
-		// Validate heap.datasource
-		Validators::assertField($heap, 'datasource', NULL, "item '%' in '$name' heap");
-
-		// Validate heap.renderer
-		Validators::assertField($heap, 'renderer', NULL, "item '%' in '$name' heap");
+	/**
+	 * @param string $gid
+	 * @param string $bid
+	 * @param array $box
+	 * @throws AssertionException
+	 */
+	protected function loadBox($gid, $bid, array $box)
+	{
+		// Name of the report (group ID + _ + box ID)
+		$name = $gid . '_' . $bid;
 
 		// =====================================================================
 
-		// Check duplicates
-		if (in_array($name, $this->configuration['heaps'])) throw new AssertionException("Duplicate heaps '$name'.");
+		// Validate box.metadata
+		Validators::assertField($box, 'metadata', 'array', "item '%' in '$name'");
 
-		// Append to definitions
-		$this->configuration['heaps'][] = $name;
+		// Validate box.metadata scheme
+		foreach ($this->scheme['report']['metadata'] as $key => $val) {
+			Validators::assertField($box['metadata'], $key, NULL, "item '%' in '$name.metadata'");
+		}
+
+		// Validate box.params
+		if (isset($box['params'])) {
+			Validators::assertField($box, 'params', 'array', "item '%' in '$name' report");
+		} else {
+			$box['params'] = [];
+		}
+
+		// Validate box.datasource
+		Validators::assertField($box, 'datasource', NULL, "item '%' in '$name' report");
+
+		// Validate box.renderer
+		Validators::assertField($box, 'renderer', NULL, "item '%' in '$name' report");
+
+		// =====================================================================
 
 		// Prepare builder
 		$builder = $this->getContainerBuilder();
 
 		// Create datasource service
-		$datasourceDef = $builder->addDefinition($this->prefix('heaps.' . $name . '.datasource'));
-		Compiler::parseService($datasourceDef, $heap['datasource']);
+		$datasourceDef = $builder->addDefinition($this->prefix('reports.' . $name . '.datasource'));
+		Compiler::parseService($datasourceDef, $box['datasource']);
 		$datasourceDef->setClass(DataSource::class);
 		$datasourceDef->setAutowired(FALSE);
 
 		// Create renderer service
-		$rendererDef = $builder->addDefinition($this->prefix('heaps.' . $name . '.renderer'));
-		Compiler::parseService($rendererDef, $heap['renderer']);
+		$rendererDef = $builder->addDefinition($this->prefix('reports.' . $name . '.renderer'));
+		Compiler::parseService($rendererDef, $box['renderer']);
 		$rendererDef->setClass(Renderer::class);
 		$rendererDef->setAutowired(FALSE);
 
-		// Create HeapBox
-		$heapDef = $builder->addDefinition($this->prefix('heaps.' . $name))
-			->setFactory(HeapBox::class, [
-				'uid' => $name,
-				'parameters' => new Statement(ParameterListFactory::class . '::create', [(array)$heap['params']]),
+		// Create ReportBox
+		$boxDef = $builder->addDefinition($this->prefix('reports.' . $name))
+			->setFactory(Box::class, [
+				'bid' => $name,
+				'parameters' => new Statement(ParameterListFactory::class . '::create', [(array)$box['params']]),
 				'dataSource' => $datasourceDef,
 				'renderer' => $rendererDef,
 			]);
 
 		// Add metadata
-		foreach ((array)$heap['metadata'] as $key => $value) {
-			$heapDef->addSetup('setOption', [$key, $value]);
+		foreach ((array)$box['metadata'] as $key => $value) {
+			$boxDef->addSetup('setOption', [$key, $value]);
 		}
 
-		// Add HeapBox to manager
-		$builder->getDefinition($this->prefix('manager'))
-			->addSetup('addHeapBox', [$heapDef]);
+		// Add box to group
+		$groupDef = $builder->getDefinition($this->prefix('groups.' . $gid));
+		$groupDef->addSetup('addBox', [$boxDef]);
 	}
 
 }

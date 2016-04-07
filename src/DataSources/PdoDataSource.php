@@ -2,15 +2,15 @@
 
 namespace Tlapnet\Report\DataSources;
 
-use Tlapnet\Report\Heap\Heap;
-use Tlapnet\Report\HeapBox\ParameterList;
+use Tlapnet\Report\Report\Report;
+use Tlapnet\Report\ReportBox\ParameterList;
 
 class PdoDataSource extends AbstractDatabaseDataSource
 {
 
 	/**
 	 * @param ParameterList $parameters
-	 * @return Heap
+	 * @return Report
 	 */
 	public function compile(ParameterList $parameters)
 	{

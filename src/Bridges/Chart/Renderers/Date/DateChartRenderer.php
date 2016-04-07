@@ -2,12 +2,12 @@
 
 namespace Tlapnet\Report\Bridges\Chart\Renderers\Date;
 
-use DateTime;
 use Tlapnet\Chart\DateChart;
 use Tlapnet\Chart\Segment\DateSegment;
 use Tlapnet\Chart\Serie\DateSerie;
 use Tlapnet\Report\Bridges\Chart\Renderers\SeriesChartRenderer;
-use Tlapnet\Report\Heap\Heap;
+use Tlapnet\Report\Model\Data\Report;
+use Tlapnet\Report\Utils\DateTime;
 
 class DateChartRenderer extends SeriesChartRenderer
 {
@@ -37,10 +37,10 @@ class DateChartRenderer extends SeriesChartRenderer
 	 */
 
 	/**
-	 * @param Heap $heap
+	 * @param Report $heap
 	 * @return mixed
 	 */
-	public function render(Heap $heap)
+	public function render(Report $heap)
 	{
 		/** @var DateChart $chart */
 		$chart = $this->createChart(new DateChart());

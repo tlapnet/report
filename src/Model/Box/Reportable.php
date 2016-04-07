@@ -1,8 +1,8 @@
 <?php
 
-namespace Tlapnet\Report\HeapBox;
+namespace Tlapnet\Report\Model\Box;
 
-interface Heapable
+interface Reportable
 {
 
 	/**
@@ -12,13 +12,13 @@ interface Heapable
 	public function attach(array $data);
 
 	/**
-	 * @return mixed
+	 * @return void
 	 */
-	public function render();
+	public function compile();
 
 	/**
 	 * @return mixed
 	 */
-	public function compile();
+	public function render();
 
 }

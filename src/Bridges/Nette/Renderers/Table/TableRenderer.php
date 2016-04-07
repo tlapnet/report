@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\Bridges\Nette\Renderers\Table;
 
 use Tlapnet\Report\Bridges\Nette\Renderers\TemplateRenderer;
-use Tlapnet\Report\Heap\Heap;
+use Tlapnet\Report\Model\Data\Report;
 
 class TableRenderer extends TemplateRenderer
 {
@@ -24,10 +24,10 @@ class TableRenderer extends TemplateRenderer
 	}
 
 	/**
-	 * @param Heap $heap
+	 * @param Report $heap
 	 * @return mixed
 	 */
-	public function render(Heap $heap)
+	public function render(Report $heap)
 	{
 		$template = $this->createTemplate();
 		$template->setFile(__DIR__ . '/templates/table.latte');

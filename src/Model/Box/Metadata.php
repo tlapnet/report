@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\HeapBox;
+namespace Tlapnet\Report\Model\Box;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Utils\Suggestions;
@@ -27,7 +27,7 @@ class Metadata
 	 */
 	public function get($key, $default = NULL)
 	{
-		if (isset($this->data[$key])) {
+		if ($this->has($key)) {
 			return $this->data[$key];
 		}
 
@@ -37,6 +37,15 @@ class Metadata
 		}
 
 		return $default;
+	}
+
+	/**
+	 * @param string $key
+	 * @return bool
+	 */
+	public function has($key)
+	{
+		return isset($this->data[$key]);
 	}
 
 }

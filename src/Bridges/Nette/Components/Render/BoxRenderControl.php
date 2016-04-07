@@ -3,25 +3,25 @@
 namespace Tlapnet\Report\Bridges\Nette\Components\Render;
 
 use Nette\Application\UI\Control;
-use Tlapnet\Report\HeapBox\HeapBox;
+use Tlapnet\Report\Model\Box\Box;
 
-class RenderControl extends Control
+class BoxRenderControl extends Control
 {
 
-	/** @var HeapBox */
+	/** @var Box */
 	private $box;
 
 	/**
-	 * @param HeapBox $heap
+	 * @param Box $box
 	 */
-	public function __construct(HeapBox $heap)
+	public function __construct(Box $box)
 	{
 		parent::__construct();
-		$this->box = $heap;
+		$this->box = $box;
 	}
 
 	/**
-	 * Render heap
+	 * Render box
 	 */
 	public function render()
 	{
@@ -29,7 +29,7 @@ class RenderControl extends Control
 		$this->box->compile();
 
 		// Set template
-		$this->template->setFile(__DIR__ . '/templates/render.latte');
+		$this->template->setFile(__DIR__ . '/templates/box.latte');
 
 		// Render
 		$this->template->box = $this->box;
