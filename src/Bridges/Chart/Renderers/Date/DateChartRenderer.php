@@ -37,10 +37,10 @@ class DateChartRenderer extends SeriesChartRenderer
 	 */
 
 	/**
-	 * @param Report $heap
+	 * @param Report $report
 	 * @return mixed
 	 */
-	public function render(Report $heap)
+	public function render(Report $report)
 	{
 		/** @var DateChart $chart */
 		$chart = $this->createChart(new DateChart());
@@ -53,7 +53,7 @@ class DateChartRenderer extends SeriesChartRenderer
 		$series = $this->doPrepareSeries($this->getSeries());
 
 		// Filter data
-		$filtered = $this->doFilterData($this->getSeriesBys(), $heap->getData());
+		$filtered = $this->doFilterData($this->getSeriesBys(), $report->getData());
 
 		$xKey = $this->getSegment('x');
 		$yKey = $this->getSegment('y');

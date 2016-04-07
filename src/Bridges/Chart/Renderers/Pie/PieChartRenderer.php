@@ -11,10 +11,10 @@ class PieChartRenderer extends AbstractChartRenderer
 {
 
 	/**
-	 * @param Report $heap
+	 * @param Report $report
 	 * @return mixed
 	 */
-	public function render(Report $heap)
+	public function render(Report $report)
 	{
 		/** @var PieChart $chart */
 		$chart = $this->createChart(new PieChart());
@@ -22,7 +22,7 @@ class PieChartRenderer extends AbstractChartRenderer
 		$titleKey = $this->getSegment('title');
 		$valueKey = $this->getSegment('value');
 
-		foreach ($heap->getData() as $item) {
+		foreach ($report->getData() as $item) {
 			$chart->addSegment(new PieSegment($item[$titleKey], $item[$valueKey]));
 		}
 

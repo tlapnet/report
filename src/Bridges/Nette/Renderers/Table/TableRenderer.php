@@ -24,15 +24,15 @@ class TableRenderer extends TemplateRenderer
 	}
 
 	/**
-	 * @param Report $heap
+	 * @param Report $report
 	 * @return mixed
 	 */
-	public function render(Report $heap)
+	public function render(Report $report)
 	{
 		$template = $this->createTemplate();
 		$template->setFile(__DIR__ . '/templates/table.latte');
 		$template->columns = $this->columns;
-		$template->rows = $heap;
+		$template->rows = $report;
 		$template->render();
 	}
 
