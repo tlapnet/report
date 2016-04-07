@@ -52,6 +52,10 @@ class NetteDatabaseDataSource extends AbstractDatabaseDataSource
 	}
 
 	/**
+	 * COMPILING ***************************************************************
+	 */
+
+	/**
 	 * @param ParameterList $parameters
 	 * @return Report
 	 */
@@ -66,9 +70,9 @@ class NetteDatabaseDataSource extends AbstractDatabaseDataSource
 		// Execute query
 		$resulset = $this->connection->query($query);
 
-		$heap = new Report($resulset->fetchAll());
+		$report = new Report($resulset->fetchAll());
 
-		return $heap;
+		return $report;
 	}
 
 }
