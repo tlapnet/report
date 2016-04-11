@@ -1,11 +1,11 @@
 <?php
 
-namespace Tlapnet\Report\Model\Box;
+namespace Tlapnet\Report\Model\Subreport;
 
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Renderers\Renderer;
 
-class EditableBox extends Box
+class EditableSubreport extends Subreport
 {
 
 	/**

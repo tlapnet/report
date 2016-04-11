@@ -5,8 +5,8 @@ namespace Tlapnet\Report\Bridges\Nette\Database\DataSources;
 use Nette\Database\Connection;
 use Nette\Database\Helpers;
 use Tlapnet\Report\DataSources\AbstractDatabaseDataSource;
-use Tlapnet\Report\Model\Box\ParameterList;
-use Tlapnet\Report\Model\Data\Report;
+use Tlapnet\Report\Model\Subreport\ParameterList;
+use Tlapnet\Report\Model\Data\Result;
 use Tracy\Debugger;
 
 class NetteDatabaseDataSource extends AbstractDatabaseDataSource
@@ -57,7 +57,7 @@ class NetteDatabaseDataSource extends AbstractDatabaseDataSource
 
 	/**
 	 * @param ParameterList $parameters
-	 * @return Report
+	 * @return Result
 	 */
 	public function compile(ParameterList $parameters)
 	{
@@ -70,7 +70,7 @@ class NetteDatabaseDataSource extends AbstractDatabaseDataSource
 		// Execute query
 		$resulset = $this->connection->query($query);
 
-		$report = new Report($resulset->fetchAll());
+		$report = new Result($resulset->fetchAll());
 
 		return $report;
 	}

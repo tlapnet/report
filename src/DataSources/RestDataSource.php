@@ -2,15 +2,15 @@
 
 namespace Tlapnet\Report\DataSources;
 
-use Tlapnet\Report\Report\Report;
-use Tlapnet\Report\ReportBox\ParameterList;
+use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Subreport\ParameterList;
 
 class RestDataSource implements DataSource
 {
 
 	/**
 	 * @param ParameterList $parameters
-	 * @return Report
+	 * @return Result
 	 */
 	public function compile(ParameterList $parameters)
 	{

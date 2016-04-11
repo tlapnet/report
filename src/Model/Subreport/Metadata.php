@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\Model\Box;
+namespace Tlapnet\Report\Model\Subreport;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Utils\Suggestions;
@@ -33,6 +33,7 @@ class Metadata
 
 		if (func_num_args() < 2) {
 			$hint = Suggestions::getSuggestion($this->data, $key);
+			dump($this->data);
 			throw new InvalidArgumentException("Unknown key '$key'" . ($hint ? ", did you mean '$hint'?" : '.'));
 		}
 

@@ -6,7 +6,7 @@ use Tlapnet\Chart\DateChart;
 use Tlapnet\Chart\Segment\DateSegment;
 use Tlapnet\Chart\Serie\DateSerie;
 use Tlapnet\Report\Bridges\Chart\Renderers\SeriesChartRenderer;
-use Tlapnet\Report\Model\Data\Report;
+use Tlapnet\Report\Model\Data\Result;
 use Tlapnet\Report\Utils\DateTime;
 
 class DateChartRenderer extends SeriesChartRenderer
@@ -37,10 +37,10 @@ class DateChartRenderer extends SeriesChartRenderer
 	 */
 
 	/**
-	 * @param Report $report
+	 * @param Result $report
 	 * @return mixed
 	 */
-	public function render(Report $report)
+	public function render(Result $report)
 	{
 		/** @var DateChart $chart */
 		$chart = $this->createChart(new DateChart());

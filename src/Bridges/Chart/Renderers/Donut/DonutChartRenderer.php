@@ -5,7 +5,7 @@ namespace Tlapnet\Report\Bridges\Chart\Renderers\Donut;
 use Tlapnet\Chart\DonutChart;
 use Tlapnet\Chart\Segment\DonutSegment;
 use Tlapnet\Report\Bridges\Chart\Renderers\AbstractChartRenderer;
-use Tlapnet\Report\Model\Data\Report;
+use Tlapnet\Report\Model\Data\Result;
 
 class DonutChartRenderer extends AbstractChartRenderer
 {
@@ -37,10 +37,10 @@ class DonutChartRenderer extends AbstractChartRenderer
 	 */
 
 	/**
-	 * @param Report $report
+	 * @param Result $report
 	 * @return mixed
 	 */
-	public function render(Report $report)
+	public function render(Result $report)
 	{
 		/** @var DonutChart $chart */
 		$chart = $this->createChart(new DonutChart());

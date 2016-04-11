@@ -13,11 +13,11 @@ use Tlapnet\Report\Bridges\Nette\Exceptions\FileNotFoundException;
 use Tlapnet\Report\Bridges\Nette\Exceptions\FolderNotFoundException;
 use Tlapnet\Report\Bridges\Nette\Exceptions\InvalidConfigException;
 use Tlapnet\Report\DataSources\DataSource;
-use Tlapnet\Report\Model\Box\Box;
-use Tlapnet\Report\Model\Box\ParameterListFactory;
-use Tlapnet\Report\Model\Collection\Collection;
 use Tlapnet\Report\Model\Group\Group;
+use Tlapnet\Report\Model\Report\Report;
 use Tlapnet\Report\Model\ReportService;
+use Tlapnet\Report\Model\Subreport\ParameterListFactory;
+use Tlapnet\Report\Model\Subreport\Subreport;
 use Tlapnet\Report\Renderers\Renderer;
 use Tlapnet\Report\ReportManager;
 
@@ -35,28 +35,23 @@ class ReportExtension extends CompilerExtension
 
 	/** @var array */
 	protected $configuration = [
-		'collections' => [],
 		'groups' => [],
-		'boxes' => [],
+		'reports' => [],
 	];
 
 	/** @var array */
 	protected $scheme = [
-		'box' => [
-			'groups' => NULL,
-			'subreports' => NULL,
-		],
-		'group' => [
-			'metadata' => [
-				'name' => NULL,
-				'title' => NULL,
-				'description' => NULL,
-			],
-		],
 		'report' => [
-			'metadata' => [
-				'name' => NULL,
-			],
+			'groups' => [],
+			'metadata' => [],
+			'subreports' => NULL,
+			'subreport' => NULL,
+		],
+		'subreport' => [
+			'metadata' => [],
+			'renderer' => NULL,
+			'datasource' => NULL,
+			'params' => NULL,
 		],
 	];
 
@@ -88,70 +83,70 @@ class ReportExtension extends CompilerExtension
 			Compiler::parseServices($builder, $services, 'report');
 		}
 
-		// Load collections
+		// Load groups
 		if ($config['groups']) {
-			$this->loadCollections($config['groups']);
+			$this->loadGroups($config['groups']);
 		}
 
 		// Load from folders
 		if ($config['folders']) {
-			$this->loadGroupsFromFolders($config['folders']);
+			$this->loadReportsFromFolders($config['folders']);
 		}
 
 		// Load from files
 		if ($config['files']) {
-			$this->loadGroupsFromFiles($config['files']);
+			$this->loadReportsFromFiles($config['files']);
 		}
 
 		// Load from config
 		if ($config['reports']) {
-			$this->loadGroupsFromConfig($config['reports']);
+			$this->loadReportsFromConfig($config['reports']);
 		}
 	}
 
 	/**
-	 * @param array $collections
+	 * @param array $groups
 	 */
-	protected function loadCollections(array $collections)
+	protected function loadGroups(array $groups)
 	{
 		$builder = $this->getContainerBuilder();
 		$managerDef = $builder->getDefinition($this->prefix('manager'));
 
-		foreach ($collections as $cid => $name) {
+		foreach ($groups as $gid => $name) {
 
 			// Check duplicates
-			if (in_array($cid, $this->configuration['collections'])) throw new AssertionException("Duplicate collections '$cid'.'$name'");
+			if (in_array($gid, $this->configuration['groups'])) throw new AssertionException("Duplicate groups $gid.$name");
 
 			// Append to definitions
-			$this->configuration['collections'][] = $cid;
+			$this->configuration['groups'][] = $gid;
 
-			// Create collection definition
-			$collectionDef = $builder->addDefinition($this->prefix('collections.' . $cid))
-				->setClass(Collection::class, [
-					'cid' => $cid,
+			// Create group definition
+			$groupDef = $builder->addDefinition($this->prefix('groups.' . $gid))
+				->setClass(Group::class, [
+					'gid' => $gid,
 					'name' => $name,
 				]);
 
 			// Do not autowire!
-			$collectionDef->setAutowired(FALSE);
+			$groupDef->setAutowired(FALSE);
 
 			// Append to configuration
-			$this->configuration['collections'][$cid] = $collectionDef;
+			$this->configuration['groups'][$gid] = $groupDef;
 
 			// Append to manager
-			$managerDef->addSetup('addCollection', [$collectionDef]);
+			$managerDef->addSetup('addGroup', [$groupDef]);
 		}
 	}
 
 	/**
 	 * @param array $folders
 	 */
-	protected function loadGroupsFromFolders(array $folders)
+	protected function loadReportsFromFolders(array $folders)
 	{
 		$files = [];
 		foreach ($folders as $folder) {
 			// Validate folder
-			if (!is_dir($folder)) throw new FolderNotFoundException("Folder '$folder' not found'");
+			if (!is_dir($folder)) throw new FolderNotFoundException("Folder $folder not found'");
 
 			// Find all configs
 			foreach (Finder::findFiles('*.neon')->from($folder) as $file) {
@@ -159,16 +154,16 @@ class ReportExtension extends CompilerExtension
 			}
 		}
 
-		$this->loadGroupsFromFiles($files);
+		$this->loadReportsFromFiles($files);
 	}
 
 	/**
 	 * @param array $files
 	 */
-	protected function loadGroupsFromFiles(array $files)
+	protected function loadReportsFromFiles(array $files)
 	{
 		$loader = new NeonAdapter();
-		$groups = [];
+		$reports = [];
 
 		foreach ($files as $file) {
 			// Validate file
@@ -184,112 +179,121 @@ class ReportExtension extends CompilerExtension
 			if (count($filedata) > 1) throw new InvalidConfigException('Report must have a name. Specific root node as name of report');
 
 			$name = key($filedata);
-			$group = $filedata[$name];
+			$report = $filedata[$name];
 
-			// Append group
-			$groups[$name] = $group;
+			// Check duplicates
+			if (isset($reports[$name])) throw new AssertionException("Duplicate reports '$name'");
+
+			// Append to reports
+			$reports[$name] = $report;
 		}
 
-		// Load groups
-		$this->loadGroupsFromConfig($groups);
+		// Load reports
+		$this->loadReportsFromConfig($reports);
 
 		// Add as dependencies
 		$this->compiler->addDependencies($files);
 	}
 
 	/**
-	 * @param array $groups
+	 * @param array $reports
 	 */
-	protected function loadGroupsFromConfig(array $groups)
+	protected function loadReportsFromConfig(array $reports)
 	{
 		$builder = $this->getContainerBuilder();
 
-		foreach ($groups as $gid => $group) {
-			// Validate group
-			Validators::assertField($group, 'groups', 'array', "item '%' in '$gid'");
-			Validators::assertField($group, 'metadata', 'array', "item '%' in '$gid'");
-			Validators::assertField($group, 'subreports', 'array', "item '%' in '$gid'");
+		foreach ($reports as $rid => $report) {
+			// Get report config
+			$report = $this->validateConfig($this->scheme['report'], $report);
 
-			// Validate group.metadata scheme
-			foreach ($this->scheme['group']['metadata'] as $key => $val) {
-				Validators::assertField($group['metadata'], $key, NULL, "item '%' in '$gid.metadata'");
+			// Validate report keys (subreport vs subreports)
+			if (is_array($report['subreports']) && is_array($report['subreport'])) {
+				throw new AssertionException("You cannot fill keys $rid.subreports and $rid.subreport at the same time.");
+			}
+
+			if (is_array($report['subreport'])) {
+				$report['subreports'] = [$report['subreport']];
+				unset($report['subreport']);
+			}
+
+			Validators::assertField($report, 'metadata', 'array', "item '%' in $rid");
+			Validators::assertField($report, 'groups', 'array', "item '%' in $rid");
+			Validators::assertField($report, 'subreports', 'array', "item '%' in $rid");
+
+			// Autofill metadata
+			if (!isset($report['metadata']['menu']) && isset($report['metadata']['title'])) {
+				$report['metadata']['menu'] = $report['metadata']['title'];
+			}
+			if (!isset($report['metadata']['title']) && isset($report['metadata']['menu'])) {
+				$report['metadata']['title'] = $report['metadata']['menu'];
+			}
+			if (!isset($report['metadata']['menu'])) {
+				$report['metadata']['menu'] = $rid;
 			}
 
 			// Check duplicates
-			if (in_array($gid, $this->configuration['groups'])) throw new AssertionException("Duplicate reports '$gid'");
-			$this->configuration['groups'][] = $gid;
+			if (in_array($rid, $this->configuration['reports'])) throw new AssertionException("Duplicate reports $rid");
+			$this->configuration['reports'][] = $rid;
 
 			// =================================================================
 
-			// Add group
-			$groupDef = $builder->addDefinition($this->prefix('groups.' . $gid))
-				->setClass(Group::class, [$gid]);
+			// Add report
+			$reportDef = $builder->addDefinition($this->prefix('reports.' . $rid))
+				->setClass(Report::class, [
+					'rid' => $rid,
+				]);
 
-			// Add group metadata
-			foreach ((array)$group['metadata'] as $key => $value) {
-				$groupDef->addSetup('setOption', [$key, $value]);
+			// Add report metadata
+			foreach ((array)$report['metadata'] as $key => $value) {
+				$reportDef->addSetup('setOption', [$key, $value]);
 			}
 
+			// Add report to group
+			foreach ($report['groups'] as $gid) {
 
-			// Add group to collections
-			foreach ($group['groups'] as $cid) {
+				// Validate groups
+				if (!in_array($gid, $this->configuration['groups'])) throw new AssertionException("Group $gid not exists");
 
-				// Validate groups (collection)
-				if (!in_array($cid, $this->configuration['collections'])) throw new AssertionException("Group '$cid' not exists");
-
-				$collectionDef = $builder->getDefinition($this->prefix('collections.' . $cid));
-				$collectionDef->addSetup('addGroup', [$groupDef]);
+				$builder->getDefinition($this->prefix('groups.' . $gid))
+					->addSetup('addReport', [$reportDef]);
 			}
 
-			// Load group report boxes
-			$this->loadBoxes($gid, $group['subreports']);
+			// Load all subreports from this report
+			$this->loadSubreports($rid, $report['subreports']);
 		}
 	}
 
 	/**
-	 * @param string $gid
-	 * @param array $boxes
+	 * @param string $rid
+	 * @param array $subreports
 	 */
-	protected function loadBoxes($gid, array $boxes)
+	protected function loadSubreports($rid, array $subreports)
 	{
-		foreach ($boxes as $bid => $subreport) {
-			$this->loadBox($gid, $bid, $subreport);
+		foreach ($subreports as $sid => $subreport) {
+			$this->loadSubreport($rid, $sid, $subreport);
 		}
 	}
 
 	/**
-	 * @param string $gid
-	 * @param string $bid
-	 * @param array $box
+	 * @param string $rid
+	 * @param string $sid
+	 * @param array $subreport
 	 * @throws AssertionException
 	 */
-	protected function loadBox($gid, $bid, array $box)
+	protected function loadSubreport($rid, $sid, array $subreport)
 	{
-		// Name of the report (group ID + _ + box ID)
-		$name = $gid . '_' . $bid;
+		// Name of the report (report ID + _ + subreport ID)
+		$name = $rid . '_' . $sid;
+
+		// Get subreport config
+		$subreport = $this->validateConfig($this->scheme['subreport'], $subreport);
 
 		// =====================================================================
 
-		// Validate box.metadata
-		Validators::assertField($box, 'metadata', 'array', "item '%' in '$name'");
-
-		// Validate box.metadata scheme
-		foreach ($this->scheme['report']['metadata'] as $key => $val) {
-			Validators::assertField($box['metadata'], $key, NULL, "item '%' in '$name.metadata'");
-		}
-
-		// Validate box.params
-		if (isset($box['params'])) {
-			Validators::assertField($box, 'params', 'array', "item '%' in '$name' report");
-		} else {
-			$box['params'] = [];
-		}
-
-		// Validate box.datasource
-		Validators::assertField($box, 'datasource', NULL, "item '%' in '$name' report");
-
-		// Validate box.renderer
-		Validators::assertField($box, 'renderer', NULL, "item '%' in '$name' report");
+		Validators::assertField($subreport, 'metadata', 'array', "item '%' in $rid subreport $sid");
+		Validators::assertField($subreport, 'params', 'array|null', "item '%' in $rid subreport $sid");
+		Validators::assertField($subreport, 'datasource', NULL, "item '%' in $rid subreport $sid");
+		Validators::assertField($subreport, 'renderer', NULL, "item '%' in $rid subreport $sid");
 
 		// =====================================================================
 
@@ -297,34 +301,34 @@ class ReportExtension extends CompilerExtension
 		$builder = $this->getContainerBuilder();
 
 		// Create datasource service
-		$datasourceDef = $builder->addDefinition($this->prefix('reports.' . $name . '.datasource'));
-		Compiler::parseService($datasourceDef, $box['datasource']);
+		$datasourceDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.datasource'));
+		Compiler::parseService($datasourceDef, $subreport['datasource']);
 		$datasourceDef->setClass(DataSource::class);
 		$datasourceDef->setAutowired(FALSE);
 
 		// Create renderer service
-		$rendererDef = $builder->addDefinition($this->prefix('reports.' . $name . '.renderer'));
-		Compiler::parseService($rendererDef, $box['renderer']);
+		$rendererDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.renderer'));
+		Compiler::parseService($rendererDef, $subreport['renderer']);
 		$rendererDef->setClass(Renderer::class);
 		$rendererDef->setAutowired(FALSE);
 
-		// Create ReportBox
-		$boxDef = $builder->addDefinition($this->prefix('reports.' . $name))
-			->setFactory(Box::class, [
-				'bid' => $name,
-				'parameters' => new Statement(ParameterListFactory::class . '::create', [(array)$box['params']]),
+		// Create Subreport
+		$subreportDef = $builder->addDefinition($this->prefix('subreports.' . $name))
+			->setFactory(Subreport::class, [
+				'sid' => $name,
+				'parameters' => new Statement(ParameterListFactory::class . '::create', [(array)$subreport['params']]),
 				'dataSource' => $datasourceDef,
 				'renderer' => $rendererDef,
 			]);
 
 		// Add metadata
-		foreach ((array)$box['metadata'] as $key => $value) {
-			$boxDef->addSetup('setOption', [$key, $value]);
+		foreach ((array)$subreport['metadata'] as $key => $value) {
+			$subreportDef->addSetup('setOption', [$key, $value]);
 		}
 
-		// Add box to group
-		$groupDef = $builder->getDefinition($this->prefix('groups.' . $gid));
-		$groupDef->addSetup('addBox', [$boxDef]);
+		// Add subreport to report
+		$builder->getDefinition($this->prefix('reports.' . $rid))
+			->addSetup('addSubreport', [$subreportDef]);
 	}
 
 }

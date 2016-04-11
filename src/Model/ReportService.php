@@ -2,8 +2,8 @@
 
 namespace Tlapnet\Report\Model;
 
-use Tlapnet\Report\Model\Collection\Collection;
 use Tlapnet\Report\Model\Group\Group;
+use Tlapnet\Report\Model\Report\Report;
 use Tlapnet\Report\ReportManager;
 
 class ReportService
@@ -21,41 +21,35 @@ class ReportService
 	}
 
 	/**
+	 * REPORTS *****************************************************************
+	 */
+
+	/**
+	 * @param mixed $rid
+	 * @return Report|NULL
+	 */
+	public function getReport($rid)
+	{
+		$groups = $this->manager->getGroups();
+		foreach ($groups as $group) {
+			if ($group->hasReport($rid)) {
+				return $group->getReport($rid);
+			}
+		}
+
+		return NULL;
+	}
+
+	/**
 	 * GROUPS ******************************************************************
 	 */
 
 	/**
-	 * @param mixed $cid
-	 * @param mixed $gid
-	 * @return Group|NULL
+	 * @return Group[]
 	 */
-	public function getGroup($cid, $gid)
+	public function getGroups()
 	{
-		if (!$this->manager->hasCollection($cid)) {
-			return NULL;
-		}
-
-		$collection = $this->manager->getCollection($cid);
-
-		if (!$collection->hasGroup($gid)) {
-			return NULL;
-		}
-
-		$group = $collection->getGroup($gid);
-
-		return $group;
-	}
-
-	/**
-	 * COLLECTIONS *************************************************************
-	 */
-
-	/**
-	 * @return Collection[]
-	 */
-	public function getCollections()
-	{
-		return $this->manager->getCollections();
+		return $this->manager->getGroups();
 	}
 
 }

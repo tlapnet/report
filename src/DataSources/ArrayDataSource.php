@@ -2,8 +2,8 @@
 
 namespace Tlapnet\Report\DataSources;
 
-use Tlapnet\Report\Model\Box\ParameterList;
-use Tlapnet\Report\Model\Data\Report;
+use Tlapnet\Report\Model\Subreport\ParameterList;
+use Tlapnet\Report\Model\Data\Result;
 
 class ArrayDataSource implements DataSource
 {
@@ -21,11 +21,11 @@ class ArrayDataSource implements DataSource
 
 	/**
 	 * @param ParameterList $parameters
-	 * @return Report
+	 * @return Result
 	 */
 	public function compile(ParameterList $parameters)
 	{
-		$heap = new Report($this->data);
+		$heap = new Result($this->data);
 
 		return $heap;
 	}

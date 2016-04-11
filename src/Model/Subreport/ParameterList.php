@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\Model\Box;
+namespace Tlapnet\Report\Model\Subreport;
 
 use Tlapnet\Report\Utils\Expander;
 

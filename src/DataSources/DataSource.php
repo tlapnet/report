@@ -2,15 +2,15 @@
 
 namespace Tlapnet\Report\DataSources;
 
-use Tlapnet\Report\Model\Box\ParameterList;
-use Tlapnet\Report\Model\Data\Report;
+use Tlapnet\Report\Model\Subreport\ParameterList;
+use Tlapnet\Report\Model\Data\Result;
 
 interface DataSource
 {
 
 	/**
 	 * @param ParameterList $parameters
-	 * @return Report
+	 * @return Result
 	 */
 	public function compile(ParameterList $parameters);
 

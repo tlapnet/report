@@ -3,55 +3,55 @@
 namespace Tlapnet\Report;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Collection\Collection;
+use Tlapnet\Report\Model\Group\Group;
 use Tlapnet\Report\Utils\Suggestions;
 
 class ReportManager
 {
 
-	/** @var Collection[] */
-	private $collections = [];
+	/** @var Group[] */
+	private $groups = [];
 
 	/**
-	 * @param Collection $collection
+	 * @param Group $Group
 	 */
-	public function addCollection(Collection $collection)
+	public function addGroup(Group $Group)
 	{
-		$this->collections[$collection->getCid()] = $collection;
+		$this->groups[$Group->getGid()] = $Group;
 	}
 
 	/**
-	 * @return Collection[]
+	 * @return Group[]
 	 */
-	public function getCollections()
+	public function getGroups()
 	{
-		return $this->collections;
+		return $this->groups;
 	}
 
 	/**
 	 * @param string $cid
-	 * @return Collection
+	 * @return Group
 	 */
-	public function getCollection($cid)
+	public function getGroup($cid)
 	{
-		if (isset($this->collections[$cid])) {
-			return $this->collections[$cid];
+		if (isset($this->groups[$cid])) {
+			return $this->groups[$cid];
 		}
 
-		$hint = Suggestions::getSuggestion(array_map(function (Collection $collection) {
-			return $collection->getCid();
-		}, $this->collections), $cid);
+		$hint = Suggestions::getSuggestion(array_map(function (Group $Group) {
+			return $Group->getGid();
+		}, $this->groups), $cid);
 
-		throw new InvalidStateException("Collection '$cid' not found" . ($hint ? ", did you mean '$hint'?" : '.'));
+		throw new InvalidStateException("Group '$cid' not found" . ($hint ? ", did you mean '$hint'?" : '.'));
 	}
 
 	/**
 	 * @param string $cid
 	 * @return bool
 	 */
-	public function hasCollection($cid)
+	public function hasGroup($cid)
 	{
-		return isset($this->collections[$cid]);
+		return isset($this->groups[$cid]);
 	}
 
 }

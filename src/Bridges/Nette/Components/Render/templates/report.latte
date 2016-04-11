@@ -1,0 +1,6 @@
+{block}
+<section class="report" id="report-{$report->getRid()}">
+    {foreach $report->getSubreports() as $subreport}
+        {control "subreport-".$subreport->getSid()}
+    {/foreach}
+</section>

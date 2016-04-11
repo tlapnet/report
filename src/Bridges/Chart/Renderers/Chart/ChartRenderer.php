@@ -6,7 +6,7 @@ use Tlapnet\Chart\Chart;
 use Tlapnet\Chart\Segment\Segment;
 use Tlapnet\Chart\Serie\Serie;
 use Tlapnet\Report\Bridges\Chart\Renderers\SeriesChartRenderer;
-use Tlapnet\Report\Model\Data\Report;
+use Tlapnet\Report\Model\Data\Result;
 
 class ChartRenderer extends SeriesChartRenderer
 {
@@ -25,10 +25,10 @@ class ChartRenderer extends SeriesChartRenderer
 	 */
 
 	/**
-	 * @param Report $report
+	 * @param Result $report
 	 * @return mixed
 	 */
-	public function render(Report $report)
+	public function render(Result $report)
 	{
 		/** @var Chart $chart */
 		$chart = $this->createChart(new Chart());

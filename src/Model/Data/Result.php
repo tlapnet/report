@@ -8,7 +8,7 @@ use Countable;
 use IteratorAggregate;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 
-class Report implements Countable, ArrayAccess, IteratorAggregate
+class Result implements Countable, ArrayAccess, IteratorAggregate
 {
 
 	/** @var array */

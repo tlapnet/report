@@ -1,0 +1,13 @@
+{block}
+
+<section class="subreport" id="subreport-{$subreport->getSid()}">
+    <h2 n:if="$subreport->hasOption('name')">{$subreport->getOption('name')}</h2>
+
+    <div class="well" n:if="$subreport->hasOption('description')">
+        {$subreport->getOption('description')|nl2br|noescape}
+    </div>
+
+    <section class="subreport-result">
+        {$subreport->render()|noescape}
+    </section>
+</section>

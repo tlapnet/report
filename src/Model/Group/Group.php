@@ -3,8 +3,7 @@
 namespace Tlapnet\Report\Model\Group;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Box\Box;
-use Tlapnet\Report\Model\Box\Metadata;
+use Tlapnet\Report\Model\Report\Report;
 use Tlapnet\Report\Utils\Suggestions;
 
 class Group
@@ -13,19 +12,20 @@ class Group
 	/** @var mixed */
 	protected $gid;
 
-	/** @var Box[] */
-	protected $boxes = [];
+	/** @var string */
+	protected $name;
 
-	/** @var Metadata */
-	protected $metadata;
+	/** @var Report[] */
+	protected $reports = [];
 
 	/**
 	 * @param mixed $gid
+	 * @param string $name
 	 */
-	public function __construct($gid)
+	public function __construct($gid, $name)
 	{
 		$this->gid = $gid;
-		$this->metadata = new Metadata();
+		$this->name = $name;
 	}
 
 	/**
@@ -37,81 +37,53 @@ class Group
 	}
 
 	/**
-	 * @param Box $box
+	 * @return string
 	 */
-	public function addBox(Box $box)
+	public function getName()
 	{
-		$this->boxes[$box->getBid()] = $box;
+		return $this->name;
 	}
 
 	/**
-	 * @return Box[]
+	 * @param Report $report
 	 */
-	public function getBoxes()
+	public function addReport(Report $report)
 	{
-		return $this->boxes;
+		$this->reports[$report->getRid()] = $report;
 	}
 
 	/**
-	 * @param string $bid
-	 * @return Box
+	 * @return Report[]
 	 */
-	public function getBox($bid)
+	public function getReports()
 	{
-		if ($this->hasBox($bid)) {
-			return $this->boxes[$bid];
+		return $this->reports;
+	}
+
+	/**
+	 * @param string $rid
+	 * @return Report
+	 */
+	public function getReport($rid)
+	{
+		if ($this->hasReport($rid)) {
+			return $this->reports[$rid];
 		}
 
-		$hint = Suggestions::getSuggestion(array_map(function (Box $box) {
-			return $box->getBid();
-		}, $this->boxes), $bid);
+		$hint = Suggestions::getSuggestion(array_map(function (Report $report) {
+			return $report->getRid();
+		}, $this->reports), $rid);
 
-		throw new InvalidStateException("Box '$bid' not found" . ($hint ? ", did you mean '$hint'?" : '.'));
+		throw new InvalidStateException("Report '$rid' not found" . ($hint ? ", did you mean '$hint'?" : '.'));
 	}
 
 	/**
-	 * @param string $bid
+	 * @param string $rid
 	 * @return bool
 	 */
-	public function hasBox($bid)
+	public function hasReport($rid)
 	{
-		return isset($this->boxes[$bid]);
-	}
-
-	/**
-	 * METADATA ****************************************************************
-	 */
-
-	/**
-	 * @param string $key
-	 * @param mixed $value
-	 */
-	public function setOption($key, $value)
-	{
-		$this->metadata->set($key, $value);
-	}
-
-	/**
-	 * @param string $key
-	 * @param mixed $default
-	 * @return mixed
-	 */
-	public function getOption($key, $default = NULL)
-	{
-		if (func_num_args() < 2) {
-			return $this->metadata->get($key);
-		} else {
-			return $this->metadata->get($key, $default);
-		}
-	}
-
-	/**
-	 * @param string $key
-	 * @return bool
-	 */
-	public function hasOption($key)
-	{
-		return $this->metadata->has($key);
+		return isset($this->reports[$rid]);
 	}
 
 }

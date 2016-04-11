@@ -1,13 +1,13 @@
 <?php
 
-namespace Tlapnet\Report\Model\Box;
+namespace Tlapnet\Report\Model\Subreport;
 
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Data\Report;
+use Tlapnet\Report\Model\Data\Result;
 use Tlapnet\Report\Renderers\Renderer;
 
-class Box implements Reportable
+class Subreport implements Reportable
 {
 
 	/** States */
@@ -17,7 +17,7 @@ class Box implements Reportable
 	const STATE_RENDERED = 4;
 
 	/** @var mixed */
-	protected $bid;
+	protected $sid;
 
 	/** @var ParameterList */
 	protected $parameters;
@@ -31,21 +31,21 @@ class Box implements Reportable
 	/** @var Metadata */
 	protected $metadata;
 
-	/** @var Report */
+	/** @var Result */
 	protected $report;
 
 	/** @var int */
 	protected $state;
 
 	/**
-	 * @param mixed $bid
+	 * @param mixed $sid
 	 * @param ParameterList $parameters
 	 * @param DataSource $dataSource
 	 * @param Renderer $renderer
 	 */
-	public function __construct($bid, ParameterList $parameters, DataSource $dataSource, Renderer $renderer)
+	public function __construct($sid, ParameterList $parameters, DataSource $dataSource, Renderer $renderer)
 	{
-		$this->bid = $bid;
+		$this->sid = $sid;
 		$this->parameters = $parameters;
 		$this->renderer = $renderer;
 		$this->dataSource = $dataSource;
@@ -56,9 +56,9 @@ class Box implements Reportable
 	/**
 	 * @return mixed
 	 */
-	public function getBid()
+	public function getSid()
 	{
-		return $this->bid;
+		return $this->sid;
 	}
 
 	/**
@@ -150,7 +150,7 @@ class Box implements Reportable
 			throw new InvalidStateException('Compilation cannot return NULL.');
 		}
 
-		if (!$this->report instanceof Report) {
+		if (!$this->report instanceof Result) {
 			throw new InvalidStateException('Compilation returned object (' . get_class($this->report) . ') is not subclass of Heap.');
 		}
 

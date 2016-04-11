@@ -3,8 +3,8 @@
 namespace Tlapnet\Report\DataSources;
 
 use PDO;
-use Tlapnet\Report\Model\Box\ParameterList;
-use Tlapnet\Report\Model\Data\Report;
+use Tlapnet\Report\Model\Subreport\ParameterList;
+use Tlapnet\Report\Model\Data\Result;
 
 class PdoDataSource extends AbstractDatabaseDataSource
 {
@@ -12,7 +12,7 @@ class PdoDataSource extends AbstractDatabaseDataSource
 
 	/**
 	 * @param ParameterList $parameters
-	 * @return Report
+	 * @return Result
 	 */
 	public function compile(ParameterList $parameters)
 	{
@@ -30,7 +30,7 @@ class PdoDataSource extends AbstractDatabaseDataSource
 		$statement = $pdo->prepare($sql);
 		$statement->execute();
 
-		$report = new Report($statement->fetchAll());
+		$report = new Result($statement->fetchAll());
 
 		return $report;
 	}
