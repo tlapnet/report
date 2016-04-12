@@ -16,11 +16,12 @@ class TableRenderer extends TemplateRenderer
 
 	/**
 	 * @param string $name
+	 * @param string $title
 	 * @return Column
 	 */
-	public function addColumn($name)
+	public function addColumn($name, $title = '')
 	{
-		return $this->columns[$name] = new Column($name);
+		return $this->columns[$name] = (new Column($name))->title($title);
 	}
 
 	/**
