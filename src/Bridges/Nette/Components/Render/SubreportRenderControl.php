@@ -3,6 +3,7 @@
 namespace Tlapnet\Report\Bridges\Nette\Components\Render;
 
 use Nette\Application\UI\Control;
+use Tlapnet\Report\Exceptions\Runtime\CompileException;
 use Tlapnet\Report\Model\Subreport\Subreport;
 
 class SubreportRenderControl extends Control
@@ -25,11 +26,14 @@ class SubreportRenderControl extends Control
 	 */
 	public function render()
 	{
-		// Compile (fetch data)
-		$this->subreport->compile();
-
-		// Set template
-		$this->template->setFile(__DIR__ . '/templates/subreport.latte');
+		try {
+			// Compile (fetch data)
+			$this->subreport->compile();
+			$this->template->setFile(__DIR__ . '/templates/subreport.latte');
+		} catch (CompileException $e) {
+			$this->template->exception = $e;
+			$this->template->setFile(__DIR__ . '/templates/subreport.error.latte');
+		}
 
 		// Render
 		$this->template->subreport = $this->subreport;

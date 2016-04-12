@@ -3,10 +3,12 @@
 namespace Tlapnet\Report\Bridges\Nette\Database\DataSources;
 
 use Nette\Database\Connection;
+use Nette\Database\DriverException;
 use Nette\Database\Helpers;
 use Tlapnet\Report\DataSources\AbstractDatabaseDataSource;
-use Tlapnet\Report\Model\Subreport\ParameterList;
+use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
 use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Subreport\Parameters;
 use Tracy\Debugger;
 
 class NetteDatabaseDataSource extends AbstractDatabaseDataSource
@@ -56,10 +58,11 @@ class NetteDatabaseDataSource extends AbstractDatabaseDataSource
 	 */
 
 	/**
-	 * @param ParameterList $parameters
+	 * @param Parameters $parameters
 	 * @return Result
+	 * @throws SqlException
 	 */
-	public function compile(ParameterList $parameters)
+	public function compile(Parameters $parameters)
 	{
 		$expander = $parameters->createExpander();
 		$sql = $this->getSql();
@@ -67,8 +70,12 @@ class NetteDatabaseDataSource extends AbstractDatabaseDataSource
 		// Replace placeholders
 		$query = $expander->expand($sql);
 
-		// Execute query
-		$resulset = $this->connection->query($query);
+		try {
+			// Execute query
+			$resulset = $this->connection->query($query);
+		} catch (DriverException $e) {
+			throw new SqlException($query, NULL, $e);
+		}
 
 		$report = new Result($resulset->fetchAll());
 

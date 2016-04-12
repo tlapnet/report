@@ -3,16 +3,16 @@
 namespace Tlapnet\Report\DataSources;
 
 use Tlapnet\Report\Model\Data\Result;
-use Tlapnet\Report\Model\Subreport\ParameterList;
+use Tlapnet\Report\Model\Subreport\Parameters;
 
 class RestDataSource implements DataSource
 {
 
 	/**
-	 * @param ParameterList $parameters
+	 * @param Parameters $parameters
 	 * @return Result
 	 */
-	public function compile(ParameterList $parameters)
+	public function compile(Parameters $parameters)
 	{
 		$stop();
 	}

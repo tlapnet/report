@@ -16,7 +16,7 @@ use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Model\Group\Group;
 use Tlapnet\Report\Model\Report\Report;
 use Tlapnet\Report\Model\ReportService;
-use Tlapnet\Report\Model\Subreport\ParameterListFactory;
+use Tlapnet\Report\Model\Subreport\ParametersFactory;
 use Tlapnet\Report\Model\Subreport\Subreport;
 use Tlapnet\Report\Renderers\Renderer;
 use Tlapnet\Report\ReportManager;
@@ -252,7 +252,7 @@ class ReportExtension extends CompilerExtension
 			foreach ($report['groups'] as $gid) {
 
 				// Validate groups
-				if (!in_array($gid, $this->configuration['groups'])) throw new AssertionException("Group $gid not exists");
+				if (!in_array($gid, $this->configuration['groups'])) throw new AssertionException("Group $gid defined in $rid.groups does not exist");
 
 				$builder->getDefinition($this->prefix('groups.' . $gid))
 					->addSetup('addReport', [$reportDef]);
@@ -316,7 +316,7 @@ class ReportExtension extends CompilerExtension
 		$subreportDef = $builder->addDefinition($this->prefix('subreports.' . $name))
 			->setFactory(Subreport::class, [
 				'sid' => $name,
-				'parameters' => new Statement(ParameterListFactory::class . '::create', [(array)$subreport['params']]),
+				'parameters' => new Statement(ParametersFactory::class . '::create', [(array)$subreport['params']]),
 				'dataSource' => $datasourceDef,
 				'renderer' => $rendererDef,
 			]);

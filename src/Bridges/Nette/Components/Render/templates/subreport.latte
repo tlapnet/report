@@ -1,11 +1,15 @@
 {block}
-
 <section class="subreport" id="subreport-{$subreport->getSid()}">
-    <h2 n:if="$subreport->hasOption('name')">{$subreport->getOption('name')}</h2>
-
-    <div class="well" n:if="$subreport->hasOption('description')">
-        {$subreport->getOption('description')|nl2br|noescape}
-    </div>
+    <h2 id="{$subreport->getSid()}" n:if="$subreport->hasOption('title')">
+        {$subreport->getOption('title')}
+        <span
+                n:if="$subreport->hasOption('description')"
+                data-report-toggle="tooltip"
+                data-placement="bottom"
+                title="{$subreport->getOption('description')|nl2br|noescape}"
+                class="icon-comments">
+        </span>
+    </h2>
 
     <section class="subreport-result">
         {$subreport->render()|noescape}

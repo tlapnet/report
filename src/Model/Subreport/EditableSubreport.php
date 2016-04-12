@@ -9,9 +9,9 @@ class EditableSubreport extends Subreport
 {
 
 	/**
-	 * @param ParameterList $parameters
+	 * @param Parameters $parameters
 	 */
-	public function setParameters($parameters)
+	public function setParameters(Parameters $parameters)
 	{
 		$this->parameters = $parameters;
 	}
@@ -19,7 +19,7 @@ class EditableSubreport extends Subreport
 	/**
 	 * @param Renderer $renderer
 	 */
-	public function setRenderer($renderer)
+	public function setRenderer(Renderer $renderer)
 	{
 		$this->renderer = $renderer;
 	}
@@ -27,7 +27,7 @@ class EditableSubreport extends Subreport
 	/**
 	 * @param DataSource $dataSource
 	 */
-	public function setDataSource($dataSource)
+	public function setDataSource(DataSource $dataSource)
 	{
 		$this->dataSource = $dataSource;
 	}
@@ -35,7 +35,7 @@ class EditableSubreport extends Subreport
 	/**
 	 * @param Metadata $metadata
 	 */
-	public function setMetadata($metadata)
+	public function setMetadata(Metadata $metadata)
 	{
 		$this->metadata = $metadata;
 	}

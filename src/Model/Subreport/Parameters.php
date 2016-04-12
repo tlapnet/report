@@ -4,7 +4,7 @@ namespace Tlapnet\Report\Model\Subreport;
 
 use Tlapnet\Report\Utils\Expander;
 
-class ParameterList implements Attachable
+class Parameters implements Attachable
 {
 
 	/** @var Parameter[] */

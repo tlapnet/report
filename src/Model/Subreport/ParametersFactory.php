@@ -2,18 +2,18 @@
 
 namespace Tlapnet\Report\Model\Subreport;
 
-class ParameterListFactory
+class ParametersFactory
 {
 
 	/**
 	 * @param array $parameters
-	 * @return ParameterList
+	 * @return Parameters
 	 */
 	public static function create(array $parameters)
 	{
-		$pl = new ParameterList();
+		$p = new Parameters();
 
-		return $pl;
+		return $p;
 	}
 
 }

@@ -6,7 +6,7 @@ use Nette\Utils\Random;
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Subreport\ParameterList;
+use Tlapnet\Report\Model\Subreport\Parameters;
 use Tlapnet\Report\Model\Data\Result;
 
 class RandomDataSource implements DataSource
@@ -87,10 +87,10 @@ class RandomDataSource implements DataSource
 	 */
 
 	/**
-	 * @param ParameterList $parameters
+	 * @param Parameters $parameters
 	 * @return Result
 	 */
-	public function compile(ParameterList $parameters)
+	public function compile(Parameters $parameters)
 	{
 		$data = [];
 

@@ -19,7 +19,7 @@ class Subreport implements Reportable
 	/** @var mixed */
 	protected $sid;
 
-	/** @var ParameterList */
+	/** @var Parameters */
 	protected $parameters;
 
 	/** @var Renderer */
@@ -30,20 +30,23 @@ class Subreport implements Reportable
 
 	/** @var Metadata */
 	protected $metadata;
+	
+	/** @var array  */
+	protected $preprocessors = [];
 
 	/** @var Result */
-	protected $report;
+	protected $result;
 
 	/** @var int */
 	protected $state;
 
 	/**
 	 * @param mixed $sid
-	 * @param ParameterList $parameters
+	 * @param Parameters $parameters
 	 * @param DataSource $dataSource
 	 * @param Renderer $renderer
 	 */
-	public function __construct($sid, ParameterList $parameters, DataSource $dataSource, Renderer $renderer)
+	public function __construct($sid, Parameters $parameters, DataSource $dataSource, Renderer $renderer)
 	{
 		$this->sid = $sid;
 		$this->parameters = $parameters;
@@ -62,7 +65,7 @@ class Subreport implements Reportable
 	}
 
 	/**
-	 * @return ParameterList
+	 * @return Parameters
 	 */
 	public function getParameters()
 	{
@@ -144,17 +147,26 @@ class Subreport implements Reportable
 	 */
 	public function compile()
 	{
-		$this->report = $this->dataSource->compile($this->parameters);
+		$this->result = $this->dataSource->compile($this->parameters);
 
-		if ($this->report === NULL) {
+		if ($this->result === NULL) {
 			throw new InvalidStateException('Compilation cannot return NULL.');
 		}
 
-		if (!$this->report instanceof Result) {
-			throw new InvalidStateException('Compilation returned object (' . get_class($this->report) . ') is not subclass of Heap.');
+		if (!$this->result instanceof Result) {
+			throw new InvalidStateException(sprintf('Compilation returned object (%s) is not subclass of %s.', get_class($this->result), Result::class));
 		}
 
 		$this->state = self::STATE_COMPILED;
+	}
+
+	/**
+	 * DATA PREPROCESSING ******************************************************
+	 */
+
+	public function preprocess()
+	{
+		
 	}
 
 	/**
@@ -172,7 +184,7 @@ class Subreport implements Reportable
 
 		$this->state = self::STATE_RENDERED;
 
-		return $this->renderer->render($this->report);
+		return $this->renderer->render($this->result);
 	}
 
 }
