@@ -4,28 +4,23 @@ namespace Tlapnet\Report\Bridges\Dibi\DataSources;
 
 use DibiConnection;
 use DibiException;
-use Tlapnet\Report\DataSources\AbstractDatabaseConnectionDataSource;
+use Tlapnet\Report\DataSources\AbstractDatabaseDataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
 use Tlapnet\Report\Model\Data\Result;
 use Tlapnet\Report\Model\Subreport\Parameters;
 
-class DibiDataSource extends AbstractDatabaseConnectionDataSource
+class DibiDataSource extends AbstractDatabaseDataSource
 {
 
 	/** @var DibiConnection */
 	protected $connection;
 
 	/**
-	 * @return void
+	 * @param DibiConnection $connection
 	 */
-	protected function connect()
+	public function __construct(DibiConnection $connection)
 	{
-		$this->connection = new DibiConnection([
-			'driver' => $this->getConfig('driver'),
-			'host' => $this->getConfig('host'),
-			'username' => $this->getConfig('user'),
-			'password' => $this->getConfig('password'),
-		]);
+		$this->connection = $connection;
 	}
 
 	/**
@@ -39,8 +34,10 @@ class DibiDataSource extends AbstractDatabaseConnectionDataSource
 	 */
 	public function compile(Parameters $parameters)
 	{
-		// Connect to DB
-		if (!$this->connection) $this->connect();
+		// Ensure connection
+		if (!$this->connection->isConnected()) {
+			$this->connection->connect();
+		}
 
 		// Expand parameters
 		$expander = $parameters->createExpander();

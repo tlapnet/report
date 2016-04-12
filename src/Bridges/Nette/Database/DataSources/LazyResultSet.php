@@ -4,6 +4,7 @@ namespace Tlapnet\Report\Bridges\Nette\Database\DataSources;
 
 use Nette\Database\ResultSet;
 use Tlapnet\Report\Model\Data\Result;
+use Traversable;
 
 class LazyResultSet extends Result
 {
@@ -26,6 +27,14 @@ class LazyResultSet extends Result
 	public function getData()
 	{
 		return $this->resultset->fetchAll();
+	}
+
+	/**
+	 * @return Traversable
+	 */
+	public function getIterator()
+	{
+		return $this->resultset;
 	}
 
 }

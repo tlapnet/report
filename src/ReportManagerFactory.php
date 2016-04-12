@@ -2,6 +2,7 @@
 
 namespace Tlapnet\Report;
 
+use Tlapnet\Report\Exceptions\Logic\NotImplementedException;
 use Tlapnet\Report\Loaders\Loader;
 
 class ReportManagerFactory implements IReportManagerFactory
@@ -23,7 +24,7 @@ class ReportManagerFactory implements IReportManagerFactory
 	 */
 	public function create()
 	{
-		$stop();
+		throw new NotImplementedException();
 	}
 
 }

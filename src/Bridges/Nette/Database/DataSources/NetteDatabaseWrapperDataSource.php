@@ -5,20 +5,25 @@ namespace Tlapnet\Report\Bridges\Nette\Database\DataSources;
 use Nette\Database\Connection;
 use Nette\Database\DriverException;
 use Nette\Database\Helpers;
-use Tlapnet\Report\DataSources\AbstractDatabaseConnectionDataSource;
+use Tlapnet\Report\DataSources\AbstractDatabaseDataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
 use Tlapnet\Report\Model\Data\Result;
 use Tlapnet\Report\Model\Subreport\Parameters;
 use Tracy\Debugger;
 
-class NetteDatabaseDataSource extends AbstractDatabaseConnectionDataSource
+class NetteDatabaseWrapperDataSource extends AbstractDatabaseDataSource
 {
 
 	/** @var Connection */
 	protected $connection;
 
-	/** @var bool */
-	protected $tracyPanel = FALSE;
+	/**
+	 * @param Connection $connection
+	 */
+	public function __construct(Connection $connection)
+	{
+		$this->connection = $connection;
+	}
 
 	/**
 	 * GETTERS / SETTERS *******************************************************
@@ -31,37 +36,13 @@ class NetteDatabaseDataSource extends AbstractDatabaseConnectionDataSource
 	 */
 	public function setTracyPanel($show)
 	{
-		$this->tracyPanel = $show;
-	}
-	/**
-	 * API *********************************************************************
-	 */
-
-	/**
-	 * @return void
-	 */
-	protected function connect()
-	{
-		$this->connection = new Connection(
-			sprintf(
-				'%s:host=%s;dbname=%s',
-				$this->getConfig('driver'),
-				$this->getConfig('host'),
-				$this->getConfig('database')
-			),
-			$this->getConfig('user'),
-			$this->getConfig('password'),
-			$this->getConfig('options', ['lazy' => TRUE])
-		);
-
-		if ($this->tracyPanel === TRUE) {
+		if ($show === TRUE) {
 			if (class_exists(Debugger::class)) {
 				$this->connection->onConnect[] = function () {
 					Helpers::createDebugPanel($this->connection);
 				};
 			}
 		}
-
 	}
 
 	/**
@@ -75,9 +56,6 @@ class NetteDatabaseDataSource extends AbstractDatabaseConnectionDataSource
 	 */
 	public function compile(Parameters $parameters)
 	{
-		// Connect to DB
-		if (!$this->connection) $this->connect();
-
 		// Expand parameters
 		$expander = $parameters->createExpander();
 		$sql = $this->getSql();

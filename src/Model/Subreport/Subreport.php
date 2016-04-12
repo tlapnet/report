@@ -5,6 +5,7 @@ namespace Tlapnet\Report\Model\Subreport;
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Data\Resultable;
 use Tlapnet\Report\Renderers\Renderer;
 
 class Subreport implements Reportable
@@ -30,11 +31,11 @@ class Subreport implements Reportable
 
 	/** @var Metadata */
 	protected $metadata;
-	
-	/** @var array  */
+
+	/** @var array */
 	protected $preprocessors = [];
 
-	/** @var Result */
+	/** @var Resultable|Result */
 	protected $result;
 
 	/** @var int */
@@ -153,8 +154,8 @@ class Subreport implements Reportable
 			throw new InvalidStateException('Compilation cannot return NULL.');
 		}
 
-		if (!$this->result instanceof Result) {
-			throw new InvalidStateException(sprintf('Compilation returned object (%s) is not subclass of %s.', get_class($this->result), Result::class));
+		if (!$this->result instanceof Resultable) {
+			throw new InvalidStateException(sprintf('DataSource returned object (%s) does not implement %s.', get_class($this->result), Resultable::class));
 		}
 
 		$this->state = self::STATE_COMPILED;
@@ -166,7 +167,7 @@ class Subreport implements Reportable
 
 	public function preprocess()
 	{
-		
+
 	}
 
 	/**

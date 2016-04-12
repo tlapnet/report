@@ -7,9 +7,26 @@ use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
 use Tlapnet\Report\Model\Data\Result;
 use Tlapnet\Report\Model\Subreport\Parameters;
 
-class PdoDataSource extends AbstractDatabaseDataSource
+class PdoDataSource extends AbstractDatabaseConnectionDataSource
 {
 
+	/** @var PDO */
+	protected $pdo;
+
+	/**
+	 * @return void
+	 */
+	protected function connect()
+	{
+		$this->pdo = new PDO(sprintf(
+			'%s:host=%s;dbname=%s',
+			$this->getConfig('driver'),
+			$this->getConfig('host'),
+			$this->getConfig('database')
+		),
+			$this->getConfig('user'),
+			$this->getConfig('password'));
+	}
 
 	/**
 	 * @param Parameters $parameters
@@ -18,19 +35,10 @@ class PdoDataSource extends AbstractDatabaseDataSource
 	 */
 	public function compile(Parameters $parameters)
 	{
-		$pdo = new PDO(sprintf(
-			'%s:host=%s;dbname=%s',
-			$this->getConfig('driver'),
-			$this->getConfig('host'),
-			$this->getConfig('database')
-		),
-			$this->getConfig('user'),
-			$this->getConfig('password'));
-
 		$sql = $this->getSql();
 
 		try {
-			$statement = $pdo->prepare($sql);
+			$statement = $this->pdo->prepare($sql);
 			$statement->execute();
 		} catch (\PDOException $e) {
 			throw new SqlException($sql, NULL, $e);

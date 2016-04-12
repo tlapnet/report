@@ -3,8 +3,9 @@
 namespace Tlapnet\Report\Bridges\Neon\Loaders;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
-use Tlapnet\Report\ReportBox\ReportBox;
+use Tlapnet\Report\Exceptions\Logic\NotImplementedException;
 use Tlapnet\Report\Loaders\AbstractLoader;
+use Tlapnet\Report\Model\Report\Report;
 
 class NeonLoader extends AbstractLoader
 {
@@ -36,11 +37,11 @@ class NeonLoader extends AbstractLoader
 	}
 
 	/**
-	 * @return ReportBox[]
+	 * @return Report[]
 	 */
 	public function load()
 	{
-		$stop();
+		throw new NotImplementedException();
 	}
 
 }

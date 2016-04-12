@@ -2,6 +2,7 @@
 
 namespace Tlapnet\Report\Renderers;
 
+use Tlapnet\Report\Exceptions\Logic\NotImplementedException;
 use Tlapnet\Report\Model\Data\Result;
 
 class JsonRenderer implements Renderer
@@ -9,10 +10,11 @@ class JsonRenderer implements Renderer
 
 	/**
 	 * @param Result $report
-	 * @return mixed
+	 * @return string
 	 */
 	public function render(Result $report)
 	{
+		throw new NotImplementedException();
 	}
 
 }

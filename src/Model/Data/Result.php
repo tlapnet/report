@@ -5,10 +5,10 @@ namespace Tlapnet\Report\Model\Data;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
-use IteratorAggregate;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
+use Traversable;
 
-class Result implements Countable, ArrayAccess, IteratorAggregate
+class Result implements Countable, ArrayAccess, Resultable
 {
 
 	/** @var array */
@@ -95,6 +95,9 @@ class Result implements Countable, ArrayAccess, IteratorAggregate
 	 * ITERATOR ****************************************************************
 	 */
 
+	/**
+	 * @return Traversable
+	 */
 	public function getIterator()
 	{
 		return new ArrayIterator($this->data);

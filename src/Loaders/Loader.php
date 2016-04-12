@@ -2,11 +2,13 @@
 
 namespace Tlapnet\Report\Loaders;
 
+use Tlapnet\Report\Model\Report\Report;
+
 interface Loader
 {
 
 	/**
-	 * @return
+	 * @return Report
 	 */
 	public function load();
 
