@@ -6,8 +6,9 @@ use Nette\Utils\Random;
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Subreport\Parameters;
 use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Subreport\Parameters;
+use Tlapnet\Report\Utils\DateTime;
 
 class RandomDataSource implements DataSource
 {
@@ -16,6 +17,8 @@ class RandomDataSource implements DataSource
 	const TYPE_INT = 'int';
 	const TYPE_RANGE = 'range';
 	const TYPE_STRING = 'string';
+	const TYPE_DATE = 'date';
+	const TYPE_DATETIME = 'datetime';
 
 	/** @var array */
 	protected $columns = [];
@@ -75,6 +78,30 @@ class RandomDataSource implements DataSource
 	}
 
 	/**
+	 * @param string $name
+	 * @param string $format
+	 */
+	public function addDate($name, $format = 'd.m.Y')
+	{
+		$this->addColumn($name, [
+			'type' => self::TYPE_DATE,
+			'format' => $format,
+		]);
+	}
+
+	/**
+	 * @param string $name
+	 * @param string $format
+	 */
+	public function addDateTime($name, $format = 'd.m.Y H:i:s')
+	{
+		$this->addColumn($name, [
+			'type' => self::TYPE_DATETIME,
+			'format' => $format,
+		]);
+	}
+
+	/**
 	 * @param int $rows
 	 */
 	public function setRows($rows)
@@ -126,6 +153,14 @@ class RandomDataSource implements DataSource
 				return Random::generate($column->length, 'a-zA-Z0-9\s');
 			case self::TYPE_RANGE:
 				return mt_rand($column->range[0], $column->range[1]);
+			case self::TYPE_DATE:
+				return (new DateTime())
+					->setTimestamp(mt_rand(1, time()))
+					->setFormat($column->format);
+			case self::TYPE_DATETIME:
+				return (new DateTime())
+					->setTimestamp(mt_rand(1, time()))
+					->setFormat($column->format);
 			default:
 				throw new InvalidArgumentException("Unsupported type $column->type");
 		}

@@ -4,6 +4,7 @@ namespace Tlapnet\Report;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 use Tlapnet\Report\Model\Group\Group;
+use Tlapnet\Report\Model\Report\Report;
 use Tlapnet\Report\Utils\Suggestions;
 
 class ReportManager
@@ -11,6 +12,13 @@ class ReportManager
 
 	/** @var Group[] */
 	private $groups = [];
+
+	/** @var Report[] */
+	private $groupless = [];
+
+	/**
+	 * GROUPS ******************************************************************
+	 */
 
 	/**
 	 * @param Group $Group
@@ -54,4 +62,23 @@ class ReportManager
 		return isset($this->groups[$cid]);
 	}
 
+	/**
+	 * GROUPLESS ***************************************************************
+	 */
+
+	/**
+	 * @param Report $report
+	 */
+	public function addGroupless(Report $report)
+	{
+		$this->groupless[] = $report;
+	}
+
+	/**
+	 * @return Report[]
+	 */
+	public function getGroupless()
+	{
+		return $this->groupless;
+	}
 }

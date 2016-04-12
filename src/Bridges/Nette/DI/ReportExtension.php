@@ -248,14 +248,20 @@ class ReportExtension extends CompilerExtension
 				$reportDef->addSetup('setOption', [$key, $value]);
 			}
 
-			// Add report to group
-			foreach ($report['groups'] as $gid) {
+			// Check if report is groupless otherwise,
+			// add report to groups
+			if (!$report['groups']) {
+				$builder->getDefinition($this->prefix('manager'))
+					->addSetup('addGroupless', [$reportDef]);
+			} else {
+				foreach ($report['groups'] as $gid) {
 
-				// Validate groups
-				if (!in_array($gid, $this->configuration['groups'])) throw new AssertionException("Group $gid defined in $rid.groups does not exist");
+					// Validate groups
+					if (!in_array($gid, $this->configuration['groups'])) throw new AssertionException("Group $gid defined in $rid.groups does not exist");
 
-				$builder->getDefinition($this->prefix('groups.' . $gid))
-					->addSetup('addReport', [$reportDef]);
+					$builder->getDefinition($this->prefix('groups.' . $gid))
+						->addSetup('addReport', [$reportDef]);
+				}
 			}
 
 			// Load all subreports from this report

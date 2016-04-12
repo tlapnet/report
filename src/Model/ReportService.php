@@ -30,10 +30,17 @@ class ReportService
 	 */
 	public function getReport($rid)
 	{
-		$groups = $this->manager->getGroups();
+		$groups = $this->getGroups();
 		foreach ($groups as $group) {
 			if ($group->hasReport($rid)) {
 				return $group->getReport($rid);
+			}
+		}
+
+		$groupless = $this->getGroupless();
+		foreach ($groupless as $report) {
+			if ($report->getRid() == $rid) {
+				return $report;
 			}
 		}
 
@@ -50,6 +57,18 @@ class ReportService
 	public function getGroups()
 	{
 		return $this->manager->getGroups();
+	}
+
+	/**
+	 * GROUPLESS ***************************************************************
+	 */
+
+	/**
+	 * @return Report[]
+	 */
+	public function getGroupless()
+	{
+		return $this->manager->getGroupless();
 	}
 
 }

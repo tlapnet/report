@@ -1,15 +1,41 @@
 {block}
-<table class="table table-hover table-bordered table-striped">
+<table n:class="$options->sortable ? tablesorter, 'table-renderer table table-hover table-bordered table-striped'">
     <thead>
         <tr n:inner-foreach="$this->columns as $column">
-            <th>{$column->title}</th>
+            {include #headcolumn, column => $column|trim}
         </tr>
     </thead>
     <tbody>
         <tr n:foreach="$rows as $row">
-            <td n:foreach="$columns as $column">
-                {$row[$column->name]}
-            </td>
+            {foreach $columns as $column}
+                {include #bodycolumn, row => $row, column => $column|trim}
+            {/foreach}
         </tr>
     </tbody>
 </table>
+{/block}
+
+{define #headcolumn}
+    {* column options *}
+    {var $options => $column->getOptions()}
+
+    {* column classes *}
+    {var $classes => []}
+    {if $options->type == 'date'}{? $classes[] = 'sorter-shortDate dateFormat-ddmmyyyy'}{/if}
+    {if $options->type == 'datetime'}{? $classes[] = 'sorter-shortDate dateFormat-ddmmyyyy'}{/if}
+
+    <th n:class="(expand)$classes">{$column->getTitle()}</th>
+{/define}
+
+{define #bodycolumn}
+    {* column options *}
+    {var $options => $column->getOptions()}
+
+    {* column classes *}
+    {var $classes => []}
+    {if $options->align}{? $classes[] = 'align-' . $options->align}{/if}
+
+    <td n:class="(expand)$classes">
+        {$row[$column->getName()]}
+    </td>
+{/define}
