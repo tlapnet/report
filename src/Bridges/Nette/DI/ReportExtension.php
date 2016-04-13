@@ -276,7 +276,13 @@ class ReportExtension extends CompilerExtension
 	protected function loadSubreports($rid, array $subreports)
 	{
 		foreach ($subreports as $sid => $subreport) {
-			$this->loadSubreport($rid, $sid, $subreport);
+			if (is_array($subreport)) {
+				// Array
+				$this->loadSubreport($rid, $sid, $subreport);
+			} else {
+				// One-class factory
+				$this->loadSubreportFactory($rid, $sid, $subreport);
+			}
 		}
 	}
 
@@ -337,4 +343,26 @@ class ReportExtension extends CompilerExtension
 			->addSetup('addSubreport', [$subreportDef]);
 	}
 
+	/**
+	 * @param string $rid
+	 * @param string $sid
+	 * @param mixed $subreport
+	 * @throws AssertionException
+	 */
+	protected function loadSubreportFactory($rid, $sid, $subreport)
+	{
+		// Name of the report (report ID + _ + subreport ID)
+		$name = $rid . '_' . $sid;
+
+		// Prepare builder
+		$builder = $this->getContainerBuilder();
+
+		// Parse subreport service
+		$subreportDef = $builder->addDefinition($this->prefix('subreports.' . $name));
+		Compiler::parseService($subreportDef, $subreport);
+
+		// Add subreport to report
+		$builder->getDefinition($this->prefix('reports.' . $rid))
+			->addSetup('addSubreport', [new Statement('@' . $this->prefix('subreports.' . $name) . '::create')]);
+	}
 }
