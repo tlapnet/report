@@ -12,7 +12,9 @@ class TableRenderer extends TemplateRenderer
 	protected $columns = [];
 
 	/** @var array */
-	protected $options = [];
+	protected $options = [
+		'sortable' => TRUE,
+	];
 
 	/**
 	 * @param string $name
