@@ -9,7 +9,7 @@ use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
 use Tlapnet\Report\Model\Data\Result;
 use Tlapnet\Report\Model\Subreport\Parameters;
 
-class DibiDataSource extends AbstractDatabaseDataSource
+class DibiWrapperDataSource extends AbstractDatabaseDataSource
 {
 
 	/** @var DibiConnection */
