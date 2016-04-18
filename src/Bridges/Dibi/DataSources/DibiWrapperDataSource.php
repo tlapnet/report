@@ -48,7 +48,7 @@ class DibiWrapperDataSource extends AbstractDatabaseDataSource
 
 		try {
 			// Execute query
-			$resulset = $this->connection->query($query);
+			$resulset = $this->connection->nativeQuery($query);
 		} catch (DibiException $e) {
 			throw new SqlException($query, NULL, $e);
 		}
