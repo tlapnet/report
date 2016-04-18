@@ -18,7 +18,7 @@ class SqlException extends CompileException
 	 */
 	public function __construct($sql, $code, Exception $previous)
 	{
-		parent::__construct('Invalid SQL', $code, $previous);
+		parent::__construct('Invalid SQL: ' . $previous->getMessage(), $code, $previous);
 		$this->sql = $sql;
 	}
 
