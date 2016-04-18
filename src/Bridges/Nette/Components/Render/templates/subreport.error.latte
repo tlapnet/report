@@ -3,10 +3,10 @@
 <section class="subreport" id="subreport-{$subreport->getSid()}">
     <div class="alert alert-danger">
         <strong>{get_class($exception)}</strong>
-        {if $exception instanceof Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException}
-            <div><code>{$exception->getSql()}</code></div>
-        {else}
-            <div>({$exception->getCode()}){$exception->getMessage()}</div>
+		<div>({$exception->getCode()}) {$exception->getMessage()}</div>
+		{if $exception instanceof Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException}
+			<hr />
+			<div><code>{$exception->getSql()}</code></div>
         {/if}
     </div>
 </section>
