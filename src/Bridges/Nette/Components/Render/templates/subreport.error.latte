@@ -6,7 +6,7 @@
         {if $exception instanceof Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException}
             <div><code>{$exception->getSql()}</code></div>
         {else}
-            <div>({$exception->getCode}){$exception->getMessage()}</div>
+            <div>({$exception->getCode()}){$exception->getMessage()}</div>
         {/if}
     </div>
 </section>
