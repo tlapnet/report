@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\Utils;
+namespace Tlapnet\Report\Model\Data;
 
 use Tlapnet\Report\Model\Data\Result;
 
