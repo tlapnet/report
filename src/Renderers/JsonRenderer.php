@@ -2,19 +2,21 @@
 
 namespace Tlapnet\Report\Renderers;
 
-use Tlapnet\Report\Exceptions\Logic\NotImplementedException;
 use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Utils\Helpers;
 
 class JsonRenderer implements Renderer
 {
 
 	/**
-	 * @param Result $report
+	 * @param Result $result
 	 * @return string
 	 */
-	public function render(Result $report)
+	public function render(Result $result)
 	{
-		throw new NotImplementedException();
+		$data = Helpers::toArray($result);
+
+		return json_encode($data);
 	}
 
 }
