@@ -32,7 +32,7 @@ class Metadata
 		}
 
 		if (func_num_args() < 2) {
-			$hint = Suggestions::getSuggestion($this->data, $key);
+			$hint = Suggestions::getSuggestion(array_keys($this->data), $key);
 			throw new InvalidArgumentException("Unknown key '$key'" . ($hint ? ", did you mean '$hint'?" : '.'));
 		}
 
