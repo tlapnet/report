@@ -63,4 +63,5 @@ final class ResultTest extends BaseTestCase
 
         $this->assertEquals(EditableResult::class, get_class($er));
     }
+
 }
