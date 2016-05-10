@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\Utils;
 
-class Suggestions
+final class Suggestions
 {
 
 

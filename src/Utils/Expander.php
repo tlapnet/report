@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\Utils;
 
-class Expander
+final class Expander
 {
 
 	// Delimiter
