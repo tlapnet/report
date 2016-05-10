@@ -135,7 +135,6 @@ class RandomDataSource implements DataSource
 		return $report;
 	}
 
-
 	/**
 	 * HELPERS *****************************************************************
 	 */
@@ -165,6 +164,5 @@ class RandomDataSource implements DataSource
 				throw new InvalidArgumentException("Unsupported type $column->type");
 		}
 	}
-
 
 }
