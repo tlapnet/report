@@ -11,23 +11,35 @@ use Traversable;
 class Result implements Countable, ArrayAccess, Resultable
 {
 
-	/** @var array */
+	/** @var mixed */
 	protected $data = [];
 
 	/**
-	 * @param array $data
+	 * @param mixed $data
 	 */
-	public function __construct(array $data)
+	public function __construct($data)
 	{
 		$this->data = $data;
 	}
 
 	/**
-	 * @return array
+	 * @return mixed
 	 */
 	public function getData()
 	{
 		return $this->data;
+	}
+
+	/**
+	 * EDITABLE ****************************************************************
+	 */
+
+	/**
+	 * @return EditableResult
+	 */
+	public function toEditable()
+	{
+		return new EditableResult($this->getData());
 	}
 
 	/**
@@ -100,7 +112,7 @@ class Result implements Countable, ArrayAccess, Resultable
 	 */
 	public function getIterator()
 	{
-		return new ArrayIterator($this->data);
+		return new ArrayIterator((array)$this->data);
 	}
 
 }

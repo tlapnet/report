@@ -17,6 +17,11 @@ interface Reportable
 	public function compile();
 
 	/**
+	 * @return void
+	 */
+	public function preprocess();
+
+	/**
 	 * @return mixed
 	 */
 	public function render();

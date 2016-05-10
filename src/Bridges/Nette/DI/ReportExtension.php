@@ -52,6 +52,7 @@ class ReportExtension extends CompilerExtension
 			'renderer' => NULL,
 			'datasource' => NULL,
 			'params' => NULL,
+			'preprocessors' => [],
 		],
 	];
 
@@ -298,7 +299,7 @@ class ReportExtension extends CompilerExtension
 		$name = $rid . '_' . $sid;
 
 		// Get subreport config
-		$subreport = $this->validateConfig($this->scheme['subreport'], $subreport);
+		$subreport = $this->validateConfig($this->scheme['subreport'], $subreport, 'subreport');
 
 		// =====================================================================
 
@@ -338,6 +339,16 @@ class ReportExtension extends CompilerExtension
 			$subreportDef->addSetup('setOption', [$key, $value]);
 		}
 
+		// Add preprocessors
+		foreach ((array)$subreport['preprocessors'] as $column => $preprocessors) {
+			foreach ((array)$preprocessors as $key => $preprocessor) {
+				$pname = $column . '_' . $key;
+				$preprocessorDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.preprocessor.' . $pname));
+				Compiler::parseService($preprocessorDef, $preprocessor);
+				$subreportDef->addSetup('?->getPreprocessors()->add(?,?)', ['@self', $column, $preprocessorDef]);
+			}
+		}
+
 		// Add subreport to report
 		$builder->getDefinition($this->prefix('reports.' . $rid))
 			->addSetup('addSubreport', [$subreportDef]);
@@ -365,4 +376,5 @@ class ReportExtension extends CompilerExtension
 		$builder->getDefinition($this->prefix('reports.' . $rid))
 			->addSetup('addSubreport', [new Statement('@' . $this->prefix('subreports.' . $name) . '::create')]);
 	}
+
 }

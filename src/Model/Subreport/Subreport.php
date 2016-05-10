@@ -4,8 +4,10 @@ namespace Tlapnet\Report\Model\Subreport;
 
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
+use Tlapnet\Report\Model\Data\EditableResult;
 use Tlapnet\Report\Model\Data\Result;
 use Tlapnet\Report\Model\Data\Resultable;
+use Tlapnet\Report\Model\Preprocessor\Preprocessors;
 use Tlapnet\Report\Model\Utils\Metadata;
 use Tlapnet\Report\Renderers\Renderer;
 
@@ -16,7 +18,8 @@ class Subreport implements Reportable
 	const STATE_CREATED = 1;
 	const STATE_ATTACHED = 2;
 	const STATE_COMPILED = 3;
-	const STATE_RENDERED = 4;
+	const STATE_PREPROCESSED = 4;
+	const STATE_RENDERED = 5;
 
 	/** @var mixed */
 	protected $sid;
@@ -33,10 +36,13 @@ class Subreport implements Reportable
 	/** @var Metadata */
 	protected $metadata;
 
-	/** @var array */
-	protected $preprocessors = [];
+	/** @var Preprocessors */
+	protected $preprocessors;
 
 	/** @var Resultable|Result */
+	protected $rawResult;
+
+	/** @var Resultable|EditableResult */
 	protected $result;
 
 	/** @var int */
@@ -55,6 +61,7 @@ class Subreport implements Reportable
 		$this->renderer = $renderer;
 		$this->dataSource = $dataSource;
 		$this->metadata = new Metadata();
+		$this->preprocessors = new Preprocessors();
 		$this->state = self::STATE_CREATED;
 	}
 
@@ -88,6 +95,47 @@ class Subreport implements Reportable
 	public function getDataSource()
 	{
 		return $this->dataSource;
+	}
+
+	/**
+	 * @return Preprocessors
+	 */
+	public function getPreprocessors()
+	{
+		return $this->preprocessors;
+	}
+
+	/**
+	 * @return Metadata
+	 */
+	public function getMetadata()
+	{
+		return $this->metadata;
+	}
+
+	/**
+	 * @return Result|Resultable
+	 */
+	public function getResult()
+	{
+		return $this->result;
+	}
+
+	/**
+	 * @return Result|Resultable
+	 */
+	public function getRawResult()
+	{
+		return $this->rawResult;
+	}
+
+	/**
+	 * @param int $state
+	 * @return bool
+	 */
+	public function isState($state)
+	{
+		return $this->state === $state;
 	}
 
 	/**
@@ -149,7 +197,8 @@ class Subreport implements Reportable
 	 */
 	public function compile()
 	{
-		$this->result = $this->dataSource->compile($this->parameters);
+		$this->rawResult = $this->dataSource->compile($this->parameters);
+		$this->result = $this->rawResult->toEditable();
 
 		if ($this->result === NULL) {
 			throw new InvalidStateException('Compilation cannot return NULL.');
@@ -166,9 +215,24 @@ class Subreport implements Reportable
 	 * DATA PREPROCESSING ******************************************************
 	 */
 
+	/**
+	 * @retur void
+	 */
 	public function preprocess()
 	{
+		if ($this->state !== self::STATE_COMPILED) {
+			throw new InvalidStateException('Cannot preprocess subreport. Please compiled it first.');
+		}
 
+		if ($this->state === self::STATE_PREPROCESSED) {
+			throw new InvalidStateException('Cannot preprocess twice same report.');
+		}
+
+		// Preprocess result
+		if (!$this->preprocessors->isEmpty()) {
+			$this->preprocessors->preprocess($this->result);
+			$this->state = self::STATE_PREPROCESSED;
+		}
 	}
 
 	/**
@@ -180,8 +244,8 @@ class Subreport implements Reportable
 	 */
 	public function render()
 	{
-		if ($this->state !== self::STATE_COMPILED) {
-			throw new InvalidStateException('Cannot render heapbox. Please compiled it first.');
+		if ($this->state !== self::STATE_COMPILED && $this->state !== self::STATE_PREPROCESSED) {
+			throw new InvalidStateException('Cannot render subreport. Please compiled it first.');
 		}
 
 		$this->state = self::STATE_RENDERED;

@@ -29,8 +29,16 @@ class SubreportRenderControl extends Control
 		try {
 			// Compile (fetch data)
 			$this->subreport->compile();
+
+			// Preprocess (only if it is not already)
+			if (!$this->subreport->isState(Subreport::STATE_PREPROCESSED)) {
+				$this->subreport->preprocess();
+			}
+
+			// Set template
 			$this->template->setFile(__DIR__ . '/templates/subreport.latte');
 		} catch (CompileException $e) {
+			// Set error template
 			$this->template->exception = $e;
 			$this->template->setFile(__DIR__ . '/templates/subreport.error.latte');
 		}

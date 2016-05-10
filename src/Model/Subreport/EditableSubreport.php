@@ -3,6 +3,9 @@
 namespace Tlapnet\Report\Model\Subreport;
 
 use Tlapnet\Report\DataSources\DataSource;
+use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Data\Resultable;
+use Tlapnet\Report\Model\Preprocessor\Preprocessors;
 use Tlapnet\Report\Model\Utils\Metadata;
 use Tlapnet\Report\Renderers\Renderer;
 
@@ -39,6 +42,22 @@ class EditableSubreport extends Subreport
 	public function setMetadata(Metadata $metadata)
 	{
 		$this->metadata = $metadata;
+	}
+
+	/**
+	 * @param Preprocessors $preprocessors
+	 */
+	public function setPreprocessors(Preprocessors $preprocessors)
+	{
+		$this->preprocessors = $preprocessors;
+	}
+
+	/**
+	 * @param Result|Resultable $result
+	 */
+	public function setResult(Resultable $result)
+	{
+		$this->result = $result;
 	}
 
 }
