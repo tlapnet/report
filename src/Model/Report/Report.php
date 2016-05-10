@@ -3,8 +3,8 @@
 namespace Tlapnet\Report\Model\Report;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Subreport\Metadata;
 use Tlapnet\Report\Model\Subreport\Subreport;
+use Tlapnet\Report\Model\Utils\Metadata;
 use Tlapnet\Report\Utils\Suggestions;
 
 class Report

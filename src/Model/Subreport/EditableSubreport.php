@@ -3,6 +3,7 @@
 namespace Tlapnet\Report\Model\Subreport;
 
 use Tlapnet\Report\DataSources\DataSource;
+use Tlapnet\Report\Model\Utils\Metadata;
 use Tlapnet\Report\Renderers\Renderer;
 
 class EditableSubreport extends Subreport

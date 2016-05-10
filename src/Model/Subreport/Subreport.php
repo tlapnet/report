@@ -6,6 +6,7 @@ use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 use Tlapnet\Report\Model\Data\Result;
 use Tlapnet\Report\Model\Data\Resultable;
+use Tlapnet\Report\Model\Utils\Metadata;
 use Tlapnet\Report\Renderers\Renderer;
 
 class Subreport implements Reportable

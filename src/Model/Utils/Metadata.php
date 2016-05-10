@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\Model\Subreport;
+namespace Tlapnet\Report\Model\Utils;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Utils\Suggestions;
