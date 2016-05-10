@@ -11,6 +11,7 @@ use JsonSerializable;
  * DateTime
  *
  * Based on Nette\Utils\DateTime
+ * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
 class DateTime extends DT implements JsonSerializable
 {
