@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\Model\Report;
 
-use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
+use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Model\Subreport\Subreport;
 use Tlapnet\Report\Model\Utils\Metadata;
 use Tlapnet\Report\Utils\Suggestions;
@@ -66,7 +66,7 @@ class Report
 			return $subreport->getSid();
 		}, $this->subreports), $sid);
 
-		throw new InvalidStateException("Subreport '$sid' not found" . ($hint ? ", did you mean '$hint'?" : '.'));
+		throw new InvalidArgumentException("Subreport '$sid' not found" . ($hint ? ", did you mean '$hint'?" : '.'));
 	}
 
 	/**

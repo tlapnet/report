@@ -9,59 +9,59 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class ResultTest extends BaseTestCase
 {
 
-    public function testGetData()
-    {
-        $data = [1, 2, 3, 4, 5];
-        $r = new Result($data);
+	public function testGetData()
+	{
+		$data = [1, 2, 3, 4, 5];
+		$r = new Result($data);
 
-        $this->assertEquals($data, $r->getData());
-    }
+		$this->assertEquals($data, $r->getData());
+	}
 
-    public function testCount()
-    {
-        $data = [1, 2, 3, 4, 5];
-        $r = new Result($data);
+	public function testCount()
+	{
+		$data = [1, 2, 3, 4, 5];
+		$r = new Result($data);
 
-        $this->assertEquals(count($data), $r->count());
-        $this->assertEquals(count($data), count($r));
-    }
+		$this->assertEquals(count($data), $r->count());
+		$this->assertEquals(count($data), count($r));
+	}
 
-    public function testArrayAccess()
-    {
-        $data = [1, 2, 3, 4, 5];
-        $r = new Result($data);
+	public function testArrayAccess()
+	{
+		$data = [1, 2, 3, 4, 5];
+		$r = new Result($data);
 
-        // offsetExists
-        for ($i = 0; $i < count($data); $i++) {
-            $this->assertTrue(isset($r[$i]));
-        }
-        $this->assertFalse(isset($r['foo']));
+		// offsetExists
+		for ($i = 0; $i < count($data); $i++) {
+			$this->assertTrue(isset($r[$i]));
+		}
+		$this->assertFalse(isset($r['foo']));
 
-        // offsetGet
-        for ($i = 0; $i < count($data); $i++) {
-            $this->assertEquals($data[$i], $r[$i]);
-        }
+		// offsetGet
+		for ($i = 0; $i < count($data); $i++) {
+			$this->assertEquals($data[$i], $r[$i]);
+		}
 
-        // offsetUnset
-        unset($r[0]);
-        $this->assertFalse(isset($r[0]));
-    }
+		// offsetUnset
+		unset($r[0]);
+		$this->assertFalse(isset($r[0]));
+	}
 
-    public function testIterator()
-    {
-        $data = [1, 2, 3, 4, 5];
-        $r = new Result($data);
-        $i = $r->getIterator();
+	public function testIterator()
+	{
+		$data = [1, 2, 3, 4, 5];
+		$r = new Result($data);
+		$i = $r->getIterator();
 
-        $this->assertEquals(count($data), count($i));
-    }
+		$this->assertEquals(count($data), count($i));
+	}
 
-    public function testToEditable()
-    {
-        $r = new Result(NULL);
-        $er = $r->toEditable();
+	public function testToEditable()
+	{
+		$r = new Result(NULL);
+		$er = $r->toEditable();
 
-        $this->assertEquals(EditableResult::class, get_class($er));
-    }
+		$this->assertEquals(EditableResult::class, get_class($er));
+	}
 
 }

@@ -9,38 +9,38 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class MetadataTest extends BaseTestCase
 {
 
-    public function testMethods()
-    {
-        $md = new Metadata();
-        $md->set('foo', 'bar');
-        $this->assertEquals('bar', $md->get('foo'));
-        $this->assertTrue($md->has('foo'));
+	public function testMethods()
+	{
+		$md = new Metadata();
+		$md->set('foo', 'bar');
+		$this->assertEquals('bar', $md->get('foo'));
+		$this->assertTrue($md->has('foo'));
 
-        $md->set('foo', 'bar2');
-        $this->assertEquals('bar2', $md->get('foo'));
-        $this->assertTrue($md->has('foo'));
+		$md->set('foo', 'bar2');
+		$this->assertEquals('bar2', $md->get('foo'));
+		$this->assertTrue($md->has('foo'));
 
-        $this->assertFalse($md->has('foobar'));
-    }
+		$this->assertFalse($md->has('foobar'));
+	}
 
-    public function testSuggestions1()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Unknown key 'fod', did you mean 'foo'?");
+	public function testSuggestions1()
+	{
+		$this->expectException(InvalidArgumentException::class);
+		$this->expectExceptionMessage("Unknown key 'fod', did you mean 'foo'?");
 
-        $md = new Metadata();
-        $md->set('foo', 'bar');
-        $md->get('fod');
-    }
+		$md = new Metadata();
+		$md->set('foo', 'bar');
+		$md->get('fod');
+	}
 
-    public function testSuggestions2()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage("Unknown key 'bar'.");
+	public function testSuggestions2()
+	{
+		$this->expectException(InvalidArgumentException::class);
+		$this->expectExceptionMessage("Unknown key 'bar'.");
 
-        $md = new Metadata();
-        $md->set('foo', 'bar');
-        $md->get('bar');
-    }
+		$md = new Metadata();
+		$md->set('foo', 'bar');
+		$md->get('bar');
+	}
 
 }
