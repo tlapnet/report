@@ -9,10 +9,10 @@ class NumberPreprocessor extends AbstractPreprocessor
 	protected $decimals = 2;
 
 	/** @var string */
-	protected $decpoint = '.';
+	protected $decimalPoint = '.';
 
 	/** @var string */
-	protected $thousandspoint = ' ';
+	protected $thousandsPoint = ' ';
 
 	/**
 	 * @param string $suffix
@@ -31,19 +31,19 @@ class NumberPreprocessor extends AbstractPreprocessor
 	}
 
 	/**
-	 * @param string $decpoint
+	 * @param string $point
 	 */
-	public function setDecpoint($decpoint)
+	public function setDecimalPoint($point)
 	{
-		$this->decpoint = $decpoint;
+		$this->decimalPoint = $point;
 	}
 
 	/**
-	 * @param string $thousandspoint
+	 * @param string $point
 	 */
-	public function setThousandspoint($thousandspoint)
+	public function setThousandsPoint($point)
 	{
-		$this->thousandspoint = $thousandspoint;
+		$this->thousandsPoint = $point;
 	}
 
 	/**
@@ -56,7 +56,7 @@ class NumberPreprocessor extends AbstractPreprocessor
 	 */
 	public function preprocess($data)
 	{
-		return number_format($data, $this->decimals, $this->decpoint, $this->thousandspoint);
+		return number_format($data, $this->decimals, $this->decimalPoint, $this->thousandsPoint);
 	}
 
 }

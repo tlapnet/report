@@ -26,7 +26,7 @@ final class CurrencyPreprocessor extends NumberPreprocessor
 	 */
 	public function preprocess($data)
 	{
-		return number_format($data, $this->decimals, $this->decpoint, $this->thousandspoint) . ' ' . $this->suffix;
+		return number_format($data, $this->decimals, $this->decimalPoint, $this->thousandsPoint) . ' ' . $this->suffix;
 	}
 
 }
