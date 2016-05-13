@@ -13,6 +13,12 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class ReportTest extends BaseTestCase
 {
 
+	public function testDefault()
+	{
+		$r = new Report(NULL);
+		$this->assertNull($r->getRid());
+	}
+
 	public function testGetters()
 	{
 		$r = new Report('r1');

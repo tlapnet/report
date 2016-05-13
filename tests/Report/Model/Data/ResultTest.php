@@ -9,6 +9,12 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class ResultTest extends BaseTestCase
 {
 
+	public function testDefault()
+	{
+		$er = new Result([]);
+		$this->assertEquals([], $er->getData());
+	}
+
 	public function testGetData()
 	{
 		$data = [1, 2, 3, 4, 5];

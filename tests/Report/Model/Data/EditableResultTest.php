@@ -8,11 +8,15 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class EditableResultTest extends BaseTestCase
 {
 
-	public function testSetData()
+	public function testDefault()
 	{
 		$er = new EditableResult([]);
 		$this->assertEquals([], $er->getData());
-
+	}
+	
+	public function testSetData()
+	{
+		$er = new EditableResult([]);
 		$er->setData(['foo', 'bar']);
 		$this->assertEquals(['foo', 'bar'], $er->getData());
 	}
