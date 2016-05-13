@@ -3,6 +3,7 @@
 namespace Tlapnet\Report\Model\Subreport;
 
 use Tlapnet\Report\DataSources\DataSource;
+use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 use Tlapnet\Report\Model\Utils\Metadata;
 use Tlapnet\Report\Renderers\Renderer;
 
@@ -80,6 +81,22 @@ class SubreportBuilder
 	 */
 	public function build()
 	{
+		if (!$this->sid) {
+			throw new InvalidStateException("Missing 'sid'. Please call setSid().");
+		}
+
+		if (!$this->parameters) {
+			throw new InvalidStateException("Missing 'parameters'. Please call setParameters().");
+		}
+
+		if (!$this->dataSource) {
+			throw new InvalidStateException("Missing 'dataSource'. Please call setDataSource().");
+		}
+
+		if (!$this->renderer) {
+			throw new InvalidStateException("Missing 'renderer'. Please call setRenderer().");
+		}
+
 		return new Subreport(
 			$this->sid,
 			$this->parameters,
