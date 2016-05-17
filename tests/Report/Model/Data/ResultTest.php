@@ -2,6 +2,7 @@
 
 namespace Tlapnet\Report\Tests\Model\Data;
 
+use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Model\Data\EditableResult;
 use Tlapnet\Report\Model\Data\Result;
 use Tlapnet\Report\Tests\BaseTestCase;
@@ -51,6 +52,31 @@ final class ResultTest extends BaseTestCase
 		// offsetUnset
 		unset($r[0]);
 		$this->assertFalse(isset($r[0]));
+
+		// offsetSet
+		$r[0] = 1;
+		$this->assertTrue(isset($r[0]));
+		$this->assertEquals(1, $r[0]);
+	}
+
+	public function testArrayAccessException1()
+	{
+		$r = new Result([]);
+
+		$this->expectException(InvalidArgumentException::class);
+		$this->expectExceptionMessage("Key 'fod' not found");
+
+		$r->offsetGet('fod');
+	}
+
+	public function testArrayAccessException2()
+	{
+		$r = new Result([]);
+
+		$this->expectException(InvalidArgumentException::class);
+		$this->expectExceptionMessage("Key 'fod' not found");
+
+		$r->offsetUnset('fod');
 	}
 
 	public function testIterator()
@@ -61,6 +87,7 @@ final class ResultTest extends BaseTestCase
 
 		$this->assertEquals(count($data), count($i));
 	}
+
 
 	public function testToEditable()
 	{

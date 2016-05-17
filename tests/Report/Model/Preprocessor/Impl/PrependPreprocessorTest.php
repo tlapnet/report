@@ -10,10 +10,13 @@ final class PrependPreprocessorTest extends BaseTestCase
 
 	public function testPreprocessor()
 	{
-		$p = new PrependPreprocessor('foobar');
-		$this->assertEquals('foobar1', $p->preprocess('1'));
-		$this->assertEquals('foobar1 1', $p->preprocess('1 1'));
-		$this->assertEquals('foobar', $p->preprocess(NULL));
+		$p1 = new PrependPreprocessor('foobar');
+		$this->assertEquals('foobar1', $p1->preprocess('1'));
+		$this->assertEquals('foobar1 1', $p1->preprocess('1 1'));
+		$this->assertEquals('foobar', $p1->preprocess(NULL));
+
+		$p2 = new PrependPreprocessor(NULL);
+		$this->assertEquals('foobar', $p2->preprocess('foobar'));
 	}
 
 }

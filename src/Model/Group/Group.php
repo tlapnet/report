@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\Model\Group;
 
-use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
+use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Model\Report\Report;
 use Tlapnet\Report\Utils\Suggestions;
 
@@ -74,7 +74,7 @@ class Group
 			return $report->getRid();
 		}, $this->reports), $rid);
 
-		throw new InvalidStateException("Report '$rid' not found" . ($hint ? ", did you mean '$hint'?" : '.'));
+		throw new InvalidArgumentException("Report '$rid' not found" . ($hint ? ", did you mean '$hint'?" : '.'));
 	}
 
 	/**

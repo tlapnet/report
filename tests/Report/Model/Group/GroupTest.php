@@ -2,6 +2,7 @@
 
 namespace Tlapnet\Report\Tests\Model\Group;
 
+use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Model\Group\Group;
 use Tlapnet\Report\Model\Report\Report;
 use Tlapnet\Report\Tests\BaseTestCase;
@@ -40,6 +41,16 @@ final class GroupTest extends BaseTestCase
 		$g = new Group('g1', 'foobar');
 		$g->addReport($r = new Report('r1'));
 		$this->assertSame($r, $g->getReport('r1'));
+	}
+
+	public function testGetReportSuggestions()
+	{
+		$this->expectException(InvalidArgumentException::class);
+		$this->expectExceptionMessage("Report 'fod' not found, did you mean 'foo'?");
+
+		$g = new Group('g1', 'foobar');
+		$g->addReport($r = new Report('foo'));
+		$g->getReport('fod');
 	}
 
 	public function testGetReports1()
