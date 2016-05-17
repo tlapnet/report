@@ -197,16 +197,18 @@ class Subreport implements Reportable
 	 */
 	public function compile()
 	{
-		$this->rawResult = $this->dataSource->compile($this->parameters);
-		$this->result = $this->rawResult->toEditable();
+		$result = $this->dataSource->compile($this->parameters);
 
-		if ($this->result === NULL) {
+		if ($result === NULL) {
 			throw new InvalidStateException('Compilation cannot return NULL.');
 		}
 
-		if (!$this->result instanceof Resultable) {
-			throw new InvalidStateException(sprintf('DataSource returned object (%s) does not implement %s.', get_class($this->result), Resultable::class));
+		if (!$result instanceof Resultable) {
+			throw new InvalidStateException(sprintf("DataSource returned object '%s' does not implement '%s'.", get_class($result), Resultable::class));
 		}
+
+		$this->rawResult = $result;
+		$this->result = $this->rawResult->toEditable();
 
 		$this->state = self::STATE_COMPILED;
 	}
