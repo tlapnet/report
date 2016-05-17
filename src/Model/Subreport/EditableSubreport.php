@@ -58,6 +58,7 @@ class EditableSubreport extends Subreport
 	public function setResult(Resultable $result)
 	{
 		$this->result = $result;
+		$this->rawResult = $result;
 	}
 
 }
