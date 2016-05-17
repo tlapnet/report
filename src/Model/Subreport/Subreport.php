@@ -224,9 +224,7 @@ class Subreport implements Reportable
 			throw new InvalidStateException(sprintf("DataSource returned object '%s' does not implement '%s'.", get_class($result), Resultable::class));
 		}
 
-		$this->rawResult = $result;
-		$this->result = $this->rawResult->toEditable();
-
+		$this->result = $this->rawResult = $result;
 		$this->state = self::STATE_COMPILED;
 	}
 
@@ -246,9 +244,10 @@ class Subreport implements Reportable
 		if ($this->state !== self::STATE_COMPILED) {
 			throw new InvalidStateException('Cannot preprocess subreport. Please compiled it first.');
 		}
-		
+
 		// Preprocess result
 		if (!$this->preprocessors->isEmpty()) {
+			$this->result = $this->rawResult->toEditable();
 			$this->preprocessors->preprocess($this->result);
 			$this->state = self::STATE_PREPROCESSED;
 		}

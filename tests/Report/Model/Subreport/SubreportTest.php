@@ -12,6 +12,7 @@ use Tlapnet\Report\Model\Preprocessor\Impl\NumberPreprocessor;
 use Tlapnet\Report\Model\Subreport\Parameters;
 use Tlapnet\Report\Model\Subreport\Subreport;
 use Tlapnet\Report\Renderers\DevNullRenderer;
+use Tlapnet\Report\Renderers\DummyRenderer;
 use Tlapnet\Report\Tests\BaseTestCase;
 
 final class SubreportTest extends BaseTestCase
@@ -82,6 +83,17 @@ final class SubreportTest extends BaseTestCase
 
 		$this->assertEquals([['foo' => 'barbar']], $r2->getResult()->getData());
 		$this->assertEquals([['foo' => 'bar']], $r2->getRawResult()->getData());
+
+		// -----
+
+		$r3 = new Subreport('s1', new Parameters([]), new ArrayDataSource([['foo' => 'bar']]), new DevNullRenderer());
+
+		$r3->compile();
+		$r3->preprocess();
+
+		$this->assertEquals([['foo' => 'bar']], $r3->getResult()->getData());
+		$this->assertEquals([['foo' => 'bar']], $r3->getRawResult()->getData());
+		$this->assertSame($r3->getResult(), $r3->getResult());
 	}
 
 	public function testPreprocessException1()
@@ -107,4 +119,25 @@ final class SubreportTest extends BaseTestCase
 		$r->preprocess();
 	}
 
+	public function testRender()
+	{
+		$r1 = new Subreport('s1', new Parameters([]), new ArrayDataSource(['foo' => 'bar']), new DummyRenderer());
+		$r1->compile();
+		$r1->preprocess();
+
+		$result1 = $r1->render();
+
+		$this->assertSame($result1, $r1->getResult());
+		$this->assertSame($result1, $r1->getRawResult());
+	}
+
+	public function testRenderException1()
+	{
+		$r = new Subreport('s1', new Parameters([]), new ArrayDataSource([]), new DevNullRenderer());
+
+		$this->expectException(InvalidStateException::class);
+		$this->expectExceptionMessage('Cannot render subreport. Please compiled it first.');
+
+		$r->render();
+	}
 }
