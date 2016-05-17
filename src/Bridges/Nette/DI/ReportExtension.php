@@ -345,7 +345,7 @@ class ReportExtension extends CompilerExtension
 				$pname = $column . '_' . $key;
 				$preprocessorDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.preprocessor.' . $pname));
 				Compiler::parseService($preprocessorDef, $preprocessor);
-				$subreportDef->addSetup('?->getPreprocessors()->add(?,?)', ['@self', $column, $preprocessorDef]);
+				$subreportDef->addSetup('addPreprocessor', [$column, $preprocessorDef]);
 			}
 		}
 

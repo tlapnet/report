@@ -7,6 +7,7 @@ use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 use Tlapnet\Report\Model\Data\EditableResult;
 use Tlapnet\Report\Model\Data\Result;
 use Tlapnet\Report\Model\Data\Resultable;
+use Tlapnet\Report\Model\Preprocessor\Preprocessor;
 use Tlapnet\Report\Model\Preprocessor\Preprocessors;
 use Tlapnet\Report\Model\Utils\Metadata;
 use Tlapnet\Report\Renderers\Renderer;
@@ -139,6 +140,22 @@ class Subreport implements Reportable
 	}
 
 	/**
+	 * PREPROCESSORS ***********************************************************
+	 */
+
+	/**
+	 * @param string $column
+	 * @param Preprocessor $preprocessor
+	 * @return Preprocessor
+	 */
+	public function addPreprocessor($column, $preprocessor)
+	{
+		$this->preprocessors->add($column, $preprocessor);
+
+		return $preprocessor;
+	}
+
+	/**
 	 * METADATA ****************************************************************
 	 */
 
@@ -222,14 +239,14 @@ class Subreport implements Reportable
 	 */
 	public function preprocess()
 	{
-		if ($this->state !== self::STATE_COMPILED) {
-			throw new InvalidStateException('Cannot preprocess subreport. Please compiled it first.');
-		}
-
 		if ($this->state === self::STATE_PREPROCESSED) {
 			throw new InvalidStateException('Cannot preprocess twice same report.');
 		}
 
+		if ($this->state !== self::STATE_COMPILED) {
+			throw new InvalidStateException('Cannot preprocess subreport. Please compiled it first.');
+		}
+		
 		// Preprocess result
 		if (!$this->preprocessors->isEmpty()) {
 			$this->preprocessors->preprocess($this->result);
