@@ -10,14 +10,15 @@
          stopOnFailure="false"
          syntaxCheck="false"
 >
-
-    <php>
-        <var name="sandbox_appDir" value=""/>
-    </php>
+    <filter>
+        <whitelist>
+            <directory>./src</directory>
+        </whitelist>
+    </filter>
 
     <testsuites>
-        <testsuite name="test">
-            <directory>test</directory>
+        <testsuite name="Tests">
+            <directory>./tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>
