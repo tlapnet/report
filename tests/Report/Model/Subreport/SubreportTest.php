@@ -140,4 +140,32 @@ final class SubreportTest extends BaseTestCase
 
 		$r->render();
 	}
+
+	public function testIsState1()
+	{
+		$r = new Subreport('s1', new Parameters([]), new ArrayDataSource([]), new DevNullRenderer());
+		$this->assertTrue($r->isState($r::STATE_CREATED));
+
+		$r->compile();
+		$this->assertTrue($r->isState($r::STATE_COMPILED));
+
+		$r->render();
+		$this->assertTrue($r->isState($r::STATE_RENDERED));
+	}
+
+	public function testIsState2()
+	{
+		$r = new Subreport('s1', new Parameters([]), new ArrayDataSource([]), new DevNullRenderer());
+		$r->addPreprocessor('foo', new DevNullPreprocessor());
+		$this->assertTrue($r->isState($r::STATE_CREATED));
+
+		$r->compile();
+		$this->assertTrue($r->isState($r::STATE_COMPILED));
+
+		$r->preprocess();
+		$this->assertTrue($r->isState($r::STATE_PREPROCESSED));
+
+		$r->render();
+		$this->assertTrue($r->isState($r::STATE_RENDERED));
+	}
 }
