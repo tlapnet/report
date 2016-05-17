@@ -2,8 +2,8 @@
 
 namespace Tlapnet\Report\Renderers;
 
-use Tlapnet\Report\Model\Data\Result;
 use Tlapnet\Report\Model\Data\Helpers;
+use Tlapnet\Report\Model\Data\Result;
 
 class CsvRenderer implements Renderer
 {

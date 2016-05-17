@@ -29,5 +29,5 @@ class SqlException extends CompileException
 	{
 		return $this->sql;
 	}
-	
+
 }
