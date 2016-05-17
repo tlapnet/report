@@ -4,9 +4,11 @@ namespace Tlapnet\Report\Tests\Model\Subreport;
 
 use Tlapnet\Report\DataSources\DevNullDataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
+use Tlapnet\Report\Model\Preprocessor\Preprocessors;
 use Tlapnet\Report\Model\Subreport\Parameters;
 use Tlapnet\Report\Model\Subreport\Subreport;
 use Tlapnet\Report\Model\Subreport\SubreportBuilder;
+use Tlapnet\Report\Model\Utils\Metadata;
 use Tlapnet\Report\Renderers\DevNullRenderer;
 use Tlapnet\Report\Tests\BaseTestCase;
 
@@ -63,8 +65,32 @@ final class SubreportBuilderTest extends BaseTestCase
 		$builder->setDataSource(new DevNullDataSource());
 		$builder->setRenderer(new DevNullRenderer());
 
-		$this->assertEquals(Subreport::class, get_class($builder->build()));
+		$this->assertTrue(is_subclass_of($builder->build(), Subreport::class));
 	}
 
+	public function testMetadata()
+	{
+		$builder = new SubreportBuilder();
+		$builder->setSid('b1');
+		$builder->setParameters(new Parameters([]));
+		$builder->setDataSource(new DevNullDataSource());
+		$builder->setRenderer(new DevNullRenderer());
+		$builder->setMetadata($metadata = new Metadata());
+		$result = $builder->build();
 
+		$this->assertSame($metadata, $result->getMetadata());
+	}
+
+	public function testPreprocessors()
+	{
+		$builder = new SubreportBuilder();
+		$builder->setSid('b1');
+		$builder->setParameters(new Parameters([]));
+		$builder->setDataSource(new DevNullDataSource());
+		$builder->setRenderer(new DevNullRenderer());
+		$builder->setPreprocessors($preprocessors = new Preprocessors());
+		$result = $builder->build();
+
+		$this->assertSame($preprocessors, $result->getPreprocessors());
+	}
 }

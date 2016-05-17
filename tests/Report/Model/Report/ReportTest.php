@@ -55,6 +55,9 @@ final class ReportTest extends BaseTestCase
 		$r->setOption('foobar', 1);
 		$this->assertTrue($r->hasOption('foobar'));
 		$this->assertEquals(1, $r->getOption('foobar'));
+
+		$this->assertFalse($r->hasOption('bar'));
+		$this->assertEquals('bar', $r->getOption('bar', 'bar'));
 	}
 
 	public function testOptionsSuggestions()

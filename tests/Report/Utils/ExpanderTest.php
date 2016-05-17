@@ -10,9 +10,7 @@ final class ExpanderTest extends BaseTestCase
 
 	public function testStr()
 	{
-		$params = [
-			'foo' => 'bar',
-		];
+		$params = ['foo' => 'bar'];
 
 		$expander = new Expander($params);
 		$this->assertEquals('example/bar', $expander->str('example/%foo%'));
@@ -20,9 +18,7 @@ final class ExpanderTest extends BaseTestCase
 
 	public function testArr()
 	{
-		$params = [
-			'foo' => 'bar',
-		];
+		$params = ['foo' => 'bar'];
 
 		$expander = new Expander($params);
 		$this->assertEquals(['a' => 'bar', 'bar' => 'b'], $expander->arr(['a' => '%foo%', '%foo%' => 'b']));
@@ -30,13 +26,14 @@ final class ExpanderTest extends BaseTestCase
 
 	public function testExpand()
 	{
-		$params = [
-			'foo' => 'bar',
-		];
+		$params = ['foo' => 'bar'];
 
 		$expander = new Expander($params);
 		$this->assertEquals('example/bar', $expander->expand('example/%foo%'));
 		$this->assertEquals(['a' => 'bar', 'bar' => 'b'], $expander->expand(['a' => '%foo%', '%foo%' => 'b']));
+
+		$stdClass = new \stdClass();
+		$this->assertEquals($stdClass, $expander->expand($stdClass));
 	}
 
 }

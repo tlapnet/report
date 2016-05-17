@@ -4,6 +4,7 @@ namespace Tlapnet\Report\Model\Subreport;
 
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
+use Tlapnet\Report\Model\Preprocessor\Preprocessors;
 use Tlapnet\Report\Model\Utils\Metadata;
 use Tlapnet\Report\Renderers\Renderer;
 
@@ -25,8 +26,8 @@ class SubreportBuilder
 	/** @var Metadata */
 	protected $metadata;
 
-	/** @var array */
-	protected $preprocessors = [];
+	/** @var Preprocessors */
+	protected $preprocessors;
 
 	/**
 	 * @param mixed $sid
@@ -69,7 +70,7 @@ class SubreportBuilder
 	}
 
 	/**
-	 * @param array $preprocessors
+	 * @param Preprocessors $preprocessors
 	 */
 	public function setPreprocessors($preprocessors)
 	{
@@ -97,11 +98,21 @@ class SubreportBuilder
 			throw new InvalidStateException("Missing 'renderer'. Please call setRenderer().");
 		}
 
-		return new Subreport(
+		$subreport = new EditableSubreport(
 			$this->sid,
 			$this->parameters,
 			$this->dataSource,
 			$this->renderer
 		);
+
+		if ($this->metadata) {
+			$subreport->setMetadata($this->metadata);
+		}
+
+		if ($this->preprocessors) {
+			$subreport->setPreprocessors($this->preprocessors);
+		}
+
+		return $subreport;
 	}
 }

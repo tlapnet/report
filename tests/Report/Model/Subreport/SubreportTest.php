@@ -94,6 +94,16 @@ final class SubreportTest extends BaseTestCase
 		$this->assertEquals('foobar', $r->getOption('fod'));
 	}
 
+	public function testAttach()
+	{
+		$r = new Subreport('s1', new Parameters([]), new DevNullDataSource(), new DevNullRenderer());
+
+		$this->expectException(InvalidStateException::class);
+		$this->expectExceptionMessage('Not implemented');
+
+		$r->attach([]);
+	}
+
 	public function testCompile()
 	{
 		$data = ['foo' => 'bar'];
