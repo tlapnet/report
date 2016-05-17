@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\Model\Subreport;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
-use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
+use Tlapnet\Report\Exceptions\Logic\NotImplementedException;
 use Tlapnet\Report\Utils\Expander;
 use Tlapnet\Report\Utils\Suggestions;
 
@@ -48,7 +48,7 @@ class Parameters implements Attachable
 	 */
 	public function attach(array $data)
 	{
-		throw new InvalidStateException('Not implemented');
+		throw new NotImplementedException();
 	}
 
 	/**

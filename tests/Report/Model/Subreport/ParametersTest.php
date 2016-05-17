@@ -4,6 +4,7 @@ namespace Tlapnet\Report\Tests\Model\Subreport;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
+use Tlapnet\Report\Exceptions\Logic\NotImplementedException;
 use Tlapnet\Report\Model\Subreport\Parameter;
 use Tlapnet\Report\Model\Subreport\Parameters;
 use Tlapnet\Report\Tests\BaseTestCase;
@@ -63,8 +64,7 @@ final class ParametersTest extends BaseTestCase
 	{
 		$p = new Parameters();
 
-		$this->expectException(InvalidStateException::class);
-		$this->expectExceptionMessage('Not implemented');
+		$this->expectException(NotImplementedException::class);
 
 		$p->attach([]);
 	}

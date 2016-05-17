@@ -7,6 +7,7 @@ use Tlapnet\Report\DataSources\DevNullDataSource;
 use Tlapnet\Report\DataSources\DummyDataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
+use Tlapnet\Report\Exceptions\Logic\NotImplementedException;
 use Tlapnet\Report\Model\Preprocessor\Impl\AppendPreprocessor;
 use Tlapnet\Report\Model\Preprocessor\Impl\DevNullPreprocessor;
 use Tlapnet\Report\Model\Preprocessor\Impl\NumberPreprocessor;
@@ -98,8 +99,7 @@ final class SubreportTest extends BaseTestCase
 	{
 		$r = new Subreport('s1', new Parameters([]), new DevNullDataSource(), new DevNullRenderer());
 
-		$this->expectException(InvalidStateException::class);
-		$this->expectExceptionMessage('Not implemented');
+		$this->expectException(NotImplementedException::class);
 
 		$r->attach([]);
 	}

@@ -71,7 +71,7 @@ class ReportManager
 	 */
 	public function addGroupless(Report $report)
 	{
-		$this->groupless[] = $report;
+		$this->groupless[$report->getRid()] = $report;
 	}
 
 	/**
