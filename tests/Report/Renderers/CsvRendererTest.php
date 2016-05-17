@@ -16,4 +16,12 @@ final class CsvRendererTest extends BaseTestCase
 		$this->assertEquals("\"foo\";\"foobar\"\n\"bar\";\"1\"", $r->render(new Result([['foo' => 'bar', 'foobar' => 1]])));
 	}
 
+	public function testDelimiter()
+	{
+		$r = new CsvRenderer();
+		$r->setDelimiter('|');
+		$this->assertEquals("\"foo\"\n\"bar\"", $r->render(new Result([['foo' => 'bar']])));
+		$this->assertEquals("\"foo\"|\"foobar\"\n\"bar\"|\"1\"", $r->render(new Result([['foo' => 'bar', 'foobar' => 1]])));
+	}
+
 }
