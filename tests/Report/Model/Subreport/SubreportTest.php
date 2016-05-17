@@ -5,6 +5,7 @@ namespace Tlapnet\Report\Tests\Model\Subreport;
 use Tlapnet\Report\DataSources\ArrayDataSource;
 use Tlapnet\Report\DataSources\DevNullDataSource;
 use Tlapnet\Report\DataSources\DummyDataSource;
+use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 use Tlapnet\Report\Model\Preprocessor\Impl\AppendPreprocessor;
 use Tlapnet\Report\Model\Preprocessor\Impl\DevNullPreprocessor;
@@ -28,6 +29,69 @@ final class SubreportTest extends BaseTestCase
 		$this->assertNotNull($r->getMetadata());
 		$this->assertNull($r->getResult());
 		$this->assertNull($r->getRawResult());
+	}
+
+	public function testIsState1()
+	{
+		$r = new Subreport('s1', new Parameters([]), new ArrayDataSource([]), new DevNullRenderer());
+		$this->assertTrue($r->isState($r::STATE_CREATED));
+
+		$r->compile();
+		$this->assertTrue($r->isState($r::STATE_COMPILED));
+
+		$r->render();
+		$this->assertTrue($r->isState($r::STATE_RENDERED));
+	}
+
+	public function testIsState2()
+	{
+		$r = new Subreport('s1', new Parameters([]), new ArrayDataSource([]), new DevNullRenderer());
+		$r->addPreprocessor('foo', new DevNullPreprocessor());
+		$this->assertTrue($r->isState($r::STATE_CREATED));
+
+		$r->compile();
+		$this->assertTrue($r->isState($r::STATE_COMPILED));
+
+		$r->preprocess();
+		$this->assertTrue($r->isState($r::STATE_PREPROCESSED));
+
+		$r->render();
+		$this->assertTrue($r->isState($r::STATE_RENDERED));
+	}
+
+	public function testHashOption()
+	{
+		$r = new Subreport('s1', new Parameters([]), new DevNullDataSource(), new DevNullRenderer());
+		$r->setOption('foo', 'bar');
+
+		$this->assertTrue($r->hasOption('foo'));
+	}
+
+	public function testGetOption()
+	{
+		$r = new Subreport('s1', new Parameters([]), new DevNullDataSource(), new DevNullRenderer());
+		$r->setOption('foo', 'bar');
+
+		$this->assertEquals('bar', $r->getOption('foo'));
+	}
+
+	public function testGetOptionDefault()
+	{
+		$r = new Subreport('s1', new Parameters([]), new DevNullDataSource(), new DevNullRenderer());
+		$r->setOption('foo', 'bar');
+
+		$this->assertEquals('foobar', $r->getOption('foobar', 'foobar'));
+	}
+
+	public function testGetOptionSuggestion()
+	{
+		$r = new Subreport('s1', new Parameters([]), new DevNullDataSource(), new DevNullRenderer());
+		$r->setOption('foo', 'bar');
+
+		$this->expectException(InvalidArgumentException::class);
+		$this->expectExceptionMessage("Unknown key 'fod', did you mean 'foo'?");
+
+		$this->assertEquals('foobar', $r->getOption('fod'));
 	}
 
 	public function testCompile()
@@ -141,31 +205,4 @@ final class SubreportTest extends BaseTestCase
 		$r->render();
 	}
 
-	public function testIsState1()
-	{
-		$r = new Subreport('s1', new Parameters([]), new ArrayDataSource([]), new DevNullRenderer());
-		$this->assertTrue($r->isState($r::STATE_CREATED));
-
-		$r->compile();
-		$this->assertTrue($r->isState($r::STATE_COMPILED));
-
-		$r->render();
-		$this->assertTrue($r->isState($r::STATE_RENDERED));
-	}
-
-	public function testIsState2()
-	{
-		$r = new Subreport('s1', new Parameters([]), new ArrayDataSource([]), new DevNullRenderer());
-		$r->addPreprocessor('foo', new DevNullPreprocessor());
-		$this->assertTrue($r->isState($r::STATE_CREATED));
-
-		$r->compile();
-		$this->assertTrue($r->isState($r::STATE_COMPILED));
-
-		$r->preprocess();
-		$this->assertTrue($r->isState($r::STATE_PREPROCESSED));
-
-		$r->render();
-		$this->assertTrue($r->isState($r::STATE_RENDERED));
-	}
 }
