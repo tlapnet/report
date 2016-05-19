@@ -42,9 +42,9 @@ compose require tlapnet/report
 - ReportManager
 - ReportService
 
-## Životní cyklus
+## Classdiagram
 
-TODO OBRAZEK
+![Hierarchy](misc/hierarchy.pnd)
 
 ## Entities
 
@@ -70,6 +70,14 @@ grafy, tabulky apod.
 |`$subreports`  | array     | Pole reportů      |
 
 ### Subreport
+
+### Class diagram
+
+![Subreport - class diagram](misc/subreport-classdiagram.png)
+
+### Životní cyklus
+
+![Subreport - lifecycle](misc/subreport-lifecycle.pnd)
 
 ## DataSources
 
@@ -140,8 +148,8 @@ V hlavním konfiguračním souboru je doporučeno registrovat pouze:
 - jednotlivé reporty (jen výjímečně)
 
 ```yaml
-<report-name>:
-	groups: [<group-name>]
+report-name:
+	groups: [group-name1, group-name2]
 
 	metadata:
 		menu: Pojmenovani v menu (doporuceny, nepovinny, vezme se automaticky z nazvu reportu)
