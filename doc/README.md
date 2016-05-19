@@ -3,7 +3,7 @@
 ## Instalace
 
 ```
-compose require tlapnet/report
+$ compose require tlapnet/report
 ```
 
 ## Základní prvky
@@ -107,19 +107,30 @@ report:
 
 ### Konfigurace
 
-Ukázková konfigurace.
+Ukázková root konfigurace.
 
 ```yaml
+# Spolecne parametery
+parameters:
+	report:
+		db:
+			driver: mysql
+			host: db
+			database: tlapnet
+			user: root
+			password: root
+
 report:
-	# List of individual reports
+	# Jednotlive reporty
+	# Tip: idealni je mit 1 report v 1 souboru, prot lepsi prenositelnost a prehlednost
 	files:
 		- %module.sample.moduleDir%/config/reports/files/report.neon
 
-	# List of folders for recursively loading of *.neon
+	# Slozky, kde se hledaji *.neon soubory
 	folders:
 		- %module.sample.moduleDir%/config/reports
 
-	# List of shared services for reports
+	# Spolecne sluzby
 	definitions:
 		datasource.nette.db:
 			class: Tlapnet\Report\Bridges\Nette\Database\DataSources\NetteDatabaseDataSource(%report.db%)
@@ -129,14 +140,17 @@ report:
 		datasource.pdo.db:
 			class: Tlapnet\Report\DataSources\PdoDataSource(%report.db%)
 
-	# List of groups
+	# Zaregistrovane skupiny
 	groups:
 		tables: Tables
 		charts: Charts
 
-	# List of report groups
+	# Jednotlive reporty
+	# Tip: je lepsi mit reporty v jednotlivych souborech / slozkach
 	reports:
-		# Use can defined reports here..
+		<report-name-1>:
+		<report-name-2>:
+		<report-name-N>:
 ```
 
 V hlavním konfiguračním souboru je doporučeno registrovat pouze:
@@ -148,8 +162,8 @@ V hlavním konfiguračním souboru je doporučeno registrovat pouze:
 - jednotlivé reporty (jen výjímečně)
 
 ```yaml
-report-name:
-	groups: [group-name1, group-name2]
+<report-name-1>:
+	groups: [<group-name-1>, <group-name-2>, <group-name-N>]
 
 	metadata:
 		menu: Pojmenovani v menu (doporuceny, nepovinny, vezme se automaticky z nazvu reportu)
@@ -158,12 +172,13 @@ report-name:
         
     preprocessors: (nepovinne)
         <nazev-sloupecku>:
-            - Typ preprocesseru co se aplikuje na dany sloupecek
-            - Muze jich byt klidne vice, poradi je dle definice
+            - <type>
+            # Typ preprocesseru co se aplikuje na dany sloupecek
+            # Muze jich byt klidne vice, poradi je dle definice
 
     subreport:
         # Lze vyuzit pokud report ma jenom jeden graf, tabulku ci podobne
-        # Pokud ma report vice jednotlivych subreportu, pouzijte klic subreports
+        # Tip: pokud ma report vice jednotlivych subreportu, pouzijte klic subreports
         
         metadata: (nepovinne)
         datasource: Typ datasource (definice jako sluzby v nette)
@@ -183,6 +198,8 @@ report-name:
 		<id-3-subreportu>:
 		<id-N-subreportu>:
 
+<report-name-2>:
+<report-name-N>:
 ```
 
 Detailnější ukázky jsou v sample modulu u sample projektu.
