@@ -44,7 +44,7 @@ compose require tlapnet/report
 
 ## Classdiagram
 
-![Hierarchy](misc/hierarchy.pnd)
+![Hierarchy](misc/hierarchy.png)
 
 ## Entities
 
@@ -52,22 +52,22 @@ compose require tlapnet/report
 
 Obsahuje jednotlivé reporty.
 
-|Property   | Typ       | Popisek           | 
-|-------------------------------------------|
-|`$id`      | string    | ID skupiny        |
-|`$name`    | string    | Název skupiny     |
-|`$reports` | array     | Pole reportů      |
+| Property   | Typ    | Popisek       |
+|------------|--------|---------------|
+| `$id`      | string | ID skupiny    |
+| `$name`    | string | Název skupiny |
+| `$reports` | array  | Pole reportů  |
 
 ### Report
 
 Základní stavební kámen. Obsahuje jednotlivé subreporty, které vykreslují 
 grafy, tabulky apod.
 
-|Property       | Typ       | Popisek           | 
-|-----------------------------------------------|
-|`$id`          | string    | ID reportu        |
-|`$metadata`    | object    | Metadata          |
-|`$subreports`  | array     | Pole reportů      |
+| Property       | Typ       | Popisek           | 
+|------------------------------------------------|
+| `$id`          | string    | ID reportu        |
+| `$metadata`    | object    | Metadata          |
+| `$subreports`  | array     | Pole reportů      |
 
 ### Subreport
 
@@ -77,7 +77,7 @@ grafy, tabulky apod.
 
 ### Životní cyklus
 
-![Subreport - lifecycle](misc/subreport-lifecycle.pnd)
+![Subreport - lifecycle](misc/subreport-lifecycle.png)
 
 ## DataSources
 
