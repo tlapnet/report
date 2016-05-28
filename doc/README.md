@@ -8,39 +8,11 @@ $ compose require tlapnet/report
 
 ## Základní prvky
 
-**Entities**
-- Group
-- Report
-- Subreport
-- Result
-
-**DataSources**
-- ArrayDataSource
-- CallbackDataSource
-- DevNullSource
-- DummySource
-- PdoDataSource
-- RestSource
-
-**Preprocessors**
-- AppendPreprocessor
-- CurrencyPreprocessor
-- DatePreprocessor
-- DevNullPreprocessor
-- NumberPreprocessor
-- PrependPreprocessor
-
-**Renderers**
-- CallbackRenderer
-- CsvRenderer
-- DevNullRenderer
-- DummyRenderer
-- JsonRenderer
-- TableRenderer
-
-**Sergices**
-- ReportManager
-- ReportService
+- Entities
+- DataSources
+- Preprocessors
+- Renderers
+- Services
 
 ## Classdiagram
 
@@ -71,6 +43,13 @@ grafy, tabulky apod.
 
 ### Subreport
 
+Konečná komponenta obsahující data source, renderer a preprocessors.
+Stará se o načtení, převedení a vykreslení dat formou delagace.
+
+- Načtení => přes data source 
+- Převedení => přes preprocessors 
+- Vykreslení => přes renderer 
+
 ### Class diagram
 
 ![Subreport - class diagram](misc/subreport-classdiagram.png)
@@ -81,15 +60,116 @@ grafy, tabulky apod.
 
 ## DataSources
 
+DataSource implementuje metodu `compile`.
+
+```php
+/**
+ * @param Parameters $parameters
+ * @return Resultable
+ */
+public function compile(Parameters $parameters);
+```
+
+Vrací nám objekt `Result`, který v sobě má veškerá data potřebná k vykreslení.
+
+Připravené implementace:
+
+- ArrayDataSource
+- CallbackDataSource
+- DevNullSource (pro testování)
+- DummySource (pro testování)
+- PdoDataSource
+- RestSource (@TODO)
+
+Nette bride:
+
+- NetteDatabaseDataSource
+- NetteDatabaseWrapperDataSource (obaluje nette database connection)
+
+Dibi bridge:
+
+- DibiDataSource
+- DibiWrapperDataSource (obaluje dibi connection)
+
 ## Preprocessors
+
+Preprocessor implementuje metodu `preprocess`.
+
+```php
+/**
+ * @param mixed $data
+ * @return mixed
+ */
+public function preprocess($data);
+```
+
+Preprocessor se nasazuje na jednotlivý sloupeček dat/resultu. A aplikuje se
+na všechny výstkyty.
+
+
+Připravené implementace:
+
+- AppendPreprocessor (přidá nakonec)
+- CurrencyPreprocessor (formátuje měnu)
+- DatePreprocessor (formátuje čas)
+- DevNullPreprocessor (pro testování)
+- NumberPreprocessor (formátuje číslo)
+- PrependPreprocessor (přidá na začátek)
 
 ## Renderers
 
+Renderer implementuje metodu `render`.
+
+```php
+/**
+ * @param Result $report
+ * @return mixed
+ */
+public function render(Result $report);
+```
+
+Renderer nám vykreslí data do určité grafické podoby (tabulka, graf, apod.).
+
+Připravené implementace:
+
+- CallbackRenderer
+- CsvRenderer
+- DevNullRenderer (pro testování)
+- DummyRenderer (pro testování)
+- JsonRenderer
+- TableRenderer
+
+Nette bridge:
+
+- TableRenderer (sloupečky, řazení)
+- SimpleTableRenderer (sloupečky)
+
 ## Services
+
+Knihovna je především tvořena jednotlivými entitami, ale jsou tu i 2 služby pro
+pohodlnější praci v presenterech a komponentách.
 
 ### ReportManager
 
+Podporuje uplně základní operace se skupinami.
+
+- `addGroup(Group $group)`
+- `hasGroup($gid)`
+- `getGroup($gid)`
+- `getGroups()`
+- `addGroupless(Report $report)`
+- `getGrouppless()`
+
+Používá se především v `ReportExtension`, kde do ní Nette\DI\Container automaticky
+přidává skupiny a reporty.
+
 ### ReportService
+
+Obaluje `ReportManager` pro manipulaci s reporty.
+
+- `getResult($rid)`
+- `getGroups()`
+- `getGroupless()`
 
 ## Nette
 
