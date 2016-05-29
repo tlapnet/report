@@ -36,7 +36,7 @@ Základní stavební kámen. Obsahuje jednotlivé subreporty, které vykreslují
 grafy, tabulky apod.
 
 | Property       | Typ       | Popisek           | 
-|------------------------------------------------|
+|----------------|-----------|-------------------|
 | `$id`          | string    | ID reportu        |
 | `$metadata`    | object    | Metadata          |
 | `$subreports`  | array     | Pole reportů      |
