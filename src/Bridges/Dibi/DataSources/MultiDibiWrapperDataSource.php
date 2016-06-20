@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\Bridges\Dibi\DataSources;
 
 use DibiConnection;
-use Nette\Database\DriverException;
+use DibiException;
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
 use Tlapnet\Report\Model\Data\MultiResult;
@@ -62,7 +62,7 @@ class MultiDibiWrapperDataSource implements DataSource
 			try {
 				// Execute query
 				$resultset = $this->connection->nativeQuery($query);
-			} catch (DriverException $e) {
+			} catch (DibiException $e) {
 				throw new SqlException($query, NULL, $e);
 			}
 
