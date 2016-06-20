@@ -11,6 +11,10 @@
         </span>
     </h2>
 
+    <section class="well" n:if="!$subreport->getParameters()->isEmpty()">
+        {include 'subreport.form.latte'}
+    </section>
+
     <section class="subreport-result">
         {$subreport->render()|noescape}
     </section>

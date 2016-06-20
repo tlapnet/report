@@ -7,6 +7,7 @@ use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 use Tlapnet\Report\Model\Data\EditableResult;
 use Tlapnet\Report\Model\Data\Result;
 use Tlapnet\Report\Model\Data\Resultable;
+use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Model\Preprocessor\Preprocessor;
 use Tlapnet\Report\Model\Preprocessor\Preprocessors;
 use Tlapnet\Report\Model\Utils\Metadata;

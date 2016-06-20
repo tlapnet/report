@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\Model\Subreport;
+namespace Tlapnet\Report\Model\Parameters;
 
 class ParametersFactory
 {

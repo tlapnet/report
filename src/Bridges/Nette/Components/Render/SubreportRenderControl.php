@@ -3,6 +3,8 @@
 namespace Tlapnet\Report\Bridges\Nette\Components\Render;
 
 use Nette\Application\UI\Control;
+use Nette\Application\UI\Form;
+use Tlapnet\Report\Bridges\Nette\Form\FormFactory;
 use Tlapnet\Report\Exceptions\Runtime\CompileException;
 use Tlapnet\Report\Model\Subreport\Subreport;
 
@@ -20,6 +22,40 @@ class SubreportRenderControl extends Control
 		parent::__construct();
 		$this->subreport = $subreport;
 	}
+
+	/**
+	 * PARAMETERS FORM *********************************************************
+	 */
+
+	/**
+	 * @return Form
+	 */
+	protected function createComponentParametersForm()
+	{
+		$factory = new FormFactory($this->subreport->getParameters());
+		$form = $factory->create();
+
+		// Default send button
+		$form->addSubmit('send', 'Process');
+
+		// Attach callback
+		$form->onSuccess[] = [$this, 'processParametersForm'];
+
+		return $form;
+	}
+
+	/**
+	 * @param Form $form
+	 */
+	public function processParametersForm(Form $form)
+	{
+		dump($form->getValues());
+		die();
+	}
+
+	/**
+	 * RENDERER ****************************************************************
+	 */
 
 	/**
 	 * Render box

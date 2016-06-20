@@ -8,7 +8,7 @@ use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
 use Tlapnet\Report\Model\Data\MultiResult;
 use Tlapnet\Report\Model\Data\Result;
-use Tlapnet\Report\Model\Subreport\Parameters;
+use Tlapnet\Report\Model\Parameters\Parameters;
 
 class MultiDibiWrapperDataSource implements DataSource
 {

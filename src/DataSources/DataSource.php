@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\DataSources;
 
 use Tlapnet\Report\Model\Data\Resultable;
-use Tlapnet\Report\Model\Subreport\Parameters;
+use Tlapnet\Report\Model\Parameters\Parameters;
 
 interface DataSource
 {

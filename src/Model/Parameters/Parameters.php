@@ -1,9 +1,11 @@
 <?php
 
-namespace Tlapnet\Report\Model\Subreport;
+namespace Tlapnet\Report\Model\Parameters;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Exceptions\Logic\NotImplementedException;
+use Tlapnet\Report\Model\Parameters\Parameter\Parameter;
+use Tlapnet\Report\Model\Subreport\Attachable;
 use Tlapnet\Report\Utils\Expander;
 use Tlapnet\Report\Utils\Suggestions;
 
@@ -62,6 +64,14 @@ class Parameters implements Attachable
 		}
 
 		return $array;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isEmpty()
+	{
+		return count($this->parameters) <= 0;
 	}
 
 	/**

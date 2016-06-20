@@ -1,0 +1,20 @@
+{block}
+<form n:name="parametersForm">
+    <!-- INPUTS -->
+    {foreach $form->getControls() as $control}
+        {if $control instanceof Nette\Forms\Controls\TextInput}
+            {include #input, _form => $form, control => $control}
+        {/if}
+    {/foreach}
+
+    <!-- BUTTONS -->
+    <input n:name="send" class="btn btn-primary">
+</form>
+{/block}
+
+{define #input}
+    <div class="form-group">
+        <label n:name="$control->name">{$control->caption}</label>
+        <input class="form-control"n:name="$control->name" placeholder="{$control->caption}">
+    </div>
+{/define}

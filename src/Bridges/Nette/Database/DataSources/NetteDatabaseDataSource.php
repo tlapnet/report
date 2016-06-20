@@ -8,7 +8,7 @@ use Nette\Database\Helpers;
 use Tlapnet\Report\DataSources\AbstractDatabaseConnectionDataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
 use Tlapnet\Report\Model\Data\Result;
-use Tlapnet\Report\Model\Subreport\Parameters;
+use Tlapnet\Report\Model\Parameters\Parameters;
 use Tracy\Debugger;
 
 class NetteDatabaseDataSource extends AbstractDatabaseConnectionDataSource

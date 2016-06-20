@@ -16,7 +16,9 @@ use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Model\Group\Group;
 use Tlapnet\Report\Model\Report\Report;
 use Tlapnet\Report\Model\ReportService;
-use Tlapnet\Report\Model\Subreport\ParametersFactory;
+use Tlapnet\Report\Model\Parameters\Parameters;
+use Tlapnet\Report\Model\Parameters\ParametersBuilder;
+use Tlapnet\Report\Model\Parameters\ParametersFactory;
 use Tlapnet\Report\Model\Subreport\Subreport;
 use Tlapnet\Report\Renderers\Renderer;
 use Tlapnet\Report\ReportManager;
@@ -313,6 +315,29 @@ class ReportExtension extends CompilerExtension
 		// Prepare builder
 		$builder = $this->getContainerBuilder();
 
+		// Create parameters service
+		$parametersDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.parameters'));
+		$parametersDef->setClass(Parameters::class);
+		$parametersDef->setAutowired(FALSE);
+
+		// Use
+		if ($subreport['params'] && isset($subreport['params']['builder'])) {
+			// ParametersBuilder
+			$parametersBuilderDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.parameters.builder'));
+			$parametersBuilderDef->setClass(ParametersBuilder::class);
+			$parametersBuilderDef->setAutowired(FALSE);
+			// Parse setup
+			Compiler::parseService($parametersBuilderDef, ['setup' => $subreport['params']['builder']]);
+			// Set ParametersBuilder as factory for Parameters
+			$parametersDef->setFactory('@' . $this->prefix('subreports.' . $name . '.parameters.builder') . '::build');
+		} else if ($subreport['params']) {
+			// Parse service
+			Compiler::parseService($parametersDef, $subreport['params']);
+		} else {
+			// If params are not filled
+			$parametersDef->setFactory(ParametersFactory::class . '::create', [[]]);
+		}
+
 		// Create datasource service
 		$datasourceDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.datasource'));
 		Compiler::parseService($datasourceDef, $subreport['datasource']);
@@ -329,7 +354,7 @@ class ReportExtension extends CompilerExtension
 		$subreportDef = $builder->addDefinition($this->prefix('subreports.' . $name))
 			->setFactory(Subreport::class, [
 				'sid' => $name,
-				'parameters' => new Statement(ParametersFactory::class . '::create', [(array)$subreport['params']]),
+				'parameters' => $parametersDef,
 				'dataSource' => $datasourceDef,
 				'renderer' => $rendererDef,
 			]);
