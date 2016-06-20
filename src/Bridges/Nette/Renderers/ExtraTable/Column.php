@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\Bridges\Nette\Renderers\Table;
+namespace Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable;
 
 class Column
 {

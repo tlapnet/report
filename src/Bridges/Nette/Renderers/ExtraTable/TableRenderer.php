@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\Bridges\Nette\Renderers\Table;
+namespace Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable;
 
 use Tlapnet\Report\Bridges\Nette\Renderers\TemplateRenderer;
 use Tlapnet\Report\Model\Data\Result;
