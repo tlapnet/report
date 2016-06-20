@@ -24,15 +24,15 @@ class SimpleTableRenderer extends TemplateRenderer
 	}
 
 	/**
-	 * @param Result $report
+	 * @param Result $result
 	 * @return mixed
 	 */
-	public function render(Result $report)
+	public function render(Result $result)
 	{
 		$template = $this->createTemplate();
 		$template->setFile(__DIR__ . '/templates/simple.table.latte');
 		$template->columns = $this->columns;
-		$template->rows = $report;
+		$template->rows = $result;
 		$template->render();
 	}
 

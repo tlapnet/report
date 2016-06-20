@@ -2,6 +2,7 @@
 
 namespace Tlapnet\Report\Model\Data;
 
+use Iterator;
 use IteratorAggregate;
 use Traversable;
 
@@ -14,7 +15,7 @@ interface Resultable extends IteratorAggregate
 	public function getData();
 
 	/**
-	 * @return Traversable
+	 * @return Traversable|Iterator
 	 */
 	public function getIterator();
 

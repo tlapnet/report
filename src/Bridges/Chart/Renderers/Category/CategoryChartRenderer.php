@@ -47,10 +47,10 @@ class CategoryChartRenderer extends SeriesChartRenderer
 	 */
 
 	/**
-	 * @param Result $report
+	 * @param Result $result
 	 * @return mixed
 	 */
-	public function render(Result $report)
+	public function render(Result $result)
 	{
 		/** @var CategoryChart $chart */
 		$chart = $this->createChart(new CategoryChart($this->categories));
@@ -59,7 +59,7 @@ class CategoryChartRenderer extends SeriesChartRenderer
 		$series = $this->doPrepareSeries($this->getSeries());
 
 		// Filter data
-		$filtered = $this->doFilterData($this->getSeriesBys(), $report->getData());
+		$filtered = $this->doFilterData($this->getSeriesBys(), $result->getData());
 
 		$xKey = $this->getSegment('x');
 		$yKey = $this->getSegment('y');

@@ -52,9 +52,9 @@ class PdoDataSource extends AbstractDatabaseConnectionDataSource
 			throw new SqlException($query, NULL, $e);
 		}
 
-		$report = new Result($statement->fetchAll());
+		$result = new Result($statement->fetchAll());
 
-		return $report;
+		return $result;
 	}
 
 }

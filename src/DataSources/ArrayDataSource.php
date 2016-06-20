@@ -26,9 +26,9 @@ class ArrayDataSource implements DataSource
 	 */
 	public function compile(Parameters $parameters)
 	{
-		$heap = new Result($this->data);
+		$result = new Result($this->data);
 
-		return $heap;
+		return $result;
 	}
 
 }

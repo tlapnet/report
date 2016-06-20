@@ -17,7 +17,7 @@ class LazyResultSet extends Result
 	 */
 	public function __construct(ResultSet $resultset)
 	{
-		parent::__construct([]);
+		parent::__construct();
 		$this->resultset = $resultset;
 	}
 
@@ -27,6 +27,14 @@ class LazyResultSet extends Result
 	public function getData()
 	{
 		return $this->resultset->fetchAll();
+	}
+
+	/**
+	 * @return int
+	 */
+	public function count()
+	{
+		return count($this->resultset->fetchAll());
 	}
 
 	/**

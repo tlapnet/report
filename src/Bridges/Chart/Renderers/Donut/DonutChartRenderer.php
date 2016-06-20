@@ -37,10 +37,10 @@ class DonutChartRenderer extends AbstractChartRenderer
 	 */
 
 	/**
-	 * @param Result $report
+	 * @param Result $result
 	 * @return mixed
 	 */
-	public function render(Result $report)
+	public function render(Result $result)
 	{
 		/** @var DonutChart $chart */
 		$chart = $this->createChart(new DonutChart());
@@ -56,7 +56,7 @@ class DonutChartRenderer extends AbstractChartRenderer
 		$titleKey = $this->getSegment('title');
 		$valueKey = $this->getSegment('value');
 
-		foreach ($report->getData() as $item) {
+		foreach ($result->getData() as $item) {
 			$chart->addSegment(new DonutSegment($item[$titleKey], $item[$valueKey]));
 		}
 

@@ -5,25 +5,26 @@ namespace Tlapnet\Report\Model\Data;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
+use Iterator;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Traversable;
 
 class Result implements Countable, ArrayAccess, Resultable
 {
 
-	/** @var mixed */
+	/** @var array */
 	protected $data = [];
 
 	/**
-	 * @param mixed $data
+	 * @param array $data
 	 */
-	public function __construct($data)
+	public function __construct($data = [])
 	{
 		$this->data = $data;
 	}
 
 	/**
-	 * @return mixed
+	 * @return array
 	 */
 	public function getData()
 	{
@@ -108,7 +109,7 @@ class Result implements Countable, ArrayAccess, Resultable
 	 */
 
 	/**
-	 * @return Traversable
+	 * @return Traversable|Iterator
 	 */
 	public function getIterator()
 	{

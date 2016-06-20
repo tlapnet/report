@@ -8,9 +8,9 @@ interface Renderer
 {
 
 	/**
-	 * @param Result $report
+	 * @param Result $result
 	 * @return mixed
 	 */
-	public function render(Result $report);
+	public function render(Result $result);
 
 }

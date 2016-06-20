@@ -25,10 +25,10 @@ class ChartRenderer extends SeriesChartRenderer
 	 */
 
 	/**
-	 * @param Result $report
+	 * @param Result $result
 	 * @return mixed
 	 */
-	public function render(Result $report)
+	public function render(Result $result)
 	{
 		/** @var Chart $chart */
 		$chart = $this->createChart(new Chart());
@@ -37,7 +37,7 @@ class ChartRenderer extends SeriesChartRenderer
 		$series = $this->doPrepareSeries($this->getSeries());
 
 		// Filter data
-		$filtered = $this->doFilterData($this->getSeriesBys(), $report->getData());
+		$filtered = $this->doFilterData($this->getSeriesBys(), $result->getData());
 
 		$xKey = $this->getSegment('x');
 		$yKey = $this->getSegment('y');

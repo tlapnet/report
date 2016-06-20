@@ -48,14 +48,14 @@ class DibiWrapperDataSource extends AbstractDatabaseDataSource
 
 		try {
 			// Execute query
-			$resulset = $this->connection->nativeQuery($query);
+			$resulrset = $this->connection->nativeQuery($query);
 		} catch (DibiException $e) {
 			throw new SqlException($query, NULL, $e);
 		}
 
-		$report = new Result($resulset->fetchAll());
+		$result = new LazyDibiResult($resulrset);
 
-		return $report;
+		return $result;
 	}
 
 }

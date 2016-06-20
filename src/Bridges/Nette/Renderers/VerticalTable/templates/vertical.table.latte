@@ -1,0 +1,15 @@
+{block}
+<table class="table table-hover table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>{$columns['key']->title}</th>
+            <th>{$columns['value']->title}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr n:foreach="$rows as $key => $value">
+            <td>{$key}</td>
+            <td>{$value}</td>
+        </tr>
+    </tbody>
+</table>

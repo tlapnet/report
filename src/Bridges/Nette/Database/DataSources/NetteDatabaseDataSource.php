@@ -86,14 +86,14 @@ class NetteDatabaseDataSource extends AbstractDatabaseConnectionDataSource
 
 		try {
 			// Execute query
-			$resulset = $this->connection->query($query);
+			$resultset = $this->connection->query($query);
 		} catch (DriverException $e) {
 			throw new SqlException($query, NULL, $e);
 		}
 
-		$report = new LazyResultSet($resulset);
+		$result = new LazyResultSet($resultset);
 
-		return $report;
+		return $result;
 	}
 
 }

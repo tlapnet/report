@@ -51,14 +51,14 @@ class DibiDataSource extends AbstractDatabaseConnectionDataSource
 
 		try {
 			// Execute query
-			$resulset = $this->connection->query($query);
+			$resultset = $this->connection->query($query);
 		} catch (DibiException $e) {
 			throw new SqlException($query, NULL, $e);
 		}
 
-		$report = new Result($resulset->fetchAll());
+		$result = new LazyDibiResult($resultset);
 
-		return $report;
+		return $result;
 	}
 
 }

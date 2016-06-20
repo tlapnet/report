@@ -9,13 +9,13 @@ class TableRenderer implements Renderer
 {
 
 	/**
-	 * @param Result $report
+	 * @param Result $result
 	 * @return string
 	 */
-	public function render(Result $report)
+	public function render(Result $result)
 	{
 		// Fetch data
-		$data = $report->getData();
+		$data = $result->getData();
 
 		// Create root element
 		$table = Html::el('table')
