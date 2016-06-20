@@ -4,8 +4,8 @@ namespace Tlapnet\Report\Tests\Model\Report;
 
 use Tlapnet\Report\DataSources\DevNullDataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
+use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Model\Report\Report;
-use Tlapnet\Report\Model\Subreport\Parameters;
 use Tlapnet\Report\Model\Subreport\Subreport;
 use Tlapnet\Report\Renderers\DevNullRenderer;
 use Tlapnet\Report\Tests\BaseTestCase;

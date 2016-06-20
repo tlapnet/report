@@ -1,8 +1,8 @@
 <?php
 
-namespace Tlapnet\Report\Tests\Model\Subreport;
+namespace Tlapnet\Report\Tests\Model\Parameters;
 
-use Tlapnet\Report\Model\Subreport\ParametersFactory;
+use Tlapnet\Report\Model\Parameters\ParametersFactory;
 use Tlapnet\Report\Tests\BaseTestCase;
 
 final class ParametersFactoryTest extends BaseTestCase

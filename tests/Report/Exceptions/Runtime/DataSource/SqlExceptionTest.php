@@ -15,7 +15,7 @@ final class SqlExceptionTest extends BaseTestCase
 		$e = new SqlException($sql, 0, $base);
 
 		$this->assertEquals($sql, $e->getSql());
-		$this->assertEquals('Invalid SQL: Error during foobar', $e->getMessage());
+		$this->assertEquals('Error: Error during foobar', $e->getMessage());
 	}
 
 }

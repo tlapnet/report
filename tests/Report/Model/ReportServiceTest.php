@@ -4,9 +4,9 @@ namespace Tlapnet\Report\Tests\Model;
 
 use Tlapnet\Report\DataSources\DevNullDataSource;
 use Tlapnet\Report\Model\Group\Group;
+use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Model\Report\Report;
 use Tlapnet\Report\Model\ReportService;
-use Tlapnet\Report\Model\Subreport\Parameters;
 use Tlapnet\Report\Renderers\DevNullRenderer;
 use Tlapnet\Report\ReportManager;
 use Tlapnet\Report\Tests\BaseTestCase;

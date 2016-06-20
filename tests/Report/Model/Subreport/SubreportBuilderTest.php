@@ -4,8 +4,8 @@ namespace Tlapnet\Report\Tests\Model\Subreport;
 
 use Tlapnet\Report\DataSources\DevNullDataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
+use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Model\Preprocessor\Preprocessors;
-use Tlapnet\Report\Model\Subreport\Parameters;
 use Tlapnet\Report\Model\Subreport\Subreport;
 use Tlapnet\Report\Model\Subreport\SubreportBuilder;
 use Tlapnet\Report\Model\Utils\Metadata;

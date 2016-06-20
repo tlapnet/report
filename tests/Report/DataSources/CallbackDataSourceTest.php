@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\Tests\DataSources;
 
 use Tlapnet\Report\DataSources\CallbackDataSource;
-use Tlapnet\Report\Model\Subreport\Parameters;
+use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Tests\BaseTestCase;
 
 final class CallbackDataSourceTest extends BaseTestCase

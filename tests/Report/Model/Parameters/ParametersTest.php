@@ -1,12 +1,12 @@
 <?php
 
-namespace Tlapnet\Report\Tests\Model\Subreport;
+namespace Tlapnet\Report\Tests\Model\Parameters;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
-use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 use Tlapnet\Report\Exceptions\Logic\NotImplementedException;
-use Tlapnet\Report\Model\Subreport\Parameter;
-use Tlapnet\Report\Model\Subreport\Parameters;
+use Tlapnet\Report\Model\Parameters\Parameter\Parameter;
+use Tlapnet\Report\Model\Parameters\Parameter\TextParameter;
+use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Tests\BaseTestCase;
 use Tlapnet\Report\Utils\Expander;
 
@@ -22,8 +22,7 @@ final class ParametersTest extends BaseTestCase
 
 	public function testGet()
 	{
-		$a = new Parameter();
-		$a->setName('foo');
+		$a = new TextParameter('foo');
 		$a->setValue('bar');
 
 		$p = new Parameters();
@@ -37,8 +36,8 @@ final class ParametersTest extends BaseTestCase
 		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage("Unknown parameter 'fod', did you mean 'foo'?");
 
-		$a = new Parameter();
-		$a->setName('foo');
+		$a = new TextParameter('foo');
+		$a->setValue('bar');
 		$a->setValue('bar');
 
 		$p = new Parameters();
@@ -49,8 +48,8 @@ final class ParametersTest extends BaseTestCase
 
 	public function testAdd()
 	{
-		$a = new Parameter();
-		$a->setName('foo');
+		$a = new TextParameter('foo');
+		$a->setValue('bar');
 		$a->setValue('bar');
 
 		$p = new Parameters();
@@ -71,8 +70,7 @@ final class ParametersTest extends BaseTestCase
 
 	public function testCreateExpander()
 	{
-		$a = new Parameter();
-		$a->setName('foo');
+		$a = new TextParameter('foo');
 		$a->setValue('bar');
 
 		$p = new Parameters();

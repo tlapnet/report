@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\Tests\DataSources;
 
 use Tlapnet\Report\DataSources\ArrayDataSource;
-use Tlapnet\Report\Model\Subreport\Parameters;
+use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Tests\BaseTestCase;
 
 final class ArrayDataSourceTest extends BaseTestCase

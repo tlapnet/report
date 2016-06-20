@@ -23,7 +23,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tlapnet\\Report\\": "tests/"
+      "Tlapnet\\Report\\Tests\\": "tests/"
     }
   },
   "prefer-stable": true,
