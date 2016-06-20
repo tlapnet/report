@@ -5,7 +5,7 @@ namespace Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable;
 use Tlapnet\Report\Bridges\Nette\Renderers\TemplateRenderer;
 use Tlapnet\Report\Model\Data\Result;
 
-class TableRenderer extends TemplateRenderer
+class ExtraTableRenderer extends TemplateRenderer
 {
 
 	/** @var array */

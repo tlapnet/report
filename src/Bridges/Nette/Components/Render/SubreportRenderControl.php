@@ -32,7 +32,10 @@ class SubreportRenderControl extends Control
 	 */
 	protected function createComponentParametersForm()
 	{
+		// Special our form factory, it creates inputs by given parameters
 		$factory = new FormFactory($this->subreport->getParameters());
+
+		// Create form
 		$form = $factory->create();
 
 		// Default send button

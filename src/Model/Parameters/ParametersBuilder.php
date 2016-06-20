@@ -15,7 +15,7 @@ class ParametersBuilder
 	 * @param string $name
 	 * @param string $title
 	 */
-	public function addText($name, $title)
+	public function addText(array $values)
 	{
 		$parameter = new TextParameter($name);
 		$parameter->setTitle($title);
