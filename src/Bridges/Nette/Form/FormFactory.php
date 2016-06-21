@@ -2,7 +2,6 @@
 
 namespace Tlapnet\Report\Bridges\Nette\Form;
 
-use Nette\Application\UI\Form;
 use Nette\Forms\Controls\BaseControl;
 use Nette\Forms\Controls\SelectBox;
 use Nette\Forms\Controls\TextInput;
@@ -31,24 +30,15 @@ class FormFactory
 	 */
 
 	/**
-	 * @param BaseControl $input
-	 * @param Parameter $parameter
-	 */
-	protected function decorate(BaseControl $input, Parameter $parameter)
-	{
-		// Placeholder
-		if ($parameter->hasOption('placeholder')) {
-			$input->setOption('placeholder', $parameter->getOption('placeholder'));
-		}
-	}
-
-	/**
 	 * @param TextParameter $parameter
 	 * @return TextInput
 	 */
 	protected function addText(TextParameter $parameter)
 	{
+		// Create input
 		$input = new TextInput($parameter->getTitle());
+
+		// Setup common attributes / options
 		$this->decorate($input, $parameter);
 
 		return $input;
@@ -60,10 +50,29 @@ class FormFactory
 	 */
 	protected function addSelect(SelectParameter $parameter)
 	{
+		// Create input
 		$input = new SelectBox($parameter->getTitle());
+		$input->setPrompt('---');
+
+		// Setup common attributes / options
 		$this->decorate($input, $parameter);
 
+		// Select -> items
+		$input->setItems($parameter->getItems());
+
 		return $input;
+	}
+
+	/**
+	 * @param BaseControl $input
+	 * @param Parameter $parameter
+	 */
+	protected function decorate(BaseControl $input, Parameter $parameter)
+	{
+		// Placeholder
+		if ($parameter->hasOption('placeholder')) {
+			$input->setAttribute('placeholder', $parameter->getOption('placeholder'));
+		}
 	}
 
 	/**

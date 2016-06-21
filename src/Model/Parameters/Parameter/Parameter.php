@@ -13,19 +13,19 @@ abstract class Parameter
 	const TYPE_SELECT = 'select';
 
 	/** @var string */
-	private $name;
+	protected $type;
 
 	/** @var string */
-	private $type;
-
-	/** @var string */
-	private $title;
+	protected $title;
 
 	/** @var mixed */
-	private $value;
+	protected $value;
 
 	/** @var array */
-	private $options = [];
+	protected $options = [];
+
+	/** @var string */
+	private $name;
 
 	/**
 	 * @param string $name
@@ -36,6 +36,10 @@ abstract class Parameter
 		$this->name = $name;
 		$this->type = $type;
 	}
+
+	/**
+	 * GETTERS / SETTERS *******************************************************
+	 */
 
 	/**
 	 * @return string
@@ -82,7 +86,20 @@ abstract class Parameter
 	 */
 	public function setValue($value)
 	{
-		$this->value = $value;
+		$value = trim($value);
+
+		// Set only non-null and non-empty values
+		if (strlen($value) > 0 && $value != NULL) {
+			$this->value = $value;
+		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasValue()
+	{
+		return !empty($this->value) && $this->value !== NULL;
 	}
 
 	/**
@@ -115,6 +132,14 @@ abstract class Parameter
 	public function setOption($key, $value)
 	{
 		$this->options[$key] = $value;
+	}
+
+	/**
+	 * @param array $options
+	 */
+	public function setOptions(array $options)
+	{
+		$this->options = $options;
 	}
 
 }

@@ -3,13 +3,17 @@
 namespace Tlapnet\Report\Bridges\Nette\Components\Render;
 
 use Nette\Application\UI\Control;
-use Nette\Application\UI\Form;
+use Nette\Utils\Json;
+use Tlapnet\Report\Bridges\Nette\Form\Form;
 use Tlapnet\Report\Bridges\Nette\Form\FormFactory;
 use Tlapnet\Report\Exceptions\Runtime\CompileException;
 use Tlapnet\Report\Model\Subreport\Subreport;
 
 class SubreportRenderControl extends Control
 {
+
+	// Request parameter
+	const REPORT_PARAMETERS = '_rp';
 
 	/** @var Subreport */
 	private $subreport;
@@ -38,8 +42,9 @@ class SubreportRenderControl extends Control
 		// Create form
 		$form = $factory->create();
 
-		// Default send button
+		// Default buttons
 		$form->addSubmit('send', 'Process');
+		$form->addSubmit('reset', 'Reset');
 
 		// Attach callback
 		$form->onSuccess[] = [$this, 'processParametersForm'];
@@ -52,8 +57,21 @@ class SubreportRenderControl extends Control
 	 */
 	public function processParametersForm(Form $form)
 	{
-		dump($form->getValues());
-		die();
+		$values = $form->getRealValues();
+
+		// Reset parameters
+		if ($form['reset']->isSubmittedBy()) {
+			$this->redirect('this');
+		}
+
+		// Do we have really some values? It might be if all values
+		// ale empty or null
+		if (!$values) {
+			$this->redirect('this');
+		}
+
+		// Store form data to parameter
+		$this->presenter->redirect('this', [self::REPORT_PARAMETERS => base64_encode(Json::encode($values))]);
 	}
 
 	/**
@@ -66,6 +84,17 @@ class SubreportRenderControl extends Control
 	public function render()
 	{
 		try {
+			// Attach parameters (only if we have some)
+			if (($parameters = $this->presenter->getParameter(self::REPORT_PARAMETERS))) {
+				$parameters = (array)Json::decode(base64_decode($parameters));
+
+				// Attach parameters to subreport
+				$this->subreport->attach($parameters);
+
+				// Attach parameters to form
+				$this['parametersForm']->setDefaults($parameters);
+			}
+
 			// Compile (fetch data)
 			$this->subreport->compile();
 

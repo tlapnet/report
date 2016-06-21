@@ -3,7 +3,6 @@
 namespace Tlapnet\Report\Model\Parameters;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
-use Tlapnet\Report\Exceptions\Logic\NotImplementedException;
 use Tlapnet\Report\Model\Parameters\Parameter\Parameter;
 use Tlapnet\Report\Model\Subreport\Attachable;
 use Tlapnet\Report\Utils\Expander;
@@ -12,8 +11,20 @@ use Tlapnet\Report\Utils\Suggestions;
 class Parameters implements Attachable
 {
 
+	// States
+	const STATE_EMPTY = 1;
+	const STATE_ATTACHED = 2;
+
 	/** @var Parameter[] */
 	private $parameters = [];
+
+	/** @var int */
+	private $state;
+
+	public function __construct()
+	{
+		$this->state = self::STATE_EMPTY;
+	}
 
 	/**
 	 * @param Parameter $parameter
@@ -50,7 +61,24 @@ class Parameters implements Attachable
 	 */
 	public function attach(array $data)
 	{
-		throw new NotImplementedException();
+		$attached = [];
+		foreach ($data as $key => $value) {
+			// Fetch parameter
+			$p = $this->get($key);
+
+			// Set value to parameter
+			$p->setValue($value);
+
+			// Controle check - if we really have data
+			if ($p->hasValue()) {
+				$attached[] = $value;
+			}
+		}
+
+		// Change state only if data was changed
+		if ($attached) {
+			$this->state = self::STATE_ATTACHED;
+		}
 	}
 
 	/**
@@ -60,7 +88,10 @@ class Parameters implements Attachable
 	{
 		$array = [];
 		foreach ($this->parameters as $parameter) {
-			$array[$parameter->getName()] = $parameter->getValue();
+			// Fill only if parameter has a right value
+			if ($parameter->hasValue()) {
+				$array[$parameter->getName()] = $parameter->getValue();
+			}
 		}
 
 		return $array;
@@ -72,6 +103,14 @@ class Parameters implements Attachable
 	public function isEmpty()
 	{
 		return count($this->parameters) <= 0;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isAttached()
+	{
+		return $this->state == self::STATE_ATTACHED;
 	}
 
 	/**

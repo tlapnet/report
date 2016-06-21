@@ -4,11 +4,14 @@
     {foreach $form->getControls() as $control}
         {if $control instanceof Nette\Forms\Controls\TextInput}
             {include #input, _form => $form, control => $control}
+        {elseif $control instanceof Nette\Forms\Controls\SelectBox}
+            {include #select, _form => $form, control => $control}
         {/if}
     {/foreach}
 
     <!-- BUTTONS -->
     <input n:name="send" class="btn btn-primary">
+    <input n:name="reset" class="btn btn-danger">
 </form>
 {/block}
 
@@ -16,5 +19,12 @@
     <div class="form-group">
         <label n:name="$control->name">{$control->caption}</label>
         <input class="form-control" n:name="$control->name">
+    </div>
+{/define}
+
+{define #select}
+    <div class="form-group">
+        <label n:name="$control->name">{$control->caption}</label>
+        <select class="form-control" n:name="$control->name"></select>
     </div>
 {/define}

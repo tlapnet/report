@@ -202,6 +202,10 @@ class Subreport implements Reportable
 	 */
 	public function attach(array $values)
 	{
+		if ($this->state === self::STATE_COMPILED || $this->state === self::STATE_PREPROCESSED) {
+			throw new InvalidStateException('Cannot attach parameters in this state.');
+		}
+
 		$this->parameters->attach($values);
 		$this->state = self::STATE_ATTACHED;
 	}
@@ -264,7 +268,7 @@ class Subreport implements Reportable
 	public function render()
 	{
 		if ($this->state !== self::STATE_COMPILED && $this->state !== self::STATE_PREPROCESSED) {
-			throw new InvalidStateException('Cannot render subreport. Please compiled it first.');
+			throw new InvalidStateException('Cannot render subreport. Please compiled or preprocess it first.');
 		}
 
 		$this->state = self::STATE_RENDERED;

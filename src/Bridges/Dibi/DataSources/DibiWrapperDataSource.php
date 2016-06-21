@@ -29,22 +29,16 @@ class DibiWrapperDataSource extends AbstractDatabaseDataSource
 
 	/**
 	 * @param Parameters $parameters
+	 * @param string $query
 	 * @return Result
 	 * @throws SqlException
 	 */
-	public function compile(Parameters $parameters)
+	public function doCompile(Parameters $parameters, $query)
 	{
 		// Ensure connection
 		if (!$this->connection->isConnected()) {
 			$this->connection->connect();
 		}
-
-		// Expand parameters
-		$expander = $parameters->createExpander();
-		$sql = $this->getSql();
-
-		// Replace placeholders
-		$query = $expander->expand($sql);
 
 		try {
 			// Execute query

@@ -40,7 +40,7 @@ final class Expander
 	 */
 	public function arr(array $array)
 	{
-		$array2 = [];
+		$output = [];
 		foreach ($array as $k => $v) {
 			$key = str_replace(
 				$this->getPlaceholders(),
@@ -54,10 +54,10 @@ final class Expander
 				$v
 			);
 
-			$array2[$key] = $value;
+			$output[$key] = $value;
 		}
 
-		return $array2;
+		return $output;
 	}
 
 	/**
