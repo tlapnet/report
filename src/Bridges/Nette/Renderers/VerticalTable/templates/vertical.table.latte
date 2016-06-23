@@ -1,6 +1,6 @@
 {block}
 <table class="table table-hover table-bordered table-striped">
-    <thead>
+    <thead n:if="!empty($columns)">
         <tr>
             <th>{$columns['key']->title}</th>
             <th>{$columns['value']->title}</th>
@@ -8,7 +8,7 @@
     </thead>
     <tbody>
         <tr n:foreach="$rows as $key => $value">
-            <td>{$key}</td>
+            <th>{$key}</th>
             <td>{$value}</td>
         </tr>
     </tbody>
