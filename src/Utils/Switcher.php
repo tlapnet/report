@@ -4,11 +4,14 @@ namespace Tlapnet\Report\Utils;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 
-final class Expander
+final class Switcher
 {
 
 	/** @var string */
 	private $pattern = '#\{([\w\d\_\-]+)\}#';
+
+	/** @var string */
+	private $placeholder = '?';
 
 	/** @var array */
 	private $parameters;
@@ -30,62 +33,58 @@ final class Expander
 	}
 
 	/**
+	 * @param string $placeholder
+	 */
+	public function setPlaceholder($placeholder)
+	{
+		$this->placeholder = $placeholder;
+	}
+
+	/**
 	 * API *********************************************************************
 	 */
 
 	/**
-	 * @param array|string $input
-	 * @return mixed
+	 * @param string $input
+	 * @return array [input, args]
 	 */
 	public function execute($input)
 	{
-		if (is_array($input)) {
-			return $this->doArray($input);
-		} else if (is_string($input)) {
-			return $this->doSingle($input);
+		if (is_string($input)) {
+			return $this->doString($input);
 		} else {
 			return $input;
 		}
 	}
 
 	/**
-	 * @param array $array
-	 * @return array
-	 */
-	public function doArray(array $array)
-	{
-		$output = [];
-		foreach ($array as $k => $v) {
-			$key = $this->doSingle($k);
-			$value = $this->doSingle($v);
-
-			$output[$key] = $value;
-		}
-
-		return $output;
-	}
-
-	/**
 	 * @param string $str
-	 * @return string
+	 * @return array [input, args]
 	 */
-	public function doSingle($str)
+	public function doString($str)
 	{
-		return preg_replace_callback($this->pattern, function ($matches) {
+		$args = [];
+		$str = preg_replace_callback($this->pattern, function ($matches) use (&$args) {
 			if (count($matches) > 2) {
 				throw new InvalidStateException('Invalid pattern, only one group is allowed');
 			}
 
 			list ($whole, $param) = $matches;
 
-			// Try to replace part with a parameter
+			// Replace with placeholder, if we have given parameter
 			if (isset($this->parameters[$param])) {
-				return $this->parameters[$param];
+				// Append to array
+				$args[] = $this->parameters[$param];
+
+				// Return placeholder
+				return $this->placeholder;
 			}
 
 			// Return original part
 			return $whole;
 		}, $str);
+
+		return [$str, $args];
 	}
 
 }

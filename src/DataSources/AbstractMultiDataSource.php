@@ -8,9 +8,6 @@ abstract class AbstractMultiDataSource implements DataSource
 	/** @var array */
 	protected $rows = [];
 
-	/** @var bool */
-	protected $pure = TRUE;
-
 	/**
 	 * @param string $sql
 	 */
@@ -20,22 +17,6 @@ abstract class AbstractMultiDataSource implements DataSource
 			'title' => $title,
 			'sql' => $sql,
 		];
-	}
-
-	/**
-	 * @return boolean
-	 */
-	public function isPure()
-	{
-		return $this->pure;
-	}
-
-	/**
-	 * @param boolean $pure
-	 */
-	public function setPure($pure)
-	{
-		$this->pure = (bool)$pure;
 	}
 
 }

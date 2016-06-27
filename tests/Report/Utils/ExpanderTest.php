@@ -13,7 +13,7 @@ final class ExpanderTest extends BaseTestCase
 		$params = ['foo' => 'bar'];
 
 		$expander = new Expander($params);
-		$this->assertEquals('example/bar', $expander->str('example/%foo%'));
+		$this->assertEquals('example/bar', $expander->doSingle('example/{foo}'));
 	}
 
 	public function testArr()
@@ -21,7 +21,7 @@ final class ExpanderTest extends BaseTestCase
 		$params = ['foo' => 'bar'];
 
 		$expander = new Expander($params);
-		$this->assertEquals(['a' => 'bar', 'bar' => 'b'], $expander->arr(['a' => '%foo%', '%foo%' => 'b']));
+		$this->assertEquals(['a' => 'bar', 'bar' => 'b'], $expander->doArray(['a' => '{foo}', '{foo}' => 'b']));
 	}
 
 	public function testExpand()
@@ -29,11 +29,12 @@ final class ExpanderTest extends BaseTestCase
 		$params = ['foo' => 'bar'];
 
 		$expander = new Expander($params);
-		$this->assertEquals('example/bar', $expander->expand('example/%foo%'));
-		$this->assertEquals(['a' => 'bar', 'bar' => 'b'], $expander->expand(['a' => '%foo%', '%foo%' => 'b']));
+		$this->assertEquals('example/bar', $expander->execute('example/{foo}'));
+		$this->assertEquals(['a' => 'bar', 'bar' => 'b'], $expander->execute(['a' => '{foo}', '{foo}' => 'b']));
 
+		// Unsupported type
 		$stdClass = new \stdClass();
-		$this->assertEquals($stdClass, $expander->expand($stdClass));
+		$this->assertEquals($stdClass, $expander->execute($stdClass));
 	}
 
 }

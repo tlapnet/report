@@ -50,22 +50,6 @@ abstract class AbstractDatabaseDataSource implements DataSource
 	}
 
 	/**
-	 * @return boolean
-	 */
-	public function isPure()
-	{
-		return $this->pure;
-	}
-
-	/**
-	 * @param boolean $pure
-	 */
-	public function setPure($pure)
-	{
-		$this->pure = (bool)$pure;
-	}
-
-	/**
 	 * @param Parameters $parameters
 	 * @return string
 	 */

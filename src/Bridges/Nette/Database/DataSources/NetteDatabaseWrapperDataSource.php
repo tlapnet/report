@@ -7,8 +7,8 @@ use Nette\Database\DriverException;
 use Nette\Database\Helpers;
 use Tlapnet\Report\DataSources\AbstractDatabaseDataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
-use Tlapnet\Report\Model\Result\Result;
 use Tlapnet\Report\Model\Parameters\Parameters;
+use Tlapnet\Report\Model\Result\Result;
 use Tracy\Debugger;
 
 class NetteDatabaseWrapperDataSource extends AbstractDatabaseDataSource
@@ -60,17 +60,20 @@ class NetteDatabaseWrapperDataSource extends AbstractDatabaseDataSource
 		$sql = $this->getRealSql($parameters);
 
 		try {
-			if ($this->isPure()) {
-				// Expand parameters
-				$expander = $parameters->createExpander();
-				$sql = $expander->expand($sql);
-				// Execute native query
-				$resultset = $this->connection->query($sql);
+			// Prepare parameters
+			if (!$parameters->isEmpty()) {
+				$switch = $parameters->createSwitcher();
+				$switch->setPlaceholder('?');
+				// Replace named parameters for ? and return
+				// accurate sequenced array of arguments
+				list ($sql, $args) = $switch->execute($sql);
 			} else {
-				// Execute nette database query
-				$args = array_values($parameters->toArray());
-				$resultset = $this->connection->queryArgs($sql, $args);
+				// Keep empty arguments
+				$args = [];
 			}
+
+			// Execute nette database query
+			$resultset = $this->connection->queryArgs($sql, $args);
 		} catch (DriverException $e) {
 			throw new SqlException($sql, NULL, $e);
 		}

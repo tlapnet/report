@@ -6,8 +6,8 @@ use DibiConnection;
 use DibiException;
 use Tlapnet\Report\DataSources\AbstractDatabaseDataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
-use Tlapnet\Report\Model\Result\Result;
 use Tlapnet\Report\Model\Parameters\Parameters;
+use Tlapnet\Report\Model\Result\Result;
 
 class DibiWrapperDataSource extends AbstractDatabaseDataSource
 {
@@ -43,17 +43,20 @@ class DibiWrapperDataSource extends AbstractDatabaseDataSource
 		$sql = $this->getRealSql($parameters);
 
 		try {
-			if ($this->isPure()) {
-				// Expand parameters
-				$expander = $parameters->createExpander();
-				$sql = $expander->expand($sql);
-				// Execute native query
-				$resultset = $this->connection->nativeQuery($sql);
+			// Prepare parameters
+			if (!$parameters->isEmpty()) {
+				$switch = $parameters->createSwitcher();
+				$switch->setPlaceholder('?');
+				// Replace named parameters for ? and return
+				// accurate sequenced array of arguments
+				list ($sql, $args) = $switch->execute($sql);
 			} else {
-				// Execute dibi query
-				$args = array_values($parameters->toArray());
-				$resultset = $this->connection->query($sql, $args);
+				// Keep empty arguments
+				$args = [];
 			}
+
+			// Execute dibi query
+			$resultset = $this->connection->query($sql, $args);
 		} catch (DibiException $e) {
 			throw new SqlException($sql, NULL, $e);
 		}

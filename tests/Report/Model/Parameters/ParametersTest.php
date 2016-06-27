@@ -83,7 +83,7 @@ final class ParametersTest extends BaseTestCase
 		$expander = $p->createExpander();
 
 		$this->assertEquals(Expander::class, get_class($expander));
-		$this->assertEquals('bar', $expander->str('%foo%'));
+		$this->assertEquals('bar', $expander->doSingle('{foo}'));
 	}
 
 }

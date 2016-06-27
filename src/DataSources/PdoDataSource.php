@@ -4,8 +4,8 @@ namespace Tlapnet\Report\DataSources;
 
 use PDO;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
-use Tlapnet\Report\Model\Result\Result;
 use Tlapnet\Report\Model\Parameters\Parameters;
+use Tlapnet\Report\Model\Result\Result;
 
 class PdoDataSource extends AbstractDatabaseConnectionDataSource
 {
@@ -38,20 +38,27 @@ class PdoDataSource extends AbstractDatabaseConnectionDataSource
 		// Connect to DB
 		if (!$this->pdo) $this->connect();
 
-		// Expand parameters
-		$expander = $parameters->createExpander();
-
 		// Get SQL
 		$sql = $this->getRealSql($parameters);
 
-		// Replace placeholders
-		$query = $expander->expand($sql);
-
 		try {
-			$statement = $this->pdo->prepare($query);
-			$statement->execute();
+			// Prepare parameters
+			if (!$parameters->isEmpty()) {
+				$switch = $parameters->createSwitcher();
+				$switch->setPlaceholder('?');
+				// Replace named parameters for ? and return
+				// accurate sequenced array of arguments
+				list ($sql, $args) = $switch->execute($sql);
+			} else {
+				// Keep empty arguments
+				$args = [];
+			}
+
+			// Execute native pdo query
+			$statement = $this->pdo->prepare($sql);
+			$statement->execute($args);
 		} catch (\PDOException $e) {
-			throw new SqlException($query, NULL, $e);
+			throw new SqlException($sql, NULL, $e);
 		}
 
 		$result = new Result($statement->fetchAll());

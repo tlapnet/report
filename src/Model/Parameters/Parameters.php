@@ -7,6 +7,7 @@ use Tlapnet\Report\Model\Parameters\Parameter\Parameter;
 use Tlapnet\Report\Model\Subreport\Attachable;
 use Tlapnet\Report\Utils\Expander;
 use Tlapnet\Report\Utils\Suggestions;
+use Tlapnet\Report\Utils\Switcher;
 
 class Parameters implements Attachable
 {
@@ -123,6 +124,14 @@ class Parameters implements Attachable
 	public function createExpander()
 	{
 		return new Expander($this->toArray());
+	}
+
+	/**
+	 * @return Switcher
+	 */
+	public function createSwitcher()
+	{
+		return new Switcher($this->toArray());
 	}
 
 }

@@ -5,9 +5,9 @@ namespace Tlapnet\Report\Bridges\Dibi\DataSources;
 use DibiConnection;
 use Tlapnet\Report\DataSources\AbstractMultiDataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
+use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Model\Result\MultiResult;
 use Tlapnet\Report\Model\Result\Result;
-use Tlapnet\Report\Model\Parameters\Parameters;
 
 class MultiDibiWrapperDataSource extends AbstractMultiDataSource
 {
@@ -34,9 +34,6 @@ class MultiDibiWrapperDataSource extends AbstractMultiDataSource
 	 */
 	public function compile(Parameters $parameters)
 	{
-		$expander = $parameters->createExpander();
-		$params = $parameters->toArray();
-
 		// Create result
 		$result = new MultiResult();
 
@@ -44,16 +41,20 @@ class MultiDibiWrapperDataSource extends AbstractMultiDataSource
 			// Get sql from row
 			$sql = $row->sql;
 
-			if ($this->isPure()) {
-				// Expand parameters
-				$sql = $expander->expand($sql);
-				// Execute native query
-				$resultset = $this->connection->nativeQuery($sql);
+			// Prepare parameters
+			if (!$parameters->isEmpty()) {
+				$switch = $parameters->createSwitcher();
+				$switch->setPlaceholder('?');
+				// Replace named parameters for ? and return
+				// accurate sequenced array of arguments
+				list ($sql, $args) = $switch->execute($sql);
 			} else {
-				// Execute nette database query
-				$args = array_values($params);
-				$resultset = $this->connection->query($sql, $args);
+				// Keep empty arguments
+				$args = [];
 			}
+
+			// Execute nette database query
+			$resultset = $this->connection->query($sql, $args);
 
 			// Fetch single data
 			$single = $resultset->fetchSingle();
