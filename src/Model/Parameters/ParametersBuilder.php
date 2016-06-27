@@ -47,6 +47,10 @@ class ParametersBuilder
 		if (isset($values['items'])) {
 			$parameter->setItems($values['items']);
 		}
+		// Select > items
+		if (isset($values['useKeys'])) {
+			$parameter->setUseKeys($values['useKeys']);
+		}
 
 		$this->addParameter($parameter);
 	}

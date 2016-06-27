@@ -3,21 +3,17 @@
 namespace Tlapnet\Report\Bridges\Dibi\DataSources;
 
 use DibiConnection;
-use DibiException;
-use Tlapnet\Report\DataSources\DataSource;
+use Tlapnet\Report\DataSources\AbstractMultiDataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
 use Tlapnet\Report\Model\Data\MultiResult;
 use Tlapnet\Report\Model\Data\Result;
 use Tlapnet\Report\Model\Parameters\Parameters;
 
-class MultiDibiWrapperDataSource implements DataSource
+class MultiDibiWrapperDataSource extends AbstractMultiDataSource
 {
 
 	/** @var DibiConnection */
 	protected $connection;
-
-	/** @var array */
-	protected $rows = [];
 
 	/**
 	 * @param DibiConnection $connection
@@ -25,17 +21,6 @@ class MultiDibiWrapperDataSource implements DataSource
 	public function __construct(DibiConnection $connection)
 	{
 		$this->connection = $connection;
-	}
-
-	/**
-	 * @param string $sql
-	 */
-	public function addRow($title, $sql)
-	{
-		$this->rows[] = (object)[
-			'title' => $title,
-			'sql' => $sql,
-		];
 	}
 
 	/**
@@ -49,28 +34,33 @@ class MultiDibiWrapperDataSource implements DataSource
 	 */
 	public function compile(Parameters $parameters)
 	{
-		// Expand parameters
 		$expander = $parameters->createExpander();
+		$params = $parameters->toArray();
 
 		// Create result
 		$result = new MultiResult();
 
 		foreach ($this->rows as $row) {
-			// Replace placeholders
-			$query = $expander->expand($row->sql);
+			// Get sql from row
+			$sql = $row->sql;
 
-			try {
-				// Execute query
-				$resultset = $this->connection->nativeQuery($query);
-			} catch (DibiException $e) {
-				throw new SqlException($query, NULL, $e);
+			if ($this->isPure()) {
+				// Expand parameters
+				$sql = $expander->expand($sql);
+				// Execute native query
+				$resultset = $this->connection->nativeQuery($sql);
+			} else {
+				// Execute nette database query
+				$args = array_values($params);
+				$resultset = $this->connection->query($sql, $args);
 			}
 
+			// Fetch single data
 			$single = $resultset->fetchSingle();
 
 			// Check data
 			if ($single === FALSE) {
-				throw new SqlException($query);
+				throw new SqlException($sql);
 			}
 
 			$result->add(new Result([$row->title => $single]));

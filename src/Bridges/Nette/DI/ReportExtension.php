@@ -5,6 +5,7 @@ namespace Tlapnet\Report\Bridges\Nette\DI;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Config\Adapters\NeonAdapter;
+use Nette\DI\Helpers;
 use Nette\DI\Statement;
 use Nette\Utils\AssertionException;
 use Nette\Utils\Finder;
@@ -45,12 +46,19 @@ class ReportExtension extends CompilerExtension
 	protected $scheme = [
 		'report' => [
 			'groups' => [],
-			'metadata' => [],
+			'metadata' => [
+				'menu' => NULL,
+				'title' => NULL,
+				'description' => NULL,
+			],
 			'subreports' => NULL,
 			'subreport' => NULL,
 		],
 		'subreport' => [
-			'metadata' => [],
+			'metadata' => [
+				'title' => NULL,
+				'description' => NULL,
+			],
 			'renderer' => NULL,
 			'datasource' => NULL,
 			'params' => NULL,
@@ -204,10 +212,13 @@ class ReportExtension extends CompilerExtension
 	protected function loadReportsFromConfig(array $reports)
 	{
 		$builder = $this->getContainerBuilder();
+		$config = $builder->parameters;
 
 		foreach ($reports as $rid => $report) {
 			// Get report config
-			$report = $this->validateConfig($this->scheme['report'], $report);
+			$report = $this->validateConfig($this->scheme['report'], $report, $rid);
+
+			// =================================================================
 
 			// Validate report keys (subreport vs subreports)
 			if (is_array($report['subreports']) && is_array($report['subreport'])) {
@@ -222,6 +233,9 @@ class ReportExtension extends CompilerExtension
 			Validators::assertField($report, 'metadata', 'array', "item '%' in $rid");
 			Validators::assertField($report, 'groups', 'array', "item '%' in $rid");
 			Validators::assertField($report, 'subreports', 'array', "item '%' in $rid");
+
+			// Validate report metadata
+			$this->validateConfig($this->scheme['report']['metadata'], $report['metadata'], "$rid.metadata");
 
 			// Autofill metadata
 			if (!isset($report['metadata']['menu']) && isset($report['metadata']['title'])) {
@@ -248,17 +262,19 @@ class ReportExtension extends CompilerExtension
 
 			// Add report metadata
 			foreach ((array)$report['metadata'] as $key => $value) {
-				$reportDef->addSetup('setOption', [$key, $value]);
+				// Skip empty values
+				if (empty($value) || $value === NULL) continue;
+				// Append and expand parameters
+				$reportDef->addSetup('setOption', [$key, Helpers::expand($value, $config)]);
 			}
 
-			// Check if report is groupless otherwise,
-			// add report to groups
+			// Check if report is groupless,
+			// otherwise add report to groups
 			if (!$report['groups']) {
 				$builder->getDefinition($this->prefix('manager'))
 					->addSetup('addGroupless', [$reportDef]);
 			} else {
 				foreach ($report['groups'] as $gid) {
-
 					// Validate groups
 					if (!in_array($gid, $this->configuration['groups'])) throw new AssertionException("Group $gid defined in $rid.groups does not exist");
 
@@ -301,7 +317,7 @@ class ReportExtension extends CompilerExtension
 		$name = $rid . '_' . $sid;
 
 		// Get subreport config
-		$subreport = $this->validateConfig($this->scheme['subreport'], $subreport, 'subreport');
+		$subreport = $this->validateConfig($this->scheme['subreport'], $subreport, "$rid.subreports.$sid");
 
 		// =====================================================================
 
@@ -310,10 +326,14 @@ class ReportExtension extends CompilerExtension
 		Validators::assertField($subreport, 'datasource', NULL, "item '%' in $rid subreport $sid");
 		Validators::assertField($subreport, 'renderer', NULL, "item '%' in $rid subreport $sid");
 
+		// Validate subreport metadata
+		$this->validateConfig($this->scheme['subreport']['metadata'], $subreport['metadata'], "$rid.subreports.$sid.metadata");
+
 		// =====================================================================
 
 		// Prepare builder
 		$builder = $this->getContainerBuilder();
+		$config = $builder->parameters;
 
 		// Create parameters service
 		$parametersDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.parameters'));
@@ -361,7 +381,10 @@ class ReportExtension extends CompilerExtension
 
 		// Add metadata
 		foreach ((array)$subreport['metadata'] as $key => $value) {
-			$subreportDef->addSetup('setOption', [$key, $value]);
+			// Skip empty values
+			if (empty($value) || $value === NULL) continue;
+			// Append and expand parameters
+			$subreportDef->addSetup('setOption', [$key, Helpers::expand($value, $config)]);
 		}
 
 		// Add preprocessors

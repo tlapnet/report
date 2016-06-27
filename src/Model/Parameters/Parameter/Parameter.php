@@ -21,6 +21,9 @@ abstract class Parameter
 	/** @var mixed */
 	protected $value;
 
+	/** @var mixed */
+	protected $rawValue;
+
 	/** @var array */
 	protected $options = [];
 
@@ -86,10 +89,17 @@ abstract class Parameter
 	 */
 	public function setValue($value)
 	{
+		// Store original value
+		$this->rawValue = $value;
+
+		// Remove spaces
 		$value = trim($value);
 
+		// Escape possible invalid data
+		$value = htmlspecialchars($value);
+
 		// Set only non-null and non-empty values
-		if (strlen($value) > 0 && $value != NULL) {
+		if (strlen($value) > 0 && $value !== NULL) {
 			$this->value = $value;
 		}
 	}
@@ -100,6 +110,14 @@ abstract class Parameter
 	public function hasValue()
 	{
 		return !empty($this->value) && $this->value !== NULL;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getRawValue()
+	{
+		return $this->rawValue;
 	}
 
 	/**

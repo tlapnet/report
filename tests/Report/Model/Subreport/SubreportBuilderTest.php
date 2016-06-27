@@ -41,7 +41,7 @@ final class SubreportBuilderTest extends BaseTestCase
 
 		$builder = new SubreportBuilder();
 		$builder->setSid('b1');
-		$builder->setParameters(new Parameters([]));
+		$builder->setParameters(new Parameters());
 		$builder->build();
 	}
 
@@ -52,7 +52,7 @@ final class SubreportBuilderTest extends BaseTestCase
 
 		$builder = new SubreportBuilder();
 		$builder->setSid('b1');
-		$builder->setParameters(new Parameters([]));
+		$builder->setParameters(new Parameters());
 		$builder->setDataSource(new DevNullDataSource());
 		$builder->build();
 	}
@@ -61,7 +61,7 @@ final class SubreportBuilderTest extends BaseTestCase
 	{
 		$builder = new SubreportBuilder();
 		$builder->setSid('b1');
-		$builder->setParameters(new Parameters([]));
+		$builder->setParameters(new Parameters());
 		$builder->setDataSource(new DevNullDataSource());
 		$builder->setRenderer(new DevNullRenderer());
 
@@ -72,7 +72,7 @@ final class SubreportBuilderTest extends BaseTestCase
 	{
 		$builder = new SubreportBuilder();
 		$builder->setSid('b1');
-		$builder->setParameters(new Parameters([]));
+		$builder->setParameters(new Parameters());
 		$builder->setDataSource(new DevNullDataSource());
 		$builder->setRenderer(new DevNullRenderer());
 		$builder->setMetadata($metadata = new Metadata());
@@ -85,7 +85,7 @@ final class SubreportBuilderTest extends BaseTestCase
 	{
 		$builder = new SubreportBuilder();
 		$builder->setSid('b1');
-		$builder->setParameters(new Parameters([]));
+		$builder->setParameters(new Parameters());
 		$builder->setDataSource(new DevNullDataSource());
 		$builder->setRenderer(new DevNullRenderer());
 		$builder->setPreprocessors($preprocessors = new Preprocessors());

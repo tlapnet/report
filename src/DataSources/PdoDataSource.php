@@ -30,14 +30,22 @@ class PdoDataSource extends AbstractDatabaseConnectionDataSource
 
 	/**
 	 * @param Parameters $parameters
-	 * @param string $query
 	 * @return Result
 	 * @throws SqlException
 	 */
-	public function doCompile(Parameters $parameters, $query)
+	public function compile(Parameters $parameters)
 	{
 		// Connect to DB
 		if (!$this->pdo) $this->connect();
+
+		// Expand parameters
+		$expander = $parameters->createExpander();
+
+		// Get SQL
+		$sql = $this->getRealSql($parameters);
+
+		// Replace placeholders
+		$query = $expander->expand($sql);
 
 		try {
 			$statement = $this->pdo->prepare($query);

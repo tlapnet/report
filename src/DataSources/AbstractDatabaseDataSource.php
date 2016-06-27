@@ -3,8 +3,6 @@
 namespace Tlapnet\Report\DataSources;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
-use Tlapnet\Report\Model\Data\Result;
 use Tlapnet\Report\Model\Parameters\Parameters;
 
 abstract class AbstractDatabaseDataSource implements DataSource
@@ -15,6 +13,9 @@ abstract class AbstractDatabaseDataSource implements DataSource
 
 	/** @var string */
 	protected $defaultSql;
+
+	/** @var bool */
+	protected $pure = TRUE;
 
 	/**
 	 * @return string
@@ -49,6 +50,22 @@ abstract class AbstractDatabaseDataSource implements DataSource
 	}
 
 	/**
+	 * @return boolean
+	 */
+	public function isPure()
+	{
+		return $this->pure;
+	}
+
+	/**
+	 * @param boolean $pure
+	 */
+	public function setPure($pure)
+	{
+		$this->pure = (bool)$pure;
+	}
+
+	/**
 	 * @param Parameters $parameters
 	 * @return string
 	 */
@@ -70,32 +87,4 @@ abstract class AbstractDatabaseDataSource implements DataSource
 		return $sql;
 	}
 
-	/**
-	 * ABSTRACT ****************************************************************
-	 */
-
-	abstract protected function doCompile(Parameters $parameters, $query);
-
-	/**
-	 * API *********************************************************************
-	 */
-
-	/**
-	 * @param Parameters $parameters
-	 * @return Result
-	 * @throws SqlException
-	 */
-	public function compile(Parameters $parameters)
-	{
-		// Expand parameters
-		$expander = $parameters->createExpander();
-
-		// Get SQL
-		$sql = $this->getRealSql($parameters);
-
-		// Replace placeholders
-		$query = $expander->expand($sql);
-
-		return $this->doCompile($parameters, $query);
-	}
 }

@@ -3,8 +3,6 @@
 namespace Tlapnet\Report\Tests\Model\Parameters;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
-use Tlapnet\Report\Exceptions\Logic\NotImplementedException;
-use Tlapnet\Report\Model\Parameters\Parameter\Parameter;
 use Tlapnet\Report\Model\Parameters\Parameter\TextParameter;
 use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Tests\BaseTestCase;
@@ -61,11 +59,17 @@ final class ParametersTest extends BaseTestCase
 
 	public function testAttach()
 	{
+		$p1 = new TextParameter('foobar');
 		$p = new Parameters();
+		$p->add($p1);
 
-		$this->expectException(NotImplementedException::class);
+		$this->assertNull($p1->getValue());
+		$this->assertEmpty($p->toArray());
 
-		$p->attach([]);
+		$p->attach(['foobar' => 100]);
+
+		$this->assertEquals(100, $p1->getValue());
+		$this->assertEquals(['foobar' => 100], $p->toArray());
 	}
 
 	public function testCreateExpander()

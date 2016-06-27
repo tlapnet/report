@@ -8,6 +8,7 @@ use Tlapnet\Report\DataSources\DummyDataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 use Tlapnet\Report\Exceptions\Logic\NotImplementedException;
+use Tlapnet\Report\Model\Parameters\Parameter\TextParameter;
 use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Model\Preprocessor\Impl\AppendPreprocessor;
 use Tlapnet\Report\Model\Preprocessor\Impl\DevNullPreprocessor;
@@ -22,7 +23,7 @@ final class SubreportTest extends BaseTestCase
 
 	public function testDefault()
 	{
-		$r = new Subreport('s1', new Parameters([]), new DevNullDataSource(), new DevNullRenderer());
+		$r = new Subreport('s1', new Parameters(), new DevNullDataSource(), new DevNullRenderer());
 
 		$this->assertSame(Parameters::class, get_class($r->getParameters()));
 		$this->assertSame(DevNullDataSource::class, get_class($r->getDataSource()));
@@ -34,7 +35,7 @@ final class SubreportTest extends BaseTestCase
 
 	public function testIsState1()
 	{
-		$r = new Subreport('s1', new Parameters([]), new ArrayDataSource([]), new DevNullRenderer());
+		$r = new Subreport('s1', new Parameters(), new ArrayDataSource([]), new DevNullRenderer());
 		$this->assertTrue($r->isState($r::STATE_CREATED));
 
 		$r->compile();
@@ -46,7 +47,7 @@ final class SubreportTest extends BaseTestCase
 
 	public function testIsState2()
 	{
-		$r = new Subreport('s1', new Parameters([]), new ArrayDataSource([]), new DevNullRenderer());
+		$r = new Subreport('s1', new Parameters(), new ArrayDataSource([]), new DevNullRenderer());
 		$r->addPreprocessor('foo', new DevNullPreprocessor());
 		$this->assertTrue($r->isState($r::STATE_CREATED));
 
@@ -62,7 +63,7 @@ final class SubreportTest extends BaseTestCase
 
 	public function testHashOption()
 	{
-		$r = new Subreport('s1', new Parameters([]), new DevNullDataSource(), new DevNullRenderer());
+		$r = new Subreport('s1', new Parameters(), new DevNullDataSource(), new DevNullRenderer());
 		$r->setOption('foo', 'bar');
 
 		$this->assertTrue($r->hasOption('foo'));
@@ -70,7 +71,7 @@ final class SubreportTest extends BaseTestCase
 
 	public function testGetOption()
 	{
-		$r = new Subreport('s1', new Parameters([]), new DevNullDataSource(), new DevNullRenderer());
+		$r = new Subreport('s1', new Parameters(), new DevNullDataSource(), new DevNullRenderer());
 		$r->setOption('foo', 'bar');
 
 		$this->assertEquals('bar', $r->getOption('foo'));
@@ -78,7 +79,7 @@ final class SubreportTest extends BaseTestCase
 
 	public function testGetOptionDefault()
 	{
-		$r = new Subreport('s1', new Parameters([]), new DevNullDataSource(), new DevNullRenderer());
+		$r = new Subreport('s1', new Parameters(), new DevNullDataSource(), new DevNullRenderer());
 		$r->setOption('foo', 'bar');
 
 		$this->assertEquals('foobar', $r->getOption('foobar', 'foobar'));
@@ -86,7 +87,7 @@ final class SubreportTest extends BaseTestCase
 
 	public function testGetOptionSuggestion()
 	{
-		$r = new Subreport('s1', new Parameters([]), new DevNullDataSource(), new DevNullRenderer());
+		$r = new Subreport('s1', new Parameters(), new DevNullDataSource(), new DevNullRenderer());
 		$r->setOption('foo', 'bar');
 
 		$this->expectException(InvalidArgumentException::class);
@@ -97,17 +98,24 @@ final class SubreportTest extends BaseTestCase
 
 	public function testAttach()
 	{
-		$r = new Subreport('s1', new Parameters([]), new DevNullDataSource(), new DevNullRenderer());
+		$p1 = new TextParameter('foobar');
+		$p = new Parameters();
+		$p->add($p1);
 
-		$this->expectException(NotImplementedException::class);
+		$this->assertNull($p1->getValue());
+		$this->assertEmpty($p->toArray());
 
-		$r->attach([]);
+		$r = new Subreport('s1', $p, new DevNullDataSource(), new DevNullRenderer());
+		$r->attach(['foobar' => 100]);
+
+		$this->assertEquals(100, $p1->getValue());
+		$this->assertEquals(['foobar' => 100], $p->toArray());
 	}
 
 	public function testCompile()
 	{
 		$data = ['foo' => 'bar'];
-		$r = new Subreport('s1', new Parameters([]), new ArrayDataSource($data), new DevNullRenderer());
+		$r = new Subreport('s1', new Parameters(), new ArrayDataSource($data), new DevNullRenderer());
 
 		$r->compile();
 
@@ -118,7 +126,7 @@ final class SubreportTest extends BaseTestCase
 
 	public function testCompileException1()
 	{
-		$r = new Subreport('s1', new Parameters([]), new DummyDataSource(NULL), new DevNullRenderer());
+		$r = new Subreport('s1', new Parameters(), new DummyDataSource(NULL), new DevNullRenderer());
 
 		$this->expectException(InvalidStateException::class);
 		$this->expectExceptionMessage('Compilation cannot return NULL.');
@@ -128,7 +136,7 @@ final class SubreportTest extends BaseTestCase
 
 	public function testCompileException2()
 	{
-		$r = new Subreport('s1', new Parameters([]), new DummyDataSource(new \stdClass()), new DevNullRenderer());
+		$r = new Subreport('s1', new Parameters(), new DummyDataSource(new \stdClass()), new DevNullRenderer());
 
 		$this->expectException(InvalidStateException::class);
 		$this->expectExceptionMessage("DataSource returned object 'stdClass' does not implement 'Tlapnet\Report\Model\Data\Resultable'.");
@@ -138,7 +146,7 @@ final class SubreportTest extends BaseTestCase
 
 	public function testPreprocess()
 	{
-		$r1 = new Subreport('s1', new Parameters([]), new ArrayDataSource([['foo' => 1000]]), new DevNullRenderer());
+		$r1 = new Subreport('s1', new Parameters(), new ArrayDataSource([['foo' => 1000]]), new DevNullRenderer());
 		$r1->addPreprocessor('foo', new NumberPreprocessor());
 
 		$r1->compile();
@@ -149,7 +157,7 @@ final class SubreportTest extends BaseTestCase
 
 		// -----
 
-		$r2 = new Subreport('s1', new Parameters([]), new ArrayDataSource([['foo' => 'bar']]), new DevNullRenderer());
+		$r2 = new Subreport('s1', new Parameters(), new ArrayDataSource([['foo' => 'bar']]), new DevNullRenderer());
 		$r2->addPreprocessor('foo', new AppendPreprocessor('bar'));
 
 		$r2->compile();
@@ -160,7 +168,7 @@ final class SubreportTest extends BaseTestCase
 
 		// -----
 
-		$r3 = new Subreport('s1', new Parameters([]), new ArrayDataSource([['foo' => 'bar']]), new DevNullRenderer());
+		$r3 = new Subreport('s1', new Parameters(), new ArrayDataSource([['foo' => 'bar']]), new DevNullRenderer());
 
 		$r3->compile();
 		$r3->preprocess();
@@ -172,7 +180,7 @@ final class SubreportTest extends BaseTestCase
 
 	public function testPreprocessException1()
 	{
-		$r = new Subreport('s1', new Parameters([]), new ArrayDataSource([]), new DevNullRenderer());
+		$r = new Subreport('s1', new Parameters(), new ArrayDataSource([]), new DevNullRenderer());
 
 		$this->expectException(InvalidStateException::class);
 		$this->expectExceptionMessage('Cannot preprocess subreport. Please compiled it first.');
@@ -182,7 +190,7 @@ final class SubreportTest extends BaseTestCase
 
 	public function testPreprocessException2()
 	{
-		$r = new Subreport('s1', new Parameters([]), new ArrayDataSource([]), new DevNullRenderer());
+		$r = new Subreport('s1', new Parameters(), new ArrayDataSource([]), new DevNullRenderer());
 		$r->addPreprocessor('foo', new DevNullPreprocessor());
 		$r->compile();
 
@@ -195,7 +203,7 @@ final class SubreportTest extends BaseTestCase
 
 	public function testRender()
 	{
-		$r1 = new Subreport('s1', new Parameters([]), new ArrayDataSource(['foo' => 'bar']), new DummyRenderer());
+		$r1 = new Subreport('s1', new Parameters(), new ArrayDataSource(['foo' => 'bar']), new DummyRenderer());
 		$r1->compile();
 		$r1->preprocess();
 
@@ -207,10 +215,10 @@ final class SubreportTest extends BaseTestCase
 
 	public function testRenderException1()
 	{
-		$r = new Subreport('s1', new Parameters([]), new ArrayDataSource([]), new DevNullRenderer());
+		$r = new Subreport('s1', new Parameters(), new ArrayDataSource([]), new DevNullRenderer());
 
 		$this->expectException(InvalidStateException::class);
-		$this->expectExceptionMessage('Cannot render subreport. Please compiled it first.');
+		$this->expectExceptionMessage('Cannot render subreport. Please compiled or preprocess it first.');
 
 		$r->render();
 	}

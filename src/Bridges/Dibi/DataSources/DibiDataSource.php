@@ -34,20 +34,31 @@ class DibiDataSource extends AbstractDatabaseConnectionDataSource
 
 	/**
 	 * @param Parameters $parameters
-	 * @param string $query
 	 * @return Result
 	 * @throws SqlException
 	 */
-	public function doCompile(Parameters $parameters, $query)
+	public function compile(Parameters $parameters)
 	{
 		// Connect to DB
 		if (!$this->connection) $this->connect();
 
+		// Get SQL
+		$sql = $this->getRealSql($parameters);
+
 		try {
-			// Execute query
-			$resultset = $this->connection->query($query);
+			if ($this->isPure()) {
+				// Expand parameters
+				$expander = $parameters->createExpander();
+				$sql = $expander->expand($sql);
+				// Execute native query
+				$resultset = $this->connection->nativeQuery($sql);
+			} else {
+				// Execute dibi query
+				$args = array_values($parameters->toArray());
+				$resultset = $this->connection->query($sql, $args);
+			}
 		} catch (DibiException $e) {
-			throw new SqlException($query, NULL, $e);
+			throw new SqlException($sql, NULL, $e);
 		}
 
 		$result = new LazyDibiResult($resultset);
