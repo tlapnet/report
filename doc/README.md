@@ -70,11 +70,20 @@ params:
 		- addText({
 			name: ID
 			title: Identificator
+			options: {
+				placeholder: Some hint!
+			}
 		})
 		- addSelect({
-			name: UID
-			title: Unified ID
+			name: States
+			title: State types
 			items: [POST, GET, DELETE]
+		})
+		- addSelect({
+			name: States
+			title: State types
+			useKeys: on
+			items: @report.fetcher.dibi::create('SELECT * FROM [states]')::fetchPairs('id', 'name')
 		})
 ```
 
@@ -130,6 +139,25 @@ Dibi bridge:
 - [DibiDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Dibi/DataSources/DibiDataSource.php)
 - [DibiWrapperDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Dibi/DataSources/DibiWrapperDataSource.php) (obaluje dibi connection)
 - [MultiDibiWrapperDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Dibi/DataSources/MultiDibiWrapperDataSource.php) (obaluje nette dibi connection + obsahuje více sql dotazů)
+
+### Database
+
+Speciální případ datasources jsou databáze. 
+
+Disponují speciálními metodami:
+
+- `setSql($sql)`
+- `setDefaultSql($sql)`
+
+Default sql dotaz se provede pokud nejsou k dispozici žádné parametry. Buď neexistuje formulář nebo formulář nebyl vyplněn, tzv. výchozí stav.
+
+### Multi-Database
+
+Další specifický případ jsou multi-datasources. Používají se např. pro vertikální tabulky. Jejich hlavní přidaná hodnota je, že akceptují více SQL dotazů.
+
+- `addSql($title, $sql)`
+
+Těchto n-sql dotazů se vykoná při kompilaci jak jsme zvyklí. Výsledkem je `MultiResult`, který akceptuje více `Result` objektů a umí s nimi pracovat jako by to bylo jednoduché pole. 
 
 ## Preprocessors
 
@@ -336,3 +364,54 @@ V hlavním konfiguračním souboru je doporučeno registrovat pouze:
 ```
 
 Detailnější ukázky jsou v sample modulu u sample projektu.
+
+Hlavní konfigurační soubor [report.neon](https://git.tlapnet.cz/modules/sample-module/blob/master/config/report.neon).
+Jednotlivé [reporty na ukázku](https://git.tlapnet.cz/modules/sample-module/tree/master/config/reports/).
+
+Testovací ukázková konfigurace, se všemi možnostmi.
+
+```yaml
+all1one:
+	groups: [custom]
+
+	metadata:
+		menu: ALL 1 ONE
+		title: All configuration at one place
+		description: This is all in one report!
+
+	subreports:
+		1:
+			metadata:
+				title: Special title
+				description: Custom description just for this subreport
+
+			params:
+				builder:
+					- addSelect({
+						name: dump
+						title: Dump input
+						options: {
+							placeholder: Do not fill me...
+						}
+					})
+
+					- addSelect({
+						name: username
+						title: Maintainer
+						useKeys: on
+						items: @report.fetcher.dibi::create('SELECT * FROM `login_user`')::fetchPairs('id', 'name')
+					})
+
+			datasource:
+				factory: @report.datasource.nette.db
+				setup:
+					- setDefaultSql('SELECT * FROM articles')
+					- setSql('SELECT * FROM articles WHERE author = {username}')
+
+			renderer:
+				factory: Tlapnet\Report\Bridges\Chart\Renderers\Donut\DonutChartRenderer
+				setup:
+					- addSegment("title", "username")
+					- addSegment("value", "tasks")
+
+```
