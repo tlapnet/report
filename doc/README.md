@@ -176,7 +176,7 @@ Připravené implementace:
 - [DevNullRenderer](https://git.tlapnet.cz/libs/report/blob/master/src/Renderers/DevNullRenderer.php) (pro testování)
 - [DummyRenderer](https://git.tlapnet.cz/libs/report/blob/master/src/Renderers/DummyRenderer.php) (pro testování)
 - [JsonRenderer](https://git.tlapnet.cz/libs/report/blob/master/src/Renderers/JsonRenderer.php)
-- [TableRenderer])(https://git.tlapnet.cz/libs/report/blob/master/src/Renderers/TableRenderer.php)
+- [TableRenderer](https://git.tlapnet.cz/libs/report/blob/master/src/Renderers/TableRenderer.php)
 
 Nette bridge:
 
@@ -319,7 +319,7 @@ V hlavním konfiguračním souboru je doporučeno registrovat pouze:
 				
 			preprocessors: (nepovinne)
 				<nazev-sloupecku>:
-					- <type>
+					- type
 					# Typ preprocesseru co se aplikuje na dany sloupecek
 					# Muze jich byt klidne vice, poradi je dle definice
 
