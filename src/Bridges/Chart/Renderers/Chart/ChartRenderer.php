@@ -6,7 +6,7 @@ use Tlapnet\Chart\Chart;
 use Tlapnet\Chart\Segment\Segment;
 use Tlapnet\Chart\Serie\Serie;
 use Tlapnet\Report\Bridges\Chart\Renderers\SeriesChartRenderer;
-use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Result\Result;
 
 class ChartRenderer extends SeriesChartRenderer
 {

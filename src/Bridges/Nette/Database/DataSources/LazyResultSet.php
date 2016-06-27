@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\Bridges\Nette\Database\DataSources;
 
 use Nette\Database\ResultSet;
-use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Result\Result;
 use Traversable;
 
 class LazyResultSet extends Result

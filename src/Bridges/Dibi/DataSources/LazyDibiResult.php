@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\Bridges\Dibi\DataSources;
 
 use DibiResult;
-use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Result\Result;
 use Traversable;
 
 class LazyDibiResult extends Result

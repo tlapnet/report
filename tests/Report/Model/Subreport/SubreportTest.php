@@ -139,7 +139,7 @@ final class SubreportTest extends BaseTestCase
 		$r = new Subreport('s1', new Parameters(), new DummyDataSource(new \stdClass()), new DevNullRenderer());
 
 		$this->expectException(InvalidStateException::class);
-		$this->expectExceptionMessage("DataSource returned object 'stdClass' does not implement 'Tlapnet\Report\Model\Data\Resultable'.");
+		$this->expectExceptionMessage("DataSource returned object 'stdClass' does not implement 'Tlapnet\Report\Model\Result\Resultable'.");
 
 		$r->compile();
 	}

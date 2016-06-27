@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\Model\Data;
+namespace Tlapnet\Report\Model\Result;
 
 use ArrayAccess;
 use ArrayIterator;

@@ -4,9 +4,9 @@ namespace Tlapnet\Report\Model\Subreport;
 
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Data\EditableResult;
-use Tlapnet\Report\Model\Data\Result;
-use Tlapnet\Report\Model\Data\Resultable;
+use Tlapnet\Report\Model\Result\EditableResult;
+use Tlapnet\Report\Model\Result\Result;
+use Tlapnet\Report\Model\Result\Resultable;
 use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Model\Preprocessor\Preprocessor;
 use Tlapnet\Report\Model\Preprocessor\Preprocessors;

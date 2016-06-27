@@ -6,7 +6,7 @@ use Tlapnet\Chart\DateChart;
 use Tlapnet\Chart\Segment\DateSegment;
 use Tlapnet\Chart\Serie\DateSerie;
 use Tlapnet\Report\Bridges\Chart\Renderers\SeriesChartRenderer;
-use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Result\Result;
 use Tlapnet\Report\Utils\DateTime;
 
 class DateChartRenderer extends SeriesChartRenderer

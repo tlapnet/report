@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\Tests\Model\Subreport;
 
 use Tlapnet\Report\DataSources\DevNullDataSource;
-use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Result\Result;
 use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Model\Preprocessor\Preprocessors;
 use Tlapnet\Report\Model\Subreport\EditableSubreport;

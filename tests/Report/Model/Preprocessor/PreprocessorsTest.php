@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\Tests\Model\Preprocessor;
 
-use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Result\Result;
 use Tlapnet\Report\Model\Preprocessor\Impl\AppendPreprocessor;
 use Tlapnet\Report\Model\Preprocessor\Impl\PrependPreprocessor;
 use Tlapnet\Report\Model\Preprocessor\Preprocessors;

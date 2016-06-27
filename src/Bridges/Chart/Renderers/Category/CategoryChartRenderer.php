@@ -8,7 +8,7 @@ use Tlapnet\Chart\Segment\CategorySegment;
 use Tlapnet\Chart\Serie\CategorySerie;
 use Tlapnet\Chart\Serie\Serie;
 use Tlapnet\Report\Bridges\Chart\Renderers\SeriesChartRenderer;
-use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Result\Result;
 
 class CategoryChartRenderer extends SeriesChartRenderer
 {

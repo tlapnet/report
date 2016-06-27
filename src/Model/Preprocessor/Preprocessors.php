@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\Model\Preprocessor;
 
-use Tlapnet\Report\Model\Data\EditableResult;
+use Tlapnet\Report\Model\Result\EditableResult;
 
 class Preprocessors
 {

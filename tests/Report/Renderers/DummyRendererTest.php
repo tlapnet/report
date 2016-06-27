@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\Tests\Renderers;
 
-use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Result\Result;
 use Tlapnet\Report\Renderers\DummyRenderer;
 use Tlapnet\Report\Tests\BaseTestCase;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Tlapnet\Report\Tests\Model\Data;
+namespace Tlapnet\Report\Tests\Model\Result;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
-use Tlapnet\Report\Model\Data\EditableResult;
-use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Result\EditableResult;
+use Tlapnet\Report\Model\Result\Result;
 use Tlapnet\Report\Tests\BaseTestCase;
 
 final class ResultTest extends BaseTestCase

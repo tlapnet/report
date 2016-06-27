@@ -5,8 +5,8 @@ namespace Tlapnet\Report\Bridges\Dibi\DataSources;
 use DibiConnection;
 use Tlapnet\Report\DataSources\AbstractMultiDataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
-use Tlapnet\Report\Model\Data\MultiResult;
-use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Result\MultiResult;
+use Tlapnet\Report\Model\Result\Result;
 use Tlapnet\Report\Model\Parameters\Parameters;
 
 class MultiDibiWrapperDataSource extends AbstractMultiDataSource

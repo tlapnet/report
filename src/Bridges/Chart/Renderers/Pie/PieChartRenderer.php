@@ -5,7 +5,7 @@ namespace Tlapnet\Report\Bridges\Chart\Renderers\Pie;
 use Tlapnet\Chart\PieChart;
 use Tlapnet\Chart\Segment\PieSegment;
 use Tlapnet\Report\Bridges\Chart\Renderers\AbstractChartRenderer;
-use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Result\Result;
 
 class PieChartRenderer extends AbstractChartRenderer
 {

@@ -5,7 +5,7 @@ namespace Tlapnet\Report\Bridges\Chart\Renderers\Donut;
 use Tlapnet\Chart\DonutChart;
 use Tlapnet\Chart\Segment\DonutSegment;
 use Tlapnet\Report\Bridges\Chart\Renderers\AbstractChartRenderer;
-use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Result\Result;
 
 class DonutChartRenderer extends AbstractChartRenderer
 {

@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\Bridges\Nette\Renderers\SimpleTable;
 
 use Tlapnet\Report\Bridges\Nette\Renderers\TemplateRenderer;
-use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Result\Result;
 
 class SimpleTableRenderer extends TemplateRenderer
 {

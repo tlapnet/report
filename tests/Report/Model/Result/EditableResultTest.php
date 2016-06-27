@@ -1,8 +1,8 @@
 <?php
 
-namespace Tlapnet\Report\Tests\Model\Data;
+namespace Tlapnet\Report\Tests\Model\Result;
 
-use Tlapnet\Report\Model\Data\EditableResult;
+use Tlapnet\Report\Model\Result\EditableResult;
 use Tlapnet\Report\Tests\BaseTestCase;
 
 final class EditableResultTest extends BaseTestCase

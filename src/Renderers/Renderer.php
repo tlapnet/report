@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\Renderers;
 
-use Tlapnet\Report\Model\Data\Result;
+use Tlapnet\Report\Model\Result\Result;
 
 interface Renderer
 {
