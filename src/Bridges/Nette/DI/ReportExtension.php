@@ -10,6 +10,7 @@ use Nette\DI\Statement;
 use Nette\Utils\AssertionException;
 use Nette\Utils\Finder;
 use Nette\Utils\Validators;
+use SplFileInfo;
 use Tlapnet\Report\Bridges\Nette\Exceptions\FileNotFoundException;
 use Tlapnet\Report\Bridges\Nette\Exceptions\FolderNotFoundException;
 use Tlapnet\Report\Bridges\Nette\Exceptions\InvalidConfigException;
@@ -161,7 +162,12 @@ class ReportExtension extends CompilerExtension
 
 			// Find all configs
 			foreach (Finder::findFiles('*.neon')->from($folder) as $file) {
-				$files[] = $file;
+				if (is_string($file)) {
+					$files[] = $file;
+				} else {
+					/** @var SplFileInfo $file */
+					$files[] = $file->getRealPath();
+				}
 			}
 		}
 
@@ -184,7 +190,7 @@ class ReportExtension extends CompilerExtension
 			$filedata = $loader->load($file);
 
 			// Check if report has a appropriate configuration
-			if (!$filedata || count($filedata) <= 0) throw new InvalidConfigException('Report configuration cannot be empty');
+			if (!$filedata || count($filedata) <= 0) throw new InvalidConfigException(sprintf('Report configuration (%s) cannot be empty', $file));
 
 			// Check if report has a appropriate configuration
 			if (count($filedata) > 1) throw new InvalidConfigException('Report must have a name. Specific root node as name of report');
