@@ -36,7 +36,7 @@ final class MetadataTest extends BaseTestCase
 	public function testSuggestions1()
 	{
 		$this->expectException(InvalidArgumentException::class);
-		$this->expectExceptionMessage("Unknown key 'fod', did you mean 'foo'?");
+		$this->expectExceptionMessage('Unknown key "fod", did you mean "foo"?');
 
 		$md = new Metadata();
 		$md->set('foo', 'bar');
@@ -50,7 +50,7 @@ final class MetadataTest extends BaseTestCase
 	public function testSuggestions2()
 	{
 		$this->expectException(InvalidArgumentException::class);
-		$this->expectExceptionMessage("Unknown key 'bar'.");
+		$this->expectExceptionMessage('Unknown key "bar".');
 
 		$md = new Metadata();
 		$md->set('foo', 'bar');

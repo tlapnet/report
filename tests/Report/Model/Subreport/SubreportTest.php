@@ -123,7 +123,7 @@ final class SubreportTest extends BaseTestCase
 		$r->setOption('foo', 'bar');
 
 		$this->expectException(InvalidArgumentException::class);
-		$this->expectExceptionMessage("Unknown key 'fod', did you mean 'foo'?");
+		$this->expectExceptionMessage('Unknown key "fod", did you mean "foo"?');
 
 		$this->assertEquals('foobar', $r->getOption('fod'));
 	}

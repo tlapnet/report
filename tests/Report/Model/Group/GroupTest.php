@@ -71,7 +71,7 @@ final class GroupTest extends BaseTestCase
 	public function testGetReportSuggestions()
 	{
 		$this->expectException(InvalidArgumentException::class);
-		$this->expectExceptionMessage("Report 'fod' not found, did you mean 'foo'?");
+		$this->expectExceptionMessage('Report "fod" not found, did you mean "foo"?');
 
 		$g = new Group('g1', 'foobar');
 		$g->addReport($r = new Report('foo'));

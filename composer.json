@@ -50,8 +50,8 @@
   "minimum-stability": "dev",
   "scripts": {
     "qa": [
-      "linter src",
-      "codesniffer src"
+      "linter src tests",
+      "codesniffer src tests"
     ],
     "phpunit": [
       "phpunit --colors=always -c phpunit.xml"

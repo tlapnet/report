@@ -45,7 +45,7 @@ final class ParametersTest extends BaseTestCase
 	public function testGetSuggestions()
 	{
 		$this->expectException(InvalidArgumentException::class);
-		$this->expectExceptionMessage("Unknown parameter 'fod', did you mean 'foo'?");
+		$this->expectExceptionMessage('Unknown parameter "fod", did you mean "foo"?');
 
 		$a = new TextParameter('foo');
 		$a->setValue('bar');

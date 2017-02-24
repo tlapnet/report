@@ -57,7 +57,7 @@ final class ReportTest extends BaseTestCase
 	public function testSubreportsSuggestions()
 	{
 		$this->expectException(InvalidArgumentException::class);
-		$this->expectExceptionMessage("Subreport 'fod' not found, did you mean 'foo'?");
+		$this->expectExceptionMessage('Subreport "fod" not found, did you mean "foo"?');
 
 		$r = new Report('r1');
 		$r->addSubreport($s = new Subreport('foo', new Parameters(), new DevNullDataSource(), new DevNullRenderer()));
@@ -89,7 +89,7 @@ final class ReportTest extends BaseTestCase
 	public function testOptionsSuggestions()
 	{
 		$this->expectException(InvalidArgumentException::class);
-		$this->expectExceptionMessage("Unknown key 'fod', did you mean 'foo'?");
+		$this->expectExceptionMessage('Unknown key "fod", did you mean "foo"?');
 
 		$r = new Report('r1');
 		$r->setOption('foo', 1);

@@ -84,7 +84,7 @@ final class ResultTest extends BaseTestCase
 		$r = new Result([]);
 
 		$this->expectException(InvalidArgumentException::class);
-		$this->expectExceptionMessage("Key 'fod' not found");
+		$this->expectExceptionMessage('Key "fod" not found');
 
 		$r->offsetGet('fod');
 	}
@@ -98,7 +98,7 @@ final class ResultTest extends BaseTestCase
 		$r = new Result([]);
 
 		$this->expectException(InvalidArgumentException::class);
-		$this->expectExceptionMessage("Key 'fod' not found");
+		$this->expectExceptionMessage('Key "fod" not found');
 
 		$r->offsetUnset('fod');
 	}

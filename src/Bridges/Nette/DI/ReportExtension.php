@@ -250,7 +250,7 @@ class ReportExtension extends CompilerExtension
 			Validators::assertField($report, 'subreports', 'array', sprintf('item "%" in %s', $rid));
 
 			// Validate report metadata
-			$this->validateConfig($this->scheme['report']['metadata'], $report['metadata'], sprintf('%s.metadata', $rid);
+			$this->validateConfig($this->scheme['report']['metadata'], $report['metadata'], sprintf('%s.metadata', $rid));
 
 			// Autofill metadata
 			if (!isset($report['metadata']['menu']) && isset($report['metadata']['title'])) {
