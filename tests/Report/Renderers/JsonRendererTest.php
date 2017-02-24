@@ -9,6 +9,10 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class JsonRendererTest extends BaseTestCase
 {
 
+	/**
+	 * @covers JsonRenderer::render
+	 * @return void
+	 */
 	public function testDefault()
 	{
 		$r = new JsonRenderer();

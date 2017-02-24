@@ -9,6 +9,10 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class HelpersTest extends BaseTestCase
 {
 
+	/**
+	 * @covers Helpers::toArray
+	 * @return void
+	 */
 	public function testToArray1()
 	{
 		$data = [1, 2, 3, 4];
@@ -18,6 +22,10 @@ final class HelpersTest extends BaseTestCase
 		$this->assertEquals($data, $array);
 	}
 
+	/**
+	 * @covers Helpers::toArray
+	 * @return void
+	 */
 	public function testToArray2()
 	{
 		$data = [['foo'], ['bar']];
@@ -26,4 +34,5 @@ final class HelpersTest extends BaseTestCase
 
 		$this->assertEquals($data, $array);
 	}
+
 }

@@ -16,16 +16,17 @@ class VerticalTableRenderer extends TemplateRenderer
 	/**
 	 * @param string $key
 	 * @param string $value
+	 * @return void
 	 */
 	public function setColumns($key, $value)
 	{
-		$this->columns['key'] = (object)['title' => $key];
-		$this->columns['value'] = (object)['title' => $value];
+		$this->columns['key'] = (object) ['title' => $key];
+		$this->columns['value'] = (object) ['title' => $value];
 	}
 
 	/**
 	 * @param Result $result
-	 * @return mixed
+	 * @return void
 	 */
 	public function render(Result $result)
 	{
@@ -35,8 +36,10 @@ class VerticalTableRenderer extends TemplateRenderer
 
 		$template = $this->createTemplate();
 		$template->setFile(__DIR__ . '/templates/vertical.table.latte');
+
 		$template->columns = $this->columns;
 		$template->rows = $result;
+
 		$template->render();
 	}
 

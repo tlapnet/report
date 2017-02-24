@@ -33,6 +33,7 @@ final class SelectParameter extends Parameter
 
 	/**
 	 * @param array $items
+	 * @return void
 	 */
 	public function setItems(array $items)
 	{
@@ -41,6 +42,7 @@ final class SelectParameter extends Parameter
 
 	/**
 	 * @param string $value
+	 * @return void
 	 */
 	public function setValue($value)
 	{
@@ -61,10 +63,11 @@ final class SelectParameter extends Parameter
 
 	/**
 	 * @param bool $use
+	 * @return void
 	 */
 	public function setUseKeys($use)
 	{
-		$this->useKeys = (bool)$use;
+		$this->useKeys = (bool) $use;
 	}
 
 	/**

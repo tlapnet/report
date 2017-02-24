@@ -14,10 +14,11 @@ class SimpleTableRenderer extends TemplateRenderer
 	/**
 	 * @param string $name
 	 * @param string $title
+	 * @return void
 	 */
 	public function addColumn($name, $title)
 	{
-		$this->columns[$name] = (object)[
+		$this->columns[$name] = (object) [
 			'name' => $name,
 			'title' => $title,
 		];
@@ -25,14 +26,16 @@ class SimpleTableRenderer extends TemplateRenderer
 
 	/**
 	 * @param Result $result
-	 * @return mixed
+	 * @return void
 	 */
 	public function render(Result $result)
 	{
 		$template = $this->createTemplate();
 		$template->setFile(__DIR__ . '/templates/simple.table.latte');
+
 		$template->columns = $this->columns;
 		$template->rows = $result;
+
 		$template->render();
 	}
 

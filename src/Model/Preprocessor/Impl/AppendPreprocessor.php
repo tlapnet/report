@@ -27,7 +27,7 @@ final class AppendPreprocessor extends AbstractPreprocessor
 	public function preprocess($data)
 	{
 		if ($this->append) {
-			return $data . ((string)$this->append);
+			return $data . ((string) $this->append);
 		} else {
 			return $data;
 		}

@@ -9,6 +9,10 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class TableRendererTest extends BaseTestCase
 {
 
+	/**
+	 * @covers TableRenderer::render
+	 * @return void
+	 */
 	public function testDefault()
 	{
 		$r = new TableRenderer();

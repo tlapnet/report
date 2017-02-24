@@ -8,6 +8,10 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class CurrencyPreprocessorTest extends BaseTestCase
 {
 
+	/**
+	 * @covers CurrencyPreprocessor::preprocess
+	 * @return void
+	 */
 	public function testPreprocessor()
 	{
 		$p = new CurrencyPreprocessor();
@@ -21,6 +25,10 @@ final class CurrencyPreprocessorTest extends BaseTestCase
 		$this->assertEquals('1 000 000.00 Kč', $p->preprocess(1000000));
 	}
 
+	/**
+	 * @covers CurrencyPreprocessor::preprocess
+	 * @return void
+	 */
 	public function testPreprocessorSuffix()
 	{
 		$p = new CurrencyPreprocessor('CZK');

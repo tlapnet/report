@@ -22,6 +22,9 @@ class Parameters implements Attachable
 	/** @var int */
 	private $state;
 
+	/**
+	 * Creates parameters
+	 */
 	public function __construct()
 	{
 		$this->state = self::STATE_EMPTY;
@@ -29,6 +32,7 @@ class Parameters implements Attachable
 
 	/**
 	 * @param Parameter $parameter
+	 * @return void
 	 */
 	public function add(Parameter $parameter)
 	{
@@ -46,7 +50,7 @@ class Parameters implements Attachable
 		}
 
 		$hint = Suggestions::getSuggestion(array_keys($this->parameters), $name);
-		throw new InvalidArgumentException("Unknown parameter '$name'" . ($hint ? ", did you mean '$hint'?" : '.'));
+		throw new InvalidArgumentException(Suggestions::format(sprintf('Unknown parameter "%s"', $name), $hint));
 	}
 
 	/**
@@ -59,6 +63,7 @@ class Parameters implements Attachable
 
 	/**
 	 * @param array $data
+	 * @return void
 	 */
 	public function attach(array $data)
 	{

@@ -9,6 +9,10 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class DevNullRendererTest extends BaseTestCase
 {
 
+	/**
+	 * @covers DevNullRenderer::render
+	 * @return void
+	 */
 	public function testDefault()
 	{
 		$r = new DevNullRenderer();

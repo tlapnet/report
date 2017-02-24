@@ -3,7 +3,6 @@
 namespace Tlapnet\Report\DataSources;
 
 use Tlapnet\Report\Exceptions\Logic\NotImplementedException;
-use Tlapnet\Report\Model\Result\Result;
 use Tlapnet\Report\Model\Parameters\Parameters;
 
 class RestDataSource implements DataSource
@@ -11,7 +10,7 @@ class RestDataSource implements DataSource
 
 	/**
 	 * @param Parameters $parameters
-	 * @return Result
+	 * @return void
 	 */
 	public function compile(Parameters $parameters)
 	{

@@ -27,7 +27,7 @@ final class PrependPreprocessor extends AbstractPreprocessor
 	public function preprocess($data)
 	{
 		if ($this->prepend) {
-			return (string)$this->prepend . $data;
+			return (string) $this->prepend . $data;
 		} else {
 			return $data;
 		}

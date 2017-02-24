@@ -28,11 +28,13 @@ class NetteDatabaseDataSource extends AbstractDatabaseConnectionDataSource
 	 * Show or hide tracy panel
 	 *
 	 * @param bool $show
+	 * @return void
 	 */
 	public function setTracyPanel($show)
 	{
 		$this->tracyPanel = $show;
 	}
+
 	/**
 	 * API *********************************************************************
 	 */

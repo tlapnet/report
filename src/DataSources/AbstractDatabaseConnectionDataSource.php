@@ -30,7 +30,7 @@ abstract class AbstractDatabaseConnectionDataSource extends AbstractDatabaseData
 		}
 
 		if (func_num_args() < 2) {
-			throw new InvalidStateException("Key '$key' not found in [" . implode(',', array_keys($this->config)) . "]");
+			throw new InvalidStateException('Key "' . $key . '" not found in [' . implode(',', array_keys($this->config)) . ']');
 		}
 
 		return $default;

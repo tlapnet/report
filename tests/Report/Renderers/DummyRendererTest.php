@@ -9,6 +9,10 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class DummyRendererTest extends BaseTestCase
 {
 
+	/**
+	 * @covers DummyRenderer::render
+	 * @return void
+	 */
 	public function testDefault()
 	{
 		$result = new Result([]);

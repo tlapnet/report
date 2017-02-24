@@ -57,6 +57,7 @@ class ParametersBuilder
 
 	/**
 	 * @param Parameter $parameter
+	 * @return void
 	 */
 	protected function addParameter(Parameter $parameter)
 	{
@@ -66,6 +67,7 @@ class ParametersBuilder
 	/**
 	 * @param Parameter $parameter
 	 * @param array $values
+	 * @return void
 	 */
 	protected function decorate(Parameter $parameter, array $values)
 	{
@@ -79,6 +81,7 @@ class ParametersBuilder
 			$parameter->setOptions($values['options']);
 		}
 	}
+
 	/**
 	 * API *********************************************************************
 	 */

@@ -8,6 +8,10 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class AppendPreprocessorTest extends BaseTestCase
 {
 
+	/**
+	 * @covers AppendPreprocessor::preprocess
+	 * @return void
+	 */
 	public function testPreprocessor()
 	{
 		$p1 = new AppendPreprocessor('foobar');

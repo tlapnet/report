@@ -11,6 +11,11 @@ use Tlapnet\Report\Utils\Expander;
 final class ParametersTest extends BaseTestCase
 {
 
+	/**
+	 * @covers Parameters::getAll
+	 * @covers Parameters::toArray
+	 * @return void
+	 */
 	public function testDefault()
 	{
 		$p = new Parameters();
@@ -18,6 +23,10 @@ final class ParametersTest extends BaseTestCase
 		$this->assertEmpty($p->toArray());
 	}
 
+	/**
+	 * @covers Parameters::get
+	 * @return void
+	 */
 	public function testGet()
 	{
 		$a = new TextParameter('foo');
@@ -29,6 +38,10 @@ final class ParametersTest extends BaseTestCase
 		$this->assertSame($a, $p->get('foo'));
 	}
 
+	/**
+	 * @coversNothing
+	 * @return void
+	 */
 	public function testGetSuggestions()
 	{
 		$this->expectException(InvalidArgumentException::class);
@@ -44,6 +57,10 @@ final class ParametersTest extends BaseTestCase
 		$p->get('fod');
 	}
 
+	/**
+	 * @covers Parameters::add
+	 * @return void
+	 */
 	public function testAdd()
 	{
 		$a = new TextParameter('foo');
@@ -57,6 +74,10 @@ final class ParametersTest extends BaseTestCase
 		$this->assertEquals(['foo' => 'bar'], $p->toArray());
 	}
 
+	/**
+	 * @covers Parameters::attach
+	 * @return void
+	 */
 	public function testAttach()
 	{
 		$p1 = new TextParameter('foobar');
@@ -72,6 +93,10 @@ final class ParametersTest extends BaseTestCase
 		$this->assertEquals(['foobar' => 100], $p->toArray());
 	}
 
+	/**
+	 * @covers Parameters::add
+	 * @return void
+	 */
 	public function testCreateExpander()
 	{
 		$a = new TextParameter('foo');

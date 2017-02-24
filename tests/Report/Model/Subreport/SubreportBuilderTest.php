@@ -15,6 +15,10 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class SubreportBuilderTest extends BaseTestCase
 {
 
+	/**
+	 * @covers SubreportBuilder::build
+	 * @return void
+	 */
 	public function testMissingSid()
 	{
 		$this->expectException(InvalidStateException::class);
@@ -24,6 +28,11 @@ final class SubreportBuilderTest extends BaseTestCase
 		$builder->build();
 	}
 
+	/**
+	 * @covers SubreportBuilder::setSid
+	 * @covers SubreportBuilder::build
+	 * @return void
+	 */
 	public function testMissingParameters()
 	{
 		$this->expectException(InvalidStateException::class);
@@ -34,6 +43,12 @@ final class SubreportBuilderTest extends BaseTestCase
 		$builder->build();
 	}
 
+	/**
+	 * @covers SubreportBuilder::setSid
+	 * @covers SubreportBuilder::setParameters
+	 * @covers SubreportBuilder::build
+	 * @return void
+	 */
 	public function testMissingDataSource()
 	{
 		$this->expectException(InvalidStateException::class);
@@ -45,6 +60,13 @@ final class SubreportBuilderTest extends BaseTestCase
 		$builder->build();
 	}
 
+	/**
+	 * @covers SubreportBuilder::setSid
+	 * @covers SubreportBuilder::setParameters
+	 * @covers SubreportBuilder::setDataSource
+	 * @covers SubreportBuilder::build
+	 * @return void
+	 */
 	public function testMissingRenderer()
 	{
 		$this->expectException(InvalidStateException::class);
@@ -57,6 +79,14 @@ final class SubreportBuilderTest extends BaseTestCase
 		$builder->build();
 	}
 
+	/**
+	 * @covers SubreportBuilder::setSid
+	 * @covers SubreportBuilder::setParameters
+	 * @covers SubreportBuilder::setDataSource
+	 * @covers SubreportBuilder::setRenderer
+	 * @covers SubreportBuilder::build
+	 * @return void
+	 */
 	public function testOk()
 	{
 		$builder = new SubreportBuilder();
@@ -68,6 +98,15 @@ final class SubreportBuilderTest extends BaseTestCase
 		$this->assertTrue(is_subclass_of($builder->build(), Subreport::class));
 	}
 
+	/**
+	 * @covers SubreportBuilder::setSid
+	 * @covers SubreportBuilder::setParameters
+	 * @covers SubreportBuilder::setDataSource
+	 * @covers SubreportBuilder::setRenderer
+	 * @covers SubreportBuilder::setMetadata
+	 * @covers SubreportBuilder::build
+	 * @return void
+	 */
 	public function testMetadata()
 	{
 		$builder = new SubreportBuilder();
@@ -81,6 +120,16 @@ final class SubreportBuilderTest extends BaseTestCase
 		$this->assertSame($metadata, $result->getMetadata());
 	}
 
+	/**
+	 * @covers SubreportBuilder::setSid
+	 * @covers SubreportBuilder::setParameters
+	 * @covers SubreportBuilder::setDataSource
+	 * @covers SubreportBuilder::setRenderer
+	 * @covers SubreportBuilder::setMetadata
+	 * @covers SubreportBuilder::setPreprocessors
+	 * @covers SubreportBuilder::build
+	 * @return void
+	 */
 	public function testPreprocessors()
 	{
 		$builder = new SubreportBuilder();
@@ -93,4 +142,5 @@ final class SubreportBuilderTest extends BaseTestCase
 
 		$this->assertSame($preprocessors, $result->getPreprocessors());
 	}
+
 }

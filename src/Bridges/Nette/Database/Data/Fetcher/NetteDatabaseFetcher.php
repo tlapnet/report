@@ -33,7 +33,7 @@ final class NetteDatabaseFetcher extends AbstractFetcher
 	}
 
 	/**
-	 * @param string $column
+	 * @param string|int $column
 	 * @return mixed
 	 */
 	public function fetchSingle($column = 0)
@@ -72,6 +72,5 @@ final class NetteDatabaseFetcher extends AbstractFetcher
 	{
 		return $this->connection->query($this->sql);
 	}
-
 
 }

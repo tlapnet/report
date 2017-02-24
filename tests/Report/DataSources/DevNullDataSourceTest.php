@@ -9,6 +9,11 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class DevNullDataSourceTest extends BaseTestCase
 {
 
+	/**
+	 * @covers DevNullDataSource::compile
+	 * @covers DevNullDataSource::getData
+	 * @return void
+	 */
 	public function testDefault()
 	{
 		$ds = new DevNullDataSource();

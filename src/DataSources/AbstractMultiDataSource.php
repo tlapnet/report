@@ -9,11 +9,13 @@ abstract class AbstractMultiDataSource implements DataSource
 	protected $rows = [];
 
 	/**
+	 * @param string $title
 	 * @param string $sql
+	 * @return void
 	 */
 	public function addRow($title, $sql)
 	{
-		$this->rows[] = (object)[
+		$this->rows[] = (object) [
 			'title' => $title,
 			'sql' => $sql,
 		];

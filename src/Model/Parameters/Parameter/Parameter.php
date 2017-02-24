@@ -70,6 +70,7 @@ abstract class Parameter
 
 	/**
 	 * @param string $title
+	 * @return void
 	 */
 	public function setTitle($title)
 	{
@@ -86,6 +87,7 @@ abstract class Parameter
 
 	/**
 	 * @param mixed $value
+	 * @return void
 	 */
 	public function setValue($value)
 	{
@@ -131,7 +133,7 @@ abstract class Parameter
 		}
 
 		$hint = Suggestions::getSuggestion(array_keys($this->options), $key);
-		throw new InvalidArgumentException("Unknown option '$key'" . ($hint ? ", did you mean '$hint'?" : '.'));
+		throw new InvalidArgumentException(Suggestions::format(sprintf('Unknown option "%s"', $key), $hint));
 	}
 
 	/**
@@ -146,6 +148,7 @@ abstract class Parameter
 	/**
 	 * @param string $key
 	 * @param mixed $value
+	 * @return void
 	 */
 	public function setOption($key, $value)
 	{
@@ -154,6 +157,7 @@ abstract class Parameter
 
 	/**
 	 * @param array $options
+	 * @return void
 	 */
 	public function setOptions(array $options)
 	{

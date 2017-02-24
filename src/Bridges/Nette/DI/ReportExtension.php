@@ -67,6 +67,11 @@ class ReportExtension extends CompilerExtension
 		],
 	];
 
+	/**
+	 * Register services
+	 *
+	 * @return void
+	 */
 	public function loadConfiguration()
 	{
 		$config = $this->validateConfig($this->defaults);
@@ -118,6 +123,7 @@ class ReportExtension extends CompilerExtension
 
 	/**
 	 * @param array $groups
+	 * @return void
 	 */
 	protected function loadGroups(array $groups)
 	{
@@ -127,7 +133,7 @@ class ReportExtension extends CompilerExtension
 		foreach ($groups as $gid => $name) {
 
 			// Check duplicates
-			if (in_array($gid, $this->configuration['groups'])) throw new AssertionException("Duplicate groups $gid.$name");
+			if (in_array($gid, $this->configuration['groups'])) throw new AssertionException(sprintf('Duplicate groups "%s.%s"', $gid, $name));
 
 			// Append to definitions
 			$this->configuration['groups'][] = $gid;
@@ -152,13 +158,14 @@ class ReportExtension extends CompilerExtension
 
 	/**
 	 * @param array $folders
+	 * @return void
 	 */
 	protected function loadReportsFromFolders(array $folders)
 	{
 		$files = [];
 		foreach ($folders as $folder) {
 			// Validate folder
-			if (!is_dir($folder)) throw new FolderNotFoundException("Folder $folder not found'");
+			if (!is_dir($folder)) throw new FolderNotFoundException(sprintf('Folder "%s" not found', $folder));
 
 			// Find all configs
 			foreach (Finder::findFiles('*.neon')->from($folder) as $file) {
@@ -176,6 +183,7 @@ class ReportExtension extends CompilerExtension
 
 	/**
 	 * @param array $files
+	 * @return void
 	 */
 	protected function loadReportsFromFiles(array $files)
 	{
@@ -184,7 +192,7 @@ class ReportExtension extends CompilerExtension
 
 		foreach ($files as $file) {
 			// Validate file
-			if (!file_exists($file)) throw new FileNotFoundException("File '$file' not found");
+			if (!file_exists($file)) throw new FileNotFoundException(sprintf('File "%s" not found', $file));
 
 			// File is included as report section
 			$filedata = $loader->load($file);
@@ -199,7 +207,7 @@ class ReportExtension extends CompilerExtension
 			$report = $filedata[$name];
 
 			// Check duplicates
-			if (isset($reports[$name])) throw new AssertionException("Duplicate reports '$name'");
+			if (isset($reports[$name])) throw new AssertionException(sprintf('Duplicate reports "%s"', $name));
 
 			// Append to reports
 			$reports[$name] = $report;
@@ -214,6 +222,7 @@ class ReportExtension extends CompilerExtension
 
 	/**
 	 * @param array $reports
+	 * @return void
 	 */
 	protected function loadReportsFromConfig(array $reports)
 	{
@@ -228,7 +237,7 @@ class ReportExtension extends CompilerExtension
 
 			// Validate report keys (subreport vs subreports)
 			if (is_array($report['subreports']) && is_array($report['subreport'])) {
-				throw new AssertionException("You cannot fill keys $rid.subreports and $rid.subreport at the same time.");
+				throw new AssertionException(sprintf('You cannot fill keys %s.subreports and %s.subreport at the same time.', $rid, $rid));
 			}
 
 			if (is_array($report['subreport'])) {
@@ -236,12 +245,12 @@ class ReportExtension extends CompilerExtension
 				unset($report['subreport']);
 			}
 
-			Validators::assertField($report, 'metadata', 'array', "item '%' in $rid");
-			Validators::assertField($report, 'groups', 'array', "item '%' in $rid");
-			Validators::assertField($report, 'subreports', 'array', "item '%' in $rid");
+			Validators::assertField($report, 'metadata', 'array', sprintf('item "%" in %s', $rid));
+			Validators::assertField($report, 'groups', 'array', sprintf('item "%" in %s', $rid));
+			Validators::assertField($report, 'subreports', 'array', sprintf('item "%" in %s', $rid));
 
 			// Validate report metadata
-			$this->validateConfig($this->scheme['report']['metadata'], $report['metadata'], "$rid.metadata");
+			$this->validateConfig($this->scheme['report']['metadata'], $report['metadata'], sprintf('%s.metadata', $rid);
 
 			// Autofill metadata
 			if (!isset($report['metadata']['menu']) && isset($report['metadata']['title'])) {
@@ -255,7 +264,7 @@ class ReportExtension extends CompilerExtension
 			}
 
 			// Check duplicates
-			if (in_array($rid, $this->configuration['reports'])) throw new AssertionException("Duplicate reports $rid");
+			if (in_array($rid, $this->configuration['reports'])) throw new AssertionException(sprintf('Duplicate reports "%s"', $rid));
 			$this->configuration['reports'][] = $rid;
 
 			// =================================================================
@@ -267,7 +276,7 @@ class ReportExtension extends CompilerExtension
 				]);
 
 			// Add report metadata
-			foreach ((array)$report['metadata'] as $key => $value) {
+			foreach ((array) $report['metadata'] as $key => $value) {
 				// Skip empty values
 				if (empty($value) || $value === NULL) continue;
 				// Append and expand parameters
@@ -282,7 +291,7 @@ class ReportExtension extends CompilerExtension
 			} else {
 				foreach ($report['groups'] as $gid) {
 					// Validate groups
-					if (!in_array($gid, $this->configuration['groups'])) throw new AssertionException("Group $gid defined in $rid.groups does not exist");
+					if (!in_array($gid, $this->configuration['groups'])) throw new AssertionException(sprintf('Group %s defined in %s.groups does not exist', $gid, $rid));
 
 					$builder->getDefinition($this->prefix('groups.' . $gid))
 						->addSetup('addReport', [$reportDef]);
@@ -297,6 +306,7 @@ class ReportExtension extends CompilerExtension
 	/**
 	 * @param string $rid
 	 * @param array $subreports
+	 * @return void
 	 */
 	protected function loadSubreports($rid, array $subreports)
 	{
@@ -315,7 +325,7 @@ class ReportExtension extends CompilerExtension
 	 * @param string $rid
 	 * @param string $sid
 	 * @param array $subreport
-	 * @throws AssertionException
+	 * @return void
 	 */
 	protected function loadSubreport($rid, $sid, array $subreport)
 	{
@@ -323,17 +333,17 @@ class ReportExtension extends CompilerExtension
 		$name = $rid . '_' . $sid;
 
 		// Get subreport config
-		$subreport = $this->validateConfig($this->scheme['subreport'], $subreport, "$rid.subreports.$sid");
+		$subreport = $this->validateConfig($this->scheme['subreport'], $subreport, sprintf('%s.subreports.%s', $rid, $sid));
 
 		// =====================================================================
 
-		Validators::assertField($subreport, 'metadata', 'array', "item '%' in $rid subreport $sid");
-		Validators::assertField($subreport, 'params', 'array|null', "item '%' in $rid subreport $sid");
-		Validators::assertField($subreport, 'datasource', NULL, "item '%' in $rid subreport $sid");
-		Validators::assertField($subreport, 'renderer', NULL, "item '%' in $rid subreport $sid");
+		Validators::assertField($subreport, 'metadata', 'array', sprintf('item "%" in %s subreport %s', $rid, $sid));
+		Validators::assertField($subreport, 'params', 'array|null', sprintf('item "%" in %s subreport %s', $rid, $sid));
+		Validators::assertField($subreport, 'datasource', NULL, sprintf('item "%" in %s subreport %s', $rid, $sid));
+		Validators::assertField($subreport, 'renderer', NULL, sprintf('item "%" in %s subreport %s', $rid, $sid));
 
 		// Validate subreport metadata
-		$this->validateConfig($this->scheme['subreport']['metadata'], $subreport['metadata'], "$rid.subreports.$sid.metadata");
+		$this->validateConfig($this->scheme['subreport']['metadata'], $subreport['metadata'], sprintf('%s.subreports.%s.metadata', $rid, $sid));
 
 		// =====================================================================
 
@@ -353,12 +363,12 @@ class ReportExtension extends CompilerExtension
 			$parametersBuilderDef->setClass(ParametersBuilder::class);
 			$parametersBuilderDef->setAutowired(FALSE);
 			// Parse setup
-			Compiler::parseService($parametersBuilderDef, ['setup' => $subreport['params']['builder']]);
+			Compiler::loadDefinition($parametersBuilderDef, ['setup' => $subreport['params']['builder']]);
 			// Set ParametersBuilder as factory for Parameters
 			$parametersDef->setFactory('@' . $this->prefix('subreports.' . $name . '.parameters.builder') . '::build');
 		} else if ($subreport['params']) {
 			// Parse service
-			Compiler::parseService($parametersDef, $subreport['params']);
+			Compiler::loadDefinition($parametersDef, $subreport['params']);
 		} else {
 			// If params are not filled
 			$parametersDef->setFactory(ParametersFactory::class . '::create', [[]]);
@@ -366,13 +376,13 @@ class ReportExtension extends CompilerExtension
 
 		// Create datasource service
 		$datasourceDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.datasource'));
-		Compiler::parseService($datasourceDef, $subreport['datasource']);
+		Compiler::loadDefinition($datasourceDef, $subreport['datasource']);
 		$datasourceDef->setClass(DataSource::class);
 		$datasourceDef->setAutowired(FALSE);
 
 		// Create renderer service
 		$rendererDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.renderer'));
-		Compiler::parseService($rendererDef, $subreport['renderer']);
+		Compiler::loadDefinition($rendererDef, $subreport['renderer']);
 		$rendererDef->setClass(Renderer::class);
 		$rendererDef->setAutowired(FALSE);
 
@@ -386,7 +396,7 @@ class ReportExtension extends CompilerExtension
 			]);
 
 		// Add metadata
-		foreach ((array)$subreport['metadata'] as $key => $value) {
+		foreach ((array) $subreport['metadata'] as $key => $value) {
 			// Skip empty values
 			if (empty($value) || $value === NULL) continue;
 			// Append and expand parameters
@@ -394,11 +404,11 @@ class ReportExtension extends CompilerExtension
 		}
 
 		// Add preprocessors
-		foreach ((array)$subreport['preprocessors'] as $column => $preprocessors) {
-			foreach ((array)$preprocessors as $key => $preprocessor) {
+		foreach ((array) $subreport['preprocessors'] as $column => $preprocessors) {
+			foreach ((array) $preprocessors as $key => $preprocessor) {
 				$pname = $column . '_' . $key;
 				$preprocessorDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.preprocessor.' . $pname));
-				Compiler::parseService($preprocessorDef, $preprocessor);
+				Compiler::loadDefinition($preprocessorDef, $preprocessor);
 				$subreportDef->addSetup('addPreprocessor', [$column, $preprocessorDef]);
 			}
 		}
@@ -412,7 +422,7 @@ class ReportExtension extends CompilerExtension
 	 * @param string $rid
 	 * @param string $sid
 	 * @param mixed $subreport
-	 * @throws AssertionException
+	 * @return void
 	 */
 	protected function loadSubreportFactory($rid, $sid, $subreport)
 	{

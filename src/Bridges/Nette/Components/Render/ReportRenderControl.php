@@ -35,6 +35,8 @@ class ReportRenderControl extends Control
 
 	/**
 	 * Render group
+	 *
+	 * @return void
 	 */
 	public function render()
 	{

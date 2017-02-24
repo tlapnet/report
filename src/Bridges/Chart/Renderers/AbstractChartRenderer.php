@@ -24,6 +24,7 @@ abstract class AbstractChartRenderer implements Renderer
 	/**
 	 * @param string $from
 	 * @param string $to
+	 * @return void
 	 */
 	public function addSegment($from, $to)
 	{
@@ -43,7 +44,7 @@ abstract class AbstractChartRenderer implements Renderer
 
 		if (func_num_args() < 2) {
 			$hint = Suggestions::getSuggestion($this->mapping['segments'], $key);
-			throw new InvalidArgumentException("Unknown segment mapping key '$key'" . ($hint ? ", did you mean '$hint'?" : '.'));
+			throw new InvalidArgumentException(Suggestions::format(sprintf('Unknown segment mapping key "%s"', $key), $hint));
 		}
 
 		return $default;
@@ -71,20 +72,21 @@ abstract class AbstractChartRenderer implements Renderer
 	 * @param string $title
 	 * @param string $color
 	 * @param string $group
+	 * @return void
 	 */
 	public function addSerie(array $conditions = [], $type, $title, $color = NULL, $group = NULL)
 	{
 		// Generate unique serie ID
 		$sid = md5(serialize([$conditions, $type, $title, $color]));
 
-		$this->mapping['series'][$sid] = (object)[
+		$this->mapping['series'][$sid] = (object) [
 			'id' => $sid,
 			'type' => $type,
 			'title' => $title,
 			'color' => $color,
 		];
 
-		$this->mapping['seriesBy'][$sid] = (object)[
+		$this->mapping['seriesBy'][$sid] = (object) [
 			'id' => $sid,
 			'conditions' => $conditions,
 		];
@@ -94,7 +96,6 @@ abstract class AbstractChartRenderer implements Renderer
 
 	/**
 	 * @param string $key
-	 * @param mixed $default
 	 * @return mixed
 	 */
 	protected function getSerie($key)
@@ -104,7 +105,7 @@ abstract class AbstractChartRenderer implements Renderer
 		}
 
 		$hint = Suggestions::getSuggestion($this->mapping['series'], $key);
-		throw new InvalidArgumentException("Unknown serie mapping key '$key'" . ($hint ? ", did you mean '$hint'?" : '.'));
+		throw new InvalidArgumentException(Suggestions::format(sprintf('Unknown serie mapping key "%s"', $key), $hint));
 	}
 
 	/**
@@ -140,6 +141,7 @@ abstract class AbstractChartRenderer implements Renderer
 
 	/**
 	 * @param string $suffix
+	 * @return void
 	 */
 	public function setValueSuffix($suffix)
 	{

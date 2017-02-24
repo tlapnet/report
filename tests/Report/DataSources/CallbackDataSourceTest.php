@@ -9,6 +9,10 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class CallbackDataSourceTest extends BaseTestCase
 {
 
+	/**
+	 * @covers CallbackDataSource::compile
+	 * @return void
+	 */
 	public function testDefault()
 	{
 		$parameters = new Parameters();

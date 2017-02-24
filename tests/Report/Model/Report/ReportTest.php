@@ -13,18 +13,31 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class ReportTest extends BaseTestCase
 {
 
+	/**
+	 * @covers Report::getRid
+	 * @return void
+	 */
 	public function testDefault()
 	{
 		$r = new Report(NULL);
 		$this->assertNull($r->getRid());
 	}
 
+	/**
+	 * @covers Report::getRid
+	 * @return void
+	 */
 	public function testGetters()
 	{
 		$r = new Report('r1');
 		$this->assertEquals('r1', $r->getRid());
 	}
 
+	/**
+	 * @covers Report::hasSubreport
+	 * @covers Report::getSubreports
+	 * @return void
+	 */
 	public function testSubreports()
 	{
 		$r = new Report('r1');
@@ -37,6 +50,10 @@ final class ReportTest extends BaseTestCase
 		$this->assertEquals(['s1' => $s], $r->getSubreports());
 	}
 
+	/**
+	 * @coversNothing
+	 * @return void
+	 */
 	public function testSubreportsSuggestions()
 	{
 		$this->expectException(InvalidArgumentException::class);
@@ -47,6 +64,11 @@ final class ReportTest extends BaseTestCase
 		$r->getSubreport('fod');
 	}
 
+	/**
+	 * @covers Report::hasOption
+	 * @covers Report::getOption
+	 * @return void
+	 */
 	public function testOptions()
 	{
 		$r = new Report('r1');
@@ -60,6 +82,10 @@ final class ReportTest extends BaseTestCase
 		$this->assertEquals('bar', $r->getOption('bar', 'bar'));
 	}
 
+	/**
+	 * @coversNothing
+	 * @return void
+	 */
 	public function testOptionsSuggestions()
 	{
 		$this->expectException(InvalidArgumentException::class);

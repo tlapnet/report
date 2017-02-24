@@ -10,12 +10,20 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class ResultTest extends BaseTestCase
 {
 
+	/**
+	 * @covers Result::getData
+	 * @return void
+	 */
 	public function testDefault()
 	{
 		$er = new Result([]);
 		$this->assertEquals([], $er->getData());
 	}
 
+	/**
+	 * @covers Result::getData
+	 * @return void
+	 */
 	public function testGetData()
 	{
 		$data = [1, 2, 3, 4, 5];
@@ -24,6 +32,10 @@ final class ResultTest extends BaseTestCase
 		$this->assertEquals($data, $r->getData());
 	}
 
+	/**
+	 * @covers Result::count
+	 * @return void
+	 */
 	public function testCount()
 	{
 		$data = [1, 2, 3, 4, 5];
@@ -33,6 +45,10 @@ final class ResultTest extends BaseTestCase
 		$this->assertEquals(count($data), count($r));
 	}
 
+	/**
+	 * @coversNothing
+	 * @return void
+	 */
 	public function testArrayAccess()
 	{
 		$data = [1, 2, 3, 4, 5];
@@ -59,6 +75,10 @@ final class ResultTest extends BaseTestCase
 		$this->assertEquals(1, $r[0]);
 	}
 
+	/**
+	 * @coversNothing
+	 * @return void
+	 */
 	public function testArrayAccessException1()
 	{
 		$r = new Result([]);
@@ -69,6 +89,10 @@ final class ResultTest extends BaseTestCase
 		$r->offsetGet('fod');
 	}
 
+	/**
+	 * @coversNothing
+	 * @return void
+	 */
 	public function testArrayAccessException2()
 	{
 		$r = new Result([]);
@@ -79,6 +103,10 @@ final class ResultTest extends BaseTestCase
 		$r->offsetUnset('fod');
 	}
 
+	/**
+	 * @covers Result::getIterator
+	 * @return void
+	 */
 	public function testIterator()
 	{
 		$data = [1, 2, 3, 4, 5];
@@ -88,7 +116,10 @@ final class ResultTest extends BaseTestCase
 		$this->assertEquals(count($data), count($i));
 	}
 
-
+	/**
+	 * @covers Result::toEditable
+	 * @return void
+	 */
 	public function testToEditable()
 	{
 		$r = new Result(NULL);

@@ -33,6 +33,7 @@ abstract class SeriesChartRenderer extends AbstractChartRenderer
 	/**
 	 * @param CategoryChart|Chart|DateChart $chart
 	 * @param AbstractSerie[] $series
+	 * @return void
 	 */
 	protected function doAddSeries($chart, array $series)
 	{

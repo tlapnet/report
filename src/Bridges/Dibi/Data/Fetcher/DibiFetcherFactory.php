@@ -28,5 +28,4 @@ final class DibiFetcherFactory implements FetcherFactory
 		return new DibiFetcher($sql, $this->connection);
 	}
 
-
 }

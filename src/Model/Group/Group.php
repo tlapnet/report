@@ -46,6 +46,7 @@ class Group
 
 	/**
 	 * @param Report $report
+	 * @return void
 	 */
 	public function addReport(Report $report)
 	{
@@ -74,7 +75,7 @@ class Group
 			return $report->getRid();
 		}, $this->reports), $rid);
 
-		throw new InvalidArgumentException("Report '$rid' not found" . ($hint ? ", did you mean '$hint'?" : '.'));
+		throw new InvalidArgumentException('Report "' . $rid . '" not found' . ($hint ? ', did you mean "' . $hint . '"?' : '.'));
 	}
 
 	/**

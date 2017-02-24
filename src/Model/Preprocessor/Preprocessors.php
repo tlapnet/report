@@ -13,6 +13,7 @@ class Preprocessors
 	/**
 	 * @param string $column
 	 * @param Preprocessor $preprocessor
+	 * @return void
 	 */
 	public function add($column, Preprocessor $preprocessor)
 	{
@@ -47,7 +48,7 @@ class Preprocessors
 		foreach ($data as $rn => $row) {
 
 			// Iterate over all columns in a single row
-			foreach ((array)$row as $column => $columnData) {
+			foreach ((array) $row as $column => $columnData) {
 
 				// Get preprocessors for this column
 				$preprocessors = isset($this->preprocessors[$column]) ? $this->preprocessors[$column] : [];

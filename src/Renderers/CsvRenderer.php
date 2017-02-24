@@ -13,6 +13,7 @@ class CsvRenderer implements Renderer
 
 	/**
 	 * @param string $delimiter
+	 * @return void
 	 */
 	public function setDelimiter($delimiter)
 	{

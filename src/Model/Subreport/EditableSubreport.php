@@ -3,10 +3,10 @@
 namespace Tlapnet\Report\Model\Subreport;
 
 use Tlapnet\Report\DataSources\DataSource;
-use Tlapnet\Report\Model\Result\Result;
-use Tlapnet\Report\Model\Result\Resultable;
 use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Model\Preprocessor\Preprocessors;
+use Tlapnet\Report\Model\Result\Result;
+use Tlapnet\Report\Model\Result\Resultable;
 use Tlapnet\Report\Model\Utils\Metadata;
 use Tlapnet\Report\Renderers\Renderer;
 
@@ -15,6 +15,7 @@ class EditableSubreport extends Subreport
 
 	/**
 	 * @param Parameters $parameters
+	 * @return void
 	 */
 	public function setParameters(Parameters $parameters)
 	{
@@ -23,6 +24,7 @@ class EditableSubreport extends Subreport
 
 	/**
 	 * @param Renderer $renderer
+	 * @return void
 	 */
 	public function setRenderer(Renderer $renderer)
 	{
@@ -31,6 +33,7 @@ class EditableSubreport extends Subreport
 
 	/**
 	 * @param DataSource $dataSource
+	 * @return void
 	 */
 	public function setDataSource(DataSource $dataSource)
 	{
@@ -39,6 +42,7 @@ class EditableSubreport extends Subreport
 
 	/**
 	 * @param Metadata $metadata
+	 * @return void
 	 */
 	public function setMetadata(Metadata $metadata)
 	{
@@ -47,6 +51,7 @@ class EditableSubreport extends Subreport
 
 	/**
 	 * @param Preprocessors $preprocessors
+	 * @return void
 	 */
 	public function setPreprocessors(Preprocessors $preprocessors)
 	{
@@ -55,6 +60,7 @@ class EditableSubreport extends Subreport
 
 	/**
 	 * @param Result|Resultable $result
+	 * @return void
 	 */
 	public function setResult(Resultable $result)
 	{

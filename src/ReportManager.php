@@ -22,6 +22,7 @@ class ReportManager
 
 	/**
 	 * @param Group $Group
+	 * @return void
 	 */
 	public function addGroup(Group $Group)
 	{
@@ -50,7 +51,7 @@ class ReportManager
 			return $Group->getGid();
 		}, $this->groups), $cid);
 
-		throw new InvalidStateException("Group '$cid' not found" . ($hint ? ", did you mean '$hint'?" : '.'));
+		throw new InvalidStateException(Suggestions::format(sprintf('Group "%s" not found', $cid), $hint));
 	}
 
 	/**
@@ -68,6 +69,7 @@ class ReportManager
 
 	/**
 	 * @param Report $report
+	 * @return void
 	 */
 	public function addGroupless(Report $report)
 	{
@@ -81,4 +83,5 @@ class ReportManager
 	{
 		return $this->groupless;
 	}
+
 }

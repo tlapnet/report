@@ -6,8 +6,8 @@ use Tlapnet\Chart\Category;
 use Tlapnet\Chart\CategoryChart;
 use Tlapnet\Chart\Segment\CategorySegment;
 use Tlapnet\Chart\Serie\CategorySerie;
-use Tlapnet\Chart\Serie\Serie;
 use Tlapnet\Report\Bridges\Chart\Renderers\SeriesChartRenderer;
+use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Model\Result\Result;
 
 class CategoryChartRenderer extends SeriesChartRenderer
@@ -27,6 +27,7 @@ class CategoryChartRenderer extends SeriesChartRenderer
 	/**
 	 * @param mixed $key
 	 * @param string $title
+	 * @return void
 	 */
 	public function addCategory($key, $title)
 	{
@@ -35,10 +36,14 @@ class CategoryChartRenderer extends SeriesChartRenderer
 
 	/**
 	 * @param object $serie
-	 * @return Serie
+	 * @return CategorySerie
 	 */
 	protected function createSerie($serie)
 	{
+		if (!is_object($serie)) {
+			throw new InvalidArgumentException('Argument $serie must be object, "%s" given', gettype($serie));
+		}
+
 		return new CategorySerie($serie->type, $serie->title, $serie->color);
 	}
 

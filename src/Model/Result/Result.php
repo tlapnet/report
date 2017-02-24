@@ -75,7 +75,7 @@ class Result implements Countable, ArrayAccess, Resultable
 	public function offsetGet($offset)
 	{
 		if (!$this->offsetExists($offset)) {
-			throw new InvalidArgumentException("Key '$offset' not found'");
+			throw new InvalidArgumentException(sprintf('Key "%s" not found', $offset));
 		}
 
 		return $this->data[$offset];
@@ -98,7 +98,7 @@ class Result implements Countable, ArrayAccess, Resultable
 	public function offsetUnset($offset)
 	{
 		if (!$this->offsetExists($offset)) {
-			throw new InvalidArgumentException("Key '$offset' not found'");
+			throw new InvalidArgumentException(sprintf('Key "%s" not found', $offset));
 		}
 
 		unset($this->data[$offset]);
@@ -113,7 +113,7 @@ class Result implements Countable, ArrayAccess, Resultable
 	 */
 	public function getIterator()
 	{
-		return new ArrayIterator((array)$this->data);
+		return new ArrayIterator((array) $this->data);
 	}
 
 }

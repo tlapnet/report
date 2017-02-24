@@ -13,6 +13,7 @@ class MultiResult extends Result
 
 	/**
 	 * @param Result $result
+	 * @return void
 	 */
 	public function add(Result $result)
 	{

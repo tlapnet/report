@@ -2,8 +2,8 @@
 
 namespace Tlapnet\Report\DataSources;
 
-use Tlapnet\Report\Model\Result\Result;
 use Tlapnet\Report\Model\Parameters\Parameters;
+use Tlapnet\Report\Model\Result\Result;
 
 final class DevNullDataSource implements DataSource
 {

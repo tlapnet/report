@@ -16,22 +16,22 @@ use JsonSerializable;
 class DateTime extends DT implements JsonSerializable
 {
 
-	/** minute in seconds */
+	// minute in seconds
 	const MINUTE = 60;
 
-	/** hour in seconds */
+	// hour in seconds
 	const HOUR = 60 * self::MINUTE;
 
-	/** day in seconds */
+	// day in seconds
 	const DAY = 24 * self::HOUR;
 
-	/** week in seconds */
+	// week in seconds
 	const WEEK = 7 * self::DAY;
 
-	/** average month in seconds */
+	// average month in seconds
 	const MONTH = 2629800;
 
-	/** average year in seconds */
+	// average year in seconds
 	const YEAR = 31557600;
 
 	/** @var string */
@@ -39,6 +39,7 @@ class DateTime extends DT implements JsonSerializable
 
 	/**
 	 * DateTime object factory.
+	 *
 	 * @param string|int|DateTimeInterface $time
 	 * @return self
 	 */
@@ -96,6 +97,7 @@ class DateTime extends DT implements JsonSerializable
 
 	/**
 	 * Returns JSON representation in ISO 8601 (used by JavaScript).
+	 *
 	 * @return string
 	 */
 	public function jsonSerialize()

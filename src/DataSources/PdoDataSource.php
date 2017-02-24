@@ -18,14 +18,16 @@ class PdoDataSource extends AbstractDatabaseConnectionDataSource
 	 */
 	protected function connect()
 	{
-		$this->pdo = new PDO(sprintf(
-			'%s:host=%s;dbname=%s',
-			$this->getConfig('driver'),
-			$this->getConfig('host'),
-			$this->getConfig('database')
-		),
+		$this->pdo = new PDO(
+            sprintf(
+                '%s:host=%s;dbname=%s',
+                $this->getConfig('driver'),
+                $this->getConfig('host'),
+                $this->getConfig('database')
+            ),
 			$this->getConfig('user'),
-			$this->getConfig('password'));
+            $this->getConfig('password')
+        );
 	}
 
 	/**

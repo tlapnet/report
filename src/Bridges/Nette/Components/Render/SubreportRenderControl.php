@@ -54,6 +54,7 @@ class SubreportRenderControl extends Control
 
 	/**
 	 * @param Form $form
+	 * @return void
 	 */
 	public function processParametersForm(Form $form)
 	{
@@ -80,13 +81,16 @@ class SubreportRenderControl extends Control
 
 	/**
 	 * Render box
+	 *
+	 * @return void
 	 */
 	public function render()
 	{
 		try {
 			// Attach parameters (only if we have some)
-			if (($parameters = $this->presenter->getParameter(self::REPORT_PARAMETERS))) {
-				$parameters = (array)Json::decode(base64_decode($parameters));
+			$parameters = $this->presenter->getParameter(self::REPORT_PARAMETERS);
+			if ($parameters) {
+				$parameters = (array) Json::decode(base64_decode($parameters));
 
 				// Attach parameters to subreport
 				$this->subreport->attach($parameters);

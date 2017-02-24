@@ -9,6 +9,12 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class MetadataTest extends BaseTestCase
 {
 
+	/**
+	 * @covers Metadata::set
+	 * @covers Metadata::get
+	 * @covers Metadata::has
+	 * @return void
+	 */
 	public function testMethods()
 	{
 		$md = new Metadata();
@@ -23,6 +29,10 @@ final class MetadataTest extends BaseTestCase
 		$this->assertFalse($md->has('foobar'));
 	}
 
+	/**
+	 * @coversNothing
+	 * @return void
+	 */
 	public function testSuggestions1()
 	{
 		$this->expectException(InvalidArgumentException::class);
@@ -33,6 +43,10 @@ final class MetadataTest extends BaseTestCase
 		$md->get('fod');
 	}
 
+	/**
+	 * @coversNothing
+	 * @return void
+	 */
 	public function testSuggestions2()
 	{
 		$this->expectException(InvalidArgumentException::class);

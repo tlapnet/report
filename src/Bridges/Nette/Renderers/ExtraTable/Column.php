@@ -50,7 +50,7 @@ class Column
 	 */
 	public function getOptions()
 	{
-		return (object)$this->options;
+		return (object) $this->options;
 	}
 
 	/**

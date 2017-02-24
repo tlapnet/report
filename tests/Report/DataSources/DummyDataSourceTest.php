@@ -9,6 +9,10 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class DummyDataSourceTest extends BaseTestCase
 {
 
+	/**
+	 * @covers DummyDataSource::compile
+	 * @return void
+	 */
 	public function testDefault()
 	{
 		$ds = new DummyDataSource(NULL);

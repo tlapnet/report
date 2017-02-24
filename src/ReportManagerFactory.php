@@ -13,6 +13,7 @@ class ReportManagerFactory implements IReportManagerFactory
 
 	/**
 	 * @param Loader $loader
+	 * @return void
 	 */
 	public function setLoader($loader)
 	{
@@ -20,7 +21,7 @@ class ReportManagerFactory implements IReportManagerFactory
 	}
 
 	/**
-	 * @return ReportManager
+	 * @return void
 	 */
 	public function create()
 	{

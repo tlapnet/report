@@ -23,6 +23,7 @@ final class Expander
 
 	/**
 	 * @param string $pattern
+	 * @return void
 	 */
 	public function setPattern($pattern)
 	{

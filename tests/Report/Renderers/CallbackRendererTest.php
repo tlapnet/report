@@ -9,6 +9,10 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class CallbackRendererTest extends BaseTestCase
 {
 
+	/**
+	 * @covers CallbackRenderer::render
+	 * @return void
+	 */
 	public function testDefault()
 	{
 		$result = new Result([]);

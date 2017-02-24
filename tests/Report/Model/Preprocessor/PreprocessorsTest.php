@@ -2,21 +2,29 @@
 
 namespace Tlapnet\Report\Tests\Model\Preprocessor;
 
-use Tlapnet\Report\Model\Result\Result;
 use Tlapnet\Report\Model\Preprocessor\Impl\AppendPreprocessor;
 use Tlapnet\Report\Model\Preprocessor\Impl\PrependPreprocessor;
 use Tlapnet\Report\Model\Preprocessor\Preprocessors;
+use Tlapnet\Report\Model\Result\Result;
 use Tlapnet\Report\Tests\BaseTestCase;
 
 final class PreprocessorsTest extends BaseTestCase
 {
 
+	/**
+	 * @covers Preprocessors::isEmpty
+	 * @return void
+	 */
 	public function testDefault()
 	{
 		$p = new Preprocessors();
 		$this->assertTrue($p->isEmpty());
 	}
 
+	/**
+	 * @covers Preprocessors::preprocess
+	 * @return void
+	 */
 	public function testPreprocessWithout()
 	{
 		$p = new Preprocessors();
@@ -35,6 +43,10 @@ final class PreprocessorsTest extends BaseTestCase
 		);
 	}
 
+	/**
+	 * @covers Preprocessors::preprocess
+	 * @return void
+	 */
 	public function testPreprocess()
 	{
 		$p = new Preprocessors();
@@ -54,6 +66,10 @@ final class PreprocessorsTest extends BaseTestCase
 		], $eresult->getData());
 	}
 
+	/**
+	 * @covers Preprocessors::preprocess
+	 * @return void
+	 */
 	public function testPreprocessChain()
 	{
 		$p = new Preprocessors();

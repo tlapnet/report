@@ -33,7 +33,6 @@ class TableRenderer implements Renderer
 		}
 		$table->add($header);
 
-
 		// Iterate over all rows
 		foreach ($data as $row) {
 
@@ -45,7 +44,7 @@ class TableRenderer implements Renderer
 
 				// Create td element
 				$td = Html::el('td');
-				$td->setHtml((string)$cdata);
+				$td->setHtml((string) $cdata);
 
 				// Append to tr
 				$tr->add($td);

@@ -38,6 +38,7 @@ class Report
 
 	/**
 	 * @param Subreport $subreport
+	 * @return void
 	 */
 	public function addSubreport(Subreport $subreport)
 	{
@@ -66,7 +67,7 @@ class Report
 			return $subreport->getSid();
 		}, $this->subreports), $sid);
 
-		throw new InvalidArgumentException("Subreport '$sid' not found" . ($hint ? ", did you mean '$hint'?" : '.'));
+		throw new InvalidArgumentException(Suggestions::format(sprintf('Subreport "%s" not found', $sid), $hint));
 	}
 
 	/**
@@ -85,6 +86,7 @@ class Report
 	/**
 	 * @param string $key
 	 * @param mixed $value
+	 * @return void
 	 */
 	public function setOption($key, $value)
 	{
@@ -113,6 +115,5 @@ class Report
 	{
 		return $this->metadata->has($key);
 	}
-
 
 }

@@ -8,6 +8,10 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class PrependPreprocessorTest extends BaseTestCase
 {
 
+	/**
+	 * @covers PrependPreprocessor::preprocess
+	 * @return void
+	 */
 	public function testPreprocessor()
 	{
 		$p1 = new PrependPreprocessor('foobar');

@@ -7,6 +7,7 @@ class EditableResult extends Result
 
 	/**
 	 * @param mixed $data
+	 * @return void
 	 */
 	public function setData($data)
 	{

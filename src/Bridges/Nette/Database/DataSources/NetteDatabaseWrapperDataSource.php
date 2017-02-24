@@ -33,6 +33,7 @@ class NetteDatabaseWrapperDataSource extends AbstractDatabaseDataSource
 	 * Show or hide tracy panel
 	 *
 	 * @param bool $show
+	 * @return void
 	 */
 	public function setTracyPanel($show)
 	{

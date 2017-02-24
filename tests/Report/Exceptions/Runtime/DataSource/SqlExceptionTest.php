@@ -8,6 +8,10 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class SqlExceptionTest extends BaseTestCase
 {
 
+	/**
+	 * @covers SqlException::getMessage
+	 * @return void
+	 */
 	public function testDefault()
 	{
 		$sql = 'SELECT * FROM foo';

@@ -18,6 +18,7 @@ class DonutChartRenderer extends AbstractChartRenderer
 
 	/**
 	 * @param string $title
+	 * @return void
 	 */
 	public function setTitle($title)
 	{
@@ -26,6 +27,7 @@ class DonutChartRenderer extends AbstractChartRenderer
 
 	/**
 	 * @param boolean $enable
+	 * @return void
 	 */
 	public function setEnableRatioLabel($enable = TRUE)
 	{

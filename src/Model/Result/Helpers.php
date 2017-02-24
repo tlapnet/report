@@ -22,12 +22,12 @@ final class Helpers
 				$arow = [];
 
 				// Iterate over all columns in a single row
-				foreach ((array)$row as $column => $cdata) {
-					$arow[$column] = (string)$cdata;
+				foreach ((array) $row as $column => $cdata) {
+					$arow[$column] = (string) $cdata;
 				}
 			} else {
 				// Scalar one column
-				$arow = (string)$row;
+				$arow = (string) $row;
 			}
 			// Append row
 			$array[] = $arow;

@@ -34,6 +34,7 @@ class ExtraTableRenderer extends TemplateRenderer
 
 	/**
 	 * @param boolean $sortable
+	 * @return void
 	 */
 	public function setSortable($sortable = TRUE)
 	{
@@ -42,14 +43,14 @@ class ExtraTableRenderer extends TemplateRenderer
 
 	/**
 	 * @param Result $result
-	 * @return mixed
+	 * @return void
 	 */
 	public function render(Result $result)
 	{
 		$template = $this->createTemplate();
 		$template->setFile(__DIR__ . '/templates/table.latte');
 
-		$template->options = (object)$this->options;
+		$template->options = (object) $this->options;
 		$template->columns = $this->columns;
 		$template->rows = $result;
 

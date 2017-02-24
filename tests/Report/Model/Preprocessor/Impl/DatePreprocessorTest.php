@@ -8,6 +8,10 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class DatePreprocessorTest extends BaseTestCase
 {
 
+	/**
+	 * @covers DatePreprocessor::preprocess
+	 * @return void
+	 */
 	public function testPreprocessor()
 	{
 		$p = new DatePreprocessor();
@@ -17,7 +21,10 @@ final class DatePreprocessorTest extends BaseTestCase
 		$this->assertEquals('01.01.2000', $p->preprocess(strtotime('2000/01/01 15:00')));
 	}
 
-
+	/**
+	 * @covers DatePreprocessor::preprocess
+	 * @return void
+	 */
 	public function testPreprocessorFormat()
 	{
 		$p = new DatePreprocessor('Y');

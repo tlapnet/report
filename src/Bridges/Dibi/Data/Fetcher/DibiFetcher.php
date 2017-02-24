@@ -74,5 +74,4 @@ final class DibiFetcher extends AbstractFetcher
 		return $this->connection->nativeQuery($this->sql);
 	}
 
-
 }

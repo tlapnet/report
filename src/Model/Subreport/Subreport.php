@@ -4,19 +4,19 @@ namespace Tlapnet\Report\Model\Subreport;
 
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Result\EditableResult;
-use Tlapnet\Report\Model\Result\Result;
-use Tlapnet\Report\Model\Result\Resultable;
 use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Model\Preprocessor\Preprocessor;
 use Tlapnet\Report\Model\Preprocessor\Preprocessors;
+use Tlapnet\Report\Model\Result\EditableResult;
+use Tlapnet\Report\Model\Result\Result;
+use Tlapnet\Report\Model\Result\Resultable;
 use Tlapnet\Report\Model\Utils\Metadata;
 use Tlapnet\Report\Renderers\Renderer;
 
 class Subreport implements Reportable
 {
 
-	/** States */
+	// States
 	const STATE_CREATED = 1;
 	const STATE_ATTACHED = 2;
 	const STATE_COMPILED = 3;
@@ -163,6 +163,7 @@ class Subreport implements Reportable
 	/**
 	 * @param string $key
 	 * @param mixed $value
+	 * @return void
 	 */
 	public function setOption($key, $value)
 	{
@@ -238,7 +239,7 @@ class Subreport implements Reportable
 	 */
 
 	/**
-	 * @retur void
+	 * @return void
 	 */
 	public function preprocess()
 	{

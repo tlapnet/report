@@ -14,6 +14,11 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class ReportServiceTest extends BaseTestCase
 {
 
+	/**
+	 * @covers ReportService::getGroups
+	 * @covers ReportService::getGroupless
+	 * @return void
+	 */
 	public function testDefault()
 	{
 		$m = new ReportManager();
@@ -23,6 +28,10 @@ final class ReportServiceTest extends BaseTestCase
 		$this->assertCount(0, $s->getGroupless());
 	}
 
+	/**
+	 * @covers ReportService::getGroups
+	 * @return void
+	 */
 	public function testGetGroups()
 	{
 		$m = new ReportManager();
@@ -35,6 +44,10 @@ final class ReportServiceTest extends BaseTestCase
 		$this->assertEquals(['g' => $g], $s->getGroups());
 	}
 
+	/**
+	 * @covers ReportService::getGroupless
+	 * @return void
+	 */
 	public function testGetGrouples()
 	{
 		$m = new ReportManager();
@@ -46,6 +59,10 @@ final class ReportServiceTest extends BaseTestCase
 		$this->assertEquals(['r1' => $r], $s->getGroupless());
 	}
 
+	/**
+	 * @covers ReportService::getReport
+	 * @return void
+	 */
 	public function testGetReport()
 	{
 		$m = new ReportManager();

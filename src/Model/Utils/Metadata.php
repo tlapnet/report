@@ -14,6 +14,7 @@ class Metadata
 	/**
 	 * @param string $key
 	 * @param mixed $value
+	 * @return void
 	 */
 	public function set($key, $value)
 	{
@@ -33,7 +34,7 @@ class Metadata
 
 		if (func_num_args() < 2) {
 			$hint = Suggestions::getSuggestion(array_keys($this->data), $key);
-			throw new InvalidArgumentException("Unknown key '$key'" . ($hint ? ", did you mean '$hint'?" : '.'));
+			throw new InvalidArgumentException(Suggestions::format(sprintf('Unknown key "%s"', $key), $hint));
 		}
 
 		return $default;

@@ -8,6 +8,10 @@ use Tlapnet\Report\Utils\Switcher;
 final class SwitcherTest extends BaseTestCase
 {
 
+	/**
+	 * @covers Switcher::execute
+	 * @return void
+	 */
 	public function testSwitch()
 	{
 		// One item

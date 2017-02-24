@@ -16,6 +16,7 @@ class NumberPreprocessor extends AbstractPreprocessor
 
 	/**
 	 * @param string $suffix
+	 * @return void
 	 */
 	public function setSuffix($suffix)
 	{
@@ -24,6 +25,7 @@ class NumberPreprocessor extends AbstractPreprocessor
 
 	/**
 	 * @param int $decimals
+	 * @return void
 	 */
 	public function setDecimals($decimals)
 	{
@@ -32,6 +34,7 @@ class NumberPreprocessor extends AbstractPreprocessor
 
 	/**
 	 * @param string $point
+	 * @return void
 	 */
 	public function setDecimalPoint($point)
 	{
@@ -40,6 +43,7 @@ class NumberPreprocessor extends AbstractPreprocessor
 
 	/**
 	 * @param string $point
+	 * @return void
 	 */
 	public function setThousandsPoint($point)
 	{

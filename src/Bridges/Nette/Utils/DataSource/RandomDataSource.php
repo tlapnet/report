@@ -6,14 +6,14 @@ use Nette\Utils\Random;
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Result\Result;
 use Tlapnet\Report\Model\Parameters\Parameters;
+use Tlapnet\Report\Model\Result\Result;
 use Tlapnet\Report\Utils\DateTime;
 
 class RandomDataSource implements DataSource
 {
 
-	/** Types */
+	// Types
 	const TYPE_INT = 'int';
 	const TYPE_RANGE = 'range';
 	const TYPE_STRING = 'string';
@@ -29,20 +29,22 @@ class RandomDataSource implements DataSource
 	/**
 	 * @param string $name
 	 * @param array $options
+	 * @return void
 	 */
 	protected function addColumn($name, array $options)
 	{
 		if (isset($this->columns[$name])) {
-			throw new InvalidStateException("Column '$name' already exists'");
+			throw new InvalidStateException(sprintf('Column "%s" already exists', $name));
 		}
 
 		$column = ['name' => $name] + $options;
-		$this->columns[$name] = (object)$column;
+		$this->columns[$name] = (object) $column;
 	}
 
 	/**
 	 * @param string $name
 	 * @param int $length
+	 * @return void
 	 */
 	public function addString($name, $length = 20)
 	{
@@ -54,7 +56,8 @@ class RandomDataSource implements DataSource
 
 	/**
 	 * @param string $name
-	 * @param int $lenght
+	 * @param int $length
+	 * @return void
 	 */
 	public function addInt($name, $length = 10)
 	{
@@ -68,6 +71,7 @@ class RandomDataSource implements DataSource
 	 * @param string $name
 	 * @param int $from
 	 * @param int $to
+	 * @return void
 	 */
 	public function addRange($name, $from, $to)
 	{
@@ -80,6 +84,7 @@ class RandomDataSource implements DataSource
 	/**
 	 * @param string $name
 	 * @param string $format
+	 * @return void
 	 */
 	public function addDate($name, $format = 'd.m.Y')
 	{
@@ -92,6 +97,7 @@ class RandomDataSource implements DataSource
 	/**
 	 * @param string $name
 	 * @param string $format
+	 * @return void
 	 */
 	public function addDateTime($name, $format = 'd.m.Y H:i:s')
 	{
@@ -103,6 +109,7 @@ class RandomDataSource implements DataSource
 
 	/**
 	 * @param int $rows
+	 * @return void
 	 */
 	public function setRows($rows)
 	{
@@ -161,7 +168,7 @@ class RandomDataSource implements DataSource
 					->setTimestamp(mt_rand(1, time()))
 					->setFormat($column->format);
 			default:
-				throw new InvalidArgumentException("Unsupported type $column->type");
+				throw new InvalidArgumentException(sprintf('Unsupported type "%s"', $column->type));
 		}
 	}
 

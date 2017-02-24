@@ -2,9 +2,6 @@
 
 namespace Tlapnet\Report\Utils;
 
-use ArrayAccess;
-use Countable;
-use IteratorAggregate;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 
 /**
@@ -12,8 +9,9 @@ use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
  *
  * Based on Nette\Utils\Html
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
+ * @codingStandardsIgnoreStart
  */
-class Html implements ArrayAccess, Countable, IteratorAggregate
+class Html implements \ArrayAccess, \Countable, \IteratorAggregate
 {
 
 	/** @var string  element's name */
@@ -33,14 +31,30 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/** @var array  empty (void) elements */
 	public static $emptyElements = [
-		'img' => 1, 'hr' => 1, 'br' => 1, 'input' => 1, 'meta' => 1, 'area' => 1, 'embed' => 1, 'keygen' => 1,
-		'source' => 1, 'base' => 1, 'col' => 1, 'link' => 1, 'param' => 1, 'basefont' => 1, 'frame' => 1,
-		'isindex' => 1, 'wbr' => 1, 'command' => 1, 'track' => 1,
+		'img' => 1,
+		'hr' => 1,
+		'br' => 1,
+		'input' => 1,
+		'meta' => 1,
+		'area' => 1,
+		'embed' => 1,
+		'keygen' => 1,
+		'source' => 1,
+		'base' => 1,
+		'col' => 1,
+		'link' => 1,
+		'param' => 1,
+		'basefont' => 1,
+		'frame' => 1,
+		'isindex' => 1,
+		'wbr' => 1,
+		'command' => 1,
+		'track' => 1,
 	];
-
 
 	/**
 	 * Static factory.
+	 *
 	 * @param  string element name (or NULL)
 	 * @param  array|string element 's attributes or plain text content
 	 * @return self
@@ -71,6 +85,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Changes element's name.
+	 *
 	 * @param  string
 	 * @param  bool  Is element empty?
 	 * @return self
@@ -91,6 +106,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Returns element's name.
+	 *
 	 * @return string
 	 */
 	public function getName()
@@ -101,6 +117,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Is element empty?
+	 *
 	 * @return bool
 	 */
 	public function isEmpty()
@@ -111,6 +128,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Sets multiple attributes.
+	 *
 	 * @param  array
 	 * @return self
 	 */
@@ -124,6 +142,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Appends value to element's attribute.
+	 *
 	 * @param  string
 	 * @param  string|array value to append
 	 * @param  string|bool value option
@@ -151,6 +170,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Sets element's attribute.
+	 *
 	 * @param  string
 	 * @param  mixed
 	 * @return self
@@ -165,6 +185,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Returns element's attribute.
+	 *
 	 * @param  string
 	 * @return mixed
 	 */
@@ -176,6 +197,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Unsets element's attribute.
+	 *
 	 * @param  string
 	 * @return self
 	 */
@@ -189,6 +211,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Overloaded setter for element's attribute.
+	 *
 	 * @param  string    HTML attribute name
 	 * @param  mixed     HTML attribute value
 	 * @return void
@@ -201,6 +224,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Overloaded getter for element's attribute.
+	 *
 	 * @param  string    HTML attribute name
 	 * @return mixed     HTML attribute value
 	 */
@@ -212,6 +236,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Overloaded tester for element's attribute.
+	 *
 	 * @param  string    HTML attribute name
 	 * @return bool
 	 */
@@ -223,6 +248,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Overloaded unsetter for element's attribute.
+	 *
 	 * @param  string    HTML attribute name
 	 * @return void
 	 */
@@ -234,6 +260,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Overloaded setter for element's attribute.
+	 *
 	 * @param  string  HTML attribute name
 	 * @param  array   (string) HTML attribute value or pair?
 	 * @return mixed
@@ -267,6 +294,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Special setter for element's attribute.
+	 *
 	 * @param  string path
 	 * @param  array query
 	 * @return self
@@ -287,6 +315,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Setter for data-* attributes. Booleans are converted to 'true' resp. 'false'.
+	 *
 	 * @return self
 	 */
 	public function data($name, $value = NULL)
@@ -303,6 +332,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Sets element's HTML content.
+	 *
 	 * @param  string raw HTML string
 	 * @return self
 	 * @throws InvalidArgumentException
@@ -321,6 +351,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Returns element's HTML content.
+	 *
 	 * @return string
 	 */
 	public function getHtml()
@@ -340,6 +371,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Sets element's textual content.
+	 *
 	 * @param  string
 	 * @return self
 	 * @throws InvalidArgumentException
@@ -356,6 +388,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Returns element's textual content.
+	 *
 	 * @return string
 	 */
 	public function getText()
@@ -366,6 +399,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Adds new element's child.
+	 *
 	 * @param  Html|string Html node or raw HTML string
 	 * @return self
 	 */
@@ -377,6 +411,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Creates and adds a new Html child.
+	 *
 	 * @param  string  elements's name
 	 * @param  array|string element 's attributes or raw HTML string
 	 * @return self  created element
@@ -391,6 +426,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Inserts child node.
+	 *
 	 * @param  int|NULL position or NULL for appending
 	 * @param  Html|string Html node or raw HTML string
 	 * @param  bool
@@ -417,6 +453,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Inserts (replaces) child node (\ArrayAccess implementation).
+	 *
 	 * @param  int|NULL position or NULL for appending
 	 * @param  Html|string Html node or raw HTML string
 	 * @return void
@@ -429,6 +466,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Returns child node (\ArrayAccess implementation).
+	 *
 	 * @param  int
 	 * @return self|string
 	 */
@@ -440,6 +478,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Exists child node? (\ArrayAccess implementation).
+	 *
 	 * @param  int
 	 * @return bool
 	 */
@@ -451,6 +490,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Removes child node (\ArrayAccess implementation).
+	 *
 	 * @param  int
 	 * @return void
 	 */
@@ -464,6 +504,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Returns children count.
+	 *
 	 * @return int
 	 */
 	public function count()
@@ -474,6 +515,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Removes all children.
+	 *
 	 * @return void
 	 */
 	public function removeChildren()
@@ -484,6 +526,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Iterates over elements.
+	 *
 	 * @return \ArrayIterator
 	 */
 	public function getIterator()
@@ -494,6 +537,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Returns all children.
+	 *
 	 * @return array
 	 */
 	public function getChildren()
@@ -504,6 +548,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Renders element's start tag, content and end tag.
+	 *
 	 * @param  int
 	 * @return string
 	 */
@@ -543,12 +588,13 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 		} catch (\Throwable $e) {
 		} catch (\Exception $e) {
 		}
-		trigger_error("Exception in " . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
+		trigger_error('Exception in ' . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
 	}
 
 
 	/**
 	 * Returns element's start tag.
+	 *
 	 * @return string
 	 */
 	public function startTag()
@@ -564,6 +610,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Returns element's end tag.
+	 *
 	 * @return string
 	 */
 	public function endTag()
@@ -574,6 +621,7 @@ class Html implements ArrayAccess, Countable, IteratorAggregate
 
 	/**
 	 * Returns element's attributes.
+	 *
 	 * @return string
 	 * @internal
 	 */

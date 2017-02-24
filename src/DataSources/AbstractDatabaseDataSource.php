@@ -27,10 +27,11 @@ abstract class AbstractDatabaseDataSource implements DataSource
 
 	/**
 	 * @param mixed $sql
+	 * @return void
 	 */
 	public function setSql($sql)
 	{
-		$this->sql = (string)$sql;
+		$this->sql = (string) $sql;
 	}
 
 	/**
@@ -43,10 +44,11 @@ abstract class AbstractDatabaseDataSource implements DataSource
 
 	/**
 	 * @param mixed $sql
+	 * @return void
 	 */
 	public function setDefaultSql($sql)
 	{
-		$this->defaultSql = (string)$sql;
+		$this->defaultSql = (string) $sql;
 	}
 
 	/**

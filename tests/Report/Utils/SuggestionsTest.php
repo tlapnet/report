@@ -8,6 +8,10 @@ use Tlapnet\Report\Utils\Suggestions;
 final class SuggestionsTest extends BaseTestCase
 {
 
+	/**
+	 * @covers Suggestions::getSuggestion
+	 * @return void
+	 */
 	public function testSuggestions()
 	{
 		$items = ['foo', 'bar'];

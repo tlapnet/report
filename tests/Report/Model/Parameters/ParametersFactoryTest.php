@@ -8,6 +8,11 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class ParametersFactoryTest extends BaseTestCase
 {
 
+	/**
+	 * @covers ParametersFactory::create
+	 * @covers ParametersFactory::getAll
+	 * @return void
+	 */
 	public function testDefault()
 	{
 		$p = ParametersFactory::create([]);

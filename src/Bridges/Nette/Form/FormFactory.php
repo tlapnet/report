@@ -66,6 +66,7 @@ class FormFactory
 	/**
 	 * @param BaseControl $input
 	 * @param Parameter $parameter
+	 * @return void
 	 */
 	protected function decorate(BaseControl $input, Parameter $parameter)
 	{

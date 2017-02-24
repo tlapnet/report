@@ -28,5 +28,4 @@ final class NetteDatabaseFetcherFactory implements FetcherFactory
 		return new NetteDatabaseFetcher($sql, $this->connection);
 	}
 
-
 }

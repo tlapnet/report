@@ -8,12 +8,20 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class EditableResultTest extends BaseTestCase
 {
 
+	/**
+	 * @covers EditableResult::getData
+	 * @return void
+	 */
 	public function testDefault()
 	{
 		$er = new EditableResult([]);
 		$this->assertEquals([], $er->getData());
 	}
-	
+
+	/**
+	 * @covers EditableResult::getData
+	 * @return void
+	 */
 	public function testSetData()
 	{
 		$er = new EditableResult([]);

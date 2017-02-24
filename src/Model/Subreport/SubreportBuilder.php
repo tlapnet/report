@@ -32,6 +32,7 @@ class SubreportBuilder
 
 	/**
 	 * @param mixed $sid
+	 * @return void
 	 */
 	public function setSid($sid)
 	{
@@ -40,40 +41,45 @@ class SubreportBuilder
 
 	/**
 	 * @param Parameters $parameters
+	 * @return void
 	 */
-	public function setParameters($parameters)
+	public function setParameters(Parameters $parameters)
 	{
 		$this->parameters = $parameters;
 	}
 
 	/**
 	 * @param Renderer $renderer
+	 * @return void
 	 */
-	public function setRenderer($renderer)
+	public function setRenderer(Renderer $renderer)
 	{
 		$this->renderer = $renderer;
 	}
 
 	/**
 	 * @param DataSource $dataSource
+	 * @return void
 	 */
-	public function setDataSource($dataSource)
+	public function setDataSource(DataSource $dataSource)
 	{
 		$this->dataSource = $dataSource;
 	}
 
 	/**
 	 * @param Metadata $metadata
+	 * @return void
 	 */
-	public function setMetadata($metadata)
+	public function setMetadata(Metadata $metadata)
 	{
 		$this->metadata = $metadata;
 	}
 
 	/**
 	 * @param Preprocessors $preprocessors
+	 * @return void
 	 */
-	public function setPreprocessors($preprocessors)
+	public function setPreprocessors(Preprocessors $preprocessors)
 	{
 		$this->preprocessors = $preprocessors;
 	}
@@ -116,4 +122,5 @@ class SubreportBuilder
 
 		return $subreport;
 	}
+
 }

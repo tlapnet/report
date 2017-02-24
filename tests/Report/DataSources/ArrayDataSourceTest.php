@@ -9,6 +9,11 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class ArrayDataSourceTest extends BaseTestCase
 {
 
+	/**
+	 * @covers ArrayDataSource::compile
+	 * @covers ArrayDataSource::getData
+	 * @return void
+	 */
 	public function testDefault()
 	{
 		$parameters = new Parameters();

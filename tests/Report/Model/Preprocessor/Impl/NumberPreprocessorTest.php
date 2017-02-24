@@ -8,6 +8,10 @@ use Tlapnet\Report\Tests\BaseTestCase;
 final class NumberPreprocessorTest extends BaseTestCase
 {
 
+	/**
+	 * @covers NumberPreprocessor::preprocess
+	 * @return void
+	 */
 	public function testPreprocessor()
 	{
 		$p = new NumberPreprocessor();
@@ -21,6 +25,10 @@ final class NumberPreprocessorTest extends BaseTestCase
 		$this->assertEquals('1 000 000.00', $p->preprocess(1000000));
 	}
 
+	/**
+	 * @covers NumberPreprocessor::preprocess
+	 * @return void
+	 */
 	public function testPreprocessorDecimals()
 	{
 		$p = new NumberPreprocessor();
@@ -35,6 +43,10 @@ final class NumberPreprocessorTest extends BaseTestCase
 		$this->assertEquals('1 000 000', $p->preprocess(1000000));
 	}
 
+	/**
+	 * @covers NumberPreprocessor::preprocess
+	 * @return void
+	 */
 	public function testPreprocessorDecimalPoint()
 	{
 		$p = new NumberPreprocessor();
@@ -49,6 +61,10 @@ final class NumberPreprocessorTest extends BaseTestCase
 		$this->assertEquals('1 000 000|00', $p->preprocess(1000000));
 	}
 
+	/**
+	 * @covers NumberPreprocessor::preprocess
+	 * @return void
+	 */
 	public function testPreprocessorThousandsPoint()
 	{
 		$p = new NumberPreprocessor();

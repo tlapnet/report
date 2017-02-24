@@ -26,6 +26,7 @@ final class Switcher
 
 	/**
 	 * @param string $pattern
+	 * @return void
 	 */
 	public function setPattern($pattern)
 	{
@@ -34,6 +35,7 @@ final class Switcher
 
 	/**
 	 * @param string $placeholder
+	 * @return void
 	 */
 	public function setPlaceholder($placeholder)
 	{
@@ -45,13 +47,13 @@ final class Switcher
 	 */
 
 	/**
-	 * @param string $input
+	 * @param string|array $input
 	 * @return array [input, args]
 	 */
 	public function execute($input)
 	{
 		if (is_string($input)) {
-			return $this->doString($input);
+			return $this->doSwitch($input);
 		} else {
 			return $input;
 		}
@@ -61,7 +63,7 @@ final class Switcher
 	 * @param string $str
 	 * @return array [input, args]
 	 */
-	public function doString($str)
+	protected function doSwitch($str)
 	{
 		$args = [];
 		$str = preg_replace_callback($this->pattern, function ($matches) use (&$args) {

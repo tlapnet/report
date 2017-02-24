@@ -17,6 +17,7 @@ class DateChartRenderer extends SeriesChartRenderer
 
 	/**
 	 * @param boolean $use
+	 * @return void
 	 */
 	public function setUseTimePrecision($use = TRUE)
 	{
