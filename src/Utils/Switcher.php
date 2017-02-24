@@ -47,8 +47,8 @@ final class Switcher
 	 */
 
 	/**
-	 * @param string|array $input
-	 * @return array [input, args]
+	 * @param string|mixed $input
+	 * @return array|mixed
 	 */
 	public function execute($input)
 	{
@@ -61,7 +61,7 @@ final class Switcher
 
 	/**
 	 * @param string $str
-	 * @return array [input, args]
+	 * @return array
 	 */
 	protected function doSwitch($str)
 	{

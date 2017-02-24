@@ -10,7 +10,7 @@ class TableRenderer implements Renderer
 
 	/**
 	 * @param Result $result
-	 * @return string
+	 * @return Html
 	 */
 	public function render(Result $result)
 	{

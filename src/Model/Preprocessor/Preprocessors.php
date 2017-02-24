@@ -7,7 +7,7 @@ use Tlapnet\Report\Model\Result\EditableResult;
 class Preprocessors
 {
 
-	/** @var Preprocessor[] */
+	/** @var array[Preprocessor[]] */
 	private $preprocessors = [];
 
 	/**
@@ -52,7 +52,6 @@ class Preprocessors
 
 				// Get preprocessors for this column
 				$preprocessors = isset($this->preprocessors[$column]) ? $this->preprocessors[$column] : [];
-				/** @var Preprocessor $p */
 				foreach ($preprocessors as $p) {
 					// chain-preprocessing...
 					$columnData = $p->preprocess($columnData);
