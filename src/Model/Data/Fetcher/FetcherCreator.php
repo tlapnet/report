@@ -22,7 +22,7 @@ final class FetcherCreator implements FetcherFactoryMethod
 	 */
 	public function create($sql)
 	{
-		return new $this->factory->create($sql);
+		return $this->factory->create($sql);
 	}
 
 }
