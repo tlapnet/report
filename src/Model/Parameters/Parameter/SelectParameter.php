@@ -67,7 +67,7 @@ final class SelectParameter extends Parameter
 	 */
 	public function setUseKeys($use)
 	{
-		$this->useKeys = (bool) $use;
+		$this->useKeys = boolval($use);
 	}
 
 	/**

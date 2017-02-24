@@ -22,7 +22,7 @@ final class Helpers
 				$arow = [];
 
 				// Iterate over all columns in a single row
-				foreach ((array) $row as $column => $cdata) {
+				foreach ($row as $column => $cdata) {
 					$arow[$column] = (string) $cdata;
 				}
 			} else {
