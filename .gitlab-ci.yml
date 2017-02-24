@@ -23,7 +23,8 @@ test:php56:
     tags: 
       - php56
     script:
-        - php vendor/bin/phpunit --colors=always -c phpunit.xml
+        - composer qa
+        - composer phpunit
 
 test:php70:
     stage: test
@@ -31,4 +32,5 @@ test:php70:
     tags: 
       - php70
     script:
-        - php vendor/bin/phpunit --colors=always -c phpunit.xml
+        - composer qa
+        - composer phpunit
