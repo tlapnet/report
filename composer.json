@@ -1,18 +1,33 @@
 {
   "name": "tlapnet/report",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Tlapnet",
+      "email": "webmaster@tlapnet.cz"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packagist.ispalliance.cz/"
+    }
+  ],
   "require": {
-    "php": ">=5.4"
+    "php": ">=5.6"
   },
   "require-dev": {
-    "phpunit/phpunit": ">=5.0.0",
-    "nette/application": ">=2.3.0",
-    "nette/di": ">=2.3.0",
-    "nette/database": ">=2.3.0",
-    "nette/neon": ">=2.3.0"
+    "ninjify/qa": "^0.3.3",
+    "phpunit/phpunit": "^5.3.0",
+    "nette/application": "^2.4.5",
+    "nette/di": "^2.4.7",
+    "nette/database": "^2.4.2",
+    "nette/neon": "^2.4.1"
   },
   "suggest": {
     "dibi/dibi": "Allows use DibiDataSource",
     "nette/di": "Allows use this library as Nette extension",
+    "nette/application": "Allows use Components",
     "nette/database": "Allows use NetteDatabaseDataSource",
     "nette/neon": "Allows use NeonLoader"
   },
@@ -28,17 +43,16 @@
   },
   "prefer-stable": true,
   "minimum-stability": "dev",
-  "authors": [
-    {
-      "name": "Tlapnet",
-      "email": "webmaster@tlapnet.cz"
-    }
-  ],
-  "license": "proprietary",
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://packagist.ispalliance.cz/"
-    }
-  ]
+  "scripts": {
+    "qa": [
+      "linter src",
+      "codesniffer src"
+    ],
+    "phpunit": [
+      "phpunit --colors=always -c phpunit.xml"
+    ],
+    "phpstan": [
+      "phpstan analyze --level 5 src tests"
+    ]
+  }
 }
