@@ -7,7 +7,6 @@ use ArrayIterator;
 use Countable;
 use Iterator;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
-use Traversable;
 
 class Result implements Countable, ArrayAccess, Resultable
 {
@@ -109,7 +108,7 @@ class Result implements Countable, ArrayAccess, Resultable
 	 */
 
 	/**
-	 * @return Traversable|Iterator
+	 * @return Iterator
 	 */
 	public function getIterator()
 	{
