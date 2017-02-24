@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\Tests\Model\Subreport;
+namespace Tlapnet\Report\Tests\Model\Parameters\Parameter;
 
 use Tlapnet\Report\Model\Parameters\Parameter\TextParameter;
 use Tlapnet\Report\Tests\BaseTestCase;

@@ -25,7 +25,8 @@
     "nette/application": "^2.4.5",
     "nette/forms": "^2.4.3",
     "nette/database": "^2.4.2",
-    "nette/neon": "^2.4.1"
+    "nette/neon": "^2.4.1",
+    "tracy/tracy": "^2.4.6"
   },
   "suggest": {
     "dibi/dibi": "Allows use Dibi\\DataSource",
@@ -34,7 +35,8 @@
     "nette/application": "Allows use Components",
     "nette/forms": "Allows use Nette\\Components [Controls]",
     "nette/database": "Allows use Nette\\Database [DataSources]",
-    "nette/neon": "Allows use Neon\\Loaders"
+    "nette/neon": "Allows use Neon\\Loaders",
+    "tracy/tracy": "Allows use Connections & DataSources panels"
   },
   "autoload": {
     "psr-4": {
@@ -57,7 +59,7 @@
       "phpunit --colors=always -c phpunit.xml"
     ],
     "phpstan": [
-      "phpstan analyze --level 5 src tests"
+      "phpstan analyze --level 1 src tests"
     ]
   }
 }

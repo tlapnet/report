@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\Bridges\Dibi\Data\Fetcher;
+namespace Tlapnet\Report\Bridges\Dibi\Fetcher;
 
 use DibiConnection;
 use Tlapnet\Report\Model\Data\Fetcher\FetcherFactory;
