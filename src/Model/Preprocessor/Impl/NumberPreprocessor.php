@@ -5,6 +5,9 @@ namespace Tlapnet\Report\Model\Preprocessor\Impl;
 class NumberPreprocessor extends AbstractPreprocessor
 {
 
+	/** @var string */
+	protected $suffix;
+
 	/** @var int */
 	protected $decimals = 2;
 
@@ -60,7 +63,13 @@ class NumberPreprocessor extends AbstractPreprocessor
 	 */
 	public function preprocess($data)
 	{
-		return number_format($data, $this->decimals, $this->decimalPoint, $this->thousandsPoint);
+		$number = number_format($data, $this->decimals, $this->decimalPoint, $this->thousandsPoint);
+
+		if ($this->suffix) {
+			$number = $number . ' ' . $this->suffix;
+		}
+
+		return $number;
 	}
 
 }

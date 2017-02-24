@@ -90,7 +90,7 @@ final class EditableSubreportTest extends BaseTestCase
 	public function testSetMetadata()
 	{
 		$er = new EditableSubreport('s1', new Parameters(), new DevNullDataSource(), new DevNullRenderer());
-		$er->setMetadata($m = new Metadata([]));
+		$er->setMetadata($m = new Metadata());
 
 		$this->assertSame($m, $er->getMetadata());
 	}

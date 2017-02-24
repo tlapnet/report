@@ -2,12 +2,9 @@
 
 namespace Tlapnet\Report\Tests\Model;
 
-use Tlapnet\Report\DataSources\DevNullDataSource;
 use Tlapnet\Report\Model\Group\Group;
-use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Model\Report\Report;
 use Tlapnet\Report\Model\ReportService;
-use Tlapnet\Report\Renderers\DevNullRenderer;
 use Tlapnet\Report\ReportManager;
 use Tlapnet\Report\Tests\BaseTestCase;
 
@@ -36,7 +33,7 @@ final class ReportServiceTest extends BaseTestCase
 	{
 		$m = new ReportManager();
 		$m->addGroup($g = new Group('g', 'Group'));
-		$g->addReport($r = new Report('r1', new Parameters(), new DevNullDataSource(), new DevNullRenderer()));
+		$g->addReport($r = new Report('r1'));
 
 		$s = new ReportService($m);
 
@@ -51,7 +48,7 @@ final class ReportServiceTest extends BaseTestCase
 	public function testGetGrouples()
 	{
 		$m = new ReportManager();
-		$m->addGroupless($r = new Report('r1', new Parameters(), new DevNullDataSource(), new DevNullRenderer()));
+		$m->addGroupless($r = new Report('r1'));
 
 		$s = new ReportService($m);
 
@@ -67,8 +64,8 @@ final class ReportServiceTest extends BaseTestCase
 	{
 		$m = new ReportManager();
 		$m->addGroup($g = new Group('g', 'Group'));
-		$g->addReport($r1 = new Report('r1', new Parameters(), new DevNullDataSource(), new DevNullRenderer()));
-		$m->addGroupless($r2 = new Report('r2', new Parameters(), new DevNullDataSource(), new DevNullRenderer()));
+		$g->addReport($r1 = new Report('r1'));
+		$g->addReport($r2 = new Report('r2'));
 
 		$s = new ReportService($m);
 		$this->assertSame($r1, $s->getReport('r1'));
