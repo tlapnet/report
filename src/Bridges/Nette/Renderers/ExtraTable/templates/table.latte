@@ -1,41 +1,123 @@
-{block}
+{block|strip}
 <table n:class="$options->sortable ? tablesorter, 'table-renderer table table-hover table-bordered table-striped'">
     <thead>
-        <tr n:inner-foreach="$this->columns as $column">
-            {include #headcolumn, column => $column|trim}
+        <tr n:inner-foreach="$components as $component1">
+            {include #component-head, component => $component1}
         </tr>
     </thead>
     <tbody>
         <tr n:foreach="$rows as $row">
-            {foreach $columns as $column}
-                {include #bodycolumn, row => $row, column => $column|trim}
+            {foreach $components as $component2}
+                {include #component-body, row => $row, component => $component2}
             {/foreach}
         </tr>
     </tbody>
 </table>
 {/block}
 
-{define #headcolumn}
-    {* column options *}
-    {var $options => $column->getOptions()}
-
-    {* column classes *}
-    {var $classes => []}
-    {if $options->type == 'date'}{? $classes[] = 'sorter-shortDate dateFormat-ddmmyyyy'}{/if}
-    {if $options->type == 'datetime'}{? $classes[] = 'sorter-shortDate dateFormat-ddmmyyyy'}{/if}
-
-    <th n:class="(expand)$classes">{$column->getTitle()}</th>
+{define #component-head}
+    {if $component instanceof Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Column}
+        {include #component-column-head, component => $component}
+    {elseif $component instanceof Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Action}
+        {include #component-action-head, component => $component}
+    {elseif $component instanceof Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Blank}
+        {include #component-blank-head, component => $component}
+    {else}
+        Unsupported component!
+    {/if}
 {/define}
 
-{define #bodycolumn}
+{define #component-body}
+    {if $component instanceof Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Column}
+        {include #component-column-body, row => $row, component => $component}
+    {elseif $component instanceof Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Action}
+        {include #component-action-body, row => $row, component => $component}
+    {elseif $component instanceof Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Blank}
+        {include #component-blank-body, row => $row, component => $component}
+    {else}
+        Unsupported component!
+    {/if}
+{/define}
+
+{********************************************************************}
+{***************************** COLUMN *******************************}
+{********************************************************************}
+
+{define #component-column-head}
     {* column options *}
-    {var $options => $column->getOptions()}
+    {var $options => $component->getOptions()}
 
     {* column classes *}
     {var $classes => []}
-    {if $options->align}{? $classes[] = 'align-' . $options->align}{/if}
+    {if $options->type == 'date'}{php $classes[] = 'sorter-shortDate dateFormat-ddmmyyyy'}{/if}
+    {if $options->type == 'datetime'}{php $classes[] = 'sorter-shortDate dateFormat-ddmmyyyy'}{/if}
+
+    <th n:class="(expand)$classes">{$component->getTitle()}</th>
+{/define}
+
+{define #component-column-body}
+    {* column options *}
+    {var $options => $component->getOptions()}
+
+    {* column classes *}
+    {var $classes => []}
+    {if $options->align}{php $classes[] = 'align-' . $options->align}{/if}
+
+    {* column attributes *}
+    {var $link => $component->getLink()}
+    {var $url => $component->getUrl()}
+    {var $label => $component->getLabel()}
+    {var $callback => $component->getCallback()}
 
     <td n:class="(expand)$classes">
-        {$row[$column->getName()]}
+        <a n:tag-if="$url" href="{$url}">
+            <a n:tag-if="$link" href="{plink $link->destination, (expand) $link->args}">
+                {if $label}
+                    {$label->name}
+                {else}
+                    {if $callback}
+                        {=$callback($row, $component)|noescape}
+                    {else}
+                        {$row[$component->getName()]}
+                    {/if}
+                {/if}
+            </a>
+        </a>
     </td>
+{/define}
+
+{********************************************************************}
+{***************************** ACTION *******************************}
+{********************************************************************}
+
+{define #component-action-head}
+    <th></th>
+{/define}
+
+
+{define #component-action-body}
+    {* column attributes *}
+    {var $link => $component->getLink()}
+    {var $label => $component->getLabel()}
+
+    <td>
+        <a n:tag-if="$link" href="{plink $link->destination, (expand) $link->args}">
+            {$label->name}
+        </a>
+    </td>
+{/define}
+
+{********************************************************************}
+{***************************** BLANK ********************************}
+{********************************************************************}
+
+{define #component-blank-head}
+    <th></th>
+{/define}
+
+{define #component-blank-body}
+    {* blank attributes *}
+    {var $callback => $component->getCallback()}
+
+    <td>{=$callback($row, $component)|noescape}</td>
 {/define}

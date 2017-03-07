@@ -2,14 +2,18 @@
 
 namespace Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable;
 
+use Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Action;
+use Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Blank;
+use Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Column;
+use Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Component;
 use Tlapnet\Report\Bridges\Nette\Renderers\TemplateRenderer;
 use Tlapnet\Report\Model\Result\Result;
 
 class ExtraTableRenderer extends TemplateRenderer
 {
 
-	/** @var array */
-	protected $columns = [];
+	/** @var Component[] */
+	protected $components = [];
 
 	/** @var array */
 	protected $options = [
@@ -23,13 +27,40 @@ class ExtraTableRenderer extends TemplateRenderer
 	 */
 	public function addColumn($name, $title = NULL)
 	{
-		$this->columns[$name] = $column = new Column($name);
+		$this->components[$name] = $column = new Column($name);
 
 		if ($title) {
 			$column->title($title);
 		}
 
 		return $column;
+	}
+
+	/**
+	 * @param string $name
+	 * @param string $label
+	 * @return Action
+	 */
+	public function addAction($name, $label = NULL)
+	{
+		$this->components[$name] = $action = new Action($name);
+
+		if ($label) {
+			$action->label($label);
+		}
+
+		return $action;
+	}
+
+	/**
+	 * @param string $name
+	 * @return Blank
+	 */
+	public function addBlank($name)
+	{
+		$this->components[$name] = $blank = new Blank($name);
+
+		return $blank;
 	}
 
 	/**
@@ -51,7 +82,7 @@ class ExtraTableRenderer extends TemplateRenderer
 		$template->setFile(__DIR__ . '/templates/table.latte');
 
 		$template->options = (object) $this->options;
-		$template->columns = $this->columns;
+		$template->components = $this->components;
 		$template->rows = $result;
 
 		$template->render();
