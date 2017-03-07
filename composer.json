@@ -26,6 +26,7 @@
     "nette/forms": "^2.4.3",
     "nette/database": "^2.4.2",
     "nette/neon": "^2.4.1",
+    "latte/latte": "^2.4.3",
     "tracy/tracy": "^2.4.6"
   },
   "suggest": {
@@ -36,6 +37,7 @@
     "nette/forms": "Allows use Nette\\Components [Controls]",
     "nette/database": "Allows use Nette\\Database [DataSources]",
     "nette/neon": "Allows use Neon\\Loaders",
+    "latte/latte": "Allows use Components",
     "tracy/tracy": "Allows use Connections & DataSources panels"
   },
   "autoload": {
@@ -45,7 +47,9 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tlapnet\\Report\\Tests\\": "tests/"
+      "Tests\\Report\\": "tests/Cases",
+      "Tests\\Engine\\": "tests/Engine",
+      "Tests\\Mocks\\": "tests/Mocks"
     }
   },
   "prefer-stable": true,
