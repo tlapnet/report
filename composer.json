@@ -18,6 +18,7 @@
   },
   "require-dev": {
     "ninjify/qa": "^0.3.3",
+    "mockery/mockery": "^0.9.9",
     "phpunit/phpunit": "^5.3.0",
     "tlapnet/chart": "dev-master",
     "dibi/dibi": "^2.3.5",

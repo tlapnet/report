@@ -5,8 +5,11 @@ namespace Tests\Mocks\Latte;
 use Latte\Engine;
 use Nette\Bridges\ApplicationLatte\ILatteFactory;
 
-final class LatteFactory implements ILatteFactory
+class LatteFactory implements ILatteFactory
 {
+
+	/** @var array */
+	protected $onCreate = [];
 
 	/**
 	 * @return Engine
@@ -14,8 +17,20 @@ final class LatteFactory implements ILatteFactory
 	public function create()
 	{
 		$latte = new Engine();
+		foreach ($this->onCreate as $callback) {
+			$callback($latte);
+		}
 
 		return $latte;
+	}
+
+	/**
+	 * @param callable $callback
+	 * @return void
+	 */
+	public function onCreate(callable $callback)
+	{
+		$this->onCreate[] = $callback;
 	}
 
 }

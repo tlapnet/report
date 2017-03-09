@@ -2,6 +2,9 @@
 
 namespace Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable;
 
+use Nette\Application\LinkGenerator;
+use Nette\Bridges\ApplicationLatte\TemplateFactory;
+use Nette\Utils\Strings;
 use Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Action;
 use Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Blank;
 use Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Column;
@@ -12,6 +15,9 @@ use Tlapnet\Report\Model\Result\Result;
 class ExtraTableRenderer extends TemplateRenderer
 {
 
+	/** @var LinkGenerator */
+	protected $linkGenerator;
+
 	/** @var Component[] */
 	protected $components = [];
 
@@ -19,6 +25,16 @@ class ExtraTableRenderer extends TemplateRenderer
 	protected $options = [
 		'sortable' => TRUE,
 	];
+
+	/**
+	 * @param TemplateFactory $templateFactory
+	 * @param LinkGenerator $linkGenerator
+	 */
+	public function __construct(TemplateFactory $templateFactory, LinkGenerator $linkGenerator)
+	{
+		parent::__construct($templateFactory);
+		$this->linkGenerator = $linkGenerator;
+	}
 
 	/**
 	 * @param string $name
@@ -73,6 +89,33 @@ class ExtraTableRenderer extends TemplateRenderer
 	}
 
 	/**
+	 * TEMPLATE ****************************************************************
+	 */
+
+	/**
+	 * @param mixed $link
+	 * @param mixed $row
+	 * @return string
+	 */
+	public function templateLinker($link, $row)
+	{
+		// Iterate over all link arguments, find
+		// values starting with #<name> and fill
+		// that value from row.
+		foreach ((array) $link->args as $key => $value) {
+			if (Strings::startsWith($value, '#')) {
+				$link->args[$key] = $row[substr($value, 1)];
+			}
+		}
+
+		return $this->linkGenerator->link($link->destination, $link->args);
+	}
+
+	/**
+	 * RENDER ******************************************************************
+	 */
+
+	/**
 	 * @param Result $result
 	 * @return void
 	 */
@@ -80,6 +123,8 @@ class ExtraTableRenderer extends TemplateRenderer
 	{
 		$template = $this->createTemplate();
 		$template->setFile(__DIR__ . '/templates/table.latte');
+
+		$template->addFilter('linker', [$this, 'templateLinker']);
 
 		$template->options = (object) $this->options;
 		$template->components = $this->components;
