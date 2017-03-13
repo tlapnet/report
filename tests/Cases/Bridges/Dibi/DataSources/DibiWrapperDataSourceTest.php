@@ -52,15 +52,16 @@ final class DibiWrapperDataSourceTest extends BaseTestCase
 			->andReturn(TRUE);
 		$connection->shouldReceive('query')
 			->once()
-			->with(['SELECT * FROM [foobar] WHERE [year]=?', 2000])
+			->with(['SELECT * FROM [foobar] WHERE [year]=? AND [month]=?', 2000, 10])
 			->andReturn($result);
 
 		$ds = new DibiWrapperDataSource($connection);
-		$ds->setSql('SELECT * FROM [foobar] WHERE [year]={YEAR}');
+		$ds->setSql('SELECT * FROM [foobar] WHERE [year]={YEAR} AND [month]={MONTH}');
 
 		$parameters = new Parameters();
 		$parameters->add(new TextParameter('YEAR'));
-		$parameters->attach(['YEAR' => 2000]);
+		$parameters->add(new TextParameter('MONTH'));
+		$parameters->attach(['YEAR' => 2000, 'MONTH' => 10]);
 
 		$result = $ds->compile($parameters);
 		$this->assertInstanceOf(LazyDibiResult::class, $result);

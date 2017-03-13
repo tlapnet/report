@@ -54,7 +54,7 @@ final class DibiDataSourceTest extends BaseTestCase
 		$connection = Mockery::mock('alias:DibiConnection');
 		$connection->shouldReceive('query')
 			->once()
-			->with(['SELECT * FROM [foobar] WHERE [year]=?', 2000])
+			->with(['SELECT * FROM [foobar] WHERE [year]=? AND [month]=?', 2000, 10])
 			->andReturn($result);
 
 		$dsx = new DibiDataSource([]);
@@ -65,11 +65,12 @@ final class DibiDataSourceTest extends BaseTestCase
 
 		$ds->shouldReceive('connect')
 			->once();
-		$ds->setSql('SELECT * FROM [foobar] WHERE [year]={YEAR}');
+		$ds->setSql('SELECT * FROM [foobar] WHERE [year]={YEAR} AND [month]={MONTH}');
 
 		$parameters = new Parameters();
 		$parameters->add(new TextParameter('YEAR'));
-		$parameters->attach(['YEAR' => 2000]);
+		$parameters->add(new TextParameter('MONTH'));
+		$parameters->attach(['YEAR' => 2000, 'MONTH' => 10]);
 
 		$result = $ds->compile($parameters);
 		$this->assertInstanceOf(LazyDibiResult::class, $result);
