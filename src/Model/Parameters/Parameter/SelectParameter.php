@@ -11,6 +11,9 @@ final class SelectParameter extends Parameter
 	/** @var bool */
 	private $useKeys = TRUE;
 
+	/** @var string */
+	private $prompt;
+
 	/**
 	 * @param string $name
 	 */
@@ -76,6 +79,23 @@ final class SelectParameter extends Parameter
 	public function isUseKeys()
 	{
 		return $this->useKeys;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPrompt()
+	{
+		return $this->prompt;
+	}
+
+	/**
+	 * @param string $prompt
+	 * @return void
+	 */
+	public function setPrompt($prompt)
+	{
+		$this->prompt = $prompt;
 	}
 
 }

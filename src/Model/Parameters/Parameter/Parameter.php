@@ -24,6 +24,9 @@ abstract class Parameter
 	/** @var mixed */
 	protected $rawValue;
 
+	/** @var mixed */
+	protected $defaultValue;
+
 	/** @var array */
 	protected $options = [];
 
@@ -120,6 +123,23 @@ abstract class Parameter
 	public function getRawValue()
 	{
 		return $this->rawValue;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getDefaultValue()
+	{
+		return $this->defaultValue;
+	}
+
+	/**
+	 * @param mixed $value
+	 * @return void
+	 */
+	public function setDefaultValue($value)
+	{
+		$this->defaultValue = $value;
 	}
 
 	/**

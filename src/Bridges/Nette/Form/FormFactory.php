@@ -60,6 +60,11 @@ class FormFactory
 		// Select -> items
 		$input->setItems($parameter->getItems());
 
+		// Select -> prompt
+		if ($parameter->getPrompt() !== NULL) {
+			$input->setPrompt($parameter->getPrompt());
+		}
+
 		return $input;
 	}
 
@@ -70,6 +75,11 @@ class FormFactory
 	 */
 	protected function decorate(BaseControl $input, Parameter $parameter)
 	{
+		// Default value
+		if ($parameter->getDefaultValue() !== NULL) {
+			$input->setDefaultValue($parameter->getDefaultValue());
+		}
+
 		// Placeholder
 		if ($parameter->hasOption('placeholder')) {
 			$input->setAttribute('placeholder', $parameter->getOption('placeholder'));

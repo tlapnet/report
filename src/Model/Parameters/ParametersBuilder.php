@@ -47,9 +47,21 @@ class ParametersBuilder
 		if (isset($values['items'])) {
 			$parameter->setItems($values['items']);
 		}
-		// Select > items
+
+		// Select > prompt
+		if (isset($values['prompt'])) {
+			$parameter->setPrompt($values['prompt']);
+		}
+
+		// Select > useKeys
 		if (isset($values['useKeys'])) {
 			$parameter->setUseKeys($values['useKeys']);
+		}
+
+		// Select > useKeys
+		if (isset($values['use_keys'])) {
+			trigger_error('Please use useKeys: <...>', E_USER_WARNING);
+			$parameter->setDefaultValue($values['use_keys']);
 		}
 
 		$this->addParameter($parameter);
@@ -74,6 +86,17 @@ class ParametersBuilder
 		// Title
 		if (isset($values['title'])) {
 			$parameter->setTitle($values['title']);
+		}
+
+		// Default Value
+		if (isset($values['defaultValue'])) {
+			$parameter->setDefaultValue($values['defaultValue']);
+		}
+
+		// Default Value
+		if (isset($values['default_value'])) {
+			trigger_error('Please use defaultValue: <...>', E_USER_WARNING);
+			$parameter->setDefaultValue($values['default_value']);
 		}
 
 		// Options
