@@ -32,18 +32,6 @@ final class ExtraTableRendererTest extends BaseTestCase
 	}
 
 	/**
-	 * @return TemplateFactory
-	 */
-	private function createTemplateFactoryMock()
-	{
-		$latteFactory = Mockery::mock(new LatteFactory());
-		$latteFactory->makePartial();
-		$templateFactory = Mockery::mock(new TemplateFactory($latteFactory));
-
-		return $templateFactory;
-	}
-
-	/**
 	 * @return LinkGenerator
 	 */
 	private function createLinkGenerator()

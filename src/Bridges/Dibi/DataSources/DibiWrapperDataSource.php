@@ -56,8 +56,8 @@ class DibiWrapperDataSource extends AbstractDatabaseDataSource
 			}
 
 			// Execute dibi query
-			array_unshift($args, $sql);
-			$resultset = $this->connection->query($args);
+			$query = array_merge([$sql], $args);
+			$resultset = $this->connection->query($query);
 		} catch (DibiException $e) {
 			throw new SqlException($sql, NULL, $e);
 		}
