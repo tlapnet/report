@@ -2,6 +2,8 @@
 
 namespace Tlapnet\Report\Model\Parameters\Parameter;
 
+use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
+
 final class SelectParameter extends Parameter
 {
 
@@ -55,11 +57,15 @@ final class SelectParameter extends Parameter
 			// Set value representing as key
 			if (array_key_exists($value, $this->items)) {
 				$this->value = $value;
+			} else {
+				throw new InvalidArgumentException(sprintf('Key "%s" not found in array [%s] (useKeys:on)', $value, implode('|', $this->items)));
 			}
 		} else {
 			// Set value representing by his key
-			if (isset($this->items[$value])) {
-				$this->value = $this->items[$value];
+			if (in_array($value, $this->items)) {
+				$this->value = $value;
+			} else {
+				throw new InvalidArgumentException(sprintf('Key "%s" not found in array [%s] (useKeys:off)', $value, implode('|', $this->items)));
 			}
 		}
 	}

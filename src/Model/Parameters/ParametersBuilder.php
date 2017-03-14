@@ -61,7 +61,7 @@ class ParametersBuilder
 		// Select > useKeys
 		if (isset($values['use_keys'])) {
 			trigger_error('Please use useKeys: <...>', E_USER_WARNING);
-			$parameter->setDefaultValue($values['use_keys']);
+			$parameter->setUseKeys($values['use_keys']);
 		}
 
 		$this->addParameter($parameter);

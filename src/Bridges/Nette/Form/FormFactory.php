@@ -54,16 +54,16 @@ class FormFactory
 		$input = new SelectBox($parameter->getTitle());
 		$input->setPrompt('---');
 
-		// Setup common attributes / options
-		$this->decorate($input, $parameter);
-
 		// Select -> items
-		$input->setItems($parameter->getItems());
+		$input->setItems($parameter->getItems(), $parameter->isUseKeys());
 
 		// Select -> prompt
 		if ($parameter->getPrompt() !== NULL) {
 			$input->setPrompt($parameter->getPrompt());
 		}
+
+		// Setup common attributes / options
+		$this->decorate($input, $parameter);
 
 		return $input;
 	}
