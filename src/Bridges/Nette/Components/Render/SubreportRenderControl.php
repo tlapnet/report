@@ -92,11 +92,11 @@ class SubreportRenderControl extends Control
 			if ($parameters) {
 				$parameters = (array) Json::decode(base64_decode($parameters));
 
-				// Attach parameters to subreport
-				$this->subreport->attach($parameters);
-
 				// Attach parameters to form
 				$this['parametersForm']->setDefaults($parameters);
+
+				// Attach parameters to subreport
+				$this->subreport->attach($parameters);
 			}
 
 			// Compile (fetch data)
