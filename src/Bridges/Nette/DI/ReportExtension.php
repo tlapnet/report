@@ -245,9 +245,9 @@ class ReportExtension extends CompilerExtension
 				unset($report['subreport']);
 			}
 
-			Validators::assertField($report, 'metadata', 'array', sprintf('item "%" in %s', $rid));
-			Validators::assertField($report, 'groups', 'array', sprintf('item "%" in %s', $rid));
-			Validators::assertField($report, 'subreports', 'array', sprintf('item "%" in %s', $rid));
+			Validators::assertField($report, 'metadata', 'array', sprintf('item "%%" in %s', $rid));
+			Validators::assertField($report, 'groups', 'array', sprintf('item "%%" in %s', $rid));
+			Validators::assertField($report, 'subreports', 'array', sprintf('item "%%" in %s', $rid));
 
 			// Validate report metadata
 			$this->validateConfig($this->scheme['report']['metadata'], $report['metadata'], sprintf('%s.metadata', $rid));
@@ -337,10 +337,10 @@ class ReportExtension extends CompilerExtension
 
 		// =====================================================================
 
-		Validators::assertField($subreport, 'metadata', 'array', sprintf('item "%" in %s subreport %s', $rid, $sid));
-		Validators::assertField($subreport, 'params', 'array|null', sprintf('item "%" in %s subreport %s', $rid, $sid));
-		Validators::assertField($subreport, 'datasource', NULL, sprintf('item "%" in %s subreport %s', $rid, $sid));
-		Validators::assertField($subreport, 'renderer', NULL, sprintf('item "%" in %s subreport %s', $rid, $sid));
+		Validators::assertField($subreport, 'metadata', 'array', sprintf('item "%%" in %s subreport %s', $rid, $sid));
+		Validators::assertField($subreport, 'params', 'array|null', sprintf('item "%%" in %s subreport %s', $rid, $sid));
+		Validators::assertField($subreport, 'datasource', NULL, sprintf('item "%%" in %s subreport %s', $rid, $sid));
+		Validators::assertField($subreport, 'renderer', NULL, sprintf('item "%%" in %s subreport %s', $rid, $sid));
 
 		// Validate subreport metadata
 		$this->validateConfig($this->scheme['subreport']['metadata'], $subreport['metadata'], sprintf('%s.subreports.%s.metadata', $rid, $sid));
