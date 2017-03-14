@@ -1,11 +1,11 @@
 {block}
 <form n:name="parametersForm">
     <!-- INPUTS -->
-    {foreach $form->getControls() as $control}
-        {if $control instanceof Nette\Forms\Controls\TextInput}
-            {include #input, _form => $form, control => $control}
-        {elseif $control instanceof Nette\Forms\Controls\SelectBox}
-            {include #select, _form => $form, control => $control}
+    {foreach $form->getControls() as $item}
+        {if $item instanceof Nette\Forms\Controls\TextInput}
+            {include #input, _form => $form, control => $item}
+        {elseif $item instanceof Nette\Forms\Controls\SelectBox}
+            {include #select, _form => $form, control => $item}
         {/if}
     {/foreach}
 
