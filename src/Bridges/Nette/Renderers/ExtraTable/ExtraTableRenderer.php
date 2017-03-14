@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable;
 
 use Nette\Application\LinkGenerator;
-use Nette\Bridges\ApplicationLatte\TemplateFactory;
+use Nette\Application\UI\ITemplateFactory;
 use Nette\Utils\Strings;
 use Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Action;
 use Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Blank;
@@ -27,10 +27,10 @@ class ExtraTableRenderer extends TemplateRenderer
 	];
 
 	/**
-	 * @param TemplateFactory $templateFactory
+	 * @param ITemplateFactory $templateFactory
 	 * @param LinkGenerator $linkGenerator
 	 */
-	public function __construct(TemplateFactory $templateFactory, LinkGenerator $linkGenerator)
+	public function __construct(ITemplateFactory $templateFactory, LinkGenerator $linkGenerator)
 	{
 		parent::__construct($templateFactory);
 		$this->linkGenerator = $linkGenerator;
