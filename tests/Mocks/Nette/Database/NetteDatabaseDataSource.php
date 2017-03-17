@@ -10,6 +10,7 @@ final class NetteDatabaseDataSource extends TNetteDatabaseDataSource
 
 	/**
 	 * @param Connection $connection
+	 * @return void
 	 */
 	public function setConnection($connection)
 	{
