@@ -6,7 +6,7 @@
                 n:if="$subreport->hasOption('description')"
                 data-report-toggle="tooltip"
                 data-placement="bottom"
-                title="{$subreport->getOption('description')|nl2br|noescape}"
+                title="{$subreport->getOption('description')|breaklines}"
                 class="icon-comments">
         </span>
     </h2>
