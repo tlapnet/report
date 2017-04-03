@@ -11,6 +11,9 @@ class Action extends Component
 	/** @var object */
 	private $label;
 
+	/** @var string */
+	private $title;
+
 	/**
 	 * GETTERS *****************************************************************
 	 */
@@ -32,6 +35,14 @@ class Action extends Component
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getTitle()
+	{
+		return $this->title;
+	}
+
+	/**
 	 * BUILDER *****************************************************************
 	 */
 
@@ -49,7 +60,7 @@ class Action extends Component
 	/**
 	 * @param string $destination
 	 * @param array $args
-	 * @return void
+	 * @return self
 	 */
 	public function link($destination, array $args = [])
 	{
@@ -57,17 +68,21 @@ class Action extends Component
 			'destination' => $destination,
 			'args' => $args,
 		];
+
+		return $this;
 	}
 
 	/**
 	 * @param string $label
-	 * @return void
+	 * @return self
 	 */
 	public function label($label)
 	{
 		$this->label = (object) [
 			'name' => $label,
 		];
+
+		return $this;
 	}
 
 }

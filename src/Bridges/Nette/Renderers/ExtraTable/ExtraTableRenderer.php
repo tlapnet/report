@@ -99,16 +99,19 @@ class ExtraTableRenderer extends TemplateRenderer
 	 */
 	public function templateLinker($link, $row)
 	{
+		// Don't override original link in template
+		$tmplink = clone $link;
+
 		// Iterate over all link arguments, find
 		// values starting with #<name> and fill
 		// that value from row.
-		foreach ((array) $link->args as $key => $value) {
+		foreach ((array) $tmplink->args as $key => $value) {
 			if (Strings::startsWith($value, '#')) {
-				$link->args[$key] = $row[substr($value, 1)];
+				$tmplink->args[$key] = $row[substr($value, 1)];
 			}
 		}
 
-		return $this->linkGenerator->link($link->destination, $link->args);
+		return $this->linkGenerator->link($tmplink->destination, $tmplink->args);
 	}
 
 	/**

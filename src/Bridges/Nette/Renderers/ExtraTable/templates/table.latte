@@ -95,7 +95,7 @@
 {********************************************************************}
 
 {define #component-action-head}
-    <th></th>
+    <th>{$component->getTitle()}</th>
 {/define}
 
 
@@ -105,7 +105,7 @@
     {var $label => $component->getLabel()}
 
     <td>
-        <a n:tag-if="$link" href="{plink $link->destination, (expand) $link->args}">
+        <a n:tag-if="$link" href="{$link, $row|linker}">
             {$label->name}
         </a>
     </td>

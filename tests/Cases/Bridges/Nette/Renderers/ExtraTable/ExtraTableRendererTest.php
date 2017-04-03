@@ -143,7 +143,8 @@ final class ExtraTableRendererTest extends BaseTestCase
 			->link('Fake:link', ['args1' => '#bar']);
 
 		$result = new Result([
-			1 => ['foo' => 'bar', 'bar' => 'baz'],
+			1 => ['foo' => 'bar', 'bar' => 'baz1'],
+			1 => ['foo' => 'bar', 'bar' => 'baz1'],
 		]);
 
 		ob_start();
