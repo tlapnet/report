@@ -144,7 +144,7 @@ final class ExtraTableRendererTest extends BaseTestCase
 
 		$result = new Result([
 			1 => ['foo' => 'bar', 'bar' => 'baz1'],
-			1 => ['foo' => 'bar', 'bar' => 'baz1'],
+			2 => ['foo' => 'bar', 'bar' => 'baz2'],
 		]);
 
 		ob_start();
