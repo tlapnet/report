@@ -2,8 +2,8 @@
 
 namespace Tlapnet\Report\Bridges\Nette\Components\Render;
 
+use Nette\Application\UI\ComponentReflection;
 use Nette\Application\UI\Control;
-use Nette\Utils\Json;
 use Tlapnet\Report\Bridges\Nette\Form\Form;
 use Tlapnet\Report\Bridges\Nette\Form\FormFactory;
 use Tlapnet\Report\Exceptions\Runtime\CompileException;
@@ -12,11 +12,11 @@ use Tlapnet\Report\Model\Subreport\Subreport;
 class SubreportRenderControl extends Control
 {
 
-	// Request parameter
-	const REPORT_PARAMETERS = '_rp';
-
 	/** @var Subreport */
 	private $subreport;
+
+	/** @var array */
+	private $parameters = [];
 
 	/**
 	 * @param Subreport $subreport
@@ -71,8 +71,38 @@ class SubreportRenderControl extends Control
 			$this->redirect('this');
 		}
 
-		// Store form data to parameter
-		$this->presenter->redirect('this', [self::REPORT_PARAMETERS => base64_encode(Json::encode($values))]);
+		// Store form data to parameters and refresh
+		$this->parameters = $values;
+		$this->redirect('this');
+	}
+
+	/**
+	 * STATE *******************************************************************
+	 */
+
+	/**
+	 * @param array $params
+	 * @return void
+	 */
+	public function loadState(array $params)
+	{
+		parent::loadState($params);
+		if (isset($params['params'])) {
+			$this->parameters = $params['params'];
+		}
+	}
+
+	/**
+	 * @param array $params
+	 * @param ComponentReflection $reflection
+	 * @return void
+	 */
+	public function saveState(array &$params, $reflection = NULL)
+	{
+		parent::saveState($params, $reflection);
+		if ($this->parameters) {
+			$params['params'] = $this->parameters;
+		}
 	}
 
 	/**
@@ -88,15 +118,12 @@ class SubreportRenderControl extends Control
 	{
 		try {
 			// Attach parameters (only if we have some)
-			$parameters = $this->presenter->getParameter(self::REPORT_PARAMETERS);
-			if ($parameters) {
-				$parameters = (array) Json::decode(base64_decode($parameters));
-
+			if ($this->parameters) {
 				// Attach parameters to form
-				$this['parametersForm']->setDefaults($parameters);
+				$this['parametersForm']->setDefaults($this->parameters);
 
 				// Attach parameters to subreport
-				$this->subreport->attach($parameters);
+				$this->subreport->attach($this->parameters);
 			}
 
 			// Compile (fetch data)

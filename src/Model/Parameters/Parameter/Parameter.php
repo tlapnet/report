@@ -143,6 +143,14 @@ abstract class Parameter
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function hasDefaultValue()
+	{
+		return $this->defaultValue !== NULL;
+	}
+
+	/**
 	 * @param string $key
 	 * @return mixed
 	 */

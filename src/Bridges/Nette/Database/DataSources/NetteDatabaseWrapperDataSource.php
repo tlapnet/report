@@ -62,7 +62,7 @@ class NetteDatabaseWrapperDataSource extends AbstractDatabaseDataSource
 
 		try {
 			// Prepare parameters
-			if (!$parameters->isEmpty()) {
+			if (!$parameters->isEmpty() || $parameters->hasDefaults()) {
 				$switch = $parameters->createSwitcher();
 				$switch->setPlaceholder('?');
 				// Replace named parameters for ? and return

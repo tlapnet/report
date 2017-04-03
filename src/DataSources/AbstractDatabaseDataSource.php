@@ -57,8 +57,8 @@ abstract class AbstractDatabaseDataSource implements DataSource
 	 */
 	public function getRealSql(Parameters $parameters)
 	{
-		// If dynamic parameters are not filled and we've defaul sql query,
-		// we use it
+		// If dynamic parameters are not filled
+		// and also we've default sql query
 		if (!$parameters->isAttached() && $this->getDefaultSql()) {
 			$sql = $this->getDefaultSql();
 		} else {

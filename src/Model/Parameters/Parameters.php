@@ -95,8 +95,11 @@ class Parameters implements Attachable
 		$array = [];
 		foreach ($this->parameters as $parameter) {
 			// Fill only if parameter has a right value
+			// or if parameter has default value
 			if ($parameter->hasValue()) {
 				$array[$parameter->getName()] = $parameter->getValue();
+			} else if ($parameter->hasDefaultValue()) {
+				$array[$parameter->getName()] = $parameter->getDefaultValue();
 			}
 		}
 
@@ -109,6 +112,18 @@ class Parameters implements Attachable
 	public function isEmpty()
 	{
 		return count($this->parameters) <= 0;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasDefaults()
+	{
+		foreach ($this->parameters as $parameter) {
+			if ($parameter->hasDefaultValue()) return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	/**
