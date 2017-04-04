@@ -67,6 +67,7 @@ class CachedDatabaseDataSource implements DataSource
 		if (!isset($this->configuration['key'])) {
 			throw new InvalidStateException('Cache "key" is required');
 		}
+
 		if (!isset($this->configuration['expiration'])) {
 			throw new InvalidStateException('Cache "expiration" is required');
 		}

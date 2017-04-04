@@ -395,7 +395,7 @@ class ReportExtension extends CompilerExtension
 		$parametersDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.parameters'));
 		$parametersDef->setClass(Parameters::class);
 		$parametersDef->setAutowired(FALSE);
-		$parametersDef->setTags([self::TAG_SUBREPORT_PARAMETERS => $name]);
+		$parametersDef->addTag(self::TAG_SUBREPORT_PARAMETERS, $name);
 
 		// Use
 		if ($subreport['params'] && isset($subreport['params']['builder'])) {
@@ -419,13 +419,13 @@ class ReportExtension extends CompilerExtension
 		$datasourceDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.datasource'));
 		Compiler::loadDefinition($datasourceDef, $subreport['datasource']);
 		$datasourceDef->setAutowired(FALSE);
-		$datasourceDef->setTags([self::TAG_SUBREPORT_DATASOURCE => $name]);
+		$datasourceDef->addTag(self::TAG_SUBREPORT_DATASOURCE, $name);
 
 		// Create renderer service
 		$rendererDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.renderer'));
 		Compiler::loadDefinition($rendererDef, $subreport['renderer']);
 		$rendererDef->setAutowired(FALSE);
-		$rendererDef->setTags([self::TAG_SUBREPORT_RENDERER => $name]);
+		$rendererDef->addTag(self::TAG_SUBREPORT_RENDERER, $name);
 
 		// Create Subreport
 		$subreportDef = $builder->addDefinition($this->prefix('subreports.' . $name))
@@ -519,8 +519,13 @@ class ReportExtension extends CompilerExtension
 			$serviceDef = $builder->getDefinition($service);
 
 			// Validate datasource class
-			if ($serviceDef->getClass() != DataSource::class) {
-				throw new AssertionException(sprintf('Please use tag "%s" only on datasource (found at %s).', self::TAG_CACHE, $service));
+			if (!is_subclass_of($serviceDef->getClass(), DataSource::class)) {
+				throw new AssertionException(sprintf(
+					'Please use tag "%s" only on datasource (object %s found in %s).',
+					self::TAG_CACHE,
+					$serviceDef->getClass(),
+					$service
+				));
 			}
 
 			// Validate cache scheme
