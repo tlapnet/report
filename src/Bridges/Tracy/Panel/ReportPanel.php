@@ -56,12 +56,12 @@ final class ReportPanel implements IBarPanel
 				'datasource' => (object) [
 					'type' => $this->container->getServiceType($tag['datasource']),
 					'created' => (isset($registry[$tag['datasource']]) && !$registry[$tag['datasource']] instanceof Container),
-					'service' => $registry[$tag['datasource']],
+					'service' => (isset($registry[$tag['datasource']]) && !$registry[$tag['datasource']] instanceof Container) ? $registry[$tag['datasource']] : NULL,
 				],
 				'renderer' => (object) [
 					'type' => $this->container->getServiceType($tag['renderer']),
 					'created' => (isset($registry[$tag['renderer']]) && !$registry[$tag['renderer']] instanceof Container),
-					'service' => $registry[$tag['renderer']],
+					'service' => (isset($registry[$tag['renderer']]) && !$registry[$tag['renderer']] instanceof Container) ? $registry[$tag['renderer']] : NULL,
 				],
 			];
 		}
