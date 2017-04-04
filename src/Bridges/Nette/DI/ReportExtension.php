@@ -7,6 +7,7 @@ use Nette\DI\CompilerExtension;
 use Nette\DI\Config\Adapters\NeonAdapter;
 use Nette\DI\Helpers;
 use Nette\DI\Statement;
+use Nette\PhpGenerator\ClassType;
 use Nette\Utils\AssertionException;
 use Nette\Utils\Finder;
 use Nette\Utils\Validators;
@@ -14,6 +15,8 @@ use SplFileInfo;
 use Tlapnet\Report\Bridges\Nette\Exceptions\FileNotFoundException;
 use Tlapnet\Report\Bridges\Nette\Exceptions\FolderNotFoundException;
 use Tlapnet\Report\Bridges\Nette\Exceptions\InvalidConfigException;
+use Tlapnet\Report\Bridges\Tracy\Panel\ReportPanel;
+use Tlapnet\Report\DataSources\CachedDatabaseDataSource;
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Model\Group\Group;
 use Tlapnet\Report\Model\Parameters\Parameters;
@@ -27,6 +30,16 @@ use Tlapnet\Report\ReportManager;
 
 class ReportExtension extends CompilerExtension
 {
+
+	// Tags
+	const TAG_CACHE = 'report.cache';
+	const TAG_INTROSPECTION = 'report.introspecition';
+	const TAG_REPORT = 'report.report';
+	const TAG_SUBREPORT = 'report.subreport';
+	const TAG_SUBREPORT_PARENT = 'report.subreport.parent';
+	const TAG_SUBREPORT_DATASOURCE = 'report.subreport.datasource';
+	const TAG_SUBREPORT_RENDERER = 'report.subreport.renderer';
+	const TAG_SUBREPORT_PARAMETERS = 'report.subreport.paremeters';
 
 	/** @var array */
 	protected $defaults = [
@@ -65,6 +78,12 @@ class ReportExtension extends CompilerExtension
 			'params' => NULL,
 			'preprocessors' => [],
 		],
+		'tags' => [
+			self::TAG_CACHE => [
+				'key' => NULL,
+				'expiration' => NULL,
+			],
+		],
 	];
 
 	/**
@@ -93,6 +112,9 @@ class ReportExtension extends CompilerExtension
 		$builder->addDefinition($this->prefix('service'))
 			->setClass(ReportService::class);
 
+		$builder->addDefinition($this->prefix('panel'))
+			->setClass(ReportPanel::class);
+
 		// Load common services
 		if ($config['definitions']) {
 			// Temporary fix fox services inner extension..
@@ -119,6 +141,26 @@ class ReportExtension extends CompilerExtension
 		if ($config['reports']) {
 			$this->loadReportsFromConfig($config['reports']);
 		}
+	}
+
+	/**
+	 * Decorate services
+	 *
+	 * @return void
+	 */
+	public function beforeCompile()
+	{
+		$this->decorateSubreports();
+	}
+
+	/**
+	 * @param ClassType $class
+	 * @return void
+	 */
+	public function afterCompile(ClassType $class)
+	{
+		$class->getMethod('initialize')
+			->addBody('$this->getService(?)->addPanel($this->getByType(?));', ['tracy.bar', ReportPanel::class]);
 	}
 
 	/**
@@ -271,9 +313,8 @@ class ReportExtension extends CompilerExtension
 
 			// Add report
 			$reportDef = $builder->addDefinition($this->prefix('reports.' . $rid))
-				->setClass(Report::class, [
-					'rid' => $rid,
-				]);
+				->setClass(Report::class, ['rid' => $rid])
+				->setTags([self::TAG_REPORT => $rid]);
 
 			// Add report metadata
 			foreach ((array) $report['metadata'] as $key => $value) {
@@ -355,6 +396,7 @@ class ReportExtension extends CompilerExtension
 		$parametersDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.parameters'));
 		$parametersDef->setClass(Parameters::class);
 		$parametersDef->setAutowired(FALSE);
+		$parametersDef->setTags([self::TAG_SUBREPORT_PARAMETERS => $name]);
 
 		// Use
 		if ($subreport['params'] && isset($subreport['params']['builder'])) {
@@ -377,22 +419,33 @@ class ReportExtension extends CompilerExtension
 		// Create datasource service
 		$datasourceDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.datasource'));
 		Compiler::loadDefinition($datasourceDef, $subreport['datasource']);
-		$datasourceDef->setClass(DataSource::class);
 		$datasourceDef->setAutowired(FALSE);
+		$datasourceDef->setTags([self::TAG_SUBREPORT_DATASOURCE => $name]);
 
 		// Create renderer service
 		$rendererDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.renderer'));
 		Compiler::loadDefinition($rendererDef, $subreport['renderer']);
-		$rendererDef->setClass(Renderer::class);
 		$rendererDef->setAutowired(FALSE);
+		$rendererDef->setTags([self::TAG_SUBREPORT_RENDERER => $name]);
 
 		// Create Subreport
 		$subreportDef = $builder->addDefinition($this->prefix('subreports.' . $name))
 			->setFactory(Subreport::class, [
 				'sid' => $name,
-				'parameters' => $parametersDef,
-				'dataSource' => $datasourceDef,
-				'renderer' => $rendererDef,
+				'parameters' => '@' . $this->prefix('subreports.' . $name . '.parameters'),
+				'dataSource' => '@' . $this->prefix('subreports.' . $name . '.datasource'),
+				'renderer' => '@' . $this->prefix('subreports.' . $name . '.renderer'),
+			])
+			->setTags([
+				self::TAG_INTROSPECTION => [
+					'report' => $rid,
+					'subreport' => $name,
+					'datasource' => $this->prefix('subreports.' . $name . '.datasource'),
+					'renderer' => $this->prefix('subreports.' . $name . '.renderer'),
+					'parameters' => $this->prefix('subreports.' . $name . '.paremeters'),
+				],
+				self::TAG_SUBREPORT => $name,
+				self::TAG_SUBREPORT_PARENT => $rid,
 			]);
 
 		// Add metadata
@@ -439,6 +492,54 @@ class ReportExtension extends CompilerExtension
 		// Add subreport to report
 		$builder->getDefinition($this->prefix('reports.' . $rid))
 			->addSetup('addSubreport', [new Statement('@' . $this->prefix('subreports.' . $name) . '::create')]);
+	}
+
+	/**
+	 * Decorate subreports
+	 * - subreport datasource
+	 *
+	 * @return void
+	 */
+	protected function decorateSubreports()
+	{
+		$this->decorateSubreportsDataSource();
+	}
+
+	/**
+	 * Make subreport cachable
+	 * - cache tags
+	 *
+	 * @return void
+	 */
+	protected function decorateSubreportsDataSource()
+	{
+		$builder = $this->getContainerBuilder();
+
+		$subreports = $builder->findByTag(self::TAG_CACHE);
+		foreach ($subreports as $service => $tag) {
+			$serviceDef = $builder->getDefinition($service);
+
+			// Validate datasource class
+			if ($serviceDef->getClass() != DataSource::class) {
+				throw new AssertionException(sprintf('Please use tag "%s" only on datasource (found at %s).', self::TAG_CACHE, $service));
+			}
+
+			// Validate cache scheme
+			$this->validateConfig($this->scheme['tags'][self::TAG_CACHE], $tag, sprintf('%s', self::TAG_CACHE));
+
+			// Wrap factory to cache
+			$wrappedDef = $builder->addDefinition(sprintf('%s_cached', $service), $serviceDef);
+
+			// Remove definition
+			$builder->removeDefinition($service);
+
+			// Add cached defition of datasource with wrapped original datasource
+			$builder->addDefinition($service)
+				->setClass(DataSource::class)
+				->setFactory(CachedDatabaseDataSource::class, [1 => $wrappedDef])
+				->addSetup('setKey', [$tag['key']])
+				->addSetup('setExpiration', [$tag['expiration']]);
+		}
 	}
 
 }
