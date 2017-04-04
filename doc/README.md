@@ -269,7 +269,7 @@ parameters:
 
 report:
 	# Jednotlive reporty
-	# Tip: idealni je mit 1 report v 1 souboru, prot lepsi prenositelnost a prehlednost
+	# Tip: idealni je mit 1 report v 1 souboru, proto lepsi prenositelnost a prehlednost
 	files:
 		- %module.sample.moduleDir%/config/reports/files/report.neon
 
