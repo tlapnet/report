@@ -25,7 +25,6 @@ use Tlapnet\Report\Model\Parameters\ParametersFactory;
 use Tlapnet\Report\Model\Report\Report;
 use Tlapnet\Report\Model\ReportService;
 use Tlapnet\Report\Model\Subreport\Subreport;
-use Tlapnet\Report\Renderers\Renderer;
 use Tlapnet\Report\ReportManager;
 
 class ReportExtension extends CompilerExtension

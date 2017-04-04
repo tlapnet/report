@@ -61,7 +61,7 @@ final class ReportPanel implements IBarPanel
 				'renderer' => (object) [
 					'type' => $this->container->getServiceType($tag['renderer']),
 					'created' => (isset($registry[$tag['renderer']]) && !$registry[$tag['renderer']] instanceof Container),
-					'service' => $registry[$tag['renderer']]
+					'service' => $registry[$tag['renderer']],
 				],
 			];
 		}
