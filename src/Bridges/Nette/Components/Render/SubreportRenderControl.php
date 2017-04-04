@@ -62,6 +62,9 @@ class SubreportRenderControl extends Control
 
 		// Reset parameters
 		if ($form['reset']->isSubmittedBy()) {
+			// Reset all parameters (a.k.a component state)
+			$this->parameters = [];
+			// Refresh
 			$this->redirect('this');
 		}
 
