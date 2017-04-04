@@ -8,6 +8,7 @@ use Nette\DI\Config\Adapters\NeonAdapter;
 use Nette\DI\Helpers;
 use Nette\DI\Statement;
 use Nette\PhpGenerator\ClassType;
+use Nette\Utils\Arrays;
 use Nette\Utils\AssertionException;
 use Nette\Utils\Finder;
 use Nette\Utils\Validators;
@@ -51,6 +52,7 @@ class ReportExtension extends CompilerExtension
 
 	/** @var array */
 	protected $configuration = [
+		'files' => [],
 		'groups' => [],
 		'reports' => [],
 	];
@@ -252,6 +254,9 @@ class ReportExtension extends CompilerExtension
 
 			// Append to reports
 			$reports[$name] = $report;
+
+			// Append to files
+			$this->configuration['files'][$name] = $file;
 		}
 
 		// Load reports
@@ -437,6 +442,7 @@ class ReportExtension extends CompilerExtension
 			])
 			->setTags([
 				self::TAG_INTROSPECTION => [
+					'file' => Arrays::get($this->configuration['files'], $rid, NULL),
 					'report' => $rid,
 					'subreport' => $name,
 					'datasource' => $this->prefix('subreports.' . $name . '.datasource'),
