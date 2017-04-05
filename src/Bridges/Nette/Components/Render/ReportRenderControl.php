@@ -27,9 +27,9 @@ class ReportRenderControl extends Control
 	protected function createComponentSubreport()
 	{
 		return new Multiplier(function ($sid) {
-			$box = $this->report->getSubreport($sid);
+			$subreport = $this->report->getSubreport($sid);
 
-			return new SubreportRenderControl($box);
+			return new SubreportRenderControl($subreport);
 		});
 	}
 

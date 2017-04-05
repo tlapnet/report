@@ -23,7 +23,7 @@ use Tlapnet\Report\Model\Group\Group;
 use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Model\Parameters\ParametersBuilder;
 use Tlapnet\Report\Model\Parameters\ParametersFactory;
-use Tlapnet\Report\Model\Report\Report;
+use Tlapnet\Report\Model\Report\LazyReport;
 use Tlapnet\Report\Model\ReportService;
 use Tlapnet\Report\Model\Subreport\Subreport;
 use Tlapnet\Report\ReportManager;
@@ -317,7 +317,7 @@ class ReportExtension extends CompilerExtension
 
 			// Add report
 			$reportDef = $builder->addDefinition($this->prefix('reports.' . $rid))
-				->setClass(Report::class, ['rid' => $rid])
+				->setClass(LazyReport::class, ['rid' => $rid])
 				->setTags([self::TAG_REPORT => $rid]);
 
 			// Add report metadata
@@ -473,7 +473,10 @@ class ReportExtension extends CompilerExtension
 
 		// Add subreport to report
 		$builder->getDefinition($this->prefix('reports.' . $rid))
-			->addSetup('addSubreport', [$subreportDef]);
+			->addSetup('addLazySubreport', [
+				$name,
+				new Statement('function(){return ?->getService(?);}', ['@container', $this->prefix('subreports.' . $name)]),
+			]);
 	}
 
 	/**
