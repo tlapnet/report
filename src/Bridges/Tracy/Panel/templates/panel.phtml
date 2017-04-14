@@ -2,6 +2,7 @@
 
 namespace Tlapnet\Report\Bridges\Tracy\Panel;
 
+use Tlapnet\Report\Utils\Arrays;
 use Tracy\Dumper;
 
 ?>
@@ -18,8 +19,8 @@ use Tracy\Dumper;
         </tr>
         <?php foreach ($items as $item) { ?>
             <tr>
-                <td title="<?=$item->file?>" style="cursor: help"><?= $item->report ?></td>
-                <td title="<?=$item->file?>" style="cursor: help"><?= $item->subreport ?></td>
+                <td title="<?=$item->file?>" style="cursor: help"><?= Arrays::pop(explode('.', $item->report)) ?></td>
+                <td title="<?=$item->file?>" style="cursor: help"><?= Arrays::pop(explode('.', $item->subreport)) ?></td>
                 <td>
                     <?php if ($item->datasource->created === TRUE): ?>
                         <a rel="#<?= $item->id ?>d" class="tracy-toggle tracy-collapsed"><?=$item->datasource->name?></a>
