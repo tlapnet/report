@@ -24,6 +24,7 @@ use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Model\Parameters\ParametersBuilder;
 use Tlapnet\Report\Model\Parameters\ParametersFactory;
 use Tlapnet\Report\Model\Report\LazyReport;
+use Tlapnet\Report\Model\Service\CacheInspector;
 use Tlapnet\Report\Model\Service\CacheService;
 use Tlapnet\Report\Model\Service\IntrospectionService;
 use Tlapnet\Report\Model\Service\ReportService;
@@ -120,8 +121,8 @@ class ReportExtension extends CompilerExtension
 		$builder->addDefinition($this->prefix('service.cache'))
 			->setClass(CacheService::class);
 
-		$builder->addDefinition($this->prefix('service.statistics'))
-			->setClass(StatisticsService::class);
+		$builder->addDefinition($this->prefix('service.cache.inspector'))
+			->setClass(CacheInspector::class);
 
 		$builder->addDefinition($this->prefix('service.introspection'))
 			->setClass(IntrospectionService::class);
@@ -331,7 +332,7 @@ class ReportExtension extends CompilerExtension
 			// Add report
 			$reportDef = $builder->addDefinition($this->prefix('reports.' . $rid))
 				->setClass(LazyReport::class, ['rid' => $rid])
-				->setTags([self::TAG_REPORT => $rid]);
+				->setTags([self::TAG_REPORT => $this->prefix('reports.' . $rid)]);
 
 			// Add report metadata
 			foreach ((array) $report['metadata'] as $key => $value) {
@@ -415,7 +416,7 @@ class ReportExtension extends CompilerExtension
 		$parametersDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.parameters'));
 		$parametersDef->setClass(Parameters::class);
 		$parametersDef->setAutowired(FALSE);
-		$parametersDef->addTag(self::TAG_SUBREPORT_PARAMETERS, $name);
+		$parametersDef->addTag(self::TAG_SUBREPORT_PARAMETERS, $this->prefix('subreports.' . $name));
 
 		// Use
 		if ($subreport['params'] && isset($subreport['params']['builder'])) {
@@ -439,13 +440,13 @@ class ReportExtension extends CompilerExtension
 		$datasourceDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.datasource'));
 		Compiler::loadDefinition($datasourceDef, $subreport['datasource']);
 		$datasourceDef->setAutowired(FALSE);
-		$datasourceDef->addTag(self::TAG_SUBREPORT_DATASOURCE, $name);
+		$datasourceDef->addTag(self::TAG_SUBREPORT_DATASOURCE, $this->prefix('subreports.' . $name));
 
 		// Create renderer service
 		$rendererDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.renderer'));
 		Compiler::loadDefinition($rendererDef, $subreport['renderer']);
 		$rendererDef->setAutowired(FALSE);
-		$rendererDef->addTag(self::TAG_SUBREPORT_RENDERER, $name);
+		$rendererDef->addTag(self::TAG_SUBREPORT_RENDERER, $this->prefix('subreports.' . $name));
 
 		// Create Subreport
 		$subreportDef = $builder->addDefinition($this->prefix('subreports.' . $name))
@@ -458,8 +459,8 @@ class ReportExtension extends CompilerExtension
 			->setTags([
 				self::TAG_INTROSPECTION => [
 					'file' => Arrays::get($this->configuration['files'], $rid, NULL),
-					'report' => $rid,
-					'subreport' => $name,
+					'report' => $this->prefix('reports.' . $rid),
+					'subreport' => $this->prefix('subreports.' . $name),
 					'datasource' => $this->prefix('subreports.' . $name . '.datasource'),
 					'renderer' => $this->prefix('subreports.' . $name . '.renderer'),
 					'parameters' => $this->prefix('subreports.' . $name . '.paremeters'),
@@ -572,10 +573,10 @@ class ReportExtension extends CompilerExtension
 
 			// Add cached defition of datasource with wrapped original datasource
 			$builder->addDefinition($service)
-				->setClass(DataSource::class)
 				->setFactory(CachedDatabaseDataSource::class, [1 => $wrappedDef])
 				->addSetup('setKey', [$tag['key']])
-				->addSetup('setExpiration', [$tag['expiration']]);
+				->addSetup('setExpiration', [$tag['expiration']])
+				->addTag(self::TAG_SUBREPORT_DATASOURCE, $wrappedDef->getTag(self::TAG_SUBREPORT_DATASOURCE));
 		}
 	}
 

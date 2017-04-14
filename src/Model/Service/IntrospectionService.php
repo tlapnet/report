@@ -22,15 +22,18 @@ class IntrospectionService
 	}
 
 	/**
+	 * INTROSPECTION ***********************************************************
+	 */
+
+	/**
+	 * Introspection used in panel and etc..
+	 *
 	 * @return array
 	 */
 	public function introspect()
 	{
 		$output = [];
-		$prop = (new ReflectionClass(Container::class))->getProperty('registry');
-		$prop->setAccessible(TRUE);
-		$registry = $prop->getValue($this->container);
-
+		$registry = $this->getRegistry();
 		$subreports = $this->container->findByTag(ReportExtension::TAG_INTROSPECTION);
 		foreach ($subreports as $service => $tag) {
 			$output[] = $def = (object) [
@@ -64,6 +67,77 @@ class IntrospectionService
 		}
 
 		return $output;
+	}
+
+	/**
+	 * STATISTICS **************************************************************
+	 */
+
+	/**
+	 * @return object
+	 */
+	public function compute()
+	{
+		return (object) [
+			'reports' => count($this->container->findByTag(ReportExtension::TAG_REPORT)),
+			'subreports' => count($this->container->findByTag(ReportExtension::TAG_SUBREPORT)),
+		];
+	}
+
+	/**
+	 * HELPERS *****************************************************************
+	 */
+
+	/**
+	 * @return array
+	 */
+	protected function getRegistry()
+	{
+		$prop = (new ReflectionClass(Container::class))->getProperty('registry');
+		$prop->setAccessible(TRUE);
+
+		return $prop->getValue($this->container);
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getMeta()
+	{
+		$prop = (new ReflectionClass(Container::class))->getProperty('meta');
+		$prop->setAccessible(TRUE);
+
+		return $prop->getValue($this->container);
+	}
+
+	/**
+	 * @param string $class
+	 * @return array
+	 */
+	public function findTags($class)
+	{
+		$output = [];
+		$services = $this->container->findByType($class);
+		$meta = $this->getMeta();
+
+		foreach ($services as $service) {
+			$output[$service] = [];
+			foreach ($meta[Container::TAGS] as $tag => $structure) {
+				if (!isset($structure[$service])) continue;
+				$output[$service][$tag] = $structure[$service];
+			}
+		}
+
+		return $output;
+	}
+
+	/**
+	 * @param string $name
+	 * @return object
+	 */
+	public function getService($name)
+	{
+		return $this->container->getService($name);
 	}
 
 }
