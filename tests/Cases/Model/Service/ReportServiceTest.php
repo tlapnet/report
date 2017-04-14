@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Cases\Model;
+namespace Tests\Cases\Model\Service;
 
 use Tests\Engine\BaseTestCase;
 use Tlapnet\Report\Model\Group\Group;
 use Tlapnet\Report\Model\Report\Report;
-use Tlapnet\Report\Model\ReportService;
+use Tlapnet\Report\Model\Service\ReportService;
 use Tlapnet\Report\ReportManager;
 
 final class ReportServiceTest extends BaseTestCase
