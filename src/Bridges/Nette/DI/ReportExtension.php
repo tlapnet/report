@@ -28,7 +28,6 @@ use Tlapnet\Report\Model\Service\CacheInspector;
 use Tlapnet\Report\Model\Service\CacheService;
 use Tlapnet\Report\Model\Service\IntrospectionService;
 use Tlapnet\Report\Model\Service\ReportService;
-use Tlapnet\Report\Model\Service\StatisticsService;
 use Tlapnet\Report\Model\Subreport\Subreport;
 use Tlapnet\Report\ReportManager;
 
