@@ -84,4 +84,27 @@ class ReportManager
 		return $this->groupless;
 	}
 
+	/**
+	 * REPORTS *****************************************************************
+	 */
+
+	/**
+	 * @return Report[]
+	 */
+	public function getReports()
+	{
+		$reports = [];
+
+		foreach ($this->getGroups() as $group) {
+			foreach ($group->getReports() as $report) {
+				$reports[] = $report;
+			}
+		}
+		foreach ($this->getGroupless() as $report) {
+			$reports[] = $report;
+		}
+
+		return $reports;
+	}
+
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\Model;
+namespace Tlapnet\Report\Model\Service;
 
 use Tlapnet\Report\Model\Group\Group;
 use Tlapnet\Report\Model\Report\Report;

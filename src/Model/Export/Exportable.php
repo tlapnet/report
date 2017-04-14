@@ -9,7 +9,7 @@ interface Exportable
 
 	/**
 	 * @param Presenter $presenter
-	 * @return mixed
+	 * @return void
 	 */
 	public function send(Presenter $presenter);
 

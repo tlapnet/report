@@ -2,21 +2,20 @@
 
 namespace Tlapnet\Report\Bridges\Tracy\Export;
 
-use Tlapnet\Report\Model\Export\Exporter;
+use Tlapnet\Report\Model\Export\AbstractExporter;
 use Tlapnet\Report\Model\Result\Resultable;
-use Tracy\Debugger;
 
-class DebugExporter implements Exporter
+class DebugExporter extends AbstractExporter
 {
 
 	/**
 	 * @param Resultable $result
 	 * @param array $options
-	 * @return string
+	 * @return DebugExport
 	 */
 	public function export(Resultable $result, array $options = [])
 	{
-		return Debugger::dump($result, TRUE);
+		return new DebugExport($result);
 	}
 
 }

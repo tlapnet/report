@@ -24,7 +24,10 @@ use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Model\Parameters\ParametersBuilder;
 use Tlapnet\Report\Model\Parameters\ParametersFactory;
 use Tlapnet\Report\Model\Report\LazyReport;
-use Tlapnet\Report\Model\ReportService;
+use Tlapnet\Report\Model\Service\CacheService;
+use Tlapnet\Report\Model\Service\IntrospectionService;
+use Tlapnet\Report\Model\Service\ReportService;
+use Tlapnet\Report\Model\Service\StatisticsService;
 use Tlapnet\Report\Model\Subreport\Subreport;
 use Tlapnet\Report\ReportManager;
 
@@ -111,8 +114,17 @@ class ReportExtension extends CompilerExtension
 		$builder->addDefinition($this->prefix('manager'))
 			->setClass(ReportManager::class);
 
-		$builder->addDefinition($this->prefix('service'))
+		$builder->addDefinition($this->prefix('service.report'))
 			->setClass(ReportService::class);
+
+		$builder->addDefinition($this->prefix('service.cache'))
+			->setClass(CacheService::class);
+
+		$builder->addDefinition($this->prefix('service.statistics'))
+			->setClass(StatisticsService::class);
+
+		$builder->addDefinition($this->prefix('service.introspection'))
+			->setClass(IntrospectionService::class);
 
 		$builder->addDefinition($this->prefix('panel'))
 			->setClass(ReportPanel::class);
@@ -451,6 +463,8 @@ class ReportExtension extends CompilerExtension
 					'datasource' => $this->prefix('subreports.' . $name . '.datasource'),
 					'renderer' => $this->prefix('subreports.' . $name . '.renderer'),
 					'parameters' => $this->prefix('subreports.' . $name . '.paremeters'),
+					'title' => Arrays::get($subreport['metadata'], 'title', NULL),
+					'description' => Arrays::get($subreport['metadata'], 'description', NULL),
 				],
 				self::TAG_SUBREPORT => $name,
 				self::TAG_SUBREPORT_PARENT => $rid,
