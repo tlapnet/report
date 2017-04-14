@@ -45,12 +45,12 @@ class Parameters implements Attachable
 	 */
 	public function get($name)
 	{
-		if (isset($this->parameters[$name])) {
-			return $this->parameters[$name];
+		if (!isset($this->parameters[$name])) {
+			$hint = Suggestions::getSuggestion(array_keys($this->parameters), $name);
+			throw new InvalidArgumentException(Suggestions::format(sprintf('Unknown parameter "%s"', $name), $hint));
 		}
 
-		$hint = Suggestions::getSuggestion(array_keys($this->parameters), $name);
-		throw new InvalidArgumentException(Suggestions::format(sprintf('Unknown parameter "%s"', $name), $hint));
+		return $this->parameters[$name];
 	}
 
 	/**

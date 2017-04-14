@@ -67,15 +67,15 @@ class Group
 	 */
 	public function getReport($rid)
 	{
-		if ($this->hasReport($rid)) {
-			return $this->reports[$rid];
+		if (!$this->hasReport($rid)) {
+			$hint = Suggestions::getSuggestion(array_map(function (Report $report) {
+				return $report->getRid();
+			}, $this->reports), $rid);
+
+			throw new InvalidArgumentException('Report "' . $rid . '" not found' . ($hint ? ', did you mean "' . $hint . '"?' : '.'));
 		}
 
-		$hint = Suggestions::getSuggestion(array_map(function (Report $report) {
-			return $report->getRid();
-		}, $this->reports), $rid);
-
-		throw new InvalidArgumentException('Report "' . $rid . '" not found' . ($hint ? ', did you mean "' . $hint . '"?' : '.'));
+		return $this->reports[$rid];
 	}
 
 	/**

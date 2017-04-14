@@ -1,0 +1,13 @@
+{block}
+    <div class="panel panel-default">
+        <div class="panel-heading">Exports</div>
+        <div class="panel-body">
+            {foreach $subreport->getExporters()->getAll() as $name => $exporter}
+                <a href="{link export!, exporter => $name}" n:attr="download => (bool) $exporter->getOption('download', FALSE)" n:class="$exporter->getOption('class', 'btn btn-success')">
+                    <i n:class="$exporter->getOption('icon', 'icon-cloud-download')"></i>
+                    {=$exporter->getOption('title', $name)}
+                </a>
+            {/foreach}
+        </div>
+    </div>
+{/block}

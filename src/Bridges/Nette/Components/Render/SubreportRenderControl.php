@@ -12,11 +12,18 @@ use Tlapnet\Report\Model\Subreport\Subreport;
 class SubreportRenderControl extends Control
 {
 
+	// Component inner state
+	const STATE_NORMAL = 1;
+	const STATE_LOADED = 2;
+
 	/** @var Subreport */
 	private $subreport;
 
 	/** @var array */
 	private $parameters = [];
+
+	/** @var int */
+	private $state = self::STATE_NORMAL;
 
 	/**
 	 * @param Subreport $subreport
@@ -90,6 +97,8 @@ class SubreportRenderControl extends Control
 	public function loadState(array $params)
 	{
 		parent::loadState($params);
+
+		// Load params from component state
 		if (isset($params['params'])) {
 			$this->parameters = $params['params'];
 		}
@@ -103,9 +112,64 @@ class SubreportRenderControl extends Control
 	public function saveState(array &$params, $reflection = NULL)
 	{
 		parent::saveState($params, $reflection);
+
+		// Store params to component state
 		if ($this->parameters) {
 			$params['params'] = $this->parameters;
 		}
+	}
+
+	/**
+	 * EXPORT ******************************************************************
+	 */
+
+	/**
+	 * @param string $exporter
+	 * @return void
+	 */
+	public function handleExport($exporter)
+	{
+		// Load data
+		$this->load();
+
+		// Fetch exporter and export data
+		$exportable = $this->subreport->export($exporter);
+		$exportable->send($this->getPresenter(TRUE));
+	}
+
+	/**
+	 * DATA ********************************************************************
+	 */
+
+	/**
+	 * Compile, preprocess and attach subreport
+	 *
+	 * @return void
+	 */
+	private function load()
+	{
+		// Skip if it's already loaded
+		if ($this->state === self::STATE_LOADED) return;
+
+		// Attach parameters (only if we have some)
+		if ($this->parameters) {
+			// Attach parameters to form
+			$this['parametersForm']->setDefaults($this->parameters);
+
+			// Attach parameters to subreport
+			$this->subreport->attach($this->parameters);
+		}
+
+		// Compile (fetch data)
+		$this->subreport->compile();
+
+		// Preprocess (only if it is not already)
+		if (!$this->subreport->isState(Subreport::STATE_PREPROCESSED)) {
+			$this->subreport->preprocess();
+		}
+
+		// Change inner state
+		$this->state = self::STATE_LOADED;
 	}
 
 	/**
@@ -120,22 +184,8 @@ class SubreportRenderControl extends Control
 	public function render()
 	{
 		try {
-			// Attach parameters (only if we have some)
-			if ($this->parameters) {
-				// Attach parameters to form
-				$this['parametersForm']->setDefaults($this->parameters);
-
-				// Attach parameters to subreport
-				$this->subreport->attach($this->parameters);
-			}
-
-			// Compile (fetch data)
-			$this->subreport->compile();
-
-			// Preprocess (only if it is not already)
-			if (!$this->subreport->isState(Subreport::STATE_PREPROCESSED)) {
-				$this->subreport->preprocess();
-			}
+			// Load data
+			$this->load();
 
 			// Set template
 			$this->template->setFile(__DIR__ . '/templates/subreport.latte');

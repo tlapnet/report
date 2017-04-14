@@ -11,8 +11,12 @@
         </span>
     </h2>
 
-    <section class="well" n:if="!$subreport->getParameters()->isEmpty()">
-        {include 'subreport.form.latte'}
+    <section class="exports" n:if="!$subreport->getExporters()->isEmpty()">
+        {include 'subreport.export.latte', subreport => $subreport}
+    </section>
+
+    <section class="form well" n:if="!$subreport->getParameters()->isEmpty()">
+        {include 'subreport.form.latte', subreport => $subreport}
     </section>
 
     <section class="subreport-result">

@@ -59,15 +59,15 @@ class Report
 	 */
 	public function getSubreport($sid)
 	{
-		if ($this->hasSubreport($sid)) {
-			return $this->subreports[$sid];
+		if (!$this->hasSubreport($sid)) {
+			$hint = Suggestions::getSuggestion(array_map(function (Subreport $subreport) {
+				return $subreport->getSid();
+			}, $this->subreports), $sid);
+
+			throw new InvalidArgumentException(Suggestions::format(sprintf('Subreport "%s" not found', $sid), $hint));
 		}
 
-		$hint = Suggestions::getSuggestion(array_map(function (Subreport $subreport) {
-			return $subreport->getSid();
-		}, $this->subreports), $sid);
-
-		throw new InvalidArgumentException(Suggestions::format(sprintf('Subreport "%s" not found', $sid), $hint));
+		return $this->subreports[$sid];
 	}
 
 	/**

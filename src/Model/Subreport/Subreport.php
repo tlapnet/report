@@ -4,6 +4,8 @@ namespace Tlapnet\Report\Model\Subreport;
 
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
+use Tlapnet\Report\Model\Export\Exporter;
+use Tlapnet\Report\Model\Export\Exporters;
 use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Model\Preprocessor\Preprocessor;
 use Tlapnet\Report\Model\Preprocessor\Preprocessors;
@@ -41,6 +43,9 @@ class Subreport implements Reportable
 	/** @var Preprocessors */
 	protected $preprocessors;
 
+	/** @var Exporters */
+	protected $exporters;
+
 	/** @var Resultable|Result */
 	protected $rawResult;
 
@@ -64,6 +69,7 @@ class Subreport implements Reportable
 		$this->dataSource = $dataSource;
 		$this->metadata = new Metadata();
 		$this->preprocessors = new Preprocessors();
+		$this->exporters = new Exporters();
 		$this->state = self::STATE_CREATED;
 	}
 
@@ -149,11 +155,45 @@ class Subreport implements Reportable
 	 * @param Preprocessor $preprocessor
 	 * @return Preprocessor
 	 */
-	public function addPreprocessor($column, $preprocessor)
+	public function addPreprocessor($column, Preprocessor $preprocessor)
 	{
 		$this->preprocessors->add($column, $preprocessor);
 
 		return $preprocessor;
+	}
+
+	/**
+	 * EXPORTS *****************************************************************
+	 */
+
+	/**
+	 * @param string $name
+	 * @param Exporter $exporter
+	 * @return Exporter
+	 */
+	public function addExporter($name, Exporter $exporter)
+	{
+		$this->exporters->add($name, $exporter);
+
+		return $exporter;
+	}
+
+	/**
+	 * @return Exporters
+	 */
+	public function getExporters()
+	{
+		return $this->exporters;
+	}
+
+	/**
+	 * @param string $name
+	 * @param array $options
+	 * @return mixed
+	 */
+	public function export($name, array $options = [])
+	{
+		return $this->exporters->export($name, $this->result, $options);
 	}
 
 	/**

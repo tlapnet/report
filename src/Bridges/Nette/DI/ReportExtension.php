@@ -78,6 +78,7 @@ class ReportExtension extends CompilerExtension
 			'datasource' => NULL,
 			'params' => NULL,
 			'preprocessors' => [],
+			'exports' => [],
 		],
 		'tags' => [
 			self::TAG_CACHE => [
@@ -386,6 +387,8 @@ class ReportExtension extends CompilerExtension
 		Validators::assertField($subreport, 'params', 'array|null', sprintf('item "%%" in %s subreport %s', $rid, $sid));
 		Validators::assertField($subreport, 'datasource', NULL, sprintf('item "%%" in %s subreport %s', $rid, $sid));
 		Validators::assertField($subreport, 'renderer', NULL, sprintf('item "%%" in %s subreport %s', $rid, $sid));
+		Validators::assertField($subreport, 'preprocessors', 'array', sprintf('item "%%" in %s subreport %s', $rid, $sid));
+		Validators::assertField($subreport, 'exports', 'array', sprintf('item "%%" in %s subreport %s', $rid, $sid));
 
 		// Validate subreport metadata
 		$this->validateConfig($this->scheme['subreport']['metadata'], $subreport['metadata'], sprintf('%s.subreports.%s.metadata', $rid, $sid));
@@ -469,6 +472,13 @@ class ReportExtension extends CompilerExtension
 				Compiler::loadDefinition($preprocessorDef, $preprocessor);
 				$subreportDef->addSetup('addPreprocessor', [$column, $preprocessorDef]);
 			}
+		}
+
+		// Add exports
+		foreach ((array) $subreport['exports'] as $key => $export) {
+			$exportDef = $builder->addDefinition($this->prefix('subreports.' . $key . '.export.' . $name));
+			Compiler::loadDefinition($exportDef, $export);
+			$subreportDef->addSetup('addExporter', [$key, $exportDef]);
 		}
 
 		// Add subreport to report

@@ -43,15 +43,15 @@ class ReportManager
 	 */
 	public function getGroup($cid)
 	{
-		if (isset($this->groups[$cid])) {
-			return $this->groups[$cid];
+		if (!isset($this->groups[$cid])) {
+			$hint = Suggestions::getSuggestion(array_map(function (Group $Group) {
+				return $Group->getGid();
+			}, $this->groups), $cid);
+
+			throw new InvalidStateException(Suggestions::format(sprintf('Group "%s" not found', $cid), $hint));
 		}
 
-		$hint = Suggestions::getSuggestion(array_map(function (Group $Group) {
-			return $Group->getGid();
-		}, $this->groups), $cid);
-
-		throw new InvalidStateException(Suggestions::format(sprintf('Group "%s" not found', $cid), $hint));
+		return $this->groups[$cid];
 	}
 
 	/**
