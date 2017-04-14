@@ -20,7 +20,7 @@
     "ninjify/qa": "^0.3.3",
     "mockery/mockery": "^0.9.9",
     "phpunit/phpunit": "^5.3.0",
-    "tlapnet/chart": "dev-master",
+    "tlapnet/chart": "^1.0.0",
     "dibi/dibi": "^2.3.5",
     "nette/di": "^2.4.7",
     "nette/application": "^2.4.5",
