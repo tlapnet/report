@@ -579,6 +579,9 @@ class ReportExtension extends CompilerExtension
 				));
 			}
 
+			// If cache.key is not provided, pick subreport name (fullname)
+			if (!isset($tag['key'])) $tag['key'] = $serviceDef->getTag(self::TAG_SUBREPORT_DATASOURCE);
+
 			// Validate cache scheme
 			$this->validateConfig($this->scheme['tags'][self::TAG_CACHE], $tag, sprintf('%s', self::TAG_CACHE));
 
