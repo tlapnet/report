@@ -53,6 +53,7 @@
 
     {* column classes *}
     {var $classes => []}
+    {if $options->align}{php $classes[] = 'align-' . $options->align}{/if}
     {if $options->type == 'date'}{php $classes[] = 'sorter-shortDate dateFormat-ddmmyyyy'}{/if}
     {if $options->type == 'datetime'}{php $classes[] = 'sorter-shortDate dateFormat-ddmmyyyy'}{/if}
 

@@ -5,17 +5,11 @@ namespace Tlapnet\Report\Model\Preprocessor\Impl;
 final class BooleanPreprocessor extends AbstractPreprocessor
 {
 
-
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $trueLabel;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $falseLabel;
-
 
 	/**
 	 * @param string $trueLabel
@@ -23,7 +17,7 @@ final class BooleanPreprocessor extends AbstractPreprocessor
 	 */
 	public function __construct($trueLabel = 'Ano', $falseLabel = 'Ne')
 	{
-		$this->trueLabel  = $trueLabel;
+		$this->trueLabel = $trueLabel;
 		$this->falseLabel = $falseLabel;
 	}
 
@@ -33,7 +27,7 @@ final class BooleanPreprocessor extends AbstractPreprocessor
 
 	/**
 	 * @param mixed $data
-	 * @return mixed
+	 * @return string
 	 */
 	public function preprocess($data)
 	{
