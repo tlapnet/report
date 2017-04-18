@@ -24,6 +24,7 @@ class Column extends Component
 	private $options = [
 		'align' => NULL,
 		'type' => NULL,
+		'sortable' => TRUE,
 	];
 
 	/**
@@ -116,9 +117,20 @@ class Column extends Component
 	}
 
 	/**
+	 * @param bool $sortable
+	 * @return self
+	 */
+	public function sortable($sortable)
+	{
+		$this->options['sortable'] = boolval($sortable);
+
+		return $this;
+	}
+
+	/**
 	 * @param string $destination
 	 * @param array $args
-	 * @return void
+	 * @return self
 	 */
 	public function link($destination, array $args = [])
 	{
@@ -126,37 +138,45 @@ class Column extends Component
 			'destination' => $destination,
 			'args' => $args,
 		];
+
+		return $this;
 	}
 
 	/**
 	 * @param string $url
-	 * @return void
+	 * @return self
 	 */
 	public function url($url)
 	{
 		$this->url = (object) [
 			'url' => $url,
 		];
+
+		return $this;
 	}
 
 	/**
 	 * @param string $label
-	 * @return void
+	 * @return self
 	 */
 	public function label($label)
 	{
 		$this->label = (object) [
 			'name' => $label,
 		];
+
+		return $this;
 	}
 
 	/**
 	 * @param callable $callback
-	 * @return void
+	 * @return self
 	 */
 	public function callback(callable $callback)
 	{
 		$this->callback = $callback;
+
+		return $this;
 	}
 
 }
