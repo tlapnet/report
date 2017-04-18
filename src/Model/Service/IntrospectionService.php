@@ -2,6 +2,7 @@
 
 namespace Tlapnet\Report\Model\Service;
 
+use Nette\ArrayHash;
 use Nette\DI\Container;
 use ReflectionClass;
 use Tlapnet\Report\Bridges\Nette\DI\ReportExtension;
@@ -36,33 +37,61 @@ class IntrospectionService
 		$registry = $this->getRegistry();
 		$subreports = $this->container->findByTag(ReportExtension::TAG_INTROSPECTION);
 		foreach ($subreports as $service => $tag) {
-			$output[] = $def = (object) [
+			$output[] = $def = ArrayHash::from([
 				'id' => 'rp' . md5(serialize($tag)),
 				'file' => $tag['file'],
-				'report' => $tag['report'],
-				'subreport' => $tag['subreport'],
-				'datasource' => (object) [
-					'type' => $this->container->getServiceType($tag['datasource']),
-					'name' => Arrays::pop(explode('\\', $this->container->getServiceType($tag['datasource']))),
-					'created' => FALSE,
-					'service' => NULL,
+				'rid' => $tag['rid'],
+				'sid' => $tag['sid'],
+				'metadata' => $tag['metadata'],
+				'services' => [
+					'report' => (object) [
+						'type' => $this->container->getServiceType($tag['services']['report']),
+						'name' => Arrays::pop(explode('\\', $this->container->getServiceType($tag['services']['report']))),
+						'created' => FALSE,
+						'service' => NULL,
+					],
+					'subreport' => (object) [
+						'type' => $this->container->getServiceType($tag['services']['subreport']),
+						'name' => Arrays::pop(explode('\\', $this->container->getServiceType($tag['services']['subreport']))),
+						'created' => FALSE,
+						'service' => NULL,
+					],
+					'datasource' => (object) [
+						'type' => $this->container->getServiceType($tag['services']['datasource']),
+						'name' => Arrays::pop(explode('\\', $this->container->getServiceType($tag['services']['datasource']))),
+						'created' => FALSE,
+						'service' => NULL,
+					],
+					'renderer' => (object) [
+						'type' => $this->container->getServiceType($tag['services']['renderer']),
+						'name' => Arrays::pop(explode('\\', $this->container->getServiceType($tag['services']['renderer']))),
+						'created' => FALSE,
+						'service' => NULL,
+					],
 				],
-				'renderer' => (object) [
-					'type' => $this->container->getServiceType($tag['renderer']),
-					'name' => Arrays::pop(explode('\\', $this->container->getServiceType($tag['renderer']))),
-					'created' => FALSE,
-					'service' => NULL,
-				],
-				'tags' => $tag,
-			];
+				'tags' => [],
+			]);
 
-			if ((isset($registry[$tag['datasource']]) && !$registry[$tag['datasource']] instanceof Container)) {
-				$def->datasource->created = TRUE;
-				$def->datasource->service = $registry[$tag['datasource']];
+			$def->tags = $tag;
+
+			if ((isset($registry[$tag['services']['report']]) && !$registry[$tag['services']['report']] instanceof Container)) {
+				$def->services->report->created = TRUE;
+				$def->services->report->service = $registry[$tag['services']['report']];
 			}
-			if ((isset($registry[$tag['renderer']]) && !$registry[$tag['renderer']] instanceof Container)) {
-				$def->renderer->created = TRUE;
-				$def->renderer->service = $registry[$tag['renderer']];
+
+			if ((isset($registry[$tag['services']['subreport']]) && !$registry[$tag['services']['subreport']] instanceof Container)) {
+				$def->services->subreport->created = TRUE;
+				$def->services->subreport->service = $registry[$tag['services']['subreport']];
+			}
+
+			if ((isset($registry[$tag['services']['datasource']]) && !$registry[$tag['services']['datasource']] instanceof Container)) {
+				$def->services->datasource->created = TRUE;
+				$def->services->datasource->service = $registry[$tag['services']['datasource']];
+			}
+
+			if ((isset($registry[$tag['services']['renderer']]) && !$registry[$tag['services']['renderer']] instanceof Container)) {
+				$def->services->renderer->created = TRUE;
+				$def->services->renderer->service = $registry[$tag['services']['renderer']];
 			}
 		}
 

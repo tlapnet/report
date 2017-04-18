@@ -2,8 +2,8 @@
 
 namespace Tlapnet\Report\Bridges\Tracy\Panel;
 
-use Tlapnet\Report\Utils\Arrays;
 use Tracy\Dumper;
+use Tracy\Helpers;
 
 ?>
 <h1>Reports (<?= count($items) ?>)</h1>
@@ -11,6 +11,7 @@ use Tracy\Dumper;
 <div class="tracy-inner" style="max-width: 900px;">
     <table>
         <tr>
+            <th></th>
             <th>Report</th>
             <th>Subreport</th>
             <th>DataSource</th>
@@ -19,22 +20,23 @@ use Tracy\Dumper;
         </tr>
         <?php foreach ($items as $item) { ?>
             <tr>
-                <td title="<?=$item->file?>" style="cursor: help"><?= Arrays::pop(explode('.', $item->report)) ?></td>
-                <td title="<?=$item->file?>" style="cursor: help"><?= Arrays::pop(explode('.', $item->subreport)) ?></td>
+                <td title="<?=$item->file?>" style="cursor: hand"><a href="<?= Helpers::editorUri($item->file) ?>">#</a></td>
+                <td style="cursor: help"><?= $item->rid ?></td>
+                <td style="cursor: help"><?= $item->sid ?></td>
                 <td>
-                    <?php if ($item->datasource->created === TRUE): ?>
-                        <a rel="#<?= $item->id ?>d" class="tracy-toggle tracy-collapsed"><?=$item->datasource->name?></a>
-                        <div class="tracy-collapsed" id="<?= $item->id ?>d"><?= Dumper::toHtml($item->datasource->service, [Dumper::COLLAPSE => TRUE, Dumper::LIVE => FALSE]); ?></div>
+                    <?php if ($item->services->datasource->created === TRUE): ?>
+                        <a rel="#<?= $item->id ?>d" class="tracy-toggle tracy-collapsed"><?=$item->services->datasource->name?></a>
+                        <div class="tracy-collapsed" id="<?= $item->id ?>d"><?= Dumper::toHtml($item->services->datasource->service, [Dumper::COLLAPSE => TRUE, Dumper::LIVE => FALSE]); ?></div>
                     <?php else: ?>
-                        <code title="<?= htmlSpecialChars($item->datasource->type) ?>"><?=$item->datasource->name?></code>
+                        <code title="<?= htmlSpecialChars($item->services->datasource->type) ?>"><?=$item->services->datasource->name?></code>
                     <?php endif ?>
                 </td>
                 <td>
-                    <?php if ($item->renderer->created === TRUE): ?>
-                        <a rel="#<?= $item->id ?>r" class="tracy-toggle tracy-collapsed"><?=$item->renderer->name?></a>
-                        <div class="tracy-collapsed" id="<?= $item->id ?>r"><?= Dumper::toHtml($item->renderer->service, [Dumper::COLLAPSE => TRUE, Dumper::LIVE => FALSE]); ?></div>
+                    <?php if ($item->services->renderer->created === TRUE): ?>
+                        <a rel="#<?= $item->id ?>r" class="tracy-toggle tracy-collapsed"><?=$item->services->renderer->name?></a>
+                        <div class="tracy-collapsed" id="<?= $item->id ?>r"><?= Dumper::toHtml($item->services->renderer->service, [Dumper::COLLAPSE => TRUE, Dumper::LIVE => FALSE]); ?></div>
                     <?php else: ?>
-                        <code title="<?= htmlSpecialChars($item->renderer->type) ?>"><?=$item->renderer->name?></code>
+                        <code title="<?= htmlSpecialChars($item->services->renderer->type) ?>"><?=$item->services->renderer->name?></code>
                     <?php endif ?>
                 </td>
                 <td>

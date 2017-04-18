@@ -61,6 +61,12 @@ class ReportExtension extends CompilerExtension
 	];
 
 	/** @var array */
+	protected $metadata = [
+		'reports' => [],
+		'subreports' => [],
+	];
+
+	/** @var array */
 	protected $scheme = [
 		'report' => [
 			'groups' => [],
@@ -334,11 +340,13 @@ class ReportExtension extends CompilerExtension
 				->setTags([self::TAG_REPORT => $this->prefix('reports.' . $rid)]);
 
 			// Add report metadata
+			$this->metadata['reports'][$rid] = [];
 			foreach ((array) $report['metadata'] as $key => $value) {
 				// Skip empty values
 				if (empty($value) || $value === NULL) continue;
 				// Append and expand parameters
 				$reportDef->addSetup('setOption', [$key, Helpers::expand($value, $config)]);
+				$this->metadata['reports'][$rid][$key] = Helpers::expand($value, $config);
 			}
 
 			// Check if report is groupless,
@@ -454,28 +462,16 @@ class ReportExtension extends CompilerExtension
 				'parameters' => '@' . $this->prefix('subreports.' . $name . '.parameters'),
 				'dataSource' => '@' . $this->prefix('subreports.' . $name . '.datasource'),
 				'renderer' => '@' . $this->prefix('subreports.' . $name . '.renderer'),
-			])
-			->setTags([
-				self::TAG_INTROSPECTION => [
-					'file' => Arrays::get($this->configuration['files'], $rid, NULL),
-					'report' => $this->prefix('reports.' . $rid),
-					'subreport' => $this->prefix('subreports.' . $name),
-					'datasource' => $this->prefix('subreports.' . $name . '.datasource'),
-					'renderer' => $this->prefix('subreports.' . $name . '.renderer'),
-					'parameters' => $this->prefix('subreports.' . $name . '.paremeters'),
-					'title' => Arrays::get($subreport['metadata'], 'title', NULL),
-					'description' => Arrays::get($subreport['metadata'], 'description', NULL),
-				],
-				self::TAG_SUBREPORT => $name,
-				self::TAG_SUBREPORT_PARENT => $rid,
 			]);
 
 		// Add metadata
+		$this->metadata['subreports'][$name] = [];
 		foreach ((array) $subreport['metadata'] as $key => $value) {
 			// Skip empty values
 			if (empty($value) || $value === NULL) continue;
 			// Append and expand parameters
 			$subreportDef->addSetup('setOption', [$key, Helpers::expand($value, $config)]);
+			$this->metadata['subreports'][$name][$key] = Helpers::expand($value, $config);
 		}
 
 		// Add preprocessors
@@ -494,6 +490,28 @@ class ReportExtension extends CompilerExtension
 			Compiler::loadDefinition($exportDef, $export);
 			$subreportDef->addSetup('addExporter', [$key, $exportDef]);
 		}
+
+		// Setup subreports tags
+		$subreportDef->setTags([
+			self::TAG_INTROSPECTION => [
+				'file' => Arrays::get($this->configuration['files'], $rid, NULL),
+				'rid' => $rid,
+				'sid' => $sid,
+				'services' => [
+					'report' => $this->prefix('reports.' . $rid),
+					'subreport' => $this->prefix('subreports.' . $name),
+					'datasource' => $this->prefix('subreports.' . $name . '.datasource'),
+					'renderer' => $this->prefix('subreports.' . $name . '.renderer'),
+					'parameters' => $this->prefix('subreports.' . $name . '.paremeters'),
+				],
+				'metadata' => [
+					'report' => $this->metadata['reports'][$rid],
+					'subreport' => $subreport['metadata'],
+				],
+			],
+			self::TAG_SUBREPORT => $name,
+			self::TAG_SUBREPORT_PARENT => $rid,
+		]);
 
 		// Add subreport to report
 		$builder->getDefinition($this->prefix('reports.' . $rid))
