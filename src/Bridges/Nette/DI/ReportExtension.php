@@ -17,7 +17,7 @@ use Tlapnet\Report\Bridges\Nette\Exceptions\FileNotFoundException;
 use Tlapnet\Report\Bridges\Nette\Exceptions\FolderNotFoundException;
 use Tlapnet\Report\Bridges\Nette\Exceptions\InvalidConfigException;
 use Tlapnet\Report\Bridges\Tracy\Panel\ReportPanel;
-use Tlapnet\Report\DataSources\CachedDatabaseDataSource;
+use Tlapnet\Report\DataSources\CachedDataSource;
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Model\Group\Group;
 use Tlapnet\Report\Model\Parameters\Parameters;
@@ -572,7 +572,7 @@ class ReportExtension extends CompilerExtension
 
 			// Add cached defition of datasource with wrapped original datasource
 			$builder->addDefinition($service)
-				->setFactory(CachedDatabaseDataSource::class, [1 => $wrappedDef])
+				->setFactory(CachedDataSource::class, [1 => $wrappedDef])
 				->addSetup('setKey', [$tag['key']])
 				->addSetup('setExpiration', [$tag['expiration']])
 				->addTag(self::TAG_SUBREPORT_DATASOURCE, $wrappedDef->getTag(self::TAG_SUBREPORT_DATASOURCE));

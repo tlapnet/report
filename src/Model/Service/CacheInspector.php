@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\Model\Service;
 
 use Nette\DI\Container;
-use Tlapnet\Report\DataSources\CachedDatabaseDataSource;
+use Tlapnet\Report\DataSources\CachedDataSource;
 use Tlapnet\Report\Model\Subreport\Subreport;
 
 class CacheInspector
@@ -26,7 +26,7 @@ class CacheInspector
 	public function findSubreports()
 	{
 		$services = [];
-		$names = $this->container->findByType(CachedDatabaseDataSource::class);
+		$names = $this->container->findByType(CachedDataSource::class);
 		foreach ($names as $name) {
 			$services[] = $this->container->getService($name);
 		}

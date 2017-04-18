@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\Model\Service;
 
-use Tlapnet\Report\DataSources\CachedDatabaseDataSource;
+use Tlapnet\Report\DataSources\CachedDataSource;
 use Tlapnet\Report\Model\Result\Resultable;
 use Tlapnet\Report\Model\Subreport\Subreport;
 use Tlapnet\Report\Utils\Arrays;
@@ -31,7 +31,7 @@ class CacheService
 	{
 		$output = [];
 		$introspect = $this->introspection->introspect();
-		$tags = $this->introspection->findTags(CachedDatabaseDataSource::class);
+		$tags = $this->introspection->findTags(CachedDataSource::class);
 
 		foreach ($tags as $tag) {
 			foreach ($tag as $key => $value) {

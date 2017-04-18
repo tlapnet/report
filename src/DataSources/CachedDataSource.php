@@ -10,13 +10,13 @@ use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Model\Result\Result;
 use Tlapnet\Report\Model\Result\Resultable;
 
-class CachedDatabaseDataSource implements DataSource
+class CachedDataSource implements DataSource
 {
 
 	/** @var Cache */
 	private $cache;
 
-	/** @var AbstractDatabaseDataSource */
+	/** @var DataSource */
 	private $inner;
 
 	/** @var array */
@@ -24,9 +24,9 @@ class CachedDatabaseDataSource implements DataSource
 
 	/**
 	 * @param IStorage $storage
-	 * @param AbstractDatabaseDataSource $inner
+	 * @param DataSource $inner
 	 */
-	public function __construct(IStorage $storage, AbstractDatabaseDataSource $inner)
+	public function __construct(IStorage $storage, DataSource $inner)
 	{
 		$this->cache = new Cache($storage, CacheKeys::CACHE_DATASOURCES);
 		$this->inner = $inner;
