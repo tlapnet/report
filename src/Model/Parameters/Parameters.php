@@ -120,10 +120,10 @@ class Parameters implements Attachable
 	public function hasDefaults()
 	{
 		foreach ($this->parameters as $parameter) {
-			if ($parameter->hasDefaultValue()) return TRUE;
+			if (!$parameter->hasDefaultValue()) return FALSE;
 		}
 
-		return FALSE;
+		return TRUE;
 	}
 
 	/**
