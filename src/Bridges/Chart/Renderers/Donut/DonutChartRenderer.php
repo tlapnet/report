@@ -16,6 +16,9 @@ class DonutChartRenderer extends AbstractChartRenderer
 	/** @var bool */
 	protected $enableRatioLabel;
 
+	/** @var bool */
+	protected $enableValueInTitle;
+
 	/**
 	 * @param string $title
 	 * @return void
@@ -32,6 +35,15 @@ class DonutChartRenderer extends AbstractChartRenderer
 	public function setEnableRatioLabel($enable = TRUE)
 	{
 		$this->enableRatioLabel = $enable;
+	}
+
+	/**
+	 * @param bool $enable
+	 * @return void
+	 */
+	public function setEnableValueInTitle($enable = TRUE)
+	{
+		$this->enableValueInTitle = $enable;
 	}
 
 	/**
@@ -59,10 +71,20 @@ class DonutChartRenderer extends AbstractChartRenderer
 		$valueKey = $this->getSegment('value');
 
 		foreach ($result->getData() as $item) {
-			$chart->addSegment(new DonutSegment($item[$titleKey], $item[$valueKey]));
+			$chart->addSegment(new DonutSegment($this->getSegmentTitle($item[$titleKey], $item[$valueKey]), $item[$valueKey]));
 		}
 
 		return $chart;
+	}
+
+	/**
+	 * @param string $title
+	 * @param int | float $value
+	 * @return string
+	 */
+	private function getSegmentTitle($title, $value)
+	{
+		return $this->enableValueInTitle ? $title . ' (' . $value . ')' : $title;
 	}
 
 }

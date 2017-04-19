@@ -10,6 +10,22 @@ use Tlapnet\Report\Model\Result\Result;
 class PieChartRenderer extends AbstractChartRenderer
 {
 
+	/** @var bool */
+	protected $enableValueInTitle = false;
+
+	/**
+	 * @param bool $enable
+	 * @return void
+	 */
+	public function setEnableValueInTitle($enable = TRUE)
+	{
+		$this->enableValueInTitle = $enable;
+	}
+
+	/**
+	 * API *********************************************************************
+	 */
+
 	/**
 	 * @param Result $result
 	 * @return mixed
@@ -23,10 +39,20 @@ class PieChartRenderer extends AbstractChartRenderer
 		$valueKey = $this->getSegment('value');
 
 		foreach ($result->getData() as $item) {
-			$chart->addSegment(new PieSegment($item[$titleKey], $item[$valueKey]));
+			$chart->addSegment(new PieSegment($this->getSegmentTitle($item[$titleKey], $item[$valueKey]), $item[$valueKey]));
 		}
 
 		return $chart;
+	}
+
+	/**
+	 * @param string $title
+	 * @param int | float $value
+	 * @return string
+	 */
+	private function getSegmentTitle($title, $value)
+	{
+		return $this->enableValueInTitle ? $title . ' (' . $value . ')' : $title;
 	}
 
 }
