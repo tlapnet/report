@@ -26,6 +26,10 @@ class ReportRenderControl extends Control
 	 */
 	protected function createComponentSubreport()
 	{
+		// Add all lazy-loading subreports to prevent
+		// non-natural sorting
+		$this->report->getSubreports();
+
 		return new Multiplier(function ($sid) {
 			$subreport = $this->report->getSubreport($sid);
 
