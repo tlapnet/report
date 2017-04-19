@@ -42,7 +42,7 @@ class MultiNetteDatabaseWrapperDataSource extends AbstractMultiDataSource
 			$sql = $row->sql;
 
 			// Prepare parameters
-			if (!$parameters->isEmpty() || $parameters->hasDefaults()) {
+			if ($parameters->canSwitch()) {
 				$switch = $parameters->createSwitcher();
 				$switch->setPlaceholder('?');
 				// Replace named parameters for ? and return

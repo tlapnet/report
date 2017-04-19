@@ -52,7 +52,6 @@ class FormFactory
 	{
 		// Create input
 		$input = new SelectBox($parameter->getTitle());
-		$input->setPrompt('---');
 
 		// Select -> items
 		$input->setItems($parameter->getItems(), $parameter->isUseKeys());

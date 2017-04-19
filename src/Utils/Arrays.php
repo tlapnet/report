@@ -14,4 +14,13 @@ final class Arrays
 		return array_pop($array);
 	}
 
+	/**
+	 * @param array $array
+	 * @return mixed
+	 */
+	public static function shift($array)
+	{
+		return array_shift($array);
+	}
+
 }

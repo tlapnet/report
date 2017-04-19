@@ -64,6 +64,15 @@ class ParametersBuilder
 			$parameter->setUseKeys($values['use_keys']);
 		}
 
+		// Select > autopick
+		if (isset($values['autopick'])) {
+			$parameter->setAutoPick($values['useKeys']);
+		} else if (!$parameter->hasDefaultValue() && !$parameter->hasPrompt()) {
+			// Allow autopick of first item in select box,
+			// in case of no default value od prompt is set
+			$parameter->setAutoPick(TRUE);
+		}
+
 		$this->addParameter($parameter);
 	}
 

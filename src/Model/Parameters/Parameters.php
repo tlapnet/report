@@ -96,10 +96,13 @@ class Parameters implements Attachable
 		foreach ($this->parameters as $parameter) {
 			// Fill only if parameter has a right value
 			// or if parameter has default value
+			// or if parameter can provide/compute value
 			if ($parameter->hasValue()) {
 				$array[$parameter->getName()] = $parameter->getValue();
 			} else if ($parameter->hasDefaultValue()) {
 				$array[$parameter->getName()] = $parameter->getDefaultValue();
+			} else if ($parameter->canProvide()) {
+				$array[$parameter->getName()] = $parameter->getProvidedValue();
 			}
 		}
 
@@ -114,17 +117,6 @@ class Parameters implements Attachable
 		return count($this->parameters) <= 0;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function hasDefaults()
-	{
-		foreach ($this->parameters as $parameter) {
-			if (!$parameter->hasDefaultValue()) return FALSE;
-		}
-
-		return TRUE;
-	}
 
 	/**
 	 * @return bool
@@ -132,6 +124,20 @@ class Parameters implements Attachable
 	public function isAttached()
 	{
 		return $this->state == self::STATE_ATTACHED;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function canSwitch()
+	{
+		if ($this->isEmpty()) return FALSE;
+
+		foreach ($this->parameters as $parameter) {
+			if (!$parameter->canProvide()) return FALSE;
+		}
+
+		return TRUE;
 	}
 
 	/**

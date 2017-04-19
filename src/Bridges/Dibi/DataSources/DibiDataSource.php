@@ -47,7 +47,7 @@ class DibiDataSource extends AbstractDatabaseConnectionDataSource
 
 		try {
 			// Prepare parameters
-			if (!$parameters->isEmpty() || $parameters->hasDefaults()) {
+			if ($parameters->canSwitch()) {
 				$switch = $parameters->createSwitcher();
 				$switch->setPlaceholder('?');
 				// Replace named parameters for ? and return

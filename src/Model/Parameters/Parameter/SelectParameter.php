@@ -3,6 +3,8 @@
 namespace Tlapnet\Report\Model\Parameters\Parameter;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
+use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
+use Tlapnet\Report\Utils\Arrays;
 
 final class SelectParameter extends Parameter
 {
@@ -13,6 +15,9 @@ final class SelectParameter extends Parameter
 	/** @var bool */
 	private $useKeys = TRUE;
 
+	/** @var bool|null */
+	private $autoPick;
+
 	/** @var string */
 	private $prompt;
 
@@ -22,6 +27,30 @@ final class SelectParameter extends Parameter
 	public function __construct($name)
 	{
 		parent::__construct($name, Parameter::TYPE_SELECT);
+	}
+
+	/**
+	 * ABSTRACT ****************************************************************
+	 */
+
+	/**
+	 * @return bool
+	 */
+	public function canProvide()
+	{
+		return $this->hasDefaultValue() || $this->getAutoPick() === TRUE;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getProvidedValue()
+	{
+		if ($this->value) return $this->value;
+		if ($this->defaultValue) return $this->defaultValue;
+		if ($this->autoPick) return Arrays::shift($this->items);
+
+		throw new InvalidStateException('Cannot provide value');
 	}
 
 	/**
@@ -102,6 +131,30 @@ final class SelectParameter extends Parameter
 	public function setPrompt($prompt)
 	{
 		$this->prompt = $prompt;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasPrompt()
+	{
+		return $this->prompt !== NULL;
+	}
+
+	/**
+	 * @return bool|null
+	 */
+	public function getAutoPick()
+	{
+		return $this->autoPick;
+	}
+
+	/**
+	 * @param bool|null $autoPick
+	 */
+	public function setAutoPick($autoPick)
+	{
+		$this->autoPick = $autoPick === NULL ? $autoPick : boolval($autoPick);
 	}
 
 }

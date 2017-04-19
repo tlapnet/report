@@ -44,6 +44,20 @@ abstract class Parameter
 	}
 
 	/**
+	 * ABSTRACT ****************************************************************
+	 */
+
+	/**
+	 * @return bool
+	 */
+	abstract public function canProvide();
+
+	/**
+	 * @return mixed
+	 */
+	abstract public function getProvidedValue();
+
+	/**
 	 * GETTERS / SETTERS *******************************************************
 	 */
 
