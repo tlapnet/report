@@ -8,14 +8,14 @@ use Countable;
 use Iterator;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 
-class Result implements Countable, ArrayAccess, Resultable
+class Result implements Countable, ArrayAccess, Resultable, Editable
 {
 
 	/** @var array */
 	protected $data = [];
 
 	/**
-	 * @param array $data
+	 * @param mixed $data
 	 */
 	public function __construct($data = [])
 	{
@@ -35,7 +35,7 @@ class Result implements Countable, ArrayAccess, Resultable
 	 */
 
 	/**
-	 * @return EditableResult
+	 * @return Mutable|EditableResult
 	 */
 	public function toEditable()
 	{

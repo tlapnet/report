@@ -3,9 +3,8 @@
 namespace Tlapnet\Report\Model\Result;
 
 use AppendIterator;
-use Traversable;
 
-class MultiResult extends Result
+class MultiResult extends Result implements Editable
 {
 
 	/** @var Result[] */
@@ -29,7 +28,31 @@ class MultiResult extends Result
 	}
 
 	/**
-	 * @return Traversable
+	 * EDITABLE ****************************************************************
+	 */
+
+	/**
+	 * @return Mutable|EditableResult
+	 */
+	public function toEditable()
+	{
+		$data = [];
+		$iterator = $this->getIterator();
+
+		while ($iterator->valid()) {
+			$data[$iterator->key()] = $iterator->current();
+			$iterator->next();
+		}
+
+		return new EditableResult($data);
+	}
+
+	/**
+	 * ITERATOR ****************************************************************
+	 */
+
+	/**
+	 * @return AppendIterator
 	 */
 	public function getIterator()
 	{

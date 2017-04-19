@@ -30,10 +30,6 @@ class VerticalTableRenderer extends TemplateRenderer
 	 */
 	public function render(Result $result)
 	{
-		if (!($result instanceof MultiResult)) {
-			throw new InvalidStateException('Result must be type of MultiResult');
-		}
-
 		$template = $this->createTemplate();
 		$template->setFile(__DIR__ . '/templates/vertical.table.latte');
 

@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\Model\Result;
 
-class EditableResult extends Result
+class EditableResult extends Result implements Mutable
 {
 
 	/**
