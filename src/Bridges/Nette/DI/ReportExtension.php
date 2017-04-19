@@ -16,6 +16,7 @@ use SplFileInfo;
 use Tlapnet\Report\Bridges\Nette\Exceptions\FileNotFoundException;
 use Tlapnet\Report\Bridges\Nette\Exceptions\FolderNotFoundException;
 use Tlapnet\Report\Bridges\Nette\Exceptions\InvalidConfigException;
+use Tlapnet\Report\Bridges\Tracy\Export\DebugExporter;
 use Tlapnet\Report\Bridges\Tracy\Panel\ReportPanel;
 use Tlapnet\Report\DataSources\CachedDataSource;
 use Tlapnet\Report\DataSources\DataSource;
@@ -46,6 +47,7 @@ class ReportExtension extends CompilerExtension
 
 	/** @var array */
 	protected $defaults = [
+		'debug' => FALSE,
 		'files' => [],
 		'reports' => [],
 		'folders' => [],
@@ -97,6 +99,17 @@ class ReportExtension extends CompilerExtension
 		],
 	];
 
+	/** @var bool */
+	private $debugMode;
+
+	/**
+	 * @param bool $debugMode
+	 */
+	public function __construct($debugMode = FALSE)
+	{
+		$this->debugMode = $debugMode;
+	}
+
 	/**
 	 * Register services
 	 *
@@ -104,7 +117,7 @@ class ReportExtension extends CompilerExtension
 	 */
 	public function loadConfiguration()
 	{
-		$config = $this->validateConfig($this->defaults);
+		$config = $this->getMainConfig();
 		$builder = $this->getContainerBuilder();
 
 		// Assert config
@@ -292,7 +305,7 @@ class ReportExtension extends CompilerExtension
 	protected function loadReportsFromConfig(array $reports)
 	{
 		$builder = $this->getContainerBuilder();
-		$config = $builder->parameters;
+		$globalconfig = $builder->parameters;
 
 		foreach ($reports as $rid => $report) {
 			// Get report config
@@ -345,8 +358,8 @@ class ReportExtension extends CompilerExtension
 				// Skip empty values
 				if (empty($value) || $value === NULL) continue;
 				// Append and expand parameters
-				$reportDef->addSetup('setOption', [$key, Helpers::expand($value, $config)]);
-				$this->metadata['reports'][$rid][$key] = Helpers::expand($value, $config);
+				$reportDef->addSetup('setOption', [$key, Helpers::expand($value, $globalconfig)]);
+				$this->metadata['reports'][$rid][$key] = Helpers::expand($value, $globalconfig);
 			}
 
 			// Check if report is groupless,
@@ -417,7 +430,8 @@ class ReportExtension extends CompilerExtension
 
 		// Prepare builder
 		$builder = $this->getContainerBuilder();
-		$config = $builder->parameters;
+		$config = $this->getMainConfig();
+		$globalconfig = $builder->parameters;
 
 		// Create parameters service
 		$parametersDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.parameters'));
@@ -470,12 +484,12 @@ class ReportExtension extends CompilerExtension
 			// Skip empty values
 			if (empty($value) || $value === NULL) continue;
 			// Append and expand parameters
-			$subreportDef->addSetup('setOption', [$key, Helpers::expand($value, $config)]);
-			$this->metadata['subreports'][$name][$key] = Helpers::expand($value, $config);
+			$subreportDef->addSetup('setOption', [$key, Helpers::expand($value, $globalconfig)]);
+			$this->metadata['subreports'][$name][$key] = Helpers::expand($value, $globalconfig);
 		}
 
 		// Add preprocessors
-		foreach ((array) $subreport['preprocessors'] as $column => $preprocessors) {
+		foreach ($subreport['preprocessors'] as $column => $preprocessors) {
 			foreach ((array) $preprocessors as $key => $preprocessor) {
 				$pname = $column . '_' . $key;
 				$preprocessorDef = $builder->addDefinition($this->prefix('subreports.' . $name . '.preprocessor.' . $pname));
@@ -485,7 +499,16 @@ class ReportExtension extends CompilerExtension
 		}
 
 		// Add exports
-		foreach ((array) $subreport['exports'] as $key => $export) {
+		if ($config['debug'] === TRUE) {
+			$subreport['exports']['debug'] = [
+				'class' => DebugExporter::class,
+				'setup' => [
+					new Statement('setOption', ['title', 'DEBUG']),
+					new Statement('setOption', ['class', 'btn btn-danger']),
+					new Statement('setOption', ['icon', 'icon-bug']),
+				]];
+		}
+		foreach ($subreport['exports'] as $key => $export) {
 			$exportDef = $builder->addDefinition($this->prefix('subreports.' . $key . '.export.' . $name));
 			Compiler::loadDefinition($exportDef, $export);
 			$subreportDef->addSetup('addExporter', [$key, $exportDef]);
@@ -598,6 +621,20 @@ class ReportExtension extends CompilerExtension
 				->addSetup('setExpiration', [$tag['expiration']])
 				->addTag(self::TAG_SUBREPORT_DATASOURCE, $wrappedDef->getTag(self::TAG_SUBREPORT_DATASOURCE));
 		}
+	}
+
+	/**
+	 * @return array
+	 */
+	private function getMainConfig()
+	{
+		$config = $this->validateConfig($this->defaults);
+
+		if ($this->debugMode === TRUE) {
+			$config['debug'] = $this->debugMode;
+		}
+
+		return $config;
 	}
 
 }
