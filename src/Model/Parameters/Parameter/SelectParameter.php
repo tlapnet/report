@@ -150,11 +150,12 @@ final class SelectParameter extends Parameter
 	}
 
 	/**
-	 * @param bool|null $autoPick
+	 * @param bool|null $auto
+	 * @return void
 	 */
-	public function setAutoPick($autoPick)
+	public function setAutoPick($auto)
 	{
-		$this->autoPick = $autoPick === NULL ? $autoPick : boolval($autoPick);
+		$this->autoPick = $auto === NULL ? $auto : boolval($auto);
 	}
 
 }
