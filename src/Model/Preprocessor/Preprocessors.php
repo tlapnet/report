@@ -2,7 +2,6 @@
 
 namespace Tlapnet\Report\Model\Preprocessor;
 
-use Tlapnet\Report\Model\Result\EditableResult;
 use Tlapnet\Report\Model\Result\Mutable;
 
 class Preprocessors

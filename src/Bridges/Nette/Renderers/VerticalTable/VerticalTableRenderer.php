@@ -3,8 +3,6 @@
 namespace Tlapnet\Report\Bridges\Nette\Renderers\VerticalTable;
 
 use Tlapnet\Report\Bridges\Nette\Renderers\TemplateRenderer;
-use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Result\MultiResult;
 use Tlapnet\Report\Model\Result\Result;
 
 class VerticalTableRenderer extends TemplateRenderer
