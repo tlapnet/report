@@ -11,7 +11,7 @@ class PieChartRenderer extends AbstractChartRenderer
 {
 
 	/** @var bool */
-	protected $enableValueInTitle = false;
+	protected $enableValueInTitle;
 
 	/**
 	 * @param bool $enable
