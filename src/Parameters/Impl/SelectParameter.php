@@ -38,7 +38,7 @@ final class SelectParameter extends Parameter
 	 */
 	public function canProvide()
 	{
-		return $this->hasDefaultValue() || $this->getAutoPick() === TRUE;
+		return $this->hasValue() || $this->hasDefaultValue() || $this->getAutoPick() === TRUE;
 	}
 
 	/**
@@ -85,7 +85,7 @@ final class SelectParameter extends Parameter
 		if ($this->useKeys === TRUE) {
 			// Set value representing as key
 			if (array_key_exists($value, $this->items)) {
-				$this->value = $value;
+				$this->value = $this->items[$value];
 			} else {
 				throw new InvalidArgumentException(sprintf('Key "%s" not found in array [%s] (useKeys:on)', $value, implode('|', $this->items)));
 			}

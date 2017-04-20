@@ -24,7 +24,7 @@ final class TextParameter extends Parameter
 	 */
 	public function canProvide()
 	{
-		return $this->hasDefaultValue();
+		return $this->hasValue() || $this->hasDefaultValue();
 	}
 
 	/**
