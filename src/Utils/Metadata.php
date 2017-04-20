@@ -3,7 +3,6 @@
 namespace Tlapnet\Report\Utils;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
-use Tlapnet\Report\Utils\Suggestions;
 
 class Metadata
 {

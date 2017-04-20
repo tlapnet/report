@@ -9,14 +9,17 @@ use Tlapnet\Report\Export\Exporters;
 use Tlapnet\Report\Parameters\Parameters;
 use Tlapnet\Report\Preprocessor\Preprocessor;
 use Tlapnet\Report\Preprocessor\Preprocessors;
+use Tlapnet\Report\Renderers\Renderer;
 use Tlapnet\Report\Result\EditableResult;
 use Tlapnet\Report\Result\Result;
 use Tlapnet\Report\Result\Resultable;
 use Tlapnet\Report\Utils\Metadata;
-use Tlapnet\Report\Renderers\Renderer;
+use Tlapnet\Report\Utils\TOptions;
 
 class Subreport implements Reportable
 {
+
+	use TOptions;
 
 	// States
 	const STATE_CREATED = 1;
@@ -36,9 +39,6 @@ class Subreport implements Reportable
 
 	/** @var DataSource */
 	protected $dataSource;
-
-	/** @var Metadata */
-	protected $metadata;
 
 	/** @var Preprocessors */
 	protected $preprocessors;
@@ -194,43 +194,6 @@ class Subreport implements Reportable
 	public function export($name, array $options = [])
 	{
 		return $this->exporters->export($name, $this->result, $options);
-	}
-
-	/**
-	 * METADATA ****************************************************************
-	 */
-
-	/**
-	 * @param string $key
-	 * @param mixed $value
-	 * @return void
-	 */
-	public function setOption($key, $value)
-	{
-		$this->metadata->set($key, $value);
-	}
-
-	/**
-	 * @param string $key
-	 * @param mixed $default
-	 * @return mixed
-	 */
-	public function getOption($key, $default = NULL)
-	{
-		if (func_num_args() < 2) {
-			return $this->metadata->get($key);
-		} else {
-			return $this->metadata->get($key, $default);
-		}
-	}
-
-	/**
-	 * @param string $key
-	 * @return bool
-	 */
-	public function hasOption($key)
-	{
-		return $this->metadata->has($key);
 	}
 
 	/**

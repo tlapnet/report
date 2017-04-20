@@ -2,54 +2,20 @@
 
 namespace Tlapnet\Report\Export;
 
-use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
-use Tlapnet\Report\Utils\Suggestions;
+use Tlapnet\Report\Utils\Metadata;
+use Tlapnet\Report\Utils\TOptions;
 
 abstract class AbstractExporter implements Exporter
 {
 
-	/** @var array */
-	protected $options = [];
+	use TOptions;
 
 	/**
-	 * OPTIONS *****************************************************************
+	 * Creates exporter
 	 */
-
-	/**
-	 * @param string $name
-	 * @param mixed $value
-	 * @return void
-	 */
-	public function setOption($name, $value)
+	public function __construct()
 	{
-		$this->options[$name] = $value;
-	}
-
-	/**
-	 * @param string $name
-	 * @param mixed $default
-	 * @return mixed
-	 */
-	public function getOption($name, $default = NULL)
-	{
-		if (isset($this->options[$name])) {
-			return $this->options[$name];
-		}
-
-		if (func_num_args() < 2) {
-			$hint = Suggestions::getSuggestion(array_keys($this->options), $name);
-			throw new InvalidArgumentException(Suggestions::format(sprintf('Unknown option "%s"', $name), $hint));
-		}
-
-		return $default;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getOptions()
-	{
-		return $this->options;
+		$this->metadata = new Metadata();
 	}
 
 }
