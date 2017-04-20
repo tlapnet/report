@@ -5,10 +5,10 @@ namespace Tlapnet\Report\Subreport;
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Parameters\Parameters;
 use Tlapnet\Report\Preprocessor\Preprocessors;
+use Tlapnet\Report\Renderers\Renderer;
 use Tlapnet\Report\Result\Result;
 use Tlapnet\Report\Result\Resultable;
 use Tlapnet\Report\Utils\Metadata;
-use Tlapnet\Report\Renderers\Renderer;
 
 class EditableSubreport extends Subreport
 {

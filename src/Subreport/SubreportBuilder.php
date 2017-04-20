@@ -6,8 +6,8 @@ use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 use Tlapnet\Report\Parameters\Parameters;
 use Tlapnet\Report\Preprocessor\Preprocessors;
-use Tlapnet\Report\Utils\Metadata;
 use Tlapnet\Report\Renderers\Renderer;
+use Tlapnet\Report\Utils\Metadata;
 
 class SubreportBuilder
 {

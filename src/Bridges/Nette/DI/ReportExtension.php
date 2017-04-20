@@ -25,12 +25,12 @@ use Tlapnet\Report\Parameters\Parameters;
 use Tlapnet\Report\Parameters\ParametersBuilder;
 use Tlapnet\Report\Parameters\ParametersFactory;
 use Tlapnet\Report\Report\LazyReport;
+use Tlapnet\Report\ReportManager;
 use Tlapnet\Report\Service\CacheInspector;
 use Tlapnet\Report\Service\CacheService;
 use Tlapnet\Report\Service\IntrospectionService;
 use Tlapnet\Report\Service\ReportService;
 use Tlapnet\Report\Subreport\Subreport;
-use Tlapnet\Report\ReportManager;
 
 class ReportExtension extends CompilerExtension
 {
