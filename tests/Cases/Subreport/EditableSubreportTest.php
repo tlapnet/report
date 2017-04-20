@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\Cases\Model\Subreport;
+namespace Tests\Cases\Subreport;
 
 use Tests\Engine\BaseTestCase;
 use Tlapnet\Report\DataSources\DevNullDataSource;
-use Tlapnet\Report\Model\Parameters\Parameters;
-use Tlapnet\Report\Model\Preprocessor\Preprocessors;
-use Tlapnet\Report\Model\Result\Result;
-use Tlapnet\Report\Model\Subreport\EditableSubreport;
-use Tlapnet\Report\Model\Utils\Metadata;
+use Tlapnet\Report\Parameters\Parameters;
+use Tlapnet\Report\Preprocessor\Preprocessors;
 use Tlapnet\Report\Renderers\DevNullRenderer;
+use Tlapnet\Report\Result\Result;
+use Tlapnet\Report\Subreport\EditableSubreport;
+use Tlapnet\Report\Utils\Metadata;
 
 final class EditableSubreportTest extends BaseTestCase
 {

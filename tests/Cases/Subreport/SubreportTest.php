@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Cases\Model\Subreport;
+namespace Tests\Cases\Subreport;
 
 use Tests\Engine\BaseTestCase;
 use Tlapnet\Report\DataSources\ArrayDataSource;
@@ -8,14 +8,14 @@ use Tlapnet\Report\DataSources\DevNullDataSource;
 use Tlapnet\Report\DataSources\DummyDataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Parameters\Impl\TextParameter;
-use Tlapnet\Report\Model\Parameters\Parameters;
-use Tlapnet\Report\Model\Preprocessor\Impl\AppendPreprocessor;
-use Tlapnet\Report\Model\Preprocessor\Impl\DevNullPreprocessor;
-use Tlapnet\Report\Model\Preprocessor\Impl\NumberPreprocessor;
-use Tlapnet\Report\Model\Subreport\Subreport;
+use Tlapnet\Report\Parameters\Impl\TextParameter;
+use Tlapnet\Report\Parameters\Parameters;
+use Tlapnet\Report\Preprocessor\Impl\AppendPreprocessor;
+use Tlapnet\Report\Preprocessor\Impl\DevNullPreprocessor;
+use Tlapnet\Report\Preprocessor\Impl\NumberPreprocessor;
 use Tlapnet\Report\Renderers\DevNullRenderer;
 use Tlapnet\Report\Renderers\DummyRenderer;
+use Tlapnet\Report\Subreport\Subreport;
 
 final class SubreportTest extends BaseTestCase
 {
@@ -187,7 +187,7 @@ final class SubreportTest extends BaseTestCase
 		$r = new Subreport('s1', new Parameters(), new DummyDataSource(new \stdClass()), new DevNullRenderer());
 
 		$this->expectException(InvalidStateException::class);
-		$this->expectExceptionMessage("DataSource returned object 'stdClass' does not implement 'Tlapnet\Report\Model\Result\Resultable'.");
+		$this->expectExceptionMessage("DataSource returned object 'stdClass' does not implement 'Tlapnet\Report\Result\Resultable'.");
 
 		$r->compile();
 	}

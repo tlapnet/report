@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Cases\Model\Utils;
+namespace Tests\Cases\Utils;
 
 use Tests\Engine\BaseTestCase;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
-use Tlapnet\Report\Model\Utils\Metadata;
+use Tlapnet\Report\Utils\Metadata;
 
 final class MetadataTest extends BaseTestCase
 {

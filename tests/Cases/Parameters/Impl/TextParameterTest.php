@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Cases\Model\Parameters\Parameter;
+namespace Tests\Cases\Parameters\Impl;
 
 use Tests\Engine\BaseTestCase;
-use Tlapnet\Report\Model\Parameters\Impl\Parameter;
-use Tlapnet\Report\Model\Parameters\Impl\TextParameter;
+use Tlapnet\Report\Parameters\Impl\Parameter;
+use Tlapnet\Report\Parameters\Impl\TextParameter;
 
 final class TextParameterTest extends BaseTestCase
 {

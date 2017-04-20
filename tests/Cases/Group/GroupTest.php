@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Cases\Model\Group;
+namespace Tests\Cases\Group;
 
 use Tests\Engine\BaseTestCase;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
-use Tlapnet\Report\Model\Group\Group;
-use Tlapnet\Report\Model\Report\Report;
+use Tlapnet\Report\Group\Group;
+use Tlapnet\Report\Report\Report;
 
 final class GroupTest extends BaseTestCase
 {

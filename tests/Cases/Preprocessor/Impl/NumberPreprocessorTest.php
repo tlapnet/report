@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Cases\Model\Preprocessor\Impl;
+namespace Tests\Cases\Preprocessor\Impl;
 
 use Tests\Engine\BaseTestCase;
-use Tlapnet\Report\Model\Preprocessor\Impl\NumberPreprocessor;
+use Tlapnet\Report\Preprocessor\Impl\NumberPreprocessor;
 
 final class NumberPreprocessorTest extends BaseTestCase
 {

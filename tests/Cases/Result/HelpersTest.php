@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Cases\Model\Result;
+namespace Tests\Cases\Result;
 
 use Tests\Engine\BaseTestCase;
-use Tlapnet\Report\Model\Result\Helpers;
-use Tlapnet\Report\Model\Result\Result;
+use Tlapnet\Report\Result\Helpers;
+use Tlapnet\Report\Result\Result;
 
 final class HelpersTest extends BaseTestCase
 {

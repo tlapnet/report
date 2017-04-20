@@ -1,16 +1,16 @@
 <?php
 
-namespace Tests\Cases\Model\Subreport;
+namespace Tests\Cases\Subreport;
 
 use Tests\Engine\BaseTestCase;
 use Tlapnet\Report\DataSources\DevNullDataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Parameters\Parameters;
-use Tlapnet\Report\Model\Preprocessor\Preprocessors;
-use Tlapnet\Report\Model\Subreport\Subreport;
-use Tlapnet\Report\Model\Subreport\SubreportBuilder;
-use Tlapnet\Report\Model\Utils\Metadata;
+use Tlapnet\Report\Parameters\Parameters;
+use Tlapnet\Report\Preprocessor\Preprocessors;
 use Tlapnet\Report\Renderers\DevNullRenderer;
+use Tlapnet\Report\Subreport\Subreport;
+use Tlapnet\Report\Subreport\SubreportBuilder;
+use Tlapnet\Report\Utils\Metadata;
 
 final class SubreportBuilderTest extends BaseTestCase
 {

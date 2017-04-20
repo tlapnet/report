@@ -4,7 +4,7 @@ namespace Tests\Cases\DataSources;
 
 use Tests\Engine\BaseTestCase;
 use Tlapnet\Report\DataSources\DevNullDataSource;
-use Tlapnet\Report\Model\Parameters\Parameters;
+use Tlapnet\Report\Parameters\Parameters;
 
 final class DevNullDataSourceTest extends BaseTestCase
 {

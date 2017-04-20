@@ -6,8 +6,8 @@ use Mockery;
 use Tests\Engine\BaseTestCase;
 use Tlapnet\Report\Bridges\Dibi\DataSources\DibiWrapperDataSource;
 use Tlapnet\Report\Bridges\Dibi\DataSources\LazyDibiResult;
-use Tlapnet\Report\Model\Parameters\Impl\TextParameter;
-use Tlapnet\Report\Model\Parameters\Parameters;
+use Tlapnet\Report\Parameters\Impl\TextParameter;
+use Tlapnet\Report\Parameters\Parameters;
 
 final class DibiWrapperDataSourceTest extends BaseTestCase
 {

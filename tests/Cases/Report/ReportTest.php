@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Cases\Model\Report;
+namespace Tests\Cases\Report;
 
 use Tests\Engine\BaseTestCase;
 use Tlapnet\Report\DataSources\DevNullDataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
-use Tlapnet\Report\Model\Parameters\Parameters;
-use Tlapnet\Report\Model\Report\Report;
-use Tlapnet\Report\Model\Subreport\Subreport;
+use Tlapnet\Report\Parameters\Parameters;
 use Tlapnet\Report\Renderers\DevNullRenderer;
+use Tlapnet\Report\Report\Report;
+use Tlapnet\Report\Subreport\Subreport;
 
 final class ReportTest extends BaseTestCase
 {

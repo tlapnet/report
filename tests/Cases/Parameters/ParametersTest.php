@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Cases\Model\Parameters;
+namespace Tests\Cases\Parameters;
 
 use Tests\Engine\BaseTestCase;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
-use Tlapnet\Report\Model\Parameters\Impl\TextParameter;
-use Tlapnet\Report\Model\Parameters\Parameters;
+use Tlapnet\Report\Parameters\Impl\TextParameter;
+use Tlapnet\Report\Parameters\Parameters;
 use Tlapnet\Report\Utils\Expander;
 
 final class ParametersTest extends BaseTestCase

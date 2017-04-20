@@ -10,7 +10,7 @@ use Nette\Bridges\ApplicationLatte\TemplateFactory;
 use Tests\Engine\BaseTestCase;
 use Tests\Mocks\Latte\LatteFactory;
 use Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\ExtraTableRenderer;
-use Tlapnet\Report\Model\Result\Result;
+use Tlapnet\Report\Result\Result;
 
 final class ExtraTableRendererTest extends BaseTestCase
 {

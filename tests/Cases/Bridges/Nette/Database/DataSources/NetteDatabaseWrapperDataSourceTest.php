@@ -8,8 +8,8 @@ use Nette\Database\ResultSet;
 use Tests\Engine\BaseTestCase;
 use Tlapnet\Report\Bridges\Nette\Database\DataSources\LazyResultSet;
 use Tlapnet\Report\Bridges\Nette\Database\DataSources\NetteDatabaseWrapperDataSource;
-use Tlapnet\Report\Model\Parameters\Impl\TextParameter;
-use Tlapnet\Report\Model\Parameters\Parameters;
+use Tlapnet\Report\Parameters\Impl\TextParameter;
+use Tlapnet\Report\Parameters\Parameters;
 
 final class NetteDatabaseWrapperDataSourceTest extends BaseTestCase
 {

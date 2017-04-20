@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Cases\Model\Preprocessor\Impl;
+namespace Tests\Cases\Preprocessor\Impl;
 
 use Tests\Engine\BaseTestCase;
-use Tlapnet\Report\Model\Preprocessor\Impl\CurrencyPreprocessor;
+use Tlapnet\Report\Preprocessor\Impl\CurrencyPreprocessor;
 
 final class CurrencyPreprocessorTest extends BaseTestCase
 {

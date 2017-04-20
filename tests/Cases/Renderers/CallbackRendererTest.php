@@ -3,8 +3,8 @@
 namespace Tests\Cases\Renderers;
 
 use Tests\Engine\BaseTestCase;
-use Tlapnet\Report\Model\Result\Result;
 use Tlapnet\Report\Renderers\CallbackRenderer;
+use Tlapnet\Report\Result\Result;
 
 final class CallbackRendererTest extends BaseTestCase
 {

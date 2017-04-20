@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Cases\Model\Preprocessor;
+namespace Tests\Cases\Preprocessor;
 
 use Tests\Engine\BaseTestCase;
-use Tlapnet\Report\Model\Preprocessor\Impl\AppendPreprocessor;
-use Tlapnet\Report\Model\Preprocessor\Impl\PrependPreprocessor;
-use Tlapnet\Report\Model\Preprocessor\Preprocessors;
-use Tlapnet\Report\Model\Result\Result;
+use Tlapnet\Report\Preprocessor\Impl\AppendPreprocessor;
+use Tlapnet\Report\Preprocessor\Impl\PrependPreprocessor;
+use Tlapnet\Report\Preprocessor\Preprocessors;
+use Tlapnet\Report\Result\Result;
 
 final class PreprocessorsTest extends BaseTestCase
 {

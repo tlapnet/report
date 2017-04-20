@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Cases\Model\Parameters;
+namespace Tests\Cases\Parameters;
 
 use Tests\Engine\BaseTestCase;
-use Tlapnet\Report\Model\Parameters\ParametersFactory;
+use Tlapnet\Report\Parameters\ParametersFactory;
 
 final class ParametersFactoryTest extends BaseTestCase
 {

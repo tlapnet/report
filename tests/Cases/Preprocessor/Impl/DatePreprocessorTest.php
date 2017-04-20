@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Cases\Model\Preprocessor\Impl;
+namespace Tests\Cases\Preprocessor\Impl;
 
 use Tests\Engine\BaseTestCase;
-use Tlapnet\Report\Model\Preprocessor\Impl\DatePreprocessor;
+use Tlapnet\Report\Preprocessor\Impl\DatePreprocessor;
 
 final class DatePreprocessorTest extends BaseTestCase
 {
