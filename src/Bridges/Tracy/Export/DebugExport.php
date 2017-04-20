@@ -4,8 +4,8 @@ namespace Tlapnet\Report\Bridges\Tracy\Export;
 
 use Nette\Application\UI\Presenter;
 use Tlapnet\Report\Bridges\Nette\UI\Response\DebugResponse;
-use Tlapnet\Report\Model\Export\Exportable;
-use Tlapnet\Report\Model\Result\Resultable;
+use Tlapnet\Report\Export\Exportable;
+use Tlapnet\Report\Result\Resultable;
 
 class DebugExport implements Exportable
 {

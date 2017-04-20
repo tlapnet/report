@@ -10,7 +10,7 @@ use Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Blank;
 use Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Column;
 use Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Component;
 use Tlapnet\Report\Bridges\Nette\Renderers\TemplateRenderer;
-use Tlapnet\Report\Model\Result\Result;
+use Tlapnet\Report\Result\Result;
 
 class ExtraTableRenderer extends TemplateRenderer
 {

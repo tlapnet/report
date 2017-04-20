@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\DataSources;
 
 use Tlapnet\Report\Exceptions\Logic\NotImplementedException;
-use Tlapnet\Report\Model\Parameters\Parameters;
+use Tlapnet\Report\Parameters\Parameters;
 
 class RestDataSource implements DataSource
 {

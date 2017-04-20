@@ -7,7 +7,7 @@ use Nette\Application\UI\Control;
 use Tlapnet\Report\Bridges\Nette\Form\Form;
 use Tlapnet\Report\Bridges\Nette\Form\FormFactory;
 use Tlapnet\Report\Exceptions\Runtime\CompileException;
-use Tlapnet\Report\Model\Subreport\Subreport;
+use Tlapnet\Report\Subreport\Subreport;
 
 class SubreportRenderControl extends Control
 {

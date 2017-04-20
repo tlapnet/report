@@ -20,16 +20,16 @@ use Tlapnet\Report\Bridges\Tracy\Export\DebugExporter;
 use Tlapnet\Report\Bridges\Tracy\Panel\ReportPanel;
 use Tlapnet\Report\DataSources\CachedDataSource;
 use Tlapnet\Report\DataSources\DataSource;
-use Tlapnet\Report\Model\Group\Group;
-use Tlapnet\Report\Model\Parameters\Parameters;
-use Tlapnet\Report\Model\Parameters\ParametersBuilder;
-use Tlapnet\Report\Model\Parameters\ParametersFactory;
-use Tlapnet\Report\Model\Report\LazyReport;
-use Tlapnet\Report\Model\Service\CacheInspector;
-use Tlapnet\Report\Model\Service\CacheService;
-use Tlapnet\Report\Model\Service\IntrospectionService;
-use Tlapnet\Report\Model\Service\ReportService;
-use Tlapnet\Report\Model\Subreport\Subreport;
+use Tlapnet\Report\Group\Group;
+use Tlapnet\Report\Parameters\Parameters;
+use Tlapnet\Report\Parameters\ParametersBuilder;
+use Tlapnet\Report\Parameters\ParametersFactory;
+use Tlapnet\Report\Report\LazyReport;
+use Tlapnet\Report\Service\CacheInspector;
+use Tlapnet\Report\Service\CacheService;
+use Tlapnet\Report\Service\IntrospectionService;
+use Tlapnet\Report\Service\ReportService;
+use Tlapnet\Report\Subreport\Subreport;
 use Tlapnet\Report\ReportManager;
 
 class ReportExtension extends CompilerExtension

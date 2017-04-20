@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\DataSources;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Parameters\Parameters;
+use Tlapnet\Report\Parameters\Parameters;
 
 abstract class AbstractDatabaseDataSource implements DataSource
 {

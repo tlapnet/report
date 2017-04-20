@@ -6,10 +6,10 @@ use Nette\Forms\Controls\BaseControl;
 use Nette\Forms\Controls\SelectBox;
 use Nette\Forms\Controls\TextInput;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Parameters\Parameter\Parameter;
-use Tlapnet\Report\Model\Parameters\Parameter\SelectParameter;
-use Tlapnet\Report\Model\Parameters\Parameter\TextParameter;
-use Tlapnet\Report\Model\Parameters\Parameters;
+use Tlapnet\Report\Parameters\Impl\Parameter;
+use Tlapnet\Report\Parameters\Impl\SelectParameter;
+use Tlapnet\Report\Parameters\Impl\TextParameter;
+use Tlapnet\Report\Parameters\Parameters;
 
 class FormFactory
 {

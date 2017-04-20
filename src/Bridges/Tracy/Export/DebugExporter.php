@@ -2,8 +2,8 @@
 
 namespace Tlapnet\Report\Bridges\Tracy\Export;
 
-use Tlapnet\Report\Model\Export\AbstractExporter;
-use Tlapnet\Report\Model\Result\Resultable;
+use Tlapnet\Report\Export\AbstractExporter;
+use Tlapnet\Report\Result\Resultable;
 
 class DebugExporter extends AbstractExporter
 {

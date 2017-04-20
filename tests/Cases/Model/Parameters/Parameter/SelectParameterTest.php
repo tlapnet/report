@@ -3,8 +3,8 @@
 namespace Tests\Cases\Model\Parameters\Parameter;
 
 use Tests\Engine\BaseTestCase;
-use Tlapnet\Report\Model\Parameters\Parameter\Parameter;
-use Tlapnet\Report\Model\Parameters\Parameter\SelectParameter;
+use Tlapnet\Report\Model\Parameters\Impl\Parameter;
+use Tlapnet\Report\Model\Parameters\Impl\SelectParameter;
 
 final class SelectParameterTest extends BaseTestCase
 {

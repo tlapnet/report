@@ -6,7 +6,7 @@ use Mockery;
 use Tests\Engine\BaseTestCase;
 use Tests\Mocks\Dibi\DibiDataSource;
 use Tlapnet\Report\Bridges\Dibi\DataSources\LazyDibiResult;
-use Tlapnet\Report\Model\Parameters\Parameter\TextParameter;
+use Tlapnet\Report\Model\Parameters\Impl\TextParameter;
 use Tlapnet\Report\Model\Parameters\Parameters;
 
 final class DibiDataSourceTest extends BaseTestCase

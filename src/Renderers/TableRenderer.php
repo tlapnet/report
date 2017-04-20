@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\Renderers;
 
-use Tlapnet\Report\Model\Result\Result;
+use Tlapnet\Report\Result\Result;
 use Tlapnet\Report\Utils\Html;
 
 class TableRenderer implements Renderer

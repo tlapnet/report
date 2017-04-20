@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\Loaders;
 
-use Tlapnet\Report\Model\Report\Report;
+use Tlapnet\Report\Report\Report;
 
 interface Loader
 {

@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\Bridges\Tracy\Panel;
 
-use Tlapnet\Report\Model\Service\IntrospectionService;
+use Tlapnet\Report\Service\IntrospectionService;
 use Tracy\IBarPanel;
 
 final class ReportPanel implements IBarPanel

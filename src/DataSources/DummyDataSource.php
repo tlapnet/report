@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\DataSources;
 
-use Tlapnet\Report\Model\Parameters\Parameters;
+use Tlapnet\Report\Parameters\Parameters;
 
 final class DummyDataSource implements DataSource
 {

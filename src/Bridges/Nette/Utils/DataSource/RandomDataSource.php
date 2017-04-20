@@ -6,8 +6,8 @@ use Nette\Utils\Random;
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Parameters\Parameters;
-use Tlapnet\Report\Model\Result\Result;
+use Tlapnet\Report\Parameters\Parameters;
+use Tlapnet\Report\Result\Result;
 use Tlapnet\Report\Utils\DateTime;
 
 class RandomDataSource implements DataSource

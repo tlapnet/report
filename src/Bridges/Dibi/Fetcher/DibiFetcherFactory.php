@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\Bridges\Dibi\Fetcher;
 
 use DibiConnection;
-use Tlapnet\Report\Model\Data\Fetcher\FetcherFactory;
+use Tlapnet\Report\Fetcher\FetcherFactory;
 
 final class DibiFetcherFactory implements FetcherFactory
 {

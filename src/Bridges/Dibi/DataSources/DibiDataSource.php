@@ -6,8 +6,8 @@ use DibiConnection;
 use DibiException;
 use Tlapnet\Report\DataSources\AbstractDatabaseConnectionDataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
-use Tlapnet\Report\Model\Parameters\Parameters;
-use Tlapnet\Report\Model\Result\Result;
+use Tlapnet\Report\Parameters\Parameters;
+use Tlapnet\Report\Result\Result;
 
 class DibiDataSource extends AbstractDatabaseConnectionDataSource
 {

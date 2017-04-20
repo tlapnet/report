@@ -8,7 +8,7 @@ use Tlapnet\Report\DataSources\DevNullDataSource;
 use Tlapnet\Report\DataSources\DummyDataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Parameters\Parameter\TextParameter;
+use Tlapnet\Report\Model\Parameters\Impl\TextParameter;
 use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Model\Preprocessor\Impl\AppendPreprocessor;
 use Tlapnet\Report\Model\Preprocessor\Impl\DevNullPreprocessor;

@@ -2,8 +2,8 @@
 
 namespace Tlapnet\Report\DataSources;
 
-use Tlapnet\Report\Model\Parameters\Parameters;
-use Tlapnet\Report\Model\Result\Resultable;
+use Tlapnet\Report\Parameters\Parameters;
+use Tlapnet\Report\Result\Resultable;
 
 interface DataSource
 {

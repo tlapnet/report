@@ -6,7 +6,7 @@ use DibiConnection;
 use DibiException;
 use DibiResult;
 use DibiRow;
-use Tlapnet\Report\Model\Data\Fetcher\AbstractFetcher;
+use Tlapnet\Report\Fetcher\AbstractFetcher;
 
 final class DibiFetcher extends AbstractFetcher
 {

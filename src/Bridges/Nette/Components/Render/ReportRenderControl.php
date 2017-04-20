@@ -4,7 +4,7 @@ namespace Tlapnet\Report\Bridges\Nette\Components\Render;
 
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Multiplier;
-use Tlapnet\Report\Model\Report\Report;
+use Tlapnet\Report\Report\Report;
 
 class ReportRenderControl extends Control
 {

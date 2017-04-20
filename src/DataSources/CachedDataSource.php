@@ -4,11 +4,11 @@ namespace Tlapnet\Report\DataSources;
 
 use Nette\Caching\Cache;
 use Nette\Caching\IStorage;
+use Tlapnet\Report\Cache\CacheKeys;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Cache\CacheKeys;
-use Tlapnet\Report\Model\Parameters\Parameters;
-use Tlapnet\Report\Model\Result\Result;
-use Tlapnet\Report\Model\Result\Resultable;
+use Tlapnet\Report\Parameters\Parameters;
+use Tlapnet\Report\Result\Result;
+use Tlapnet\Report\Result\Resultable;
 
 class CachedDataSource implements DataSource
 {

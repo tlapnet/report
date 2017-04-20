@@ -4,7 +4,7 @@ namespace Tests\Cases\Model\Parameters;
 
 use Tests\Engine\BaseTestCase;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
-use Tlapnet\Report\Model\Parameters\Parameter\TextParameter;
+use Tlapnet\Report\Model\Parameters\Impl\TextParameter;
 use Tlapnet\Report\Model\Parameters\Parameters;
 use Tlapnet\Report\Utils\Expander;
 

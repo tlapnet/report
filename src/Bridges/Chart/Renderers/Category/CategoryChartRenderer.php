@@ -8,7 +8,7 @@ use Tlapnet\Chart\Segment\CategorySegment;
 use Tlapnet\Chart\Serie\CategorySerie;
 use Tlapnet\Report\Bridges\Chart\Renderers\SeriesChartRenderer;
 use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
-use Tlapnet\Report\Model\Result\Result;
+use Tlapnet\Report\Result\Result;
 
 class CategoryChartRenderer extends SeriesChartRenderer
 {

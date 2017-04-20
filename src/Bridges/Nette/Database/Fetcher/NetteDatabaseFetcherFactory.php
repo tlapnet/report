@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\Bridges\Nette\Database\Fetcher;
 
 use Nette\Database\Connection;
-use Tlapnet\Report\Model\Data\Fetcher\FetcherFactory;
+use Tlapnet\Report\Fetcher\FetcherFactory;
 
 final class NetteDatabaseFetcherFactory implements FetcherFactory
 {

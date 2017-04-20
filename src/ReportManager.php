@@ -3,8 +3,8 @@
 namespace Tlapnet\Report;
 
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
-use Tlapnet\Report\Model\Group\Group;
-use Tlapnet\Report\Model\Report\Report;
+use Tlapnet\Report\Group\Group;
+use Tlapnet\Report\Report\Report;
 use Tlapnet\Report\Utils\Suggestions;
 
 class ReportManager

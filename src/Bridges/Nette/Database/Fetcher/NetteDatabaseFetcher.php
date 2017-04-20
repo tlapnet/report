@@ -6,7 +6,7 @@ use Nette\Database\Connection;
 use Nette\Database\IRow;
 use Nette\Database\ResultSet;
 use Nette\Database\Row;
-use Tlapnet\Report\Model\Data\Fetcher\AbstractFetcher;
+use Tlapnet\Report\Fetcher\AbstractFetcher;
 
 final class NetteDatabaseFetcher extends AbstractFetcher
 {

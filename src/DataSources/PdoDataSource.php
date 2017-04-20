@@ -4,8 +4,8 @@ namespace Tlapnet\Report\DataSources;
 
 use PDO;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
-use Tlapnet\Report\Model\Parameters\Parameters;
-use Tlapnet\Report\Model\Result\Result;
+use Tlapnet\Report\Parameters\Parameters;
+use Tlapnet\Report\Result\Result;
 
 class PdoDataSource extends AbstractDatabaseConnectionDataSource
 {

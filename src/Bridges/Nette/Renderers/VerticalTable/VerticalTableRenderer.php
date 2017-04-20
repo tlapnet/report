@@ -3,7 +3,7 @@
 namespace Tlapnet\Report\Bridges\Nette\Renderers\VerticalTable;
 
 use Tlapnet\Report\Bridges\Nette\Renderers\TemplateRenderer;
-use Tlapnet\Report\Model\Result\Result;
+use Tlapnet\Report\Result\Result;
 
 class VerticalTableRenderer extends TemplateRenderer
 {
