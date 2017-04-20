@@ -1,6 +1,6 @@
 <?php
 
-namespace Tlapnet\Report\Bridges\Nette\Utils\DataSource;
+namespace Tlapnet\Report\Bridges\Nette\DataSource;
 
 use Nette\Utils\Random;
 use Tlapnet\Report\DataSources\DataSource;
