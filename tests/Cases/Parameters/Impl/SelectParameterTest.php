@@ -67,7 +67,7 @@ final class SelectParameterTest extends BaseTestCase
 
 		$p->setUseKeys(TRUE);
 		$p->setValue('foo');
-		$this->assertEquals('bar', $p->getValue());
+		$this->assertEquals('foo', $p->getValue());
 
 		$p->setUseKeys(FALSE);
 		$p->setValue('bar');

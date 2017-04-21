@@ -85,7 +85,7 @@ final class SelectParameter extends Parameter
 		if ($this->useKeys === TRUE) {
 			// Set value representing as key
 			if (array_key_exists($value, $this->items)) {
-				$this->value = $this->items[$value];
+				$this->value = $value;
 			} else {
 				throw new InvalidArgumentException(sprintf('Key "%s" not found in array [%s] (useKeys:on)', $value, implode('|', array_keys($this->items))));
 			}
