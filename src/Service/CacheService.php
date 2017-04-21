@@ -5,7 +5,6 @@ namespace Tlapnet\Report\Service;
 use Tlapnet\Report\DataSources\CachedDataSource;
 use Tlapnet\Report\Result\Resultable;
 use Tlapnet\Report\Subreport\Subreport;
-use Tlapnet\Report\Utils\Arrays;
 
 class CacheService
 {
@@ -36,11 +35,13 @@ class CacheService
 		foreach ($tags as $tag) {
 			foreach ($tag as $key => $value) {
 				foreach ($introspect as $item) {
-					if ($item->subreport === $value) {
+					if ($item->tags['services']['subreport'] === $value) {
 						$output[] = [
-							'name' => Arrays::pop(explode('.', $item->report)) . '.' . Arrays::pop(explode('.', $item->subreport)),
-							'report' => $item->report,
-							'subreport' => $item->subreport,
+							'name' => $item->rid . '.' . $item->sid,
+							'report' => $item->tags['services']['report'],
+							'subreport' => $item->tags['services']['subreport'],
+							'key' => $item->tags['services']['subreport'],
+							'cache' => $item->tags['cache'],
 						];
 					}
 				}
@@ -51,7 +52,9 @@ class CacheService
 	}
 
 	/**
-	 * Warmup subreport datasource
+	 * Warmup subreport cache
+	 *
+	 * - datasource
 	 *
 	 * @param string $subreport
 	 * @return Resultable
