@@ -35,15 +35,25 @@ use Tlapnet\Report\Subreport\Subreport;
 class ReportExtension extends CompilerExtension
 {
 
-	// Tags
-	const TAG_CACHE = 'report.cache';
+	// Subreport introspection (metadata, services, etc..)
 	const TAG_INTROSPECTION = 'report.introspecition';
+
+	// Name of the report
 	const TAG_REPORT = 'report.report';
+
+	// Name of the subreport
 	const TAG_SUBREPORT = 'report.subreport';
+
+	// Tag points to report service
 	const TAG_SUBREPORT_PARENT = 'report.subreport.parent';
+
+	// Tags points to subreport service
 	const TAG_SUBREPORT_DATASOURCE = 'report.subreport.datasource';
 	const TAG_SUBREPORT_RENDERER = 'report.subreport.renderer';
 	const TAG_SUBREPORT_PARAMETERS = 'report.subreport.paremeters';
+
+	// Subreport cache tag
+	const TAG_CACHE = 'report.cache';
 
 	/** @var array */
 	protected $defaults = [
@@ -620,6 +630,12 @@ class ReportExtension extends CompilerExtension
 				->addSetup('setKey', [$tag['key']])
 				->addSetup('setExpiration', [$tag['expiration']])
 				->addTag(self::TAG_SUBREPORT_DATASOURCE, $wrappedDef->getTag(self::TAG_SUBREPORT_DATASOURCE));
+
+			// Append cache tags to subreport introspection
+			$subreportDef = $builder->getDefinition($wrappedDef->getTag(self::TAG_SUBREPORT_DATASOURCE));
+			$introspection = $subreportDef->getTag(self::TAG_INTROSPECTION);
+			$introspection['cache'] = ['datasource' => $tag];
+			$subreportDef->addTag(self::TAG_INTROSPECTION, $introspection);
 		}
 	}
 

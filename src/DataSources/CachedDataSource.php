@@ -13,6 +13,11 @@ use Tlapnet\Report\Result\Resultable;
 class CachedDataSource implements DataSource
 {
 
+	// Cache keys
+	const CACHE_KEY = 'key';
+	const CACHE_EXPIRATION = Cache::EXPIRATION;
+	const CACHE_SLIDING = Cache::SLIDING;
+
 	/** @var Cache */
 	private $cache;
 
@@ -42,7 +47,7 @@ class CachedDataSource implements DataSource
 	 */
 	public function setKey($key)
 	{
-		$this->configuration['key'] = $key;
+		$this->configuration[self::CACHE_KEY] = $key;
 	}
 
 	/**
@@ -51,7 +56,16 @@ class CachedDataSource implements DataSource
 	 */
 	public function setExpiration($expiration)
 	{
-		$this->configuration['expiration'] = $expiration;
+		$this->configuration[self::CACHE_EXPIRATION] = $expiration;
+	}
+
+	/**
+	 * @param string $sliding
+	 * @return void
+	 */
+	public function setSliding($sliding = TRUE)
+	{
+		$this->configuration[self::CACHE_SLIDING] = $sliding;
 	}
 
 	/**
@@ -64,21 +78,30 @@ class CachedDataSource implements DataSource
 	 */
 	public function compile(Parameters $parameters)
 	{
-		if (!isset($this->configuration['key'])) {
-			throw new InvalidStateException('Cache "key" is required');
+		if (!isset($this->configuration[self::CACHE_KEY])) {
+			throw new InvalidStateException(sprintf('Cache "%s" is required', self::CACHE_KEY));
 		}
 
-		if (!isset($this->configuration['expiration'])) {
-			throw new InvalidStateException('Cache "expiration" is required');
+		if (!isset($this->configuration[self::CACHE_EXPIRATION])) {
+			throw new InvalidStateException(sprintf('Cache "%s" is required', self::CACHE_EXPIRATION));
 		}
 
 		$key = md5(serialize([
-			$this->configuration['key'],
+			$this->configuration[self::CACHE_KEY],
 			$parameters->toArray(),
 		]));
 
 		$cached = $this->cache->load($key, function (&$dependencies) use ($parameters) {
-			$dependencies[Cache::EXPIRE] = $this->configuration['expiration'];
+			$dependencies[Cache::EXPIRE] = $this->configuration[self::CACHE_EXPIRATION];
+			$dependencies[Cache::TAGS] = [
+				'reports',
+				sprintf('report/%s', $this->configuration[self::CACHE_KEY]),
+				sprintf('report/%s/datasource', $this->configuration[self::CACHE_KEY]),
+			];
+
+			if (isset($this->configuration[self::CACHE_SLIDING])) {
+				$dependencies[Cache::SLIDING] = TRUE;
+			}
 
 			$innerResult = $this->inner->compile($parameters);
 
