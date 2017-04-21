@@ -19,6 +19,7 @@ class RandomDataSource implements DataSource
 	const TYPE_STRING = 'string';
 	const TYPE_DATE = 'date';
 	const TYPE_DATETIME = 'datetime';
+	const TYPE_EMAIL = 'email';
 
 	/** @var array */
 	protected $columns = [];
@@ -108,6 +109,17 @@ class RandomDataSource implements DataSource
 	}
 
 	/**
+	 * @param string $name
+	 * @return void
+	 */
+	public function addEmail($name)
+	{
+		$this->addColumn($name, [
+			'type' => self::TYPE_EMAIL,
+		]);
+	}
+
+	/**
 	 * @param int $rows
 	 * @return void
 	 */
@@ -167,6 +179,8 @@ class RandomDataSource implements DataSource
 				return (new DateTime())
 					->setTimestamp(mt_rand(1, time()))
 					->setFormat($column->format);
+			case self::TYPE_EMAIL:
+				return sprintf('%s@%s.%s', Random::generate(10), Random::generate(10), Random::generate(3, 'a-z'));
 			default:
 				throw new InvalidArgumentException(sprintf('Unsupported type "%s"', $column->type));
 		}
