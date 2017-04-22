@@ -168,7 +168,7 @@ class RandomDataSource implements DataSource
 			case self::TYPE_INT:
 				return Random::generate($column->length, '0-9');
 			case self::TYPE_STRING:
-				return Random::generate($column->length, 'a-zA-Z0-9\s');
+				return Random::generate($column->length, 'a-zA-Z0-9');
 			case self::TYPE_RANGE:
 				return mt_rand($column->range[0], $column->range[1]);
 			case self::TYPE_DATE:
