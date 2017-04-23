@@ -263,6 +263,11 @@ class ReportExtension extends CompilerExtension
 			}
 		}
 
+		// make files order environment independent
+		usort($files, function ($a, $b) {
+			return strcmp(pathinfo($a, PATHINFO_FILENAME), pathinfo($b, PATHINFO_FILENAME));
+		});
+
 		$this->loadReportsFromFiles($files);
 	}
 
