@@ -95,8 +95,8 @@ class CachedDataSource implements DataSource
 			$dependencies[Cache::EXPIRE] = $this->configuration[self::CACHE_EXPIRATION];
 			$dependencies[Cache::TAGS] = [
 				'reports',
-				sprintf('report/%s', $this->configuration[self::CACHE_KEY]),
-				sprintf('report/%s/datasource', $this->configuration[self::CACHE_KEY]),
+				sprintf('reports/%s', $this->configuration[self::CACHE_KEY]),
+				sprintf('reports/%s/datasource', $this->configuration[self::CACHE_KEY]),
 			];
 
 			if (isset($this->configuration[self::CACHE_SLIDING])) {
