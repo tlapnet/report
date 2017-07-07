@@ -64,7 +64,7 @@
       "phpunit --colors=always -c phpunit.xml"
     ],
     "phpunit-coverage": [
-      "phpunit --colors=always -c phpunit.xml --coverage-html tests/_coverage"
+      "phpunit --colors=always -c phpunit.xml --coverage-html tests/coverage"
     ],
     "phpstan": [
       "phpstan analyze --level 1 src tests"
