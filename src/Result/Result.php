@@ -108,7 +108,7 @@ class Result implements Countable, ArrayAccess, Resultable, Editable
 	 */
 
 	/**
-	 * @return Iterator
+	 * @return ArrayIterator
 	 */
 	public function getIterator()
 	{

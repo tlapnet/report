@@ -76,6 +76,67 @@ final class ResultTest extends BaseTestCase
 	}
 
 	/**
+	 * @covers Result::offsetGet
+	 * @covers Result::offsetSet
+	 * @covers Result::offsetExists
+	 * @covers Result::offsetUnset
+	 * @return void
+	 */
+	public function testArrayAccessExplicit()
+	{
+		$data = [1, 2, 3, 4, 5];
+		$r = new Result($data);
+
+		// offsetExists
+		for ($i = 0; $i < count($data); $i++) {
+			$this->assertTrue($r->offsetExists($i));
+		}
+		$this->assertFalse($r->offsetExists('foo'));
+
+		// offsetGet
+		for ($i = 0; $i < count($data); $i++) {
+			$this->assertEquals($r->offsetGet($i), $r[$i]);
+		}
+
+		// offsetUnset
+		$r->offsetUnset(0);
+		$this->assertFalse($r->offsetExists(0));
+
+		// offsetSet
+		$r->offsetSet(0, 1);
+		$this->assertTrue($r->offsetExists(0));
+		$this->assertEquals(1, $r->offsetGet(0));
+	}
+
+	/**
+	 * @covers Result::offsetGet
+	 * @return void
+	 */
+	public function testOffsetGetException()
+	{
+		$r = new Result([]);
+
+		$this->expectException(InvalidArgumentException::class);
+		$this->expectExceptionMessage('Key "fod" not found');
+
+		$r->offsetGet('fod');
+	}
+
+	/**
+	 * @covers Result::offsetGet
+	 * @return void
+	 */
+	public function testOffsetUnsetException()
+	{
+		$r = new Result([]);
+
+		$this->expectException(InvalidArgumentException::class);
+		$this->expectExceptionMessage('Key "fod" not found');
+
+		$r->offsetUnset('fod');
+	}
+
+	/**
 	 * @coversNothing
 	 * @return void
 	 */
