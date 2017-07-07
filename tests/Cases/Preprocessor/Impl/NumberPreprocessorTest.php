@@ -79,4 +79,17 @@ final class NumberPreprocessorTest extends BaseTestCase
 		$this->assertEquals('1-000-000.00', $p->preprocess(1000000));
 	}
 
+	/**
+	 * @covers NumberPreprocessor::preprocess
+	 * @return void
+	 */
+	public function testPreprocessorSuffix()
+	{
+		$p = new NumberPreprocessor();
+		$p->setThousandsPoint('-');
+		$p->setSuffix('CZK');
+		$this->assertEquals('0.00 CZK', $p->preprocess(0));
+		$this->assertEquals('1-000-000.00 CZK', $p->preprocess(1000000));
+	}
+
 }
