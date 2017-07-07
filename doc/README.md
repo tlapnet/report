@@ -67,24 +67,21 @@ Základní konfigurace může vypadat třeba takto.
 ```yaml
 params:
 	builder:
-		- addText({
-			name: ID
-			title: Identificator
-			options: {
-				placeholder: Some hint!
-			}
-		})
-		- addSelect({
-			name: States
-			title: State types
-			items: [POST, GET, DELETE]
-		})
-		- addSelect({
-			name: States
-			title: State types
-			useKeys: on
-			items: @report.fetcher.dibi::create('SELECT * FROM [states]')::fetchPairs('id', 'name')
-		})
+        - addText({
+            name: ID
+            title: Identificator
+            options: {
+                placeholder: "Do not use me, I'm useless."
+            }
+            defaultValue: Foobar
+        })
+        - addSelect({
+            name: uid
+            title: Unified ID
+            useKeys: off
+            prompt: "-- Pick type --"
+            items: [POST, GET, DELETE]
+        })
 ```
 
 Všechny specialní parametry jsou pod klíčem builder, protože pro svoje sestavení používají 
@@ -122,14 +119,16 @@ Vrací nám objekt `Result`, který v sobě má veškerá data potřebná k vykr
 Připravené implementace:
 
 - [ArrayDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/DataSources/ArrayDataSource.php)
+- [CachedDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/DataSources/CachedDataSource.php)
 - [CallbackDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/DataSources/CallbackDataSource.php)
 - [DevNullDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/DataSources/DevNullDataSource.php) (pro testování)
 - [DummyDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/DataSources/DummyDataSource.php) (pro testování)
 - [PdoDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/DataSources/PdoDataSource.php)
 - [RestDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/DataSources/RestDataSource.php) (@TODO)
 
-Nette bride:
+Nette bridde:
 
+- [RandomDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Nette/DataSources/RandomDataSource.php) (generátor dat)
 - [NetteDatabaseDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Nette/Database/DataSources/NetteDatabaseDataSource.php)
 - [NetteDatabaseWrapperDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Nette/Database/DataSources/NetteDatabaseWrapperDataSource.php) (obaluje nette database connection)
 - [MultiNetteDatabaseWrapperDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Nette/Database/DataSources/MultiNetteDatabaseWrapperDataSource.php) (obaluje nette database connection + obsahuje více sql dotazů)
@@ -159,6 +158,21 @@ Další specifický případ jsou multi-datasources. Používají se např. pro 
 
 Těchto n-sql dotazů se vykoná při kompilaci jak jsme zvyklí. Výsledkem je `MultiResult`, který akceptuje více `Result` objektů a umí s nimi pracovat jako by to bylo jednoduché pole. 
 
+### Random
+
+RandomDataSource je speciální data source, který nám umožní vygenerovat jakákoli potřebná data k testovacím účelům.
+
+```yaml
+datasource:
+    factory: Tlapnet\Report\Bridges\Nette\DataSource\RandomDataSource
+    setup:
+        - addRange(price, 1, 100000)
+        - addDate(date)
+        - addDateTime(datetime)
+        - addRange(count, 1, 100000)
+        - setRows(40)
+```
+
 ## Preprocessors
 
 Preprocessor implementuje metodu `preprocess`.
@@ -171,17 +185,28 @@ Preprocessor implementuje metodu `preprocess`.
 public function preprocess($data);
 ```
 
-Preprocessor se nasazuje na jednotlivý sloupeček dat/resultu. A aplikuje se
-na všechny výstkyty.
+Preprocessor se nasazuje na jednotlivý sloupeček dat/resultu. A aplikuje se na všechny výstkyty.
 
 Připravené implementace:
 
 - [AppendPreprocessor](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/AppendPreprocessor.php) (přidá nakonec)
+- [BooleanPreprocessor](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/BooleanPreprocessor.php) (zobrazuje Ano/Ne)
 - [CurrencyPreprocessor](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/CurrencyPreprocessor.php) (formátuje měnu)
 - [DatePreprocessor](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/DatePreprocessor.php) (formátuje čas)
 - [DevNullPreprocessor](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/DevNullPreprocessor.php) (pro testování)
 - [NumberPreprocessor](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/NumberPreprocessor.php) (formátuje číslo)
 - [PrependPreprocessor](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/PrependPreprocessor.php) (přidá na začátek)
+
+```yaml
+preprocessors:
+    price:
+        - Tlapnet\Report\Preprocessor\Impl\CurrencyPreprocessor('CZK')
+    date:
+        - Tlapnet\Report\Preprocessor\Impl\DatePreprocessor('Y/m/d')
+    count:
+        - Tlapnet\Report\Preprocessor\Impl\PrependPreprocessor('PREPEND-')
+        - Tlapnet\Report\Preprocessor\Impl\AppendPreprocessor('-APPEND')
+```
 
 ## Renderers
 
@@ -208,8 +233,45 @@ Připravené implementace:
 
 Nette bridge:
 
-- TableRenderer (sloupečky, řazení)
-- SimpleTableRenderer (sloupečky)
+- [ExtraTableRenderer](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Nette/Renderers/ExtraTable/ExtraTableRenderer.php) (sloupečky, řazení)
+- [SimpleTableRenderer](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Nette/Renderers/SimpleTable/SimpleTableRenderer.php) (sloupečky)
+- [VerticalTable](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Nette/Renderers/VerticalTable/VerticalTableRenderer.php) (vertikální, key => value)
+
+### Tables
+
+#### `ExtraTableRenderer`
+
+ExtraTable je speciální druh tabulky, která umí řadit sloupečky, odkazovat na presenter i mimo aplikaci, přidávat třídy a callbacky.
+
+```yaml
+renderer:
+    factory: Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\ExtraTableRenderer
+    setup:
+        # Sorting (default value is on/true, so you can skip it)
+        - setSortable(on)
+
+        # Columns
+        - "?->addColumn('price')->title('Price')->align('right')"(@self)
+        - "?->addColumn('date', 'Date')->type('date')"(@self)
+        - "?->addColumn('datetime')->type('datetime')->title('Time')"(@self)
+        - "?->addColumn('count')->title('Count')->sortable(FALSE)"(@self)
+```
+
+> `@self` je syntactic suger, který je potřeba.
+
+
+```yaml
+renderer:
+    factory: Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\ExtraTableRenderer
+    setup:
+        - "?->addColumn('foo')->title('Foo')->url('http://tlapnet.cz')"(@self)
+        - "?->addColumn('bar1')->title('Bar1')->link('Report:List:default')"(@self)
+        - "?->addColumn('bar2')->title('Bar2')->link('Report:List:default', ['args1' => '#foo'])"(@self)
+        - "?->addAction('baz1')->title('Baz1')->label('ACTION')->link('Report:List:default', ['args1' => '#foo'])"(@self)
+        - "?->addBlank('blank')->callback([?,?])"(@self, @report.renderer.callback, process )
+```
+
+> `@self` je syntactic suger, který je potřeba.
 
 ## Services
 
