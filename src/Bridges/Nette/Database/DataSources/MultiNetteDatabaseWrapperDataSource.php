@@ -12,6 +12,8 @@ use Tlapnet\Report\Result\Result;
 class MultiNetteDatabaseWrapperDataSource extends AbstractMultiDataSource
 {
 
+	use TNetteDatabaseDebugPanel;
+
 	/** @var Connection */
 	protected $connection;
 
@@ -34,6 +36,9 @@ class MultiNetteDatabaseWrapperDataSource extends AbstractMultiDataSource
 	 */
 	public function compile(Parameters $parameters)
 	{
+		// Debug panel
+		if ($this->tracyPanel) $this->createDebugPanel($this->connection);
+
 		// Create result
 		$result = new MultiResult();
 

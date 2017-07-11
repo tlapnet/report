@@ -4,15 +4,14 @@ namespace Tlapnet\Report\Bridges\Nette\Database\DataSources;
 
 use Nette\Database\Connection;
 use Nette\Database\DriverException;
-use Nette\Database\Helpers;
 use Tlapnet\Report\DataSources\AbstractDatabaseDataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
 use Tlapnet\Report\Parameters\Parameters;
-use Tlapnet\Report\Result\Result;
-use Tracy\Debugger;
 
 class NetteDatabaseWrapperDataSource extends AbstractDatabaseDataSource
 {
+
+	use TNetteDatabaseDebugPanel;
 
 	/** @var Connection */
 	protected $connection;
@@ -26,37 +25,19 @@ class NetteDatabaseWrapperDataSource extends AbstractDatabaseDataSource
 	}
 
 	/**
-	 * GETTERS / SETTERS *******************************************************
-	 */
-
-	/**
-	 * Show or hide tracy panel
-	 *
-	 * @param bool $show
-	 * @return void
-	 */
-	public function setTracyPanel($show)
-	{
-		if ($show === TRUE) {
-			if (class_exists(Debugger::class)) {
-				$this->connection->onConnect[] = function () {
-					Helpers::createDebugPanel($this->connection);
-				};
-			}
-		}
-	}
-
-	/**
 	 * COMPILING ***************************************************************
 	 */
 
 	/**
 	 * @param Parameters $parameters
-	 * @return Result
+	 * @return LazyResultSet
 	 * @throws SqlException
 	 */
 	public function compile(Parameters $parameters)
 	{
+		// Debug panel
+		if ($this->tracyPanel) $this->createDebugPanel($this->connection);
+
 		// Get SQL
 		$sql = $this->getRealSql($parameters);
 

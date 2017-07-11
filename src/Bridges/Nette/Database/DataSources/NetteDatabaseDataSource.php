@@ -4,36 +4,17 @@ namespace Tlapnet\Report\Bridges\Nette\Database\DataSources;
 
 use Nette\Database\Connection;
 use Nette\Database\DriverException;
-use Nette\Database\Helpers;
 use Tlapnet\Report\DataSources\AbstractDatabaseConnectionDataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
 use Tlapnet\Report\Parameters\Parameters;
-use Tlapnet\Report\Result\Result;
-use Tracy\Debugger;
 
 class NetteDatabaseDataSource extends AbstractDatabaseConnectionDataSource
 {
 
+	use TNetteDatabaseDebugPanel;
+
 	/** @var Connection */
 	protected $connection;
-
-	/** @var bool */
-	protected $tracyPanel = FALSE;
-
-	/**
-	 * GETTERS / SETTERS *******************************************************
-	 */
-
-	/**
-	 * Show or hide tracy panel
-	 *
-	 * @param bool $show
-	 * @return void
-	 */
-	public function setTracyPanel($show)
-	{
-		$this->tracyPanel = $show;
-	}
 
 	/**
 	 * API *********************************************************************
@@ -55,14 +36,6 @@ class NetteDatabaseDataSource extends AbstractDatabaseConnectionDataSource
 			$this->getConfig('password'),
 			$this->getConfig('options', ['lazy' => TRUE])
 		);
-
-		if ($this->tracyPanel === TRUE) {
-			if (class_exists(Debugger::class)) {
-				$this->connection->onConnect[] = function () {
-					Helpers::createDebugPanel($this->connection);
-				};
-			}
-		}
 	}
 
 	/**
@@ -71,13 +44,16 @@ class NetteDatabaseDataSource extends AbstractDatabaseConnectionDataSource
 
 	/**
 	 * @param Parameters $parameters
-	 * @return Result
+	 * @return LazyResultSet
 	 * @throws SqlException
 	 */
 	public function compile(Parameters $parameters)
 	{
 		// Connect to DB
 		if (!$this->connection) $this->connect();
+
+		// Debug panel
+		if ($this->tracyPanel) $this->createDebugPanel($this->connection);
 
 		// Get SQL
 		$sql = $this->getRealSql($parameters);
