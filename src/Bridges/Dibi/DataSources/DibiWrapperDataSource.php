@@ -7,10 +7,11 @@ use DibiException;
 use Tlapnet\Report\DataSources\AbstractDatabaseDataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
 use Tlapnet\Report\Parameters\Parameters;
-use Tlapnet\Report\Result\Result;
 
 class DibiWrapperDataSource extends AbstractDatabaseDataSource
 {
+
+	use TDibiDebugPanel;
 
 	/** @var DibiConnection */
 	protected $connection;
@@ -29,7 +30,7 @@ class DibiWrapperDataSource extends AbstractDatabaseDataSource
 
 	/**
 	 * @param Parameters $parameters
-	 * @return Result
+	 * @return LazyDibiResult
 	 * @throws SqlException
 	 */
 	public function compile(Parameters $parameters)
@@ -38,6 +39,9 @@ class DibiWrapperDataSource extends AbstractDatabaseDataSource
 		if (!$this->connection->isConnected()) {
 			$this->connection->connect();
 		}
+
+		// Debug panel
+		if ($this->tracyPanel) $this->createDebugPanel($this->connection);
 
 		// Get SQL
 		$sql = $this->getRealSql($parameters);
