@@ -15,14 +15,14 @@ $ compose require tlapnet/report
 
 ## Základní prvky
 
-- [Model - entity a služby](doc/model)
-- [Nette - použití v Nette](doc/fetcher)
-- [DataSources - zdroje dat](doc/datasources)
-- [Renderers - vykreslování (tabulky a grafy)](doc/renderers)
-- [Parameters - tvorba formuláře](doc/parameters)
-- [Preprocessors - dekorace dat](doc/preprocessors)
-- [Fetcher - získávání dat](doc/fetcher)
-- [Exports - exportování dat](doc/exports)
+- [Model - entity a služby](doc/model.md)
+- [Nette - použití v Nette](doc/fetcher.md)
+- [DataSources - zdroje dat](doc/datasources.md)
+- [Renderers - vykreslování (tabulky a grafy)](doc/renderers.md)
+- [Parameters - tvorba formuláře](doc/parameters.md)
+- [Preprocessors - dekorace dat](doc/preprocessors.md)
+- [Fetcher - získávání dat](doc/fetcher.md)
+- [Exports - exportování dat](doc/exports.md)
 
 ## Classdiagram
 
