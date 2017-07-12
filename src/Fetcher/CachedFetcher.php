@@ -20,13 +20,13 @@ class CachedFetcher implements Fetcher
 	private $configuration = [];
 
 	/**
-	 * @param IStorage $storage
 	 * @param Fetcher $inner
+	 * @param IStorage $storage
 	 */
-	public function __construct(IStorage $storage, Fetcher $inner)
+	public function __construct(Fetcher $inner, IStorage $storage)
 	{
-		$this->cache = new Cache($storage, CacheKeys::CACHE_FETCHER);
 		$this->inner = $inner;
+		$this->cache = new Cache($storage, CacheKeys::CACHE_FETCHER);
 	}
 
 	/**

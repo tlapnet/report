@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\Fetcher;
 
-final class FetcherCreator implements FetcherFactoryMethod
+class FetcherCreator implements FetcherFactoryMethod
 {
 
 	/** @var FetcherFactory */

@@ -55,7 +55,7 @@ class CachedFetcherFactory
 		}
 
 		$inner = $this->factory->create($sql);
-		$fetcher = new CachedFetcher($this->storage, $inner);
+		$fetcher = new CachedFetcher($inner, $this->storage);
 		$fetcher->setKey($this->configuration['key']);
 		$fetcher->setExpiration($this->configuration['expiration']);
 
