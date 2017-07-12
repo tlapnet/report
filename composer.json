@@ -17,18 +17,18 @@
     "php": ">=5.6"
   },
   "require-dev": {
-    "ninjify/qa": "^0.3.3",
+    "ninjify/qa": "^0.4.0",
     "mockery/mockery": "^0.9.9",
-    "phpunit/phpunit": "^5.3.0",
+    "phpunit/phpunit": "^5.7.9",
     "tlapnet/chart": "^1.0.0",
     "dibi/dibi": "^2.3.5",
-    "nette/di": "^2.4.7",
-    "nette/application": "^2.4.5",
-    "nette/forms": "^2.4.3",
+    "nette/di": "^2.4.8",
+    "nette/application": "^2.4.6",
+    "nette/forms": "^2.4.4",
     "nette/database": "^2.4.2",
     "nette/neon": "^2.4.1",
-    "latte/latte": "^2.4.3",
-    "tracy/tracy": "^2.4.6"
+    "latte/latte": "^2.4.4",
+    "tracy/tracy": "^2.4.7"
   },
   "suggest": {
     "dibi/dibi": "Allows use Dibi\\DataSource",
