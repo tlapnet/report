@@ -54,7 +54,7 @@ class CsvResponse implements UIResponse
 		$fp = fopen('php://output', 'w');
 		foreach ($this->payload as $line) {
 			// This method is thread-safe and setup appropriate delimiters
-			fputcsv($fp, $line);
+			fputcsv($fp, (array) $line);
 		}
 		fclose($fp);
 	}
