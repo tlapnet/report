@@ -4,6 +4,7 @@ namespace Tlapnet\Report\Subreport;
 
 use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
+use Tlapnet\Report\Export\Exportable;
 use Tlapnet\Report\Export\Exporter;
 use Tlapnet\Report\Export\Exporters;
 use Tlapnet\Report\Parameters\Parameters;
@@ -189,7 +190,7 @@ class Subreport implements Reportable
 	/**
 	 * @param string $name
 	 * @param array $options
-	 * @return mixed
+	 * @return Exportable
 	 */
 	public function export($name, array $options = [])
 	{
