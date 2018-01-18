@@ -2,7 +2,6 @@
 
 namespace Tlapnet\Report\Bridges\Nette\Components\Render;
 
-use Nette\Application\UI\ComponentReflection;
 use Nette\Application\UI\Control;
 use Tlapnet\Report\Bridges\Nette\Form\Form;
 use Tlapnet\Report\Bridges\Nette\Form\FormFactory;
@@ -106,12 +105,11 @@ class SubreportRenderControl extends Control
 
 	/**
 	 * @param array $params
-	 * @param ComponentReflection $reflection
 	 * @return void
 	 */
-	public function saveState(array &$params, $reflection = NULL)
+	public function saveState(array &$params)
 	{
-		parent::saveState($params, $reflection);
+		parent::saveState($params);
 
 		// Store params to component state
 		if ($this->parameters) {
