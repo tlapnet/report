@@ -1,12 +1,6 @@
 {
   "name": "tlapnet/report",
   "license": "proprietary",
-  "authors": [
-    {
-      "name": "Tlapnet",
-      "email": "webmaster@tlapnet.cz"
-    }
-  ],
   "repositories": [
     {
       "type": "composer",
@@ -19,16 +13,16 @@
   "require-dev": {
     "ninjify/qa": "^0.4.0",
     "mockery/mockery": "^0.9.9",
-    "phpunit/phpunit": "^5.7.9",
-    "tlapnet/chart": "^1.0.0",
-    "dibi/dibi": "^2.3.5",
-    "nette/di": "^2.4.10",
-    "nette/application": "^2.4.9",
-    "nette/forms": "^2.4.6",
-    "nette/database": "^2.4.4",
-    "nette/neon": "^2.4.2",
-    "latte/latte": "^2.4.6",
-    "tracy/tracy": "^2.4.10"
+    "phpunit/phpunit": "~5.7.9",
+    "tlapnet/chart": "~1.0.0",
+    "dibi/dibi": "~2.3.5",
+    "nette/di": "~2.4.10",
+    "nette/application": "~2.4.9",
+    "nette/forms": "~2.4.6",
+    "nette/database": "~2.4.4",
+    "nette/neon": "~2.4.2",
+    "latte/latte": "~2.4.6",
+    "tracy/tracy": "~2.4.10"
   },
   "suggest": {
     "dibi/dibi": "Allows use Dibi\\DataSource",
@@ -53,8 +47,6 @@
       "Tests\\Mocks\\": "tests/Mocks"
     }
   },
-  "prefer-stable": true,
-  "minimum-stability": "dev",
   "scripts": {
     "qa": [
       "linter src tests",
@@ -69,5 +61,12 @@
     "phpstan": [
       "phpstan analyze --level 1 src tests"
     ]
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "extra": {
+    "branch-alias": {
+      "dev-dev": "0.3.x-dev"
+    }
   }
 }
