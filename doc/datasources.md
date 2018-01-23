@@ -16,26 +16,26 @@ Vrací nám objekt `Result`, který v sobě má veškerá data potřebná k vykr
 
 Připravené implementace:
 
-- [ArrayDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/DataSources/ArrayDataSource.php)
-- [CachedDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/DataSources/CachedDataSource.php)
-- [CallbackDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/DataSources/CallbackDataSource.php)
-- [DevNullDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/DataSources/DevNullDataSource.php) (pro testování)
-- [DummyDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/DataSources/DummyDataSource.php) (pro testování)
-- [PdoDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/DataSources/PdoDataSource.php)
-- [RestDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/DataSources/RestDataSource.php) (@TODO)
+- [ArrayDataSource](https://git.ispa.cz/libs/report/blob/master/src/DataSources/ArrayDataSource.php)
+- [CachedDataSource](https://git.ispa.cz/libs/report/blob/master/src/DataSources/CachedDataSource.php)
+- [CallbackDataSource](https://git.ispa.cz/libs/report/blob/master/src/DataSources/CallbackDataSource.php)
+- [DevNullDataSource](https://git.ispa.cz/libs/report/blob/master/src/DataSources/DevNullDataSource.php) (pro testování)
+- [DummyDataSource](https://git.ispa.cz/libs/report/blob/master/src/DataSources/DummyDataSource.php) (pro testování)
+- [PdoDataSource](https://git.ispa.cz/libs/report/blob/master/src/DataSources/PdoDataSource.php)
+- [RestDataSource](https://git.ispa.cz/libs/report/blob/master/src/DataSources/RestDataSource.php) (@TODO)
 
 Nette bridde:
 
-- [RandomDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Nette/DataSources/RandomDataSource.php) (generátor dat)
-- [NetteDatabaseDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Nette/Database/DataSources/NetteDatabaseDataSource.php)
-- [NetteDatabaseWrapperDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Nette/Database/DataSources/NetteDatabaseWrapperDataSource.php) (obaluje nette database connection)
-- [MultiNetteDatabaseWrapperDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Nette/Database/DataSources/MultiNetteDatabaseWrapperDataSource.php) (obaluje nette database connection + obsahuje více sql dotazů)
+- [RandomDataSource](https://git.ispa.cz/libs/report/blob/master/src/Bridges/Nette/DataSources/RandomDataSource.php) (generátor dat)
+- [NetteDatabaseDataSource](https://git.ispa.cz/libs/report/blob/master/src/Bridges/Nette/Database/DataSources/NetteDatabaseDataSource.php)
+- [NetteDatabaseWrapperDataSource](https://git.ispa.cz/libs/report/blob/master/src/Bridges/Nette/Database/DataSources/NetteDatabaseWrapperDataSource.php) (obaluje nette database connection)
+- [MultiNetteDatabaseWrapperDataSource](https://git.ispa.cz/libs/report/blob/master/src/Bridges/Nette/Database/DataSources/MultiNetteDatabaseWrapperDataSource.php) (obaluje nette database connection + obsahuje více sql dotazů)
 
 Dibi bridge:
 
-- [DibiDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Dibi/DataSources/DibiDataSource.php)
-- [DibiWrapperDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Dibi/DataSources/DibiWrapperDataSource.php) (obaluje dibi connection)
-- [MultiDibiWrapperDataSource](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Dibi/DataSources/MultiDibiWrapperDataSource.php) (obaluje nette dibi connection + obsahuje více sql dotazů)
+- [DibiDataSource](https://git.ispa.cz/libs/report/blob/master/src/Bridges/Dibi/DataSources/DibiDataSource.php)
+- [DibiWrapperDataSource](https://git.ispa.cz/libs/report/blob/master/src/Bridges/Dibi/DataSources/DibiWrapperDataSource.php) (obaluje dibi connection)
+- [MultiDibiWrapperDataSource](https://git.ispa.cz/libs/report/blob/master/src/Bridges/Dibi/DataSources/MultiDibiWrapperDataSource.php) (obaluje nette dibi connection + obsahuje více sql dotazů)
 
 ## Database
 

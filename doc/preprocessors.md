@@ -26,7 +26,7 @@ preprocessors:
 
 ## Implementace
 
-### [`AppendPreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/AppendPreprocessor.php)
+### [`AppendPreprocessor`](https://git.ispa.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/AppendPreprocessor.php)
 
 > Přidá na konec.
 
@@ -36,7 +36,7 @@ preprocessors:
         - Tlapnet\Report\Preprocessor\Impl\AppendPreprocessor('$')
 ```
 
-### [`BooleanPreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/BooleanPreprocessor.php) 
+### [`BooleanPreprocessor`](https://git.ispa.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/BooleanPreprocessor.php) 
 
 > Zobrazí ano / ne.s
 
@@ -46,7 +46,7 @@ preprocessors:
         - Tlapnet\Report\Preprocessor\Impl\BooleanPreprocessor('Ano', 'Ne')
 ```
 
-### [`CurrencyPreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/CurrencyPreprocessor.php)
+### [`CurrencyPreprocessor`](https://git.ispa.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/CurrencyPreprocessor.php)
 
 > Formátuje měnu.
 
@@ -56,7 +56,7 @@ preprocessors:
             - Tlapnet\Report\Preprocessor\Impl\CurrencyPreprocessor('CZK')
 ```
 
-### [`DatePreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/DatePreprocessor.php)
+### [`DatePreprocessor`](https://git.ispa.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/DatePreprocessor.php)
 
 > Formátuje čas.
 
@@ -66,11 +66,11 @@ preprocessors:
         - Tlapnet\Report\Preprocessor\Impl\DatePreprocessor('Y/m/d')
 ```
 
-### [`DevNullPreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/DevNullPreprocessor.php)
+### [`DevNullPreprocessor`](https://git.ispa.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/DevNullPreprocessor.php)
 
 > Testovací účely.
 
-### [`EmailPreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Nette/Preprocessors/EmailPreprocessor.php)
+### [`EmailPreprocessor`](https://git.ispa.cz/libs/report/blob/master/src/Bridges/Nette/Preprocessors/EmailPreprocessor.php)
 
 > Naformátuje text jako email s odkazem.
 
@@ -80,7 +80,7 @@ preprocessors:
         - Tlapnet\Report\Bridges\Nette\Preprocessors\EmailPreprocessor
 ```
 
-### [`MathRatioPreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/MathRatioPreprocessor.php)
+### [`MathRatioPreprocessor`](https://git.ispa.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/MathRatioPreprocessor.php)
 
 > Zobrazuje poměr. Např. 0.3 se zobrazí jako 30 / 100.
 
@@ -90,7 +90,7 @@ preprocessors:
         - Tlapnet\Report\Preprocessor\Impl\MathRatioPreprocessor(100)
 ```
 
-### [`NumberPreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/NumberPreprocessor.php)
+### [`NumberPreprocessor`](https://git.ispa.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/NumberPreprocessor.php)
 
 > Formátuje číslo.
 
@@ -103,7 +103,7 @@ preprocessors:
           - setThousandsPoint('-')
 ```
 
-### [`PrependPreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/PrependPreprocessor.php)
+### [`PrependPreprocessor`](https://git.ispa.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/PrependPreprocessor.php)
 
 > Přidá na začátek.
 

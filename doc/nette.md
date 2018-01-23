@@ -137,8 +137,8 @@ report:
 
 Detailnější ukázky jsou v sample modulu u sample projektu.
 
-Hlavní konfigurační soubor [report.neon](https://git.tlapnet.cz/modules/sample-module/blob/master/config/report.neon).
-Jednotlivé [reporty na ukázku](https://git.tlapnet.cz/modules/sample-module/tree/master/config/reports/).
+Hlavní konfigurační soubor [report.neon](https://git.ispa.cz/modules/sample-module/blob/master/config/report.neon).
+Jednotlivé [reporty na ukázku](https://git.ispa.cz/modules/sample-module/tree/master/config/reports/).
 
 Testovací ukázková konfigurace, se všemi možnostmi.
 

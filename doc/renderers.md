@@ -16,18 +16,18 @@ Renderer nám vykreslí data do určité grafické podoby (tabulka, graf, apod.)
 
 Připravené implementace:
 
-- [CallbackRenderer](https://git.tlapnet.cz/libs/report/blob/master/src/Renderers/CallbackRenderer.php)
-- [CsvRenderer](https://git.tlapnet.cz/libs/report/blob/master/src/Renderers/CsvRenderer.php)
-- [DevNullRenderer](https://git.tlapnet.cz/libs/report/blob/master/src/Renderers/DevNullRenderer.php) (pro testování)
-- [DummyRenderer](https://git.tlapnet.cz/libs/report/blob/master/src/Renderers/DummyRenderer.php) (pro testování)
-- [JsonRenderer](https://git.tlapnet.cz/libs/report/blob/master/src/Renderers/JsonRenderer.php)
-- [TableRenderer](https://git.tlapnet.cz/libs/report/blob/master/src/Renderers/TableRenderer.php)
+- [CallbackRenderer](https://git.ispa.cz/libs/report/blob/master/src/Renderers/CallbackRenderer.php)
+- [CsvRenderer](https://git.ispa.cz/libs/report/blob/master/src/Renderers/CsvRenderer.php)
+- [DevNullRenderer](https://git.ispa.cz/libs/report/blob/master/src/Renderers/DevNullRenderer.php) (pro testování)
+- [DummyRenderer](https://git.ispa.cz/libs/report/blob/master/src/Renderers/DummyRenderer.php) (pro testování)
+- [JsonRenderer](https://git.ispa.cz/libs/report/blob/master/src/Renderers/JsonRenderer.php)
+- [TableRenderer](https://git.ispa.cz/libs/report/blob/master/src/Renderers/TableRenderer.php)
 
 Nette bridge:
 
-- [ExtraTableRenderer](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Nette/Renderers/ExtraTable/ExtraTableRenderer.php) (obsahuje sloupečky, řazení)
-- [SimpleTableRenderer](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Nette/Renderers/SimpleTable/SimpleTableRenderer.php) (obsahuje sloupečky)
-- [VerticalTableRenderer](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Nette/Renderers/VerticalTable/VerticalTableRenderer.php) (vertikální, key => value)
+- [ExtraTableRenderer](https://git.ispa.cz/libs/report/blob/master/src/Bridges/Nette/Renderers/ExtraTable/ExtraTableRenderer.php) (obsahuje sloupečky, řazení)
+- [SimpleTableRenderer](https://git.ispa.cz/libs/report/blob/master/src/Bridges/Nette/Renderers/SimpleTable/SimpleTableRenderer.php) (obsahuje sloupečky)
+- [VerticalTableRenderer](https://git.ispa.cz/libs/report/blob/master/src/Bridges/Nette/Renderers/VerticalTable/VerticalTableRenderer.php) (vertikální, key => value)
 
 ## Tables
 
