@@ -12,32 +12,104 @@ public function preprocess($data);
 
 Preprocessor se nasazuje na jednotlivý sloupeček dat/resultu. A aplikuje se na všechny výstkyty.
 
+## Použití
+
+Do sekce `preprocessors` se uvede `<key>`, který odpovídá sloupci a pole preprocesorů. Jednotlivé preprocesory 
+lze zřetězit za sebe.
+
+```yaml
+preprocessors:
+    <key>:
+        - Tlapnet\Report\Preprocessor\Impl\AppendPreprocessor('$')
+        - Tlapnet\Report\Preprocessor\Impl\PrependPreprocessor('@')
+```
+
 ## Implementace
 
-Připravené implementace:
+### [`AppendPreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/AppendPreprocessor.php)
 
-- [AppendPreprocessor](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/AppendPreprocessor.php) (přidá nakonec)
-- [BooleanPreprocessor](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/BooleanPreprocessor.php) (zobrazuje Ano/Ne)
-- [CurrencyPreprocessor](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/CurrencyPreprocessor.php) (formátuje měnu)
-- [DatePreprocessor](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/DatePreprocessor.php) (formátuje čas)
-- [DevNullPreprocessor](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/DevNullPreprocessor.php) (pro testování)
-- [NumberPreprocessor](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/NumberPreprocessor.php) (formátuje číslo)
-- [PrependPreprocessor](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/PrependPreprocessor.php) (přidá na začátek)
+> Přidá na konec.
+
+```yaml
+preprocessors:
+    count:
+        - Tlapnet\Report\Preprocessor\Impl\AppendPreprocessor('$')
+```
+
+### [`BooleanPreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/BooleanPreprocessor.php) 
+
+> Zobrazí ano / ne.s
+
+```yaml
+preprocessors:
+    paid:
+        - Tlapnet\Report\Preprocessor\Impl\BooleanPreprocessor('Ano', 'Ne')
+```
+
+### [`CurrencyPreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/CurrencyPreprocessor.php)
+
+> Formátuje měnu.
 
 ```yaml
 preprocessors:
     price:
-        - Tlapnet\Report\Preprocessor\Impl\CurrencyPreprocessor('CZK')
+            - Tlapnet\Report\Preprocessor\Impl\CurrencyPreprocessor('CZK')
+```
+
+### [`DatePreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/DatePreprocessor.php)
+
+> Formátuje čas.
+
+```yaml
+preprocessors:
     date:
         - Tlapnet\Report\Preprocessor\Impl\DatePreprocessor('Y/m/d')
-    paid:
-        - Tlapnet\Report\Preprocessor\Impl\BooleanPreprocessor('Ano', 'Ne
+```
+
+### [`DevNullPreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/DevNullPreprocessor.php)
+
+> Testovací účely.
+
+### [`EmailPreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Bridges/Nette/Preprocessors/EmailPreprocessor.php)
+
+> Naformátuje text jako email s odkazem.
+
+```yaml
+preprocessors:
+    email:
+        - Tlapnet\Report\Bridges\Nette\Preprocessors\EmailPreprocessor
+```
+
+### [`MathRatioPreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/MathRatioPreprocessor.php)
+
+> Zobrazuje poměr. Např. 0.3 se zobrazí jako 30 / 100.
+
+```yaml
+preprocessors:
+    total:
+        - Tlapnet\Report\Preprocessor\Impl\MathRatioPreprocessor(100)
+```
+
+### [`NumberPreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/NumberPreprocessor.php)
+
+> Formátuje číslo.
+
+```yaml
+preprocessors:
     size:
-        class: Tlapnet\Report\Preprocessor\Impl\NumberPreprocessor('Ano', 'Ne')
+        class: Tlapnet\Report\Preprocessor\Impl\NumberPreprocessor
         setup:
           - setDecimalPoint(',')
           - setThousandsPoint('-')
-    count:
-        - Tlapnet\Report\Preprocessor\Impl\PrependPreprocessor('PREPEND-')
-        - Tlapnet\Report\Preprocessor\Impl\AppendPreprocessor('-APPEND')
 ```
+
+### [`PrependPreprocessor`](https://git.tlapnet.cz/libs/report/blob/master/src/Model/Preprocessor/Impl/PrependPreprocessor.php)
+
+> Přidá na začátek.
+
+```yaml
+preprocessors:
+    count:
+        - Tlapnet\Report\Preprocessor\Impl\PrependPreprocessor('@')
+```
+

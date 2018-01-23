@@ -15,6 +15,7 @@ class RandomDataSource implements DataSource
 
 	// Types
 	const TYPE_INT = 'int';
+	const TYPE_FLOAT = 'float';
 	const TYPE_RANGE = 'range';
 	const TYPE_STRING = 'string';
 	const TYPE_DATE = 'date';
@@ -64,6 +65,19 @@ class RandomDataSource implements DataSource
 	{
 		$this->addColumn($name, [
 			'type' => self::TYPE_INT,
+			'length' => $length,
+		]);
+	}
+
+	/**
+	 * @param string $name
+	 * @param int $length
+	 * @return void
+	 */
+	public function addFloat($name, $length = 10)
+	{
+		$this->addColumn($name, [
+			'type' => self::TYPE_FLOAT,
 			'length' => $length,
 		]);
 	}
@@ -167,6 +181,8 @@ class RandomDataSource implements DataSource
 		switch ($column->type) {
 			case self::TYPE_INT:
 				return Random::generate($column->length, '0-9');
+			case self::TYPE_FLOAT:
+				return mt_rand() / mt_getrandmax();
 			case self::TYPE_STRING:
 				return Random::generate($column->length, 'a-zA-Z0-9');
 			case self::TYPE_RANGE:
