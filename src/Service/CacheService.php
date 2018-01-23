@@ -3,6 +3,7 @@
 namespace Tlapnet\Report\Service;
 
 use Tlapnet\Report\DataSources\CachedDataSource;
+use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 use Tlapnet\Report\Result\Resultable;
 use Tlapnet\Report\Subreport\Subreport;
 
@@ -21,8 +22,7 @@ class CacheService
 	}
 
 	/**
-	 * Returns array of subreports which have cached datasource.
-	 * All lazy-loaded.
+	 * Returns array of subreports which have cached datasource. All lazy-loaded.
 	 *
 	 * @return array
 	 */
@@ -37,7 +37,9 @@ class CacheService
 				foreach ($introspect as $item) {
 					if ($item->tags['services']['subreport'] === $value) {
 						$output[] = [
-							'name' => $item->rid . '.' . $item->sid,
+							'id' => $item->rid . '.' . $item->sid,
+							'report_id' => $item->rid,
+							'subreport_id' => $item->sid,
 							'report' => $item->tags['services']['report'],
 							'subreport' => $item->tags['services']['subreport'],
 							'key' => $item->tags['services']['subreport'],
@@ -54,18 +56,18 @@ class CacheService
 	/**
 	 * Warmup subreport cache
 	 *
-	 * - datasource
-	 *
 	 * @param string $subreport
 	 * @return Resultable
 	 */
-	public function warmup($subreport)
+	public function warmupSubreport($subreport)
 	{
-		/** @var Subreport $subreport */
 		$subreport = $this->introspection->getService($subreport);
-		$parameters = $subreport->getParameters();
 
-		return $subreport->getDataSource()->compile($parameters);
+		if (!($subreport instanceof Subreport)) {
+			throw new InvalidStateException(sprintf('Service "%s" is not subreport', get_class($subreport)));
+		}
+
+		return $subreport->getDataSource()->compile($subreport->getParameters());
 	}
 
 }
