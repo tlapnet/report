@@ -2,7 +2,7 @@
 
 Skrze parametry lze upravovat výstup z datasource. Např. upravovat jeho SQL dotaz.
 
-Všechny parametry jsou pod klíčem builder, protože pro svoje sestavení používají 
+Všechny parametry jsou pod klíčem `builder`, protože pro svoje sestavení používají 
 `ParametersBuilder`.
 
 ```yaml
@@ -13,12 +13,17 @@ params:
         - inputN
 ```
 
+## Builder
+
+`ParametersBuilder` vytvoří pole parametrů dle zadaných konfigurací a předá ho do subreportu.
+Při vykreslování subreportu se pak ověřuje, zda-li existují nějaké parametry a je případně
+vykreslen formulář.
+
+Formulář je defaulně nevyplněný a input nejsou povinné. Při odeslání formuláře bez dat se nic neprovede,
+až pokud se vyplnít alespoň 1 input / parameter. Výsledný vyhledávací dotaz se uloží do URL. Je tedy možné
+odeslat link a dotyčnému se zobrazí stejný výstup.
+
 ## Inputy
-
-`ParametersBuilder` podporuje tyto typy parametrů:
-
-- text
-- select
 
 ### Text
 
@@ -52,11 +57,3 @@ params:
             autopick: true / false # Pick first option
         })
 ```
-
-`ParametersBuilder` vytvoří pole parametrů dle zadaných konfigurací a předá ho do subreportu.
-Při vykreslování subreportu se pak ověřuje, zda-li existují nějaké parametry a je případně
-vykreslen formulář.
-
-Formulář je defaulně nevyplněný a input nejsou povinné. Při odeslání formuláře bez dat se nic neprovede,
-až pokud se vyplnít alespoň 1 input / parameter. Výsledný vyhledávací dotaz se uloží do URL a je tedy možné,
-odeslat link a dotyčnému by se měl zobrazit stejný výstup.

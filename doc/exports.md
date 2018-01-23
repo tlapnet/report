@@ -4,22 +4,26 @@ Každý subreport lze vyexportovat do zadaného formátu.
 
 ## Konfigurace
 
-Lze konfigurovat N exportů, kde každému můžeme dodatečně dodefinovat atributy.
+Lze nakonfigurovat N exportů a ke každému dodatečně upravovat atributy.
 
-Atributy:
+| Atribut  | Default               | Description               |
+|----------|-----------------------|---------------------------|
+| title    | `name`                | Nápis na tlačítku.        |
+| download | `FALSE`               | Vynucení stažení souboru. |
+| class    | `btn btn-success`     | Třída na tlačítku.        |
+| icon     | `icon-cloud-download` | Ikona na tlačítku.        |
 
-- title
-- download
-- class
-- icon
+### Použití
 
 ```yaml
 report:
     exports:
         json1:
             class: Tlapnet\Report\Export\Impl\JsonExporter
+
         csv1:
             class: Tlapnet\Report\Export\Impl\CsvExporter
+        
         json2:
             class: Tlapnet\Report\Export\Impl\JsonExporter
             setup:

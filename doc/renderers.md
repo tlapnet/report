@@ -20,7 +20,7 @@ Připravené implementace:
 - [CsvRenderer](https://git.ispa.cz/libs/report/blob/master/src/Renderers/CsvRenderer.php)
 - [DevNullRenderer](https://git.ispa.cz/libs/report/blob/master/src/Renderers/DevNullRenderer.php) (pro testování)
 - [DummyRenderer](https://git.ispa.cz/libs/report/blob/master/src/Renderers/DummyRenderer.php) (pro testování)
-- [JsonRenderer](https://git.ispa.cz/libs/report/blob/master/src/Renderers/JsonRenderer.php)
+- [JsonRenderer](https://git.ispa.cz/libs/report/blob/master/src/Renderers/JsonRenderer.php) (pro testování)
 - [TableRenderer](https://git.ispa.cz/libs/report/blob/master/src/Renderers/TableRenderer.php)
 
 Nette bridge:
@@ -29,9 +29,63 @@ Nette bridge:
 - [SimpleTableRenderer](https://git.ispa.cz/libs/report/blob/master/src/Bridges/Nette/Renderers/SimpleTable/SimpleTableRenderer.php) (obsahuje sloupečky)
 - [VerticalTableRenderer](https://git.ispa.cz/libs/report/blob/master/src/Bridges/Nette/Renderers/VerticalTable/VerticalTableRenderer.php) (vertikální, key => value)
 
-## Tables
+### `CallbackRenderer`
 
-### SimpleTableRenderer
+> Při vykreslení zavolá callback.
+
+```yaml
+renderer:
+    factory: Tlapnet\Report\Renderers\CallbackRenderer(callback)
+```
+
+### `CsvRenderer`
+
+> Vykreslí data jako CSV. Názvy sloupců použije jako header.
+
+```yaml
+renderer:
+    factory: Tlapnet\Report\Renderers\CsvRenderer
+```
+
+### `DevNullRenderer`
+
+> Neudělá nic.
+
+```yaml
+renderer:
+    factory: Tlapnet\Report\Renderers\DevNullRenderer
+```
+
+### `DummyRenderer`
+
+> Vypíše data.
+
+```yaml
+renderer:
+    factory: Tlapnet\Report\Renderers\DummyRenderer
+```
+
+### `JsonRenderer`
+
+> Vykreslí data jako JSON.
+
+```yaml
+renderer:
+    factory: Tlapnet\Report\Renderers\JsonRenderer
+```
+
+### `TableRenderer`
+
+> Vykreslí data jako prostou tabulku. Názvy sloupců použije jako header.
+
+```yaml
+renderer:
+    factory: Tlapnet\Report\Renderers\TableRenderer
+```
+
+### `SimpleTableRenderer`
+
+> Vykreslí data jako tabulku. Lze definovat a pojmenovat sloupce.
 
 Nejjednodušší forma tabulky.
 
@@ -43,7 +97,9 @@ renderer:
         - addColumn("module", "Module")
 ```
 
-### ExtraTableRenderer
+### `ExtraTableRenderer`
+
+> Vykreslí data jako tabulku. Lze definovat a pojmenovat sloupce, řazení, odkazy apod.
 
 ExtraTable je speciální druh tabulky, který umí řadit podle sloupce, odkazovat na presenter i mimo aplikaci, přidávat třídy a callbacky.
 
@@ -77,7 +133,9 @@ renderer:
 
 > `@self` je syntactic suger, který je potřeba.
 
-### VerticalTableRenderer
+### `VerticalTableRenderer`
+
+> Vykreslí data jako key => value tabulku.
 
 Vertikální, též zvaná `key` => `value`, tabulka potřebuje speciální zdroj dat `Multi<>DataSource`.
 
