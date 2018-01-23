@@ -31,6 +31,7 @@ class ParametersResult extends Result
 
 	/**
 	 * @param Parameters $parameters
+	 * @return void
 	 */
 	public function setParameters(Parameters $parameters)
 	{

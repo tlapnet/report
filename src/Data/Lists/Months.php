@@ -42,5 +42,3 @@ class Months extends AbstractList
 	}
 
 }
-
-

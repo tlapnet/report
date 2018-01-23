@@ -55,6 +55,7 @@ abstract class AbstractList
 			foreach ($that->filters as $filter) {
 				$data = array_map($filter, $data);
 			}
+			$that->filters = [];
 		}
 
 		return $data;
