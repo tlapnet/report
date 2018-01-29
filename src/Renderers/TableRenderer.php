@@ -17,6 +17,11 @@ class TableRenderer implements Renderer
 		// Fetch data
 		$data = $result->getData();
 
+		// Do we have any data?
+		if (!$data) {
+			return Html::el('div')->setText('No data found');
+		}
+
 		// Create root element
 		$table = Html::el('table')
 			->addAttributes(['class' => 'table']);
