@@ -34,7 +34,7 @@ class DateChartRenderer extends SeriesChartRenderer
 	}
 
 	/**
-	 * RENDERERING *************************************************************
+	 * RENDERING ***************************************************************
 	 */
 
 	/**
