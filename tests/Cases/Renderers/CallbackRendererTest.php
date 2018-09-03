@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Renderers;
 
@@ -9,11 +9,7 @@ use Tlapnet\Report\Result\Result;
 final class CallbackRendererTest extends BaseTestCase
 {
 
-	/**
-	 * @covers CallbackRenderer::render
-	 * @return void
-	 */
-	public function testDefault()
+	public function testDefault(): void
 	{
 		$result = new Result([]);
 		$r = new CallbackRenderer(function (Result $inner) use ($result) {

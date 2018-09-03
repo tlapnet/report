@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Subreport;
 
@@ -15,11 +15,7 @@ use Tlapnet\Report\Utils\Metadata;
 final class SubreportBuilderTest extends BaseTestCase
 {
 
-	/**
-	 * @covers SubreportBuilder::build
-	 * @return void
-	 */
-	public function testMissingSid()
+	public function testMissingSid(): void
 	{
 		$this->expectException(InvalidStateException::class);
 		$this->expectExceptionMessage("Missing 'sid'. Please call setSid()");
@@ -28,12 +24,7 @@ final class SubreportBuilderTest extends BaseTestCase
 		$builder->build();
 	}
 
-	/**
-	 * @covers SubreportBuilder::setSid
-	 * @covers SubreportBuilder::build
-	 * @return void
-	 */
-	public function testMissingParameters()
+	public function testMissingParameters(): void
 	{
 		$this->expectException(InvalidStateException::class);
 		$this->expectExceptionMessage("Missing 'parameters'. Please call setParameters()");
@@ -43,13 +34,7 @@ final class SubreportBuilderTest extends BaseTestCase
 		$builder->build();
 	}
 
-	/**
-	 * @covers SubreportBuilder::setSid
-	 * @covers SubreportBuilder::setParameters
-	 * @covers SubreportBuilder::build
-	 * @return void
-	 */
-	public function testMissingDataSource()
+	public function testMissingDataSource(): void
 	{
 		$this->expectException(InvalidStateException::class);
 		$this->expectExceptionMessage("Missing 'dataSource'. Please call setDataSource()");
@@ -60,14 +45,7 @@ final class SubreportBuilderTest extends BaseTestCase
 		$builder->build();
 	}
 
-	/**
-	 * @covers SubreportBuilder::setSid
-	 * @covers SubreportBuilder::setParameters
-	 * @covers SubreportBuilder::setDataSource
-	 * @covers SubreportBuilder::build
-	 * @return void
-	 */
-	public function testMissingRenderer()
+	public function testMissingRenderer(): void
 	{
 		$this->expectException(InvalidStateException::class);
 		$this->expectExceptionMessage("Missing 'renderer'. Please call setRenderer()");
@@ -79,15 +57,7 @@ final class SubreportBuilderTest extends BaseTestCase
 		$builder->build();
 	}
 
-	/**
-	 * @covers SubreportBuilder::setSid
-	 * @covers SubreportBuilder::setParameters
-	 * @covers SubreportBuilder::setDataSource
-	 * @covers SubreportBuilder::setRenderer
-	 * @covers SubreportBuilder::build
-	 * @return void
-	 */
-	public function testOk()
+	public function testOk(): void
 	{
 		$builder = new SubreportBuilder();
 		$builder->setSid('b1');
@@ -98,16 +68,7 @@ final class SubreportBuilderTest extends BaseTestCase
 		$this->assertTrue(is_subclass_of($builder->build(), Subreport::class));
 	}
 
-	/**
-	 * @covers SubreportBuilder::setSid
-	 * @covers SubreportBuilder::setParameters
-	 * @covers SubreportBuilder::setDataSource
-	 * @covers SubreportBuilder::setRenderer
-	 * @covers SubreportBuilder::setMetadata
-	 * @covers SubreportBuilder::build
-	 * @return void
-	 */
-	public function testMetadata()
+	public function testMetadata(): void
 	{
 		$builder = new SubreportBuilder();
 		$builder->setSid('b1');
@@ -120,17 +81,7 @@ final class SubreportBuilderTest extends BaseTestCase
 		$this->assertSame($metadata, $result->getMetadata());
 	}
 
-	/**
-	 * @covers SubreportBuilder::setSid
-	 * @covers SubreportBuilder::setParameters
-	 * @covers SubreportBuilder::setDataSource
-	 * @covers SubreportBuilder::setRenderer
-	 * @covers SubreportBuilder::setMetadata
-	 * @covers SubreportBuilder::setPreprocessors
-	 * @covers SubreportBuilder::build
-	 * @return void
-	 */
-	public function testPreprocessors()
+	public function testPreprocessors(): void
 	{
 		$builder = new SubreportBuilder();
 		$builder->setSid('b1');

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Parameters\Impl;
 
@@ -9,13 +9,13 @@ abstract class Parameter
 {
 
 	// Types
-	const TYPE_TEXT = 'text';
-	const TYPE_SELECT = 'select';
+	public const TYPE_TEXT = 'text';
+	public const TYPE_SELECT = 'select';
 
 	/** @var string */
 	protected $type;
 
-	/** @var string */
+	/** @var string|null */
 	protected $title;
 
 	/** @var mixed */
@@ -27,69 +27,41 @@ abstract class Parameter
 	/** @var mixed */
 	protected $defaultValue;
 
-	/** @var array */
+	/** @var mixed[] */
 	protected $options = [];
 
 	/** @var string */
 	private $name;
 
-	/**
-	 * @param string $name
-	 * @param string $type
-	 */
-	public function __construct($name, $type)
+	public function __construct(string $name, string $type)
 	{
 		$this->name = $name;
 		$this->type = $type;
 	}
 
-	/**
-	 * ABSTRACT ****************************************************************
-	 */
-
-	/**
-	 * @return bool
-	 */
-	abstract public function canProvide();
+	abstract public function canProvide(): bool;
 
 	/**
 	 * @return mixed
 	 */
 	abstract public function getProvidedValue();
 
-	/**
-	 * GETTERS / SETTERS *******************************************************
-	 */
-
-	/**
-	 * @return string
-	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getType()
+	public function getType(): string
 	{
 		return $this->type;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getTitle()
+	public function getTitle(): ?string
 	{
 		return $this->title;
 	}
 
-	/**
-	 * @param string $title
-	 * @return void
-	 */
-	public function setTitle($title)
+	public function setTitle(string $title): void
 	{
 		$this->title = $title;
 	}
@@ -104,31 +76,29 @@ abstract class Parameter
 
 	/**
 	 * @param mixed $value
-	 * @return void
 	 */
-	public function setValue($value)
+	public function setValue($value): void
 	{
 		// Store original value
 		$this->rawValue = $value;
 
-		// Remove spaces
-		$value = trim($value);
+		if (is_string($value)) {
+			// Remove spaces
+			$value = trim($value);
 
-		// Escape possible invalid data
-		$value = htmlspecialchars($value);
+			// Escape possible invalid data
+			$value = htmlspecialchars($value);
+		}
 
-		// Set only non-null and non-empty values
-		if (strlen($value) > 0 && $value !== NULL) {
+		// Set only non-empty values
+		if (!in_array($value, ['', []], true)) {
 			$this->value = $value;
 		}
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function hasValue()
+	public function hasValue(): bool
 	{
-		return !empty($this->value) && $this->value !== NULL;
+		return $this->value !== null;
 	}
 
 	/**
@@ -149,26 +119,21 @@ abstract class Parameter
 
 	/**
 	 * @param mixed $value
-	 * @return void
 	 */
-	public function setDefaultValue($value)
+	public function setDefaultValue($value): void
 	{
 		$this->defaultValue = $value;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function hasDefaultValue()
+	public function hasDefaultValue(): bool
 	{
-		return $this->defaultValue !== NULL;
+		return $this->defaultValue !== null;
 	}
 
 	/**
-	 * @param string $key
 	 * @return mixed
 	 */
-	public function getOption($key)
+	public function getOption(string $key)
 	{
 		if (isset($this->options[$key])) {
 			return $this->options[$key];
@@ -178,30 +143,23 @@ abstract class Parameter
 		throw new InvalidArgumentException(Suggestions::format(sprintf('Unknown option "%s"', $key), $hint));
 	}
 
-	/**
-	 * @param string $key
-	 * @return bool
-	 */
-	public function hasOption($key)
+	public function hasOption(string $key): bool
 	{
 		return isset($this->options[$key]);
 	}
 
 	/**
-	 * @param string $key
 	 * @param mixed $value
-	 * @return void
 	 */
-	public function setOption($key, $value)
+	public function setOption(string $key, $value): void
 	{
 		$this->options[$key] = $value;
 	}
 
 	/**
-	 * @param array $options
-	 * @return void
+	 * @param mixed[] $options
 	 */
-	public function setOptions(array $options)
+	public function setOptions(array $options): void
 	{
 		$this->options = $options;
 	}

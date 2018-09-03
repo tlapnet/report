@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\Form;
 
@@ -17,23 +17,12 @@ class FormFactory
 	/** @var Parameters */
 	private $parameters;
 
-	/**
-	 * @param Parameters $parameters
-	 */
 	public function __construct(Parameters $parameters)
 	{
 		$this->parameters = $parameters;
 	}
 
-	/**
-	 * PARTS *******************************************************************
-	 */
-
-	/**
-	 * @param TextParameter $parameter
-	 * @return TextInput
-	 */
-	protected function addText(TextParameter $parameter)
+	protected function addText(TextParameter $parameter): TextInput
 	{
 		// Create input
 		$input = new TextInput($parameter->getTitle());
@@ -44,11 +33,7 @@ class FormFactory
 		return $input;
 	}
 
-	/**
-	 * @param SelectParameter $parameter
-	 * @return SelectBox
-	 */
-	protected function addSelect(SelectParameter $parameter)
+	protected function addSelect(SelectParameter $parameter): SelectBox
 	{
 		// Create input
 		$input = new SelectBox($parameter->getTitle());
@@ -57,7 +42,7 @@ class FormFactory
 		$input->setItems($parameter->getItems(), $parameter->isUseKeys());
 
 		// Select -> prompt
-		if ($parameter->getPrompt() !== NULL) {
+		if ($parameter->getPrompt() !== null) {
 			$input->setPrompt($parameter->getPrompt());
 		}
 
@@ -67,15 +52,10 @@ class FormFactory
 		return $input;
 	}
 
-	/**
-	 * @param BaseControl $input
-	 * @param Parameter $parameter
-	 * @return void
-	 */
-	protected function decorate(BaseControl $input, Parameter $parameter)
+	protected function decorate(BaseControl $input, Parameter $parameter): void
 	{
 		// Default value
-		if ($parameter->getDefaultValue() !== NULL) {
+		if ($parameter->getDefaultValue() !== null) {
 			$input->setDefaultValue($parameter->getDefaultValue());
 		}
 
@@ -85,14 +65,7 @@ class FormFactory
 		}
 	}
 
-	/**
-	 * API *********************************************************************
-	 */
-
-	/**
-	 * @return Form
-	 */
-	public function create()
+	public function create(): Form
 	{
 		$form = new Form();
 

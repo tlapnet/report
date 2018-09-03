@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Parameters\Impl;
 
@@ -9,36 +9,26 @@ use Tlapnet\Report\Utils\Arrays;
 final class SelectParameter extends Parameter
 {
 
-	/** @var array */
+	/** @var mixed[] */
 	private $items = [];
 
 	/** @var bool */
-	private $useKeys = TRUE;
+	private $useKeys = true;
 
-	/** @var bool|null */
-	private $autoPick;
+	/** @var bool */
+	private $autoPick = false;
 
-	/** @var string */
+	/** @var string|null */
 	private $prompt;
 
-	/**
-	 * @param string $name
-	 */
-	public function __construct($name)
+	public function __construct(string $name)
 	{
 		parent::__construct($name, Parameter::TYPE_SELECT);
 	}
 
-	/**
-	 * ABSTRACT ****************************************************************
-	 */
-
-	/**
-	 * @return bool
-	 */
-	public function canProvide()
+	public function canProvide(): bool
 	{
-		return $this->hasValue() || $this->hasDefaultValue() || $this->getAutoPick() === TRUE;
+		return $this->hasValue() || $this->hasDefaultValue() || $this->getAutoPick() === true;
 	}
 
 	/**
@@ -46,43 +36,37 @@ final class SelectParameter extends Parameter
 	 */
 	public function getProvidedValue()
 	{
-		if ($this->value) return $this->value;
-		if ($this->defaultValue) return $this->defaultValue;
+		if ($this->value !== null) return $this->value;
+		if ($this->defaultValue !== null) return $this->defaultValue;
 		if ($this->autoPick) return Arrays::shift($this->items);
 
 		throw new InvalidStateException('Cannot provide value');
 	}
 
 	/**
-	 * GETTERS / SETTERS *******************************************************
+	 * @return mixed[]
 	 */
-
-	/**
-	 * @return array
-	 */
-	public function getItems()
+	public function getItems(): array
 	{
 		return $this->items;
 	}
 
 	/**
-	 * @param array $items
-	 * @return void
+	 * @param mixed[] $items
 	 */
-	public function setItems(array $items)
+	public function setItems(array $items): void
 	{
 		$this->items = $items;
 	}
 
 	/**
-	 * @param string $value
-	 * @return void
+	 * @param mixed $value
 	 */
-	public function setValue($value)
+	public function setValue($value): void
 	{
-		$value = trim($value);
+		$value = trim((string) $value);
 
-		if ($this->useKeys === TRUE) {
+		if ($this->useKeys === true) {
 			// Set value representing as key
 			if (array_key_exists($value, $this->items)) {
 				$this->value = $value;
@@ -91,7 +75,7 @@ final class SelectParameter extends Parameter
 			}
 		} else {
 			// Set value representing by his key
-			if (in_array($value, $this->items)) {
+			if (in_array($value, $this->items, true)) {
 				$this->value = $value;
 			} else {
 				throw new InvalidArgumentException(sprintf('Value "%s" not found in array [%s] (useKeys:off)', $value, implode('|', array_values($this->items))));
@@ -99,63 +83,39 @@ final class SelectParameter extends Parameter
 		}
 	}
 
-	/**
-	 * @param bool $use
-	 * @return void
-	 */
-	public function setUseKeys($use)
+	public function setUseKeys(bool $use): void
 	{
-		$this->useKeys = boolval($use);
+		$this->useKeys = $use;
 	}
 
-	/**
-	 * @return boolean
-	 */
-	public function isUseKeys()
+	public function isUseKeys(): bool
 	{
 		return $this->useKeys;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getPrompt()
+	public function getPrompt(): ?string
 	{
 		return $this->prompt;
 	}
 
-	/**
-	 * @param string $prompt
-	 * @return void
-	 */
-	public function setPrompt($prompt)
+	public function setPrompt(string $prompt): void
 	{
 		$this->prompt = $prompt;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function hasPrompt()
+	public function hasPrompt(): bool
 	{
-		return $this->prompt !== NULL;
+		return $this->prompt !== null;
 	}
 
-	/**
-	 * @return bool|null
-	 */
-	public function getAutoPick()
+	public function getAutoPick(): ?bool
 	{
 		return $this->autoPick;
 	}
 
-	/**
-	 * @param bool|null $auto
-	 * @return void
-	 */
-	public function setAutoPick($auto)
+	public function setAutoPick(bool $auto): void
 	{
-		$this->autoPick = $auto === NULL ? $auto : boolval($auto);
+		$this->autoPick = $auto;
 	}
 
 }

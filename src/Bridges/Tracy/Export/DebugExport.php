@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Tracy\Export;
 
@@ -13,19 +13,12 @@ class DebugExport implements Exportable
 	/** @var Resultable */
 	private $resultable;
 
-	/**
-	 * @param Resultable $resultable
-	 */
 	public function __construct(Resultable $resultable)
 	{
 		$this->resultable = $resultable;
 	}
 
-	/**
-	 * @param Presenter $presenter
-	 * @return void
-	 */
-	public function send(Presenter $presenter)
+	public function send(Presenter $presenter): void
 	{
 		$presenter->sendResponse(new DebugResponse($this->resultable));
 		$presenter->terminate();

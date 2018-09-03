@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\Renderers\SimpleTable;
 
@@ -8,15 +8,10 @@ use Tlapnet\Report\Result\Result;
 class SimpleTableRenderer extends TemplateRenderer
 {
 
-	/** @var array */
+	/** @var object[] */
 	protected $columns = [];
 
-	/**
-	 * @param string $name
-	 * @param string $title
-	 * @return void
-	 */
-	public function addColumn($name, $title)
+	public function addColumn(string $name, string $title): void
 	{
 		$this->columns[$name] = (object) [
 			'name' => $name,
@@ -24,11 +19,7 @@ class SimpleTableRenderer extends TemplateRenderer
 		];
 	}
 
-	/**
-	 * @param Result $result
-	 * @return void
-	 */
-	public function render(Result $result)
+	public function render(Result $result): void
 	{
 		$template = $this->createTemplate();
 		$template->setFile(__DIR__ . '/templates/simple.table.latte');

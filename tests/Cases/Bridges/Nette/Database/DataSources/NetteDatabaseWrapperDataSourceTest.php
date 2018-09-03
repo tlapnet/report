@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Bridges\Nette\Database\DataSources;
 
@@ -14,11 +14,7 @@ use Tlapnet\Report\Parameters\Parameters;
 final class NetteDatabaseWrapperDataSourceTest extends BaseTestCase
 {
 
-	/**
-	 * @covers NetteDatabaseWrapperDataSource::compile
-	 * @return void
-	 */
-	public function testQuery()
+	public function testQuery(): void
 	{
 		$result = Mockery::mock(ResultSet::class);
 
@@ -38,11 +34,7 @@ final class NetteDatabaseWrapperDataSourceTest extends BaseTestCase
 		$this->assertInstanceOf(LazyResultSet::class, $result);
 	}
 
-	/**
-	 * @covers NetteDatabaseWrapperDataSource::compile
-	 * @return void
-	 */
-	public function testQueryArgs()
+	public function testQueryArgs(): void
 	{
 		$result = Mockery::mock(ResultSet::class);
 

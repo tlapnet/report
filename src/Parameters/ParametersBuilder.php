@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Parameters;
 
@@ -13,14 +13,9 @@ class ParametersBuilder
 	private $parameters = [];
 
 	/**
-	 * PARTS *******************************************************************
+	 * @param mixed[] $values
 	 */
-
-	/**
-	 * @param array $values
-	 * @return void
-	 */
-	public function addText(array $values)
+	public function addText(array $values): void
 	{
 		// Create parameter
 		$parameter = new TextParameter($values['name']);
@@ -32,10 +27,9 @@ class ParametersBuilder
 	}
 
 	/**
-	 * @param array $values
-	 * @return void
+	 * @param mixed[] $values
 	 */
-	public function addSelect(array $values)
+	public function addSelect(array $values): void
 	{
 		// Create parameter
 		$parameter = new SelectParameter($values['name']);
@@ -67,30 +61,24 @@ class ParametersBuilder
 		// Select > autopick
 		if (isset($values['autopick'])) {
 			$parameter->setAutoPick($values['useKeys']);
-		} else if (!$parameter->hasDefaultValue() && !$parameter->hasPrompt()) {
+		} elseif (!$parameter->hasDefaultValue() && !$parameter->hasPrompt()) {
 			// Allow autopick of first item in select box,
 			// in case of no default value od prompt is set
-			$parameter->setAutoPick(TRUE);
+			$parameter->setAutoPick(true);
 		}
 
 		$this->addParameter($parameter);
 	}
 
-	/**
-	 * @param Parameter $parameter
-	 * @return void
-	 */
-	protected function addParameter(Parameter $parameter)
+	protected function addParameter(Parameter $parameter): void
 	{
 		$this->parameters[] = $parameter;
 	}
 
 	/**
-	 * @param Parameter $parameter
-	 * @param array $values
-	 * @return void
+	 * @param mixed[] $values
 	 */
-	protected function decorate(Parameter $parameter, array $values)
+	protected function decorate(Parameter $parameter, array $values): void
 	{
 		// Title
 		if (isset($values['title'])) {
@@ -114,14 +102,7 @@ class ParametersBuilder
 		}
 	}
 
-	/**
-	 * API *********************************************************************
-	 */
-
-	/**
-	 * @return Parameters
-	 */
-	public function build()
+	public function build(): Parameters
 	{
 		$p = new Parameters();
 

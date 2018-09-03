@@ -1,10 +1,10 @@
 # IDE
-.DS_Store
-.idea
-
-# Tests
-/tests/coverage
+/.idea
 
 # Composer
-/composer.lock
 /vendor
+/composer.lock
+
+# Tests
+/temp
+/coverage.xml

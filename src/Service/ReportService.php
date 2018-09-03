@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Service;
 
@@ -12,23 +12,12 @@ class ReportService
 	/** @var ReportManager */
 	private $manager;
 
-	/**
-	 * @param ReportManager $manager
-	 */
 	public function __construct(ReportManager $manager)
 	{
 		$this->manager = $manager;
 	}
 
-	/**
-	 * REPORTS *****************************************************************
-	 */
-
-	/**
-	 * @param mixed $rid
-	 * @return Report|NULL
-	 */
-	public function getReport($rid)
+	public function getReport(string $rid): ?Report
 	{
 		$groups = $this->getGroups();
 		foreach ($groups as $group) {
@@ -39,34 +28,26 @@ class ReportService
 
 		$groupless = $this->getGroupless();
 		foreach ($groupless as $report) {
-			if ($report->getRid() == $rid) {
+			if ($report->getRid() === $rid) {
 				return $report;
 			}
 		}
 
-		return NULL;
+		return null;
 	}
-
-	/**
-	 * GROUPS ******************************************************************
-	 */
 
 	/**
 	 * @return Group[]
 	 */
-	public function getGroups()
+	public function getGroups(): array
 	{
 		return $this->manager->getGroups();
 	}
 
 	/**
-	 * GROUPLESS ***************************************************************
-	 */
-
-	/**
 	 * @return Report[]
 	 */
-	public function getGroupless()
+	public function getGroupless(): array
 	{
 		return $this->manager->getGroupless();
 	}

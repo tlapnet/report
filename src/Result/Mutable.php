@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Result;
 
@@ -7,8 +7,7 @@ interface Mutable extends Resultable
 
 	/**
 	 * @param mixed $data
-	 * @return void
 	 */
-	public function setData($data);
+	public function setData($data): void;
 
 }

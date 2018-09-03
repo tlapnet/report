@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Utils;
 
@@ -9,21 +9,18 @@ trait TOptions
 	protected $metadata;
 
 	/**
-	 * @param string $key
 	 * @param mixed $value
-	 * @return void
 	 */
-	public function setOption($key, $value)
+	public function setOption(string $key, $value): void
 	{
 		$this->metadata->set($key, $value);
 	}
 
 	/**
-	 * @param string $key
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	public function getOption($key, $default = NULL)
+	public function getOption(string $key, $default = null)
 	{
 		if (func_num_args() < 2) {
 			return $this->metadata->get($key);
@@ -32,11 +29,7 @@ trait TOptions
 		}
 	}
 
-	/**
-	 * @param string $key
-	 * @return bool
-	 */
-	public function hasOption($key)
+	public function hasOption(string $key): bool
 	{
 		return $this->metadata->has($key);
 	}

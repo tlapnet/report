@@ -1,9 +1,11 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Chart\Renderers\Date;
 
+use Tlapnet\Chart\AbstractChart;
 use Tlapnet\Chart\DateChart;
 use Tlapnet\Chart\Segment\DateSegment;
+use Tlapnet\Chart\Serie\AbstractSerie;
 use Tlapnet\Chart\Serie\DateSerie;
 use Tlapnet\Report\Bridges\Chart\Renderers\SeriesChartRenderer;
 use Tlapnet\Report\Result\Result;
@@ -13,35 +15,25 @@ class DateChartRenderer extends SeriesChartRenderer
 {
 
 	/** @var bool */
-	protected $useTimePrecision;
+	protected $useTimePrecision = false;
 
-	/**
-	 * @param boolean $use
-	 * @return void
-	 */
-	public function setUseTimePrecision($use = TRUE)
+	public function setUseTimePrecision(bool $use = true): void
 	{
 		$this->useTimePrecision = $use;
 	}
 
 	/**
-	 * @param object $serie
 	 * @return DateSerie
 	 */
-	protected function createSerie($serie)
+	protected function createSerie(object $serie): AbstractSerie
 	{
 		return new DateSerie($serie->type, $serie->title, $serie->color);
 	}
 
 	/**
-	 * RENDERING ***************************************************************
+	 * @return DateChart
 	 */
-
-	/**
-	 * @param Result $result
-	 * @return mixed
-	 */
-	public function render(Result $result)
+	public function render(Result $result): AbstractChart
 	{
 		/** @var DateChart $chart */
 		$chart = $this->createChart(new DateChart());

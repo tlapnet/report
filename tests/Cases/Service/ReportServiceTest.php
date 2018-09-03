@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Service;
 
@@ -11,12 +11,7 @@ use Tlapnet\Report\Service\ReportService;
 final class ReportServiceTest extends BaseTestCase
 {
 
-	/**
-	 * @covers ReportService::getGroups
-	 * @covers ReportService::getGroupless
-	 * @return void
-	 */
-	public function testDefault()
+	public function testDefault(): void
 	{
 		$m = new ReportManager();
 		$s = new ReportService($m);
@@ -25,11 +20,7 @@ final class ReportServiceTest extends BaseTestCase
 		$this->assertCount(0, $s->getGroupless());
 	}
 
-	/**
-	 * @covers ReportService::getGroups
-	 * @return void
-	 */
-	public function testGetGroups()
+	public function testGetGroups(): void
 	{
 		$m = new ReportManager();
 		$m->addGroup($g = new Group('g', 'Group'));
@@ -41,11 +32,7 @@ final class ReportServiceTest extends BaseTestCase
 		$this->assertEquals(['g' => $g], $s->getGroups());
 	}
 
-	/**
-	 * @covers ReportService::getGroupless
-	 * @return void
-	 */
-	public function testGetGrouples()
+	public function testGetGrouples(): void
 	{
 		$m = new ReportManager();
 		$m->addGroupless($r = new Report('r1'));
@@ -56,11 +43,7 @@ final class ReportServiceTest extends BaseTestCase
 		$this->assertEquals(['r1' => $r], $s->getGroupless());
 	}
 
-	/**
-	 * @covers ReportService::getReport
-	 * @return void
-	 */
-	public function testGetReport()
+	public function testGetReport(): void
 	{
 		$m = new ReportManager();
 		$m->addGroup($g = new Group('g', 'Group'));

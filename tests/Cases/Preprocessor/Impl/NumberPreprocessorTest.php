@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Preprocessor\Impl;
 
@@ -8,11 +8,7 @@ use Tlapnet\Report\Preprocessor\Impl\NumberPreprocessor;
 final class NumberPreprocessorTest extends BaseTestCase
 {
 
-	/**
-	 * @covers NumberPreprocessor::preprocess
-	 * @return void
-	 */
-	public function testPreprocessor()
+	public function testPreprocessor(): void
 	{
 		$p = new NumberPreprocessor();
 		$this->assertEquals('0.00', $p->preprocess(0));
@@ -25,11 +21,7 @@ final class NumberPreprocessorTest extends BaseTestCase
 		$this->assertEquals('1 000 000.00', $p->preprocess(1000000));
 	}
 
-	/**
-	 * @covers NumberPreprocessor::preprocess
-	 * @return void
-	 */
-	public function testPreprocessorDecimals()
+	public function testPreprocessorDecimals(): void
 	{
 		$p = new NumberPreprocessor();
 		$p->setDecimals(0);
@@ -43,11 +35,7 @@ final class NumberPreprocessorTest extends BaseTestCase
 		$this->assertEquals('1 000 000', $p->preprocess(1000000));
 	}
 
-	/**
-	 * @covers NumberPreprocessor::preprocess
-	 * @return void
-	 */
-	public function testPreprocessorDecimalPoint()
+	public function testPreprocessorDecimalPoint(): void
 	{
 		$p = new NumberPreprocessor();
 		$p->setDecimalPoint('|');
@@ -61,11 +49,7 @@ final class NumberPreprocessorTest extends BaseTestCase
 		$this->assertEquals('1 000 000|00', $p->preprocess(1000000));
 	}
 
-	/**
-	 * @covers NumberPreprocessor::preprocess
-	 * @return void
-	 */
-	public function testPreprocessorThousandsPoint()
+	public function testPreprocessorThousandsPoint(): void
 	{
 		$p = new NumberPreprocessor();
 		$p->setThousandsPoint('-');
@@ -79,11 +63,7 @@ final class NumberPreprocessorTest extends BaseTestCase
 		$this->assertEquals('1-000-000.00', $p->preprocess(1000000));
 	}
 
-	/**
-	 * @covers NumberPreprocessor::preprocess
-	 * @return void
-	 */
-	public function testPreprocessorSuffix()
+	public function testPreprocessorSuffix(): void
 	{
 		$p = new NumberPreprocessor();
 		$p->setThousandsPoint('-');

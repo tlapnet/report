@@ -1,24 +1,20 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Utils;
 
-/**
- * @copyright David Grudl
- */
 final class Suggestions
 {
 
 	/**
 	 * Finds the best suggestion (for 8-bit encoding).
 	 *
-	 * @param array $items
+	 * @param mixed[] $items
 	 * @param mixed $value
-	 * @return NULL|string
 	 */
-	public static function getSuggestion(array $items, $value)
+	public static function getSuggestion(array $items, $value): ?string
 	{
 		$norm = preg_replace($re = '#^(get|set|has|is|add)(?=[A-Z])#', '', $value);
-		$best = NULL;
+		$best = null;
 		$min = (strlen($value) / 4 + 1) * 10 + .1;
 		foreach (array_unique($items) as $item) {
 			if ($item !== $value) {
@@ -41,14 +37,9 @@ final class Suggestions
 		return $best;
 	}
 
-	/**
-	 * @param string $text
-	 * @param mixed $hint
-	 * @return string
-	 */
-	public static function format($text, $hint)
+	public static function format(string $text, ?string $hint = null): string
 	{
-		return $text . ($hint ? ', did you mean "' . $hint . '"?' : '.');
+		return $text . ($hint !== null ? ', did you mean "' . $hint . '"?' : '.');
 	}
 
 }

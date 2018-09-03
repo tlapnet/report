@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Renderers;
 
@@ -10,8 +10,8 @@ class MultiRenderer implements Renderer
 	/** @var Renderer[] */
 	protected $renderers = [];
 
-	/** @var mixed */
-	protected $separator = NULL;
+	/** @var string */
+	protected $separator = '';
 
 	/**
 	 * @param Renderer[] $renderers
@@ -21,24 +21,12 @@ class MultiRenderer implements Renderer
 		$this->renderers = $renderers;
 	}
 
-	/**
-	 * @param mixed $separator
-	 * @return void
-	 */
-	public function setSeparator($separator)
+	public function setSeparator(string $separator): void
 	{
 		$this->separator = $separator;
 	}
 
-	/**
-	 * RENDERING ***************************************************************
-	 */
-
-	/**
-	 * @param Result $result
-	 * @return string
-	 */
-	public function render(Result $result)
+	public function render(Result $result): string
 	{
 		$parts = [];
 

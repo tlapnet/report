@@ -1,22 +1,18 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Result;
 
 use Iterator;
 use IteratorAggregate;
-use Traversable;
 
 interface Resultable extends IteratorAggregate
 {
 
 	/**
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function getData();
+	public function getData(): array;
 
-	/**
-	 * @return Traversable|Iterator
-	 */
-	public function getIterator();
+	public function getIterator(): Iterator;
 
 }

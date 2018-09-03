@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Result;
 
@@ -9,12 +9,7 @@ use Tlapnet\Report\Result\Result;
 final class MultiResultTest extends BaseTestCase
 {
 
-	/**
-	 * @covers MultiResult::add
-	 * @covers MultiResult::getIterator
-	 * @return void
-	 */
-	public function testAdd()
+	public function testAdd(): void
 	{
 		$r1 = new Result([1]);
 		$r2 = new Result([2]);
@@ -35,11 +30,7 @@ final class MultiResultTest extends BaseTestCase
 		$this->assertEquals([1, 2], $data);
 	}
 
-	/**
-	 * @covers MultiResult::getData
-	 * @return void
-	 */
-	public function testGetData()
+	public function testGetData(): void
 	{
 		$r1 = new Result([1]);
 		$r2 = new Result([2]);
@@ -53,11 +44,7 @@ final class MultiResultTest extends BaseTestCase
 		$this->assertSame($r2, $multi->getData()[1]);
 	}
 
-	/**
-	 * @covers MultiResult::toEditable
-	 * @return void
-	 */
-	public function testToEditable()
+	public function testToEditable(): void
 	{
 		$r1 = new Result([1 => 1]);
 		$r2 = new Result([2 => 2]);

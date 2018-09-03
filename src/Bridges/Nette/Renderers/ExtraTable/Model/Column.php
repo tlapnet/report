@@ -1,138 +1,94 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model;
 
 class Column extends Component
 {
 
-	/** @var string */
+	/** @var string|null */
 	private $title;
 
-	/** @var object */
+	/** @var object|null */
 	private $link;
 
-	/** @var object */
+	/** @var object|null */
 	private $url;
 
-	/** @var object */
+	/** @var object|null */
 	private $label;
 
-	/** @var callable */
+	/** @var callable|null */
 	private $callback;
 
-	/** @var array */
+	/** @var mixed[] */
 	private $options = [
-		'align' => NULL,
-		'type' => NULL,
-		'sortable' => TRUE,
+		'align' => null,
+		'type' => null,
+		'sortable' => true,
 	];
 
-	/**
-	 * GETTERS *****************************************************************
-	 */
-
-	/**
-	 * @return string
-	 */
-	public function getTitle()
+	public function getTitle(): ?string
 	{
 		return $this->title;
 	}
 
-	/**
-	 * @return object
-	 */
-	public function getOptions()
+	public function getOptions(): ?object
 	{
 		return (object) $this->options;
 	}
 
-	/**
-	 * @return object
-	 */
-	public function getLink()
+	public function getLink(): ?object
 	{
 		return $this->link;
 	}
 
-	/**
-	 * @return object
-	 */
-	public function getUrl()
+	public function getUrl(): ?object
 	{
 		return $this->url;
 	}
 
-	/**
-	 * @return object
-	 */
-	public function getLabel()
+	public function getLabel(): ?object
 	{
 		return $this->label;
 	}
 
-	/**
-	 * @return callable
-	 */
-	public function getCallback()
+	public function getCallback(): ?callable
 	{
 		return $this->callback;
 	}
 
-	/**
-	 * BUILDER *****************************************************************
-	 */
-
-	/**
-	 * @param string $title
-	 * @return self
-	 */
-	public function title($title)
+	public function title(string $title): self
 	{
 		$this->title = $title;
 
 		return $this;
 	}
 
-	/**
-	 * @param string $type
-	 * @return self
-	 */
-	public function type($type)
+	public function type(string $type): self
 	{
 		$this->options['type'] = $type;
 
 		return $this;
 	}
 
-	/**
-	 * @param string $align
-	 * @return self
-	 */
-	public function align($align)
+	public function align(string $align): self
 	{
 		$this->options['align'] = $align;
 
 		return $this;
 	}
 
-	/**
-	 * @param bool $sortable
-	 * @return self
-	 */
-	public function sortable($sortable)
+	public function sortable(bool $sortable): self
 	{
-		$this->options['sortable'] = boolval($sortable);
+		$this->options['sortable'] = $sortable;
 
 		return $this;
 	}
 
 	/**
-	 * @param string $destination
-	 * @param array $args
-	 * @return self
+	 * @param mixed[] $args
 	 */
-	public function link($destination, array $args = [])
+	public function link(string $destination, array $args = []): self
 	{
 		$this->link = (object) [
 			'destination' => $destination,
@@ -142,11 +98,7 @@ class Column extends Component
 		return $this;
 	}
 
-	/**
-	 * @param string $url
-	 * @return self
-	 */
-	public function url($url)
+	public function url(string $url): self
 	{
 		$this->url = (object) [
 			'url' => $url,
@@ -155,11 +107,7 @@ class Column extends Component
 		return $this;
 	}
 
-	/**
-	 * @param string $label
-	 * @return self
-	 */
-	public function label($label)
+	public function label(string $label): self
 	{
 		$this->label = (object) [
 			'name' => $label,
@@ -168,11 +116,7 @@ class Column extends Component
 		return $this;
 	}
 
-	/**
-	 * @param callable $callback
-	 * @return self
-	 */
-	public function callback(callable $callback)
+	public function callback(callable $callback): self
 	{
 		$this->callback = $callback;
 

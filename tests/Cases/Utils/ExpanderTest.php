@@ -1,18 +1,15 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Utils;
 
+use stdClass;
 use Tests\Engine\BaseTestCase;
 use Tlapnet\Report\Utils\Expander;
 
 final class ExpanderTest extends BaseTestCase
 {
 
-	/**
-	 * @covers Expander::doSingle
-	 * @return void
-	 */
-	public function testStr()
+	public function testStr(): void
 	{
 		$params = ['foo' => 'bar'];
 
@@ -20,11 +17,7 @@ final class ExpanderTest extends BaseTestCase
 		$this->assertEquals('example/bar', $expander->doSingle('example/{foo}'));
 	}
 
-	/**
-	 * @covers Expander::doArray
-	 * @return void
-	 */
-	public function testArr()
+	public function testArr(): void
 	{
 		$params = ['foo' => 'bar'];
 
@@ -32,11 +25,7 @@ final class ExpanderTest extends BaseTestCase
 		$this->assertEquals(['a' => 'bar', 'bar' => 'b'], $expander->doArray(['a' => '{foo}', '{foo}' => 'b']));
 	}
 
-	/**
-	 * @covers Expander::execute
-	 * @return void
-	 */
-	public function testExpand()
+	public function testExpand(): void
 	{
 		$params = ['foo' => 'bar'];
 
@@ -45,7 +34,7 @@ final class ExpanderTest extends BaseTestCase
 		$this->assertEquals(['a' => 'bar', 'bar' => 'b'], $expander->execute(['a' => '{foo}', '{foo}' => 'b']));
 
 		// Unsupported type
-		$stdClass = new \stdClass();
+		$stdClass = new stdClass();
 		$this->assertEquals($stdClass, $expander->execute($stdClass));
 	}
 

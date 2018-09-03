@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Mocks\Dibi;
 
@@ -8,11 +8,7 @@ use Tlapnet\Report\Bridges\Dibi\DataSources\DibiDataSource as TDibiDataSource;
 final class DibiDataSource extends TDibiDataSource
 {
 
-	/**
-	 * @param DibiConnection $connection
-	 * @return void
-	 */
-	public function setConnection(DibiConnection $connection)
+	public function setConnection(DibiConnection $connection): void
 	{
 		$this->connection = $connection;
 	}

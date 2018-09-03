@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Utils;
 
@@ -13,57 +13,44 @@ final class Switcher
 	/** @var string */
 	private $placeholder = '?';
 
-	/** @var array */
+	/** @var mixed[] */
 	private $parameters;
 
 	/**
-	 * @param array $parameters
+	 * @param mixed[] $parameters
 	 */
 	public function __construct(array $parameters)
 	{
 		$this->parameters = $parameters;
 	}
 
-	/**
-	 * @param string $pattern
-	 * @return void
-	 */
-	public function setPattern($pattern)
+	public function setPattern(string $pattern): void
 	{
 		$this->pattern = $pattern;
 	}
 
-	/**
-	 * @param string $placeholder
-	 * @return void
-	 */
-	public function setPlaceholder($placeholder)
+	public function setPlaceholder(string $placeholder): void
 	{
 		$this->placeholder = $placeholder;
 	}
 
 	/**
-	 * API *********************************************************************
-	 */
-
-	/**
-	 * @param string|mixed $input
-	 * @return array|mixed
+	 * @param mixed $input
+	 * @return mixed
 	 */
 	public function execute($input)
 	{
 		if (is_string($input)) {
 			return $this->doSwitch($input);
-		} else {
-			return $input;
 		}
+
+		return $input;
 	}
 
 	/**
-	 * @param string $str
-	 * @return array
+	 * @return mixed[]
 	 */
-	protected function doSwitch($str)
+	protected function doSwitch(string $str): array
 	{
 		$args = [];
 		$str = preg_replace_callback($this->pattern, function ($matches) use (&$args) {
@@ -71,7 +58,7 @@ final class Switcher
 				throw new InvalidStateException('Invalid pattern, only one group is allowed');
 			}
 
-			list ($whole, $param) = $matches;
+			 [$whole, $param] = $matches;
 
 			// Replace with placeholder, if we have given parameter
 			if (isset($this->parameters[$param])) {

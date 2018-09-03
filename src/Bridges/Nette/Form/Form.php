@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\Form;
 
@@ -8,15 +8,15 @@ class Form extends UIForm
 {
 
 	/**
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function getRealValues()
+	public function getRealValues(): array
 	{
 		$values = [];
 
 		foreach ($this->getValues() as $k => $v) {
 			// Skip empty and null values
-			if (strlen($v) <= 0 || $v === NULL) {
+			if (strlen($v) <= 0 || $v === null) {
 				continue;
 			}
 

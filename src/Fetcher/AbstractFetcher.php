@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Fetcher;
 
@@ -8,18 +8,12 @@ abstract class AbstractFetcher implements Fetcher
 	/** @var string */
 	protected $sql;
 
-	/**
-	 * @param string $sql
-	 */
-	public function __construct($sql)
+	public function __construct(string $sql)
 	{
 		$this->sql = $sql;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getSql()
+	public function getSql(): string
 	{
 		return $this->sql;
 	}

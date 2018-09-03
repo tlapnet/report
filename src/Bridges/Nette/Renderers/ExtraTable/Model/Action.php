@@ -1,56 +1,35 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model;
 
 class Action extends Component
 {
 
-	/** @var object */
+	/** @var object|null */
 	private $link;
 
-	/** @var object */
+	/** @var object|null */
 	private $label;
 
-	/** @var string */
+	/** @var string|null */
 	private $title;
 
-	/**
-	 * GETTERS *****************************************************************
-	 */
-
-	/**
-	 * @return object
-	 */
-	public function getLink()
+	public function getLink(): ?object
 	{
 		return $this->link;
 	}
 
-	/**
-	 * @return object
-	 */
-	public function getLabel()
+	public function getLabel(): ?object
 	{
 		return $this->label;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getTitle()
+	public function getTitle(): ?string
 	{
 		return $this->title;
 	}
 
-	/**
-	 * BUILDER *****************************************************************
-	 */
-
-	/**
-	 * @param string $title
-	 * @return self
-	 */
-	public function title($title)
+	public function title(string $title): self
 	{
 		$this->title = $title;
 
@@ -58,11 +37,9 @@ class Action extends Component
 	}
 
 	/**
-	 * @param string $destination
-	 * @param array $args
-	 * @return self
+	 * @param mixed[]  $args
 	 */
-	public function link($destination, array $args = [])
+	public function link(string $destination, array $args = []): self
 	{
 		$this->link = (object) [
 			'destination' => $destination,
@@ -72,11 +49,7 @@ class Action extends Component
 		return $this;
 	}
 
-	/**
-	 * @param string $label
-	 * @return self
-	 */
-	public function label($label)
+	public function label(string $label): self
 	{
 		$this->label = (object) [
 			'name' => $label,

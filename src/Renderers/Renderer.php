@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Renderers;
 
@@ -8,7 +8,6 @@ interface Renderer
 {
 
 	/**
-	 * @param Result $result
 	 * @return mixed
 	 */
 	public function render(Result $result);

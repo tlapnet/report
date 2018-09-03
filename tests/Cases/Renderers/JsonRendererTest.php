@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Renderers;
 
@@ -9,11 +9,7 @@ use Tlapnet\Report\Result\Result;
 final class JsonRendererTest extends BaseTestCase
 {
 
-	/**
-	 * @covers JsonRenderer::render
-	 * @return void
-	 */
-	public function testDefault()
+	public function testDefault(): void
 	{
 		$r = new JsonRenderer();
 		$this->assertEquals('[{"foo":"bar"}]', $r->render(new Result([['foo' => 'bar']])));

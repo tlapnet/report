@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Utils;
 
@@ -17,22 +17,22 @@ class DateTime extends DT implements JsonSerializable
 {
 
 	// minute in seconds
-	const MINUTE = 60;
+	public const MINUTE = 60;
 
 	// hour in seconds
-	const HOUR = 60 * self::MINUTE;
+	public const HOUR = 60 * self::MINUTE;
 
 	// day in seconds
-	const DAY = 24 * self::HOUR;
+	public const DAY = 24 * self::HOUR;
 
 	// week in seconds
-	const WEEK = 7 * self::DAY;
+	public const WEEK = 7 * self::DAY;
 
 	// average month in seconds
-	const MONTH = 2629800;
+	public const MONTH = 2629800;
 
 	// average year in seconds
-	const YEAR = 31557600;
+	public const YEAR = 31557600;
 
 	/** @var string */
 	protected $format = 'Y-m-d H:i:s';
@@ -41,9 +41,8 @@ class DateTime extends DT implements JsonSerializable
 	 * DateTime object factory.
 	 *
 	 * @param string|int|DateTimeInterface $time
-	 * @return self
 	 */
-	public static function from($time)
+	public static function from($time): self
 	{
 		if ($time instanceof DateTimeInterface) {
 			return new static($time->format('Y-m-d H:i:s'), $time->getTimezone());
@@ -57,50 +56,34 @@ class DateTime extends DT implements JsonSerializable
 		}
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getFormat()
+	public function getFormat(): string
 	{
 		return $this->format;
 	}
 
-	/**
-	 * @param string $format
-	 * @return self
-	 */
-	public function setFormat($format)
+	public function setFormat(string $format): self
 	{
 		$this->format = $format;
 
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function __toString()
+	public function __toString(): string
 	{
 		return $this->format($this->format);
 	}
 
-	/**
-	 * @param string $modify
-	 * @return self
-	 */
-	public function modifyClone($modify = '')
+	public function modifyClone(string $modify = ''): self
 	{
 		$dolly = clone $this;
 
-		return $modify ? $dolly->modify($modify) : $dolly;
+		return $modify !== '' ? $dolly->modify($modify) : $dolly;
 	}
 
 	/**
 	 * Returns JSON representation in ISO 8601 (used by JavaScript).
-	 *
-	 * @return string
 	 */
-	public function jsonSerialize()
+	public function jsonSerialize(): string
 	{
 		return $this->format('c');
 	}

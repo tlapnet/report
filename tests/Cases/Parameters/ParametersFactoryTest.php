@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Parameters;
 
@@ -8,12 +8,7 @@ use Tlapnet\Report\Parameters\ParametersFactory;
 final class ParametersFactoryTest extends BaseTestCase
 {
 
-	/**
-	 * @covers ParametersFactory::create
-	 * @covers ParametersFactory::getAll
-	 * @return void
-	 */
-	public function testDefault()
+	public function testDefault(): void
 	{
 		$p = ParametersFactory::create([]);
 

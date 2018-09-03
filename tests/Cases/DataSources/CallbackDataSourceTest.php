@@ -1,28 +1,25 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\DataSources;
 
 use Tests\Engine\BaseTestCase;
 use Tlapnet\Report\DataSources\CallbackDataSource;
 use Tlapnet\Report\Parameters\Parameters;
+use Tlapnet\Report\Result\Result;
 
 final class CallbackDataSourceTest extends BaseTestCase
 {
 
-	/**
-	 * @covers CallbackDataSource::compile
-	 * @return void
-	 */
-	public function testDefault()
+	public function testDefault(): void
 	{
+		$result = new Result();
 		$parameters = new Parameters();
-		$ds = new CallbackDataSource(function (Parameters $inner) use ($parameters) {
+		$ds = new CallbackDataSource(function (Parameters $inner) use ($result, $parameters) {
 			$this->assertSame($parameters, $inner);
-
-			return 1;
+			return $result;
 		});
 
-		$this->assertEquals(1, $ds->compile($parameters));
+		$this->assertEquals($result, $ds->compile($parameters));
 	}
 
 }

@@ -1,36 +1,22 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Report;
 
-use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Subreport\Subreport;
 
 class LazyReport extends Report
 {
 
-	/** @var array */
+	/** @var callable[] */
 	private $lazy = [];
 
-	/**
-	 * @param string $sid
-	 * @param callable $factory
-	 * @return void
-	 */
-	public function addLazySubreport($sid, callable $factory)
+	public function addLazySubreport(string $sid, callable $factory): void
 	{
 		$this->lazy[$sid] = $factory;
 	}
 
-	/**
-	 * @param string $sid
-	 * @return Subreport
-	 */
-	public function getSubreport($sid)
+	public function getSubreport(string $sid): Subreport
 	{
-		if (!is_string($sid)) {
-			throw new InvalidArgumentException(sprintf('Subreport ID must be string, "%s" given.', gettype($sid)));
-		}
-
 		// Do we have some lazy-subreports?
 		if (isset($this->lazy[$sid])) {
 			// Create real subreport
@@ -47,7 +33,7 @@ class LazyReport extends Report
 	/**
 	 * @return Subreport[]
 	 */
-	public function getSubreports()
+	public function getSubreports(): array
 	{
 		// We need to initialize all lazy subreports
 		foreach ($this->lazy as $key => $factory) {

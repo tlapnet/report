@@ -1,46 +1,40 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\Components\Render;
 
 use Nette\Application\UI\Control;
+use Nette\Bridges\ApplicationLatte\Template;
 use Tlapnet\Report\Bridges\Nette\Form\Form;
 use Tlapnet\Report\Bridges\Nette\Form\FormFactory;
 use Tlapnet\Report\Exceptions\Runtime\CompileException;
 use Tlapnet\Report\Subreport\Subreport;
 
+/**
+ * @property Template $template
+ */
 class SubreportRenderControl extends Control
 {
 
 	// Component inner state
-	const STATE_NORMAL = 1;
-	const STATE_LOADED = 2;
+	public const STATE_NORMAL = 1;
+	public const STATE_LOADED = 2;
 
 	/** @var Subreport */
 	private $subreport;
 
-	/** @var array */
+	/** @var mixed[] */
 	private $parameters = [];
 
 	/** @var int */
 	private $state = self::STATE_NORMAL;
 
-	/**
-	 * @param Subreport $subreport
-	 */
 	public function __construct(Subreport $subreport)
 	{
 		parent::__construct();
 		$this->subreport = $subreport;
 	}
 
-	/**
-	 * PARAMETERS FORM *********************************************************
-	 */
-
-	/**
-	 * @return Form
-	 */
-	protected function createComponentParametersForm()
+	protected function createComponentParametersForm(): Form
 	{
 		// Special our form factory, it creates inputs by given parameters
 		$factory = new FormFactory($this->subreport->getParameters());
@@ -58,11 +52,7 @@ class SubreportRenderControl extends Control
 		return $form;
 	}
 
-	/**
-	 * @param Form $form
-	 * @return void
-	 */
-	public function processParametersForm(Form $form)
+	public function processParametersForm(Form $form): void
 	{
 		$values = $form->getRealValues();
 
@@ -74,9 +64,8 @@ class SubreportRenderControl extends Control
 			$this->redirect('this');
 		}
 
-		// Do we have really some values? It might be if all values
-		// ale empty or null
-		if (!$values) {
+		// Do we have really some values? It might be if all values are empty or null
+		if ($values === []) {
 			$this->redirect('this');
 		}
 
@@ -86,14 +75,9 @@ class SubreportRenderControl extends Control
 	}
 
 	/**
-	 * STATE *******************************************************************
+	 * @param mixed[] $params
 	 */
-
-	/**
-	 * @param array $params
-	 * @return void
-	 */
-	public function loadState(array $params)
+	public function loadState(array $params): void
 	{
 		parent::loadState($params);
 
@@ -104,53 +88,38 @@ class SubreportRenderControl extends Control
 	}
 
 	/**
-	 * @param array $params
-	 * @return void
+	 * @param mixed[] $params
 	 */
-	public function saveState(array &$params)
+	public function saveState(array &$params): void
 	{
 		parent::saveState($params);
 
 		// Store params to component state
-		if ($this->parameters) {
+		if ($this->parameters !== []) {
 			$params['params'] = $this->parameters;
 		}
 	}
 
-	/**
-	 * EXPORT ******************************************************************
-	 */
-
-	/**
-	 * @param string $exporter
-	 * @return void
-	 */
-	public function handleExport($exporter)
+	public function handleExport(string $exporter): void
 	{
 		// Load data
 		$this->load();
 
 		// Fetch exporter and export data
 		$exportable = $this->subreport->export($exporter);
-		$exportable->send($this->getPresenter(TRUE));
+		$exportable->send($this->getPresenter(true));
 	}
 
 	/**
-	 * DATA ********************************************************************
-	 */
-
-	/**
 	 * Compile, preprocess and attach subreport
-	 *
-	 * @return void
 	 */
-	private function load()
+	private function load(): void
 	{
 		// Skip if it's already loaded
 		if ($this->state === self::STATE_LOADED) return;
 
 		// Attach parameters (only if we have some)
-		if ($this->parameters) {
+		if ($this->parameters !== []) {
 			// Attach parameters to form
 			$this['parametersForm']->setDefaults($this->parameters);
 
@@ -171,15 +140,9 @@ class SubreportRenderControl extends Control
 	}
 
 	/**
-	 * RENDERER ****************************************************************
-	 */
-
-	/**
 	 * Render box
-	 *
-	 * @return void
 	 */
-	public function render()
+	public function render(): void
 	{
 		try {
 			// Load data

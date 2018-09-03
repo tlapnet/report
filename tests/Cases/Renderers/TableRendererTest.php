@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Renderers;
 
@@ -9,11 +9,7 @@ use Tlapnet\Report\Result\Result;
 final class TableRendererTest extends BaseTestCase
 {
 
-	/**
-	 * @covers TableRenderer::render
-	 * @return void
-	 */
-	public function testDefault()
+	public function testDefault(): void
 	{
 		$r = new TableRenderer();
 		$this->assertEquals('<table class="table"><tr><th>foo</th></tr><tr><td>bar</td></tr></table>', (string) $r->render(new Result([['foo' => 'bar']])));

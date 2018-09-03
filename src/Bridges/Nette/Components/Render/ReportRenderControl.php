@@ -1,30 +1,28 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\Components\Render;
 
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Multiplier;
+use Nette\Bridges\ApplicationLatte\Template;
 use Tlapnet\Report\Report\Report;
 
+/**
+ * @property Template $template
+ */
 class ReportRenderControl extends Control
 {
 
 	/** @var Report */
 	private $report;
 
-	/**
-	 * @param Report $report
-	 */
 	public function __construct(Report $report)
 	{
 		parent::__construct();
 		$this->report = $report;
 	}
 
-	/**
-	 * @return Multiplier|SubreportRenderControl[]
-	 */
-	protected function createComponentSubreport()
+	protected function createComponentSubreport(): Multiplier
 	{
 		// Add all lazy-loading subreports to prevent
 		// non-natural sorting
@@ -39,10 +37,8 @@ class ReportRenderControl extends Control
 
 	/**
 	 * Render group
-	 *
-	 * @return void
 	 */
-	public function render()
+	public function render(): void
 	{
 		// Set template
 		$this->template->setFile(__DIR__ . '/templates/report.latte');

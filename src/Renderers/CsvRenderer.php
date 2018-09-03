@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Renderers;
 
@@ -11,24 +11,12 @@ class CsvRenderer implements Renderer
 	/** @var string */
 	protected $delimiter = ';';
 
-	/**
-	 * @param string $delimiter
-	 * @return void
-	 */
-	public function setDelimiter($delimiter)
+	public function setDelimiter(string $delimiter): void
 	{
 		$this->delimiter = $delimiter;
 	}
 
-	/**
-	 * RENDERING ***************************************************************
-	 */
-
-	/**
-	 * @param Result $result
-	 * @return string
-	 */
-	public function render(Result $result)
+	public function render(Result $result): string
 	{
 		$data = Helpers::toArray($result);
 		$csv = [];

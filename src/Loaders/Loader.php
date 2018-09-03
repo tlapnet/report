@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Loaders;
 
@@ -7,9 +7,6 @@ use Tlapnet\Report\Report\Report;
 interface Loader
 {
 
-	/**
-	 * @return Report
-	 */
-	public function load();
+	public function load(): Report;
 
 }

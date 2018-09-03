@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Preprocessor\Impl;
 
@@ -10,17 +10,10 @@ final class DatePreprocessor extends AbstractPreprocessor
 	/** @var string */
 	protected $format;
 
-	/**
-	 * @param string $format
-	 */
-	public function __construct($format = 'd.m.Y')
+	public function __construct(string $format = 'd.m.Y')
 	{
 		$this->format = $format;
 	}
-
-	/**
-	 * PREPROCESSING ***********************************************************
-	 */
 
 	/**
 	 * @param mixed $data

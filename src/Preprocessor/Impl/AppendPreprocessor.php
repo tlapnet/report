@@ -1,36 +1,25 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Preprocessor\Impl;
 
 final class AppendPreprocessor extends AbstractPreprocessor
 {
 
-	/** @var mixed */
+	/** @var string */
 	protected $append;
 
-	/**
-	 * @param mixed $append
-	 */
-	public function __construct($append)
+	public function __construct(string $append)
 	{
 		$this->append = $append;
 	}
 
 	/**
-	 * PREPROCESSING ***********************************************************
+	 * @param string $data
+	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 */
-
-	/**
-	 * @param mixed $data
-	 * @return mixed
-	 */
-	public function preprocess($data)
+	public function preprocess($data): string
 	{
-		if ($this->append) {
-			return $data . ((string) $this->append);
-		} else {
-			return $data;
-		}
+		return $data . $this->append;
 	}
 
 }

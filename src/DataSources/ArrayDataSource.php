@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\DataSources;
 
@@ -9,11 +9,11 @@ use Tlapnet\Report\Result\Resultable;
 class ArrayDataSource implements DataSource
 {
 
-	/** @var array */
+	/** @var mixed[] */
 	private $data = [];
 
 	/**
-	 * @param array $data
+	 * @param mixed[] $data
 	 */
 	public function __construct(array $data)
 	{
@@ -21,14 +21,11 @@ class ArrayDataSource implements DataSource
 	}
 
 	/**
-	 * @param Parameters $parameters
-	 * @return Resultable
+	 * @return Result
 	 */
-	public function compile(Parameters $parameters)
+	public function compile(Parameters $parameters): Resultable
 	{
-		$result = new Result($this->data);
-
-		return $result;
+		return new Result($this->data);
 	}
 
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Preprocessor\Impl;
 
@@ -11,25 +11,17 @@ final class BooleanPreprocessor extends AbstractPreprocessor
 	/** @var string */
 	private $falseLabel;
 
-	/**
-	 * @param string $trueLabel
-	 * @param string $falseLabel
-	 */
-	public function __construct($trueLabel = 'Ano', $falseLabel = 'Ne')
+	public function __construct(string $trueLabel = 'Ano', string $falseLabel = 'Ne')
 	{
 		$this->trueLabel = $trueLabel;
 		$this->falseLabel = $falseLabel;
 	}
 
 	/**
-	 * PREPROCESSING ***********************************************************
+	 * @param bool $data
+	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 */
-
-	/**
-	 * @param mixed $data
-	 * @return string
-	 */
-	public function preprocess($data)
+	public function preprocess($data): string
 	{
 		return $data ? $this->trueLabel : $this->falseLabel;
 	}

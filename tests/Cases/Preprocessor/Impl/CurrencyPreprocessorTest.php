@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Preprocessor\Impl;
 
@@ -8,11 +8,7 @@ use Tlapnet\Report\Preprocessor\Impl\CurrencyPreprocessor;
 final class CurrencyPreprocessorTest extends BaseTestCase
 {
 
-	/**
-	 * @covers CurrencyPreprocessor::preprocess
-	 * @return void
-	 */
-	public function testPreprocessor()
+	public function testPreprocessor(): void
 	{
 		$p = new CurrencyPreprocessor();
 		$this->assertEquals('0.00 Kč', $p->preprocess(0));
@@ -25,11 +21,7 @@ final class CurrencyPreprocessorTest extends BaseTestCase
 		$this->assertEquals('1 000 000.00 Kč', $p->preprocess(1000000));
 	}
 
-	/**
-	 * @covers CurrencyPreprocessor::preprocess
-	 * @return void
-	 */
-	public function testPreprocessorSuffix()
+	public function testPreprocessorSuffix(): void
 	{
 		$p = new CurrencyPreprocessor('CZK');
 		$this->assertEquals('0.00 CZK', $p->preprocess(0));

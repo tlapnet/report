@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\Preprocessors;
 
@@ -10,9 +10,8 @@ final class EmailPreprocessor extends AbstractPreprocessor
 
 	/**
 	 * @param mixed $data
-	 * @return Html
 	 */
-	public function preprocess($data)
+	public function preprocess($data): Html
 	{
 		return Html::el('a')->href('mailto:' . $data)->setText($data);
 	}

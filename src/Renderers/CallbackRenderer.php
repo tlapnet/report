@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Renderers;
 
@@ -11,19 +11,14 @@ final class CallbackRenderer implements Renderer
 	private $callback;
 
 	/**
-	 * @param callable $callback
+	 * @param callable(Result $result): mixed $callback
 	 */
-	public function __construct($callback)
+	public function __construct(callable $callback)
 	{
 		$this->callback = $callback;
 	}
 
 	/**
-	 * RENDERING ***************************************************************
-	 */
-
-	/**
-	 * @param Result $result
 	 * @return mixed
 	 */
 	public function render(Result $result)

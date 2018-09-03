@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Dibi\DataSources;
 
@@ -10,32 +10,17 @@ trait TDibiDebugPanel
 {
 
 	/** @var bool */
-	protected $tracyPanel = FALSE;
-
-	/**
-	 * GETTERS / SETTERS *******************************************************
-	 */
+	protected $tracyPanel = false;
 
 	/**
 	 * Show or hide tracy panel
-	 *
-	 * @param bool $show
-	 * @return void
 	 */
-	public function setTracyPanel($show)
+	public function setTracyPanel(bool $show): void
 	{
 		$this->tracyPanel = $show;
 	}
 
-	/**
-	 * HELPERS *****************************************************************
-	 */
-
-	/**
-	 * @param DibiConnection $connection
-	 * @return void
-	 */
-	protected function createDebugPanel(DibiConnection $connection)
+	protected function createDebugPanel(DibiConnection $connection): void
 	{
 		if (!class_exists(Debugger::class)) return;
 

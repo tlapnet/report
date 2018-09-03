@@ -1,13 +1,10 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report;
 
 interface IReportManagerFactory
 {
 
-	/**
-	 * @return ReportManager
-	 */
-	public function create();
+	public function create(): ReportManager;
 
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Preprocessor\Impl;
 
@@ -9,11 +9,7 @@ use Tlapnet\Report\Preprocessor\Impl\DevNullPreprocessor;
 final class DevNullPreprocessorTest extends BaseTestCase
 {
 
-	/**
-	 * @covers DevNullPreprocessor::preprocess
-	 * @return void
-	 */
-	public function testPreprocessor()
+	public function testPreprocessor(): void
 	{
 		$d = new DevNullPreprocessor();
 		$o = new ArrayIterator();

@@ -1,30 +1,31 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\DataSources;
 
 use Tlapnet\Report\Parameters\Parameters;
+use Tlapnet\Report\Result\Result;
+use Tlapnet\Report\Result\Resultable;
 
 final class DummyDataSource implements DataSource
 {
 
-	/** @var mixed */
+	/** @var mixed[] */
 	private $return;
 
 	/**
-	 * @param mixed $return
+	 * @param mixed[] $return
 	 */
-	public function __construct($return = NULL)
+	public function __construct(array $return = [])
 	{
 		$this->return = $return;
 	}
 
 	/**
-	 * @param Parameters $parameters
-	 * @return mixed
+	 * @return Result
 	 */
-	public function compile(Parameters $parameters)
+	public function compile(Parameters $parameters): Resultable
 	{
-		return $this->return;
+		return new Result($this->return);
 	}
 
 }

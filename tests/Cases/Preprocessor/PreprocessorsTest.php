@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Preprocessor;
 
@@ -11,21 +11,13 @@ use Tlapnet\Report\Result\Result;
 final class PreprocessorsTest extends BaseTestCase
 {
 
-	/**
-	 * @covers Preprocessors::isEmpty
-	 * @return void
-	 */
-	public function testDefault()
+	public function testDefault(): void
 	{
 		$p = new Preprocessors();
 		$this->assertTrue($p->isEmpty());
 	}
 
-	/**
-	 * @covers Preprocessors::preprocess
-	 * @return void
-	 */
-	public function testPreprocessWithout()
+	public function testPreprocessWithout(): void
 	{
 		$p = new Preprocessors();
 
@@ -43,11 +35,7 @@ final class PreprocessorsTest extends BaseTestCase
 		);
 	}
 
-	/**
-	 * @covers Preprocessors::preprocess
-	 * @return void
-	 */
-	public function testPreprocess()
+	public function testPreprocess(): void
 	{
 		$p = new Preprocessors();
 		$p->add('a', new AppendPreprocessor('bar'));
@@ -66,11 +54,7 @@ final class PreprocessorsTest extends BaseTestCase
 		], $eresult->getData());
 	}
 
-	/**
-	 * @covers Preprocessors::preprocess
-	 * @return void
-	 */
-	public function testPreprocessChain()
+	public function testPreprocessChain(): void
 	{
 		$p = new Preprocessors();
 		$p->add('a', new AppendPreprocessor('bar'));

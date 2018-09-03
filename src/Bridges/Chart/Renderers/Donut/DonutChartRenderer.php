@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Chart\Renderers\Donut;
 
+use Tlapnet\Chart\AbstractChart;
 use Tlapnet\Chart\DonutChart;
 use Tlapnet\Chart\Segment\DonutSegment;
 use Tlapnet\Report\Bridges\Chart\Renderers\AbstractChartRenderer;
@@ -14,56 +15,39 @@ class DonutChartRenderer extends AbstractChartRenderer
 	protected $title;
 
 	/** @var bool */
-	protected $enableRatioLabel;
+	protected $enableRatioLabel = false;
 
 	/** @var bool */
-	protected $enableValueInTitle;
+	protected $enableValueInTitle = false;
 
-	/**
-	 * @param string $title
-	 * @return void
-	 */
-	public function setTitle($title)
+	public function setTitle(string $title): void
 	{
 		$this->title = $title;
 	}
 
-	/**
-	 * @param boolean $enable
-	 * @return void
-	 */
-	public function setEnableRatioLabel($enable = TRUE)
+	public function setEnableRatioLabel(bool $enable = true): void
 	{
 		$this->enableRatioLabel = $enable;
 	}
 
-	/**
-	 * @param bool $enable
-	 * @return void
-	 */
-	public function setEnableValueInTitle($enable = TRUE)
+	public function setEnableValueInTitle(bool $enable = true): void
 	{
 		$this->enableValueInTitle = $enable;
 	}
 
 	/**
-	 * API *********************************************************************
+	 * @return DonutChart
 	 */
-
-	/**
-	 * @param Result $result
-	 * @return mixed
-	 */
-	public function render(Result $result)
+	public function render(Result $result): AbstractChart
 	{
 		/** @var DonutChart $chart */
 		$chart = $this->createChart(new DonutChart());
 
-		if ($this->title) {
+		if ($this->title !== null) {
 			$chart->setTitle($this->title);
 		}
 
-		if ($this->enableRatioLabel === TRUE) {
+		if ($this->enableRatioLabel === true) {
 			$chart->enableRatioLabel();
 		}
 
@@ -77,12 +61,7 @@ class DonutChartRenderer extends AbstractChartRenderer
 		return $chart;
 	}
 
-	/**
-	 * @param string $title
-	 * @param int | float $value
-	 * @return string
-	 */
-	private function getSegmentTitle($title, $value)
+	private function getSegmentTitle(string $title, float $value): string
 	{
 		return $this->enableValueInTitle ? $title . ' (' . $value . ')' : $title;
 	}

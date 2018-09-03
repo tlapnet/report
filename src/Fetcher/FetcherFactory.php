@@ -1,14 +1,10 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Fetcher;
 
 interface FetcherFactory
 {
 
-	/**
-	 * @param string $sql
-	 * @return Fetcher
-	 */
-	public function create($sql);
+	public function create(string $sql): Fetcher;
 
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Renderers;
 
@@ -8,17 +8,13 @@ use Tlapnet\Report\Utils\Html;
 class TableRenderer implements Renderer
 {
 
-	/**
-	 * @param Result $result
-	 * @return Html
-	 */
-	public function render(Result $result)
+	public function render(Result $result): Html
 	{
 		// Fetch data
 		$data = $result->getData();
 
 		// Do we have any data?
-		if (!$data) {
+		if ($data === []) {
 			return Html::el('div')->setText('No data found');
 		}
 

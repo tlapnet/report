@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Result;
 
@@ -9,11 +9,7 @@ use Tlapnet\Report\Result\Result;
 final class HelpersTest extends BaseTestCase
 {
 
-	/**
-	 * @covers Helpers::toArray
-	 * @return void
-	 */
-	public function testToArray1()
+	public function testToArray1(): void
 	{
 		$data = [1, 2, 3, 4];
 		$r = new Result($data);
@@ -22,11 +18,7 @@ final class HelpersTest extends BaseTestCase
 		$this->assertEquals($data, $array);
 	}
 
-	/**
-	 * @covers Helpers::toArray
-	 * @return void
-	 */
-	public function testToArray2()
+	public function testToArray2(): void
 	{
 		$data = [['foo'], ['bar']];
 		$r = new Result($data);

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Mocks\Nette\Database;
 
@@ -8,11 +8,7 @@ use Tlapnet\Report\Bridges\Nette\Database\DataSources\NetteDatabaseDataSource as
 final class NetteDatabaseDataSource extends TNetteDatabaseDataSource
 {
 
-	/**
-	 * @param Connection $connection
-	 * @return void
-	 */
-	public function setConnection($connection)
+	public function setConnection(Connection $connection): void
 	{
 		$this->connection = $connection;
 	}

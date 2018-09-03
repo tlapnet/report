@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\Renderers\VerticalTable;
 
@@ -8,25 +8,16 @@ use Tlapnet\Report\Result\Result;
 class VerticalTableRenderer extends TemplateRenderer
 {
 
-	/** @var array */
+	/** @var mixed[] */
 	protected $columns = [];
 
-	/**
-	 * @param string $key
-	 * @param string $value
-	 * @return void
-	 */
-	public function setColumns($key, $value)
+	public function setColumns(string $key, string $value): void
 	{
 		$this->columns['key'] = (object) ['title' => $key];
 		$this->columns['value'] = (object) ['title' => $value];
 	}
 
-	/**
-	 * @param Result $result
-	 * @return void
-	 */
-	public function render(Result $result)
+	public function render(Result $result): void
 	{
 		$template = $this->createTemplate();
 		$template->setFile(__DIR__ . '/templates/vertical.table.latte');

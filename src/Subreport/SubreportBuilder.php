@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Subreport;
 
@@ -12,96 +12,69 @@ use Tlapnet\Report\Utils\Metadata;
 class SubreportBuilder
 {
 
-	/** @var mixed */
+	/** @var string|null */
 	protected $sid;
 
-	/** @var Parameters */
+	/** @var Parameters|null */
 	protected $parameters;
 
-	/** @var Renderer */
+	/** @var Renderer|null */
 	protected $renderer;
 
-	/** @var DataSource */
+	/** @var DataSource|null */
 	protected $dataSource;
 
-	/** @var Metadata */
+	/** @var Metadata|null */
 	protected $metadata;
 
-	/** @var Preprocessors */
+	/** @var Preprocessors|null */
 	protected $preprocessors;
 
-	/**
-	 * @param mixed $sid
-	 * @return void
-	 */
-	public function setSid($sid)
+	public function setSid(string $sid): void
 	{
 		$this->sid = $sid;
 	}
 
-	/**
-	 * @param Parameters $parameters
-	 * @return void
-	 */
-	public function setParameters(Parameters $parameters)
+	public function setParameters(Parameters $parameters): void
 	{
 		$this->parameters = $parameters;
 	}
 
-	/**
-	 * @param Renderer $renderer
-	 * @return void
-	 */
-	public function setRenderer(Renderer $renderer)
+	public function setRenderer(Renderer $renderer): void
 	{
 		$this->renderer = $renderer;
 	}
 
-	/**
-	 * @param DataSource $dataSource
-	 * @return void
-	 */
-	public function setDataSource(DataSource $dataSource)
+	public function setDataSource(DataSource $dataSource): void
 	{
 		$this->dataSource = $dataSource;
 	}
 
-	/**
-	 * @param Metadata $metadata
-	 * @return void
-	 */
-	public function setMetadata(Metadata $metadata)
+	public function setMetadata(Metadata $metadata): void
 	{
 		$this->metadata = $metadata;
 	}
 
-	/**
-	 * @param Preprocessors $preprocessors
-	 * @return void
-	 */
-	public function setPreprocessors(Preprocessors $preprocessors)
+	public function setPreprocessors(Preprocessors $preprocessors): void
 	{
 		$this->preprocessors = $preprocessors;
 	}
 
-	/**
-	 * @return Subreport
-	 */
-	public function build()
+	public function build(): Subreport
 	{
-		if (!$this->sid) {
+		if ($this->sid === null) {
 			throw new InvalidStateException("Missing 'sid'. Please call setSid().");
 		}
 
-		if (!$this->parameters) {
+		if ($this->parameters === null) {
 			throw new InvalidStateException("Missing 'parameters'. Please call setParameters().");
 		}
 
-		if (!$this->dataSource) {
+		if ($this->dataSource === null) {
 			throw new InvalidStateException("Missing 'dataSource'. Please call setDataSource().");
 		}
 
-		if (!$this->renderer) {
+		if ($this->renderer === null) {
 			throw new InvalidStateException("Missing 'renderer'. Please call setRenderer().");
 		}
 
@@ -112,11 +85,11 @@ class SubreportBuilder
 			$this->renderer
 		);
 
-		if ($this->metadata) {
+		if ($this->metadata !== null) {
 			$subreport->setMetadata($this->metadata);
 		}
 
-		if ($this->preprocessors) {
+		if ($this->preprocessors !== null) {
 			$subreport->setPreprocessors($this->preprocessors);
 		}
 

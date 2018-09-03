@@ -1,13 +1,10 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Result;
 
 interface Editable
 {
 
-	/**
-	 * @return Mutable
-	 */
-	public function toEditable();
+	public function toEditable(): Mutable;
 
 }

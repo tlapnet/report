@@ -1,19 +1,14 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\DataSources;
 
 abstract class AbstractMultiDataSource implements DataSource
 {
 
-	/** @var array */
+	/** @var object[] */
 	protected $rows = [];
 
-	/**
-	 * @param string $title
-	 * @param string $sql
-	 * @return void
-	 */
-	public function addRow($title, $sql)
+	public function addRow(string $title, string $sql): void
 	{
 		$this->rows[] = (object) [
 			'title' => $title,

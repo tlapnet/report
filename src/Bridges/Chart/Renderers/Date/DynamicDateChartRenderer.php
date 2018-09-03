@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Chart\Renderers\Date;
 
+use Tlapnet\Chart\AbstractChart;
 use Tlapnet\Chart\DateChart;
 use Tlapnet\Chart\Segment\DateSegment;
 use Tlapnet\Chart\Serie\DateSerie;
@@ -20,13 +21,7 @@ class DynamicDateChartRenderer extends DateChartRenderer
 	/** @var string */
 	private $dynamicSeriesFilter;
 
-	/**
-	 * @param string $filterColumn
-	 * @param string $titleColumn
-	 * @param string $line
-	 * @return void
-	 */
-	public function addDynamicSeries($filterColumn, $titleColumn, $line)
+	public function addDynamicSeries(string $filterColumn, string $titleColumn, string $line): void
 	{
 		$this->dynamicSeriesFilter = $filterColumn;
 		$this->dynamicSeriesTitle = $titleColumn;
@@ -34,14 +29,9 @@ class DynamicDateChartRenderer extends DateChartRenderer
 	}
 
 	/**
-	 * RENDERING ***************************************************************
+	 * @return DateChart
 	 */
-
-	/**
-	 * @param Result $result
-	 * @return mixed
-	 */
-	public function render(Result $result)
+	public function render(Result $result): AbstractChart
 	{
 		/** @var DateChart $chart */
 		$chart = $this->createChart(new DateChart());
@@ -56,6 +46,7 @@ class DynamicDateChartRenderer extends DateChartRenderer
 			$series[$dibiRow[$this->dynamicSeriesFilter]] = $dibiRow[$this->dynamicSeriesTitle];
 		}
 
+		$condition = [];
 		foreach ($series as $filterValue => $title) {
 			$condition[$this->dynamicSeriesFilter] = $filterValue;
 			$this->addSerie($condition, $this->dynamicSeriesLine, $title);

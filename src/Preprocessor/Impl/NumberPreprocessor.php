@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Preprocessor\Impl;
 
 class NumberPreprocessor extends AbstractPreprocessor
 {
 
-	/** @var string */
+	/** @var string|null */
 	protected $suffix;
 
 	/** @var int */
@@ -17,56 +17,35 @@ class NumberPreprocessor extends AbstractPreprocessor
 	/** @var string */
 	protected $thousandsPoint = ' ';
 
-	/**
-	 * @param string $suffix
-	 * @return void
-	 */
-	public function setSuffix($suffix)
+	public function setSuffix(string $suffix): void
 	{
 		$this->suffix = $suffix;
 	}
 
-	/**
-	 * @param int $decimals
-	 * @return void
-	 */
-	public function setDecimals($decimals)
+	public function setDecimals(int $decimals): void
 	{
 		$this->decimals = $decimals;
 	}
 
-	/**
-	 * @param string $point
-	 * @return void
-	 */
-	public function setDecimalPoint($point)
+	public function setDecimalPoint(string $point): void
 	{
 		$this->decimalPoint = $point;
 	}
 
-	/**
-	 * @param string $point
-	 * @return void
-	 */
-	public function setThousandsPoint($point)
+	public function setThousandsPoint(string $point): void
 	{
 		$this->thousandsPoint = $point;
 	}
 
 	/**
-	 * PREPROCESSING ***********************************************************
+	 * @param int|float $data
 	 */
-
-	/**
-	 * @param mixed $data
-	 * @return mixed
-	 */
-	public function preprocess($data)
+	public function preprocess($data): string
 	{
 		$number = number_format($data, $this->decimals, $this->decimalPoint, $this->thousandsPoint);
 
-		if ($this->suffix) {
-			$number = $number . ' ' . $this->suffix;
+		if ($this->suffix !== null) {
+			$number .= ' ' . $this->suffix;
 		}
 
 		return $number;

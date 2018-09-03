@@ -1,48 +1,39 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\Database\DataSources;
 
+use Iterator;
 use Nette\Database\ResultSet;
 use Tlapnet\Report\Result\Result;
-use Traversable;
 
 class LazyResultSet extends Result
 {
 
 	/** @var ResultSet */
-	private $resultset;
+	private $resultSet;
 
-	/**
-	 * @param ResultSet $resultset
-	 */
 	public function __construct(ResultSet $resultset)
 	{
 		parent::__construct();
-		$this->resultset = $resultset;
+		$this->resultSet = $resultset;
 	}
 
 	/**
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function getData()
+	public function getData(): array
 	{
-		return $this->resultset->fetchAll();
+		return $this->resultSet->fetchAll();
 	}
 
-	/**
-	 * @return int
-	 */
-	public function count()
+	public function count(): int
 	{
-		return count($this->resultset->fetchAll());
+		return count($this->resultSet->fetchAll());
 	}
 
-	/**
-	 * @return Traversable
-	 */
-	public function getIterator()
+	public function getIterator(): Iterator
 	{
-		return $this->resultset;
+		return $this->resultSet;
 	}
 
 }

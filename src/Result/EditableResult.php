@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Result;
 
@@ -7,9 +7,8 @@ class EditableResult extends Result implements Mutable
 
 	/**
 	 * @param mixed $data
-	 * @return void
 	 */
-	public function setData($data)
+	public function setData($data): void
 	{
 		$this->data = $data;
 	}

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\DataSources;
 
@@ -7,11 +7,11 @@ use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 abstract class AbstractDatabaseConnectionDataSource extends AbstractDatabaseDataSource
 {
 
-	/** @var array */
+	/** @var mixed[] */
 	protected $config = [];
 
 	/**
-	 * @param array $config
+	 * @param mixed[] $config
 	 */
 	public function __construct(array $config)
 	{
@@ -19,11 +19,10 @@ abstract class AbstractDatabaseConnectionDataSource extends AbstractDatabaseData
 	}
 
 	/**
-	 * @param string $key
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	protected function getConfig($key, $default = NULL)
+	protected function getConfig(string $key, $default = null)
 	{
 		if (isset($this->config[$key])) {
 			return $this->config[$key];
@@ -36,13 +35,6 @@ abstract class AbstractDatabaseConnectionDataSource extends AbstractDatabaseData
 		return $default;
 	}
 
-	/**
-	 * API *********************************************************************
-	 */
-
-	/**
-	 * @return void
-	 */
-	abstract protected function connect();
+	abstract protected function connect(): void;
 
 }

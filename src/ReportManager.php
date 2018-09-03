@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report;
 
@@ -16,15 +16,7 @@ class ReportManager
 	/** @var Report[] */
 	private $groupless = [];
 
-	/**
-	 * GROUPS ******************************************************************
-	 */
-
-	/**
-	 * @param Group $Group
-	 * @return void
-	 */
-	public function addGroup(Group $Group)
+	public function addGroup(Group $Group): void
 	{
 		$this->groups[$Group->getGid()] = $Group;
 	}
@@ -32,16 +24,12 @@ class ReportManager
 	/**
 	 * @return Group[]
 	 */
-	public function getGroups()
+	public function getGroups(): array
 	{
 		return $this->groups;
 	}
 
-	/**
-	 * @param string $cid
-	 * @return Group
-	 */
-	public function getGroup($cid)
+	public function getGroup(string $cid): Group
 	{
 		if (!isset($this->groups[$cid])) {
 			$hint = Suggestions::getSuggestion(array_map(function (Group $Group) {
@@ -54,24 +42,12 @@ class ReportManager
 		return $this->groups[$cid];
 	}
 
-	/**
-	 * @param string $cid
-	 * @return bool
-	 */
-	public function hasGroup($cid)
+	public function hasGroup(string $cid): bool
 	{
 		return isset($this->groups[$cid]);
 	}
 
-	/**
-	 * GROUPLESS ***************************************************************
-	 */
-
-	/**
-	 * @param Report $report
-	 * @return void
-	 */
-	public function addGroupless(Report $report)
+	public function addGroupless(Report $report): void
 	{
 		$this->groupless[$report->getRid()] = $report;
 	}
@@ -79,19 +55,15 @@ class ReportManager
 	/**
 	 * @return Report[]
 	 */
-	public function getGroupless()
+	public function getGroupless(): array
 	{
 		return $this->groupless;
 	}
 
 	/**
-	 * REPORTS *****************************************************************
-	 */
-
-	/**
 	 * @return Report[]
 	 */
-	public function getReports()
+	public function getReports(): array
 	{
 		$reports = [];
 

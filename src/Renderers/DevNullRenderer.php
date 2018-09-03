@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Renderers;
 
@@ -8,12 +8,11 @@ final class DevNullRenderer implements Renderer
 {
 
 	/**
-	 * @param Result $result
-	 * @return NULL
+	 * @return null
 	 */
 	public function render(Result $result)
 	{
-		return NULL;
+		return null;
 	}
 
 }

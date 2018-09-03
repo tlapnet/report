@@ -1,12 +1,14 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Dibi\DataSources;
 
 use DibiConnection;
 use DibiException;
+use DibiResult;
 use Tlapnet\Report\DataSources\AbstractDatabaseConnectionDataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
 use Tlapnet\Report\Parameters\Parameters;
+use Tlapnet\Report\Result\Resultable;
 
 class DibiDataSource extends AbstractDatabaseConnectionDataSource
 {
@@ -16,10 +18,7 @@ class DibiDataSource extends AbstractDatabaseConnectionDataSource
 	/** @var DibiConnection */
 	protected $connection;
 
-	/**
-	 * @return void
-	 */
-	protected function connect()
+	protected function connect(): void
 	{
 		$this->connection = new DibiConnection([
 			'driver' => $this->getConfig('driver'),
@@ -30,15 +29,10 @@ class DibiDataSource extends AbstractDatabaseConnectionDataSource
 	}
 
 	/**
-	 * COMPILING ***************************************************************
-	 */
-
-	/**
-	 * @param Parameters $parameters
 	 * @return LazyDibiResult
 	 * @throws SqlException
 	 */
-	public function compile(Parameters $parameters)
+	public function compile(Parameters $parameters): Resultable
 	{
 		// Connect to DB
 		if (!$this->connection) $this->connect();
@@ -56,7 +50,7 @@ class DibiDataSource extends AbstractDatabaseConnectionDataSource
 				$switch->setPlaceholder('?');
 				// Replace named parameters for ? and return
 				// accurate sequenced array of arguments
-				list ($sql, $args) = $switch->execute($sql);
+				 [$sql, $args] = $switch->execute($sql);
 			} else {
 				// Keep empty arguments
 				$args = [];
@@ -64,14 +58,13 @@ class DibiDataSource extends AbstractDatabaseConnectionDataSource
 
 			// Execute dibi query
 			$query = array_merge([$sql], $args);
+			/** @var DibiResult $resultset */
 			$resultset = $this->connection->query($query);
 		} catch (DibiException $e) {
-			throw new SqlException($sql, NULL, $e);
+			throw new SqlException($sql, 0, $e);
 		}
 
-		$result = new LazyDibiResult($resultset);
-
-		return $result;
+		return new LazyDibiResult($resultset);
 	}
 
 }

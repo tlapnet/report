@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Parameters\Impl;
 
@@ -10,15 +10,7 @@ use Tlapnet\Report\Parameters\Impl\SelectParameter;
 final class SelectParameterTest extends BaseTestCase
 {
 
-	/**
-	 * @covers SelectParameter::getName
-	 * @covers SelectParameter::getType
-	 * @covers SelectParameter::getTitle
-	 * @covers SelectParameter::getValue
-	 * @covers SelectParameter::getDefaultValue
-	 * @return void
-	 */
-	public function testDefault()
+	public function testDefault(): void
 	{
 		$p = new SelectParameter('foo');
 		$this->assertEquals('foo', $p->getName());
@@ -28,14 +20,7 @@ final class SelectParameterTest extends BaseTestCase
 		$this->assertNull($p->getDefaultValue());
 	}
 
-	/**
-	 * @covers SelectParameter::getName
-	 * @covers SelectParameter::getType
-	 * @covers SelectParameter::setTitle
-	 * @covers SelectParameter::setDefaultValue
-	 * @return void
-	 */
-	public function testGettersSetters()
+	public function testGettersSetters(): void
 	{
 		$p = new SelectParameter('foo1');
 		$p->setItems([
@@ -53,11 +38,7 @@ final class SelectParameterTest extends BaseTestCase
 		$this->assertEquals('foo4', $p->getDefaultValue());
 	}
 
-	/**
-	 * @covers SelectParameter::setValue
-	 * @return void
-	 */
-	public function testSetValue()
+	public function testSetValue(): void
 	{
 		$p = new SelectParameter('foo1');
 		$p->setItems([
@@ -65,20 +46,16 @@ final class SelectParameterTest extends BaseTestCase
 			'foo2' => 'baz',
 		]);
 
-		$p->setUseKeys(TRUE);
+		$p->setUseKeys(true);
 		$p->setValue('foo');
 		$this->assertEquals('foo', $p->getValue());
 
-		$p->setUseKeys(FALSE);
+		$p->setUseKeys(false);
 		$p->setValue('bar');
 		$this->assertEquals('bar', $p->getValue());
 	}
 
-	/**
-	 * @covers SelectParameter::setValue
-	 * @return void
-	 */
-	public function testSetValueException1()
+	public function testSetValueException1(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage('Key "xxx" not found in array [foo|foo2] (useKeys:on)');
@@ -89,15 +66,11 @@ final class SelectParameterTest extends BaseTestCase
 			'foo2' => 'bar2',
 		]);
 
-		$p->setUseKeys(TRUE);
+		$p->setUseKeys(true);
 		$p->setValue('xxx');
 	}
 
-	/**
-	 * @covers SelectParameter::setValue
-	 * @return void
-	 */
-	public function testSetValueException2()
+	public function testSetValueException2(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage('Value "xxx" not found in array [bar|bar2] (useKeys:off)');
@@ -108,7 +81,7 @@ final class SelectParameterTest extends BaseTestCase
 			'foo2' => 'bar2',
 		]);
 
-		$p->setUseKeys(FALSE);
+		$p->setUseKeys(false);
 		$p->setValue('xxx');
 	}
 

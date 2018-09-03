@@ -1,9 +1,10 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable;
 
 use Nette\Application\LinkGenerator;
-use Nette\Application\UI\ITemplateFactory;
+use Nette\Bridges\ApplicationLatte\Template;
+use Nette\Bridges\ApplicationLatte\TemplateFactory;
 use Nette\Utils\Strings;
 use Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Action;
 use Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model\Blank;
@@ -21,83 +22,56 @@ class ExtraTableRenderer extends TemplateRenderer
 	/** @var Component[] */
 	protected $components = [];
 
-	/** @var array */
+	/** @var mixed[] */
 	protected $options = [
-		'sortable' => TRUE,
+		'sortable' => true,
 	];
 
-	/**
-	 * @param ITemplateFactory $templateFactory
-	 * @param LinkGenerator $linkGenerator
-	 */
-	public function __construct(ITemplateFactory $templateFactory, LinkGenerator $linkGenerator)
+	public function __construct(TemplateFactory $templateFactory, LinkGenerator $linkGenerator)
 	{
 		parent::__construct($templateFactory);
 		$this->linkGenerator = $linkGenerator;
 	}
 
-	/**
-	 * @param string $name
-	 * @param string $title
-	 * @return Column
-	 */
-	public function addColumn($name, $title = NULL)
+	public function addColumn(string $name, ?string $title = null): Column
 	{
 		$this->components[$name] = $column = new Column($name);
 
-		if ($title) {
+		if ($title !== null) {
 			$column->title($title);
 		}
 
 		return $column;
 	}
 
-	/**
-	 * @param string $name
-	 * @param string $label
-	 * @return Action
-	 */
-	public function addAction($name, $label = NULL)
+	public function addAction(string $name, ?string $label = null): Action
 	{
 		$this->components[$name] = $action = new Action($name);
 
-		if ($label) {
+		if ($label !== null) {
 			$action->label($label);
 		}
 
 		return $action;
 	}
 
-	/**
-	 * @param string $name
-	 * @return Blank
-	 */
-	public function addBlank($name)
+	public function addBlank(string $name): Blank
 	{
 		$this->components[$name] = $blank = new Blank($name);
 
 		return $blank;
 	}
 
-	/**
-	 * @param boolean $sortable
-	 * @return void
-	 */
-	public function setSortable($sortable = TRUE)
+	public function setSortable(bool $sortable = true): void
 	{
 		$this->options['sortable'] = $sortable;
 	}
 
 	/**
-	 * TEMPLATE ****************************************************************
-	 */
-
-	/**
 	 * @param mixed $link
 	 * @param mixed $row
-	 * @return string
 	 */
-	public function templateLinker($link, $row)
+	public function templateLinker($link, $row): string
 	{
 		// Don't override original link in template
 		$tmplink = clone $link;
@@ -114,16 +88,9 @@ class ExtraTableRenderer extends TemplateRenderer
 		return $this->linkGenerator->link($tmplink->destination, $tmplink->args);
 	}
 
-	/**
-	 * RENDER ******************************************************************
-	 */
-
-	/**
-	 * @param Result $result
-	 * @return void
-	 */
-	public function render(Result $result)
+	public function render(Result $result): void
 	{
+		/** @var Template $template */
 		$template = $this->createTemplate();
 		$template->setFile(__DIR__ . '/templates/table.latte');
 
