@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\DataSources;
 
@@ -8,65 +8,47 @@ use Tlapnet\Report\Parameters\Parameters;
 abstract class AbstractDatabaseDataSource implements DataSource
 {
 
-	/** @var string */
+	/** @var string|null */
 	protected $sql;
 
-	/** @var string */
+	/** @var string|null */
 	protected $defaultSql;
 
 	/** @var bool */
-	protected $pure = TRUE;
+	protected $pure = true;
 
-	/**
-	 * @return string
-	 */
-	public function getSql()
+	public function getSql(): ?string
 	{
 		return $this->sql;
 	}
 
-	/**
-	 * @param mixed $sql
-	 * @return void
-	 */
-	public function setSql($sql)
+	public function setSql(string $sql): void
 	{
-		$this->sql = (string) $sql;
+		$this->sql = $sql;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getDefaultSql()
+	public function getDefaultSql(): ?string
 	{
 		return $this->defaultSql;
 	}
 
-	/**
-	 * @param mixed $sql
-	 * @return void
-	 */
-	public function setDefaultSql($sql)
+	public function setDefaultSql(string $sql): void
 	{
-		$this->defaultSql = (string) $sql;
+		$this->defaultSql = $sql;
 	}
 
-	/**
-	 * @param Parameters $parameters
-	 * @return string
-	 */
-	public function getRealSql(Parameters $parameters)
+	public function getRealSql(Parameters $parameters): string
 	{
 		// If dynamic parameters are not filled
 		// and also we've default sql query
-		if (!$parameters->isAttached() && $this->getDefaultSql()) {
+		if (!$parameters->isAttached() && $this->getDefaultSql() !== null) {
 			$sql = $this->getDefaultSql();
 		} else {
 			$sql = $this->getSql();
 		}
 
 		// Control check - we need any sql query!
-		if (empty($sql)) {
+		if ($sql === null) {
 			throw new InvalidStateException('You have to fill sql query. Via setSql() or setDefaultSql().');
 		}
 

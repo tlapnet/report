@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Chart\Renderers\Pie;
 
@@ -11,23 +11,14 @@ class PieChartRenderer extends AbstractChartRenderer
 {
 
 	/** @var bool */
-	protected $enableValueInTitle;
+	protected $enableValueInTitle = false;
 
-	/**
-	 * @param bool $enable
-	 * @return void
-	 */
-	public function setEnableValueInTitle($enable = TRUE)
+	public function setEnableValueInTitle(bool $enable = true): void
 	{
 		$this->enableValueInTitle = $enable;
 	}
 
 	/**
-	 * API *********************************************************************
-	 */
-
-	/**
-	 * @param Result $result
 	 * @return mixed
 	 */
 	public function render(Result $result)
@@ -45,12 +36,7 @@ class PieChartRenderer extends AbstractChartRenderer
 		return $chart;
 	}
 
-	/**
-	 * @param string $title
-	 * @param int | float $value
-	 * @return string
-	 */
-	private function getSegmentTitle($title, $value)
+	private function getSegmentTitle(string $title, float $value): string
 	{
 		return $this->enableValueInTitle ? $title . ' (' . $value . ')' : $title;
 	}

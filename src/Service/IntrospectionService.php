@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Service;
 
-use Nette\ArrayHash;
 use Nette\DI\Container;
+use Nette\Utils\ArrayHash;
 use ReflectionClass;
 use Tlapnet\Report\Bridges\Nette\DI\ReportExtension;
 use Tlapnet\Report\Utils\Arrays;
@@ -14,24 +14,17 @@ class IntrospectionService
 	/** @var Container */
 	protected $container;
 
-	/**
-	 * @param Container $container
-	 */
 	public function __construct(Container $container)
 	{
 		$this->container = $container;
 	}
 
 	/**
-	 * INTROSPECTION ***********************************************************
-	 */
-
-	/**
 	 * Introspection used in panel and etc..
 	 *
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function introspect()
+	public function introspect(): array
 	{
 		$output = [];
 		$registry = $this->getRegistry();
@@ -47,26 +40,26 @@ class IntrospectionService
 					'report' => (object) [
 						'type' => $this->container->getServiceType($tag['services']['report']),
 						'name' => Arrays::pop(explode('\\', $this->container->getServiceType($tag['services']['report']))),
-						'created' => FALSE,
-						'service' => NULL,
+						'created' => false,
+						'service' => null,
 					],
 					'subreport' => (object) [
 						'type' => $this->container->getServiceType($tag['services']['subreport']),
 						'name' => Arrays::pop(explode('\\', $this->container->getServiceType($tag['services']['subreport']))),
-						'created' => FALSE,
-						'service' => NULL,
+						'created' => false,
+						'service' => null,
 					],
 					'datasource' => (object) [
 						'type' => $this->container->getServiceType($tag['services']['datasource']),
 						'name' => Arrays::pop(explode('\\', $this->container->getServiceType($tag['services']['datasource']))),
-						'created' => FALSE,
-						'service' => NULL,
+						'created' => false,
+						'service' => null,
 					],
 					'renderer' => (object) [
 						'type' => $this->container->getServiceType($tag['services']['renderer']),
 						'name' => Arrays::pop(explode('\\', $this->container->getServiceType($tag['services']['renderer']))),
-						'created' => FALSE,
-						'service' => NULL,
+						'created' => false,
+						'service' => null,
 					],
 				],
 				'tags' => [],
@@ -75,22 +68,22 @@ class IntrospectionService
 			$def->tags = $tag;
 
 			if ((isset($registry[$tag['services']['report']]) && !$registry[$tag['services']['report']] instanceof Container)) {
-				$def->services->report->created = TRUE;
+				$def->services->report->created = true;
 				$def->services->report->service = $registry[$tag['services']['report']];
 			}
 
 			if ((isset($registry[$tag['services']['subreport']]) && !$registry[$tag['services']['subreport']] instanceof Container)) {
-				$def->services->subreport->created = TRUE;
+				$def->services->subreport->created = true;
 				$def->services->subreport->service = $registry[$tag['services']['subreport']];
 			}
 
 			if ((isset($registry[$tag['services']['datasource']]) && !$registry[$tag['services']['datasource']] instanceof Container)) {
-				$def->services->datasource->created = TRUE;
+				$def->services->datasource->created = true;
 				$def->services->datasource->service = $registry[$tag['services']['datasource']];
 			}
 
 			if ((isset($registry[$tag['services']['renderer']]) && !$registry[$tag['services']['renderer']] instanceof Container)) {
-				$def->services->renderer->created = TRUE;
+				$def->services->renderer->created = true;
 				$def->services->renderer->service = $registry[$tag['services']['renderer']];
 			}
 		}
@@ -98,14 +91,7 @@ class IntrospectionService
 		return $output;
 	}
 
-	/**
-	 * STATISTICS **************************************************************
-	 */
-
-	/**
-	 * @return object
-	 */
-	public function compute()
+	public function compute(): object
 	{
 		return (object) [
 			'reports' => count($this->container->findByTag(ReportExtension::TAG_REPORT)),
@@ -114,36 +100,31 @@ class IntrospectionService
 	}
 
 	/**
-	 * HELPERS *****************************************************************
+	 * @return mixed[]
 	 */
-
-	/**
-	 * @return array
-	 */
-	protected function getRegistry()
+	protected function getRegistry(): array
 	{
 		$prop = (new ReflectionClass(Container::class))->getProperty('registry');
-		$prop->setAccessible(TRUE);
+		$prop->setAccessible(true);
 
 		return $prop->getValue($this->container);
 	}
 
 	/**
-	 * @return array
+	 * @return mixed[]
 	 */
-	protected function getMeta()
+	protected function getMeta(): array
 	{
 		$prop = (new ReflectionClass(Container::class))->getProperty('meta');
-		$prop->setAccessible(TRUE);
+		$prop->setAccessible(true);
 
 		return $prop->getValue($this->container);
 	}
 
 	/**
-	 * @param string $class
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function findTags($class)
+	public function findTags(string $class): array
 	{
 		$output = [];
 		$services = $this->container->findByType($class);
@@ -160,11 +141,7 @@ class IntrospectionService
 		return $output;
 	}
 
-	/**
-	 * @param string $name
-	 * @return object
-	 */
-	public function getService($name)
+	public function getService(string $name): object
 	{
 		return $this->container->getService($name);
 	}

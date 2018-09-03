@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\UI\Response;
 
@@ -16,13 +16,12 @@ class CsvResponse implements UIResponse
 	private $contentType;
 
 	/**
-	 * @param mixed $payload
-	 * @param string $contentType
+	 * @param mixed  $payload
 	 */
-	public function __construct($payload, $contentType = NULL)
+	public function __construct($payload, string $contentType = 'text/csv')
 	{
 		$this->payload = $payload;
-		$this->contentType = $contentType ? $contentType : 'text/csv';
+		$this->contentType = $contentType;
 	}
 
 	/**
@@ -33,20 +32,12 @@ class CsvResponse implements UIResponse
 		return $this->payload;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getContentType()
+	public function getContentType(): string
 	{
 		return $this->contentType;
 	}
 
-	/**
-	 * @param IRequest $httpRequest
-	 * @param IResponse $httpResponse
-	 * @return void
-	 */
-	public function send(IRequest $httpRequest, IResponse $httpResponse)
+	public function send(IRequest $httpRequest, IResponse $httpResponse): void
 	{
 		$httpResponse->setContentType($this->contentType, 'utf-8');
 

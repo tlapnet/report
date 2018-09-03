@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Subreport;
 
@@ -23,13 +23,13 @@ class Subreport implements Reportable
 	use TOptions;
 
 	// States
-	const STATE_CREATED = 1;
-	const STATE_ATTACHED = 2;
-	const STATE_COMPILED = 3;
-	const STATE_PREPROCESSED = 4;
-	const STATE_RENDERED = 5;
+	public const STATE_CREATED = 1;
+	public const STATE_ATTACHED = 2;
+	public const STATE_COMPILED = 3;
+	public const STATE_PREPROCESSED = 4;
+	public const STATE_RENDERED = 5;
 
-	/** @var mixed */
+	/** @var string */
 	protected $sid;
 
 	/** @var Parameters */
@@ -47,22 +47,16 @@ class Subreport implements Reportable
 	/** @var Exporters */
 	protected $exporters;
 
-	/** @var Resultable|Result */
+	/** @var Result|Resultable|null */
 	protected $rawResult;
 
-	/** @var Resultable|EditableResult */
+	/** @var Result|EditableResult|Resultable|null */
 	protected $result;
 
 	/** @var int */
 	protected $state;
 
-	/**
-	 * @param mixed $sid
-	 * @param Parameters $parameters
-	 * @param DataSource $dataSource
-	 * @param Renderer $renderer
-	 */
-	public function __construct($sid, Parameters $parameters, DataSource $dataSource, Renderer $renderer)
+	public function __construct(string $sid, Parameters $parameters, DataSource $dataSource, Renderer $renderer)
 	{
 		$this->sid = $sid;
 		$this->parameters = $parameters;
@@ -74,138 +68,85 @@ class Subreport implements Reportable
 		$this->state = self::STATE_CREATED;
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getSid()
+	public function getSid(): string
 	{
 		return $this->sid;
 	}
 
-	/**
-	 * @return Parameters
-	 */
-	public function getParameters()
+	public function getParameters(): Parameters
 	{
 		return $this->parameters;
 	}
 
-	/**
-	 * @return Renderer
-	 */
-	public function getRenderer()
+	public function getRenderer(): Renderer
 	{
 		return $this->renderer;
 	}
 
-	/**
-	 * @return DataSource
-	 */
-	public function getDataSource()
+	public function getDataSource(): DataSource
 	{
 		return $this->dataSource;
 	}
 
-	/**
-	 * @return Preprocessors
-	 */
-	public function getPreprocessors()
+	public function getPreprocessors(): Preprocessors
 	{
 		return $this->preprocessors;
 	}
 
-	/**
-	 * @return Metadata
-	 */
-	public function getMetadata()
+	public function getMetadata(): Metadata
 	{
 		return $this->metadata;
 	}
 
 	/**
-	 * @return Result|Resultable
+	 * @return Result|EditableResult|null
 	 */
-	public function getResult()
+	public function getResult(): ?Result
 	{
 		return $this->result;
 	}
 
-	/**
-	 * @return Result|Resultable
-	 */
-	public function getRawResult()
+	public function getRawResult(): ?Result
 	{
 		return $this->rawResult;
 	}
 
-	/**
-	 * @param int $state
-	 * @return bool
-	 */
-	public function isState($state)
+	public function isState(int $state): bool
 	{
 		return $this->state === $state;
 	}
 
-	/**
-	 * PREPROCESSORS ***********************************************************
-	 */
-
-	/**
-	 * @param string $column
-	 * @param Preprocessor $preprocessor
-	 * @return Preprocessor
-	 */
-	public function addPreprocessor($column, Preprocessor $preprocessor)
+	public function addPreprocessor(string $column, Preprocessor $preprocessor): Preprocessor
 	{
 		$this->preprocessors->add($column, $preprocessor);
 
 		return $preprocessor;
 	}
 
-	/**
-	 * EXPORTS *****************************************************************
-	 */
-
-	/**
-	 * @param string $name
-	 * @param Exporter $exporter
-	 * @return Exporter
-	 */
-	public function addExporter($name, Exporter $exporter)
+	public function addExporter(string $name, Exporter $exporter): Exporter
 	{
 		$this->exporters->add($name, $exporter);
 
 		return $exporter;
 	}
 
-	/**
-	 * @return Exporters
-	 */
-	public function getExporters()
+	public function getExporters(): Exporters
 	{
 		return $this->exporters;
 	}
 
 	/**
-	 * @param string $name
-	 * @param array $options
-	 * @return Exportable
+	 * @param mixed[] $options
 	 */
-	public function export($name, array $options = [])
+	public function export(string $name, array $options = []): Exportable
 	{
 		return $this->exporters->export($name, $this->result, $options);
 	}
 
 	/**
-	 * ATTACHING ***************************************************************
+	 * @param mixed[] $values
 	 */
-
-	/**
-	 * @param array $values
-	 * @return void
-	 */
-	public function attach(array $values)
+	public function attach(array $values): void
 	{
 		if ($this->state === self::STATE_COMPILED || $this->state === self::STATE_PREPROCESSED) {
 			throw new InvalidStateException('Cannot attach parameters in this state.');
@@ -215,37 +156,15 @@ class Subreport implements Reportable
 		$this->state = self::STATE_ATTACHED;
 	}
 
-	/**
-	 * COMPILING ***************************************************************
-	 */
-
-	/**
-	 * @return void
-	 */
-	public function compile()
+	public function compile(): void
 	{
 		$result = $this->dataSource->compile($this->parameters);
-
-		if ($result === NULL) {
-			throw new InvalidStateException('Compilation cannot return NULL.');
-		}
-
-		if (!$result instanceof Resultable) {
-			throw new InvalidStateException(sprintf("DataSource returned object '%s' does not implement '%s'.", get_class($result), Resultable::class));
-		}
 
 		$this->result = $this->rawResult = $result;
 		$this->state = self::STATE_COMPILED;
 	}
 
-	/**
-	 * DATA PREPROCESSING ******************************************************
-	 */
-
-	/**
-	 * @return void
-	 */
-	public function preprocess()
+	public function preprocess(): void
 	{
 		if ($this->state === self::STATE_PREPROCESSED) {
 			throw new InvalidStateException('Cannot preprocess twice same report.');
@@ -262,10 +181,6 @@ class Subreport implements Reportable
 			$this->state = self::STATE_PREPROCESSED;
 		}
 	}
-
-	/**
-	 * RENDERING ***************************************************************
-	 */
 
 	/**
 	 * @return mixed

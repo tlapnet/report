@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Result;
 
@@ -8,21 +8,13 @@ use Tlapnet\Report\Result\EditableResult;
 final class EditableResultTest extends BaseTestCase
 {
 
-	/**
-	 * @covers EditableResult::getData
-	 * @return void
-	 */
-	public function testDefault()
+	public function testDefault(): void
 	{
 		$er = new EditableResult([]);
 		$this->assertEquals([], $er->getData());
 	}
 
-	/**
-	 * @covers EditableResult::getData
-	 * @return void
-	 */
-	public function testSetData()
+	public function testSetData(): void
 	{
 		$er = new EditableResult([]);
 		$er->setData(['foo', 'bar']);

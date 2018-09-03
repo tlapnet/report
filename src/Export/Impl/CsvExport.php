@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Export\Impl;
 
@@ -9,11 +9,7 @@ use Tlapnet\Report\Export\AbstractExport;
 class CsvExport extends AbstractExport
 {
 
-	/**
-	 * @param Presenter $presenter
-	 * @return void
-	 */
-	public function send(Presenter $presenter)
+	public function send(Presenter $presenter): void
 	{
 		$presenter->sendResponse(new CsvResponse($this->data));
 		$presenter->terminate();

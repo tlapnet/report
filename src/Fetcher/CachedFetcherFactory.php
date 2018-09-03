@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Fetcher;
 
+use DateTimeInterface;
 use Nette\Caching\IStorage;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 
@@ -14,13 +15,9 @@ class CachedFetcherFactory
 	/** @var IStorage */
 	private $storage;
 
-	/** @var array */
+	/** @var mixed[] */
 	private $configuration = [];
 
-	/**
-	 * @param FetcherFactory $factory
-	 * @param IStorage $storage
-	 */
 	public function __construct(FetcherFactory $factory, IStorage $storage)
 	{
 		$this->factory = $factory;
@@ -28,11 +25,9 @@ class CachedFetcherFactory
 	}
 
 	/**
-	 * @param string $key
-	 * @param string $expiration
-	 * @return static
+	 * @param string|int|DateTimeInterface $expiration
 	 */
-	public function set($key, $expiration = '+1 h')
+	public function set(string $key, $expiration = '+1 h'): self
 	{
 		$this->configuration['key'] = $key;
 		$this->configuration['expiration'] = $expiration;
@@ -40,11 +35,7 @@ class CachedFetcherFactory
 		return $this;
 	}
 
-	/**
-	 * @param string $sql
-	 * @return CachedFetcher
-	 */
-	public function create($sql)
+	public function create(string $sql): CachedFetcher
 	{
 		if (!isset($this->configuration['key'])) {
 			throw new InvalidStateException('Cache "key" is required');

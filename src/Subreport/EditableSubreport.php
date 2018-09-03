@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Subreport;
 
@@ -6,63 +6,38 @@ use Tlapnet\Report\DataSources\DataSource;
 use Tlapnet\Report\Parameters\Parameters;
 use Tlapnet\Report\Preprocessor\Preprocessors;
 use Tlapnet\Report\Renderers\Renderer;
-use Tlapnet\Report\Result\Result;
 use Tlapnet\Report\Result\Resultable;
 use Tlapnet\Report\Utils\Metadata;
 
 class EditableSubreport extends Subreport
 {
 
-	/**
-	 * @param Parameters $parameters
-	 * @return void
-	 */
-	public function setParameters(Parameters $parameters)
+	public function setParameters(Parameters $parameters): void
 	{
 		$this->parameters = $parameters;
 	}
 
-	/**
-	 * @param Renderer $renderer
-	 * @return void
-	 */
-	public function setRenderer(Renderer $renderer)
+	public function setRenderer(Renderer $renderer): void
 	{
 		$this->renderer = $renderer;
 	}
 
-	/**
-	 * @param DataSource $dataSource
-	 * @return void
-	 */
-	public function setDataSource(DataSource $dataSource)
+	public function setDataSource(DataSource $dataSource): void
 	{
 		$this->dataSource = $dataSource;
 	}
 
-	/**
-	 * @param Metadata $metadata
-	 * @return void
-	 */
-	public function setMetadata(Metadata $metadata)
+	public function setMetadata(Metadata $metadata): void
 	{
 		$this->metadata = $metadata;
 	}
 
-	/**
-	 * @param Preprocessors $preprocessors
-	 * @return void
-	 */
-	public function setPreprocessors(Preprocessors $preprocessors)
+	public function setPreprocessors(Preprocessors $preprocessors): void
 	{
 		$this->preprocessors = $preprocessors;
 	}
 
-	/**
-	 * @param Result|Resultable $result
-	 * @return void
-	 */
-	public function setResult(Resultable $result)
+	public function setResult(Resultable $result): void
 	{
 		$this->result = $result;
 		$this->rawResult = $result;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Result;
 
@@ -11,58 +11,42 @@ use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 class Result implements Countable, ArrayAccess, Resultable, Editable
 {
 
-	/** @var array */
+	/** @var mixed[] */
 	protected $data = [];
 
 	/**
-	 * @param mixed $data
+	 * @param mixed[] $data
 	 */
-	public function __construct($data = [])
+	public function __construct(array $data = [])
 	{
 		$this->data = $data;
 	}
 
 	/**
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function getData()
+	public function getData(): array
 	{
 		return $this->data;
 	}
 
 	/**
-	 * EDITABLE ****************************************************************
+	 * @return EditableResult
 	 */
-
-	/**
-	 * @return Mutable|EditableResult
-	 */
-	public function toEditable()
+	public function toEditable(): Mutable
 	{
 		return new EditableResult($this->getData());
 	}
 
-	/**
-	 * COUNTABLE ***************************************************************
-	 */
-
-	/**
-	 * @return int
-	 */
-	public function count()
+	public function count(): int
 	{
 		return count($this->data);
 	}
 
 	/**
-	 * ARRAY ACCESS ************************************************************
-	 */
-
-	/**
 	 * @param mixed $offset
-	 * @return bool
 	 */
-	public function offsetExists($offset)
+	public function offsetExists($offset): bool
 	{
 		return isset($this->data[$offset]);
 	}
@@ -83,18 +67,16 @@ class Result implements Countable, ArrayAccess, Resultable, Editable
 	/**
 	 * @param mixed $offset
 	 * @param mixed $value
-	 * @return void
 	 */
-	public function offsetSet($offset, $value)
+	public function offsetSet($offset, $value): void
 	{
 		$this->data[$offset] = $value;
 	}
 
 	/**
 	 * @param mixed $offset
-	 * @return void
 	 */
-	public function offsetUnset($offset)
+	public function offsetUnset($offset): void
 	{
 		if (!$this->offsetExists($offset)) {
 			throw new InvalidArgumentException(sprintf('Key "%s" not found', $offset));
@@ -104,15 +86,11 @@ class Result implements Countable, ArrayAccess, Resultable, Editable
 	}
 
 	/**
-	 * ITERATOR ****************************************************************
-	 */
-
-	/**
 	 * @return ArrayIterator
 	 */
-	public function getIterator()
+	public function getIterator(): Iterator
 	{
-		return new ArrayIterator((array) $this->data);
+		return new ArrayIterator($this->data);
 	}
 
 }

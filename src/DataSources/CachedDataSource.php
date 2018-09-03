@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\DataSources;
 
+use DateTimeInterface;
 use Nette\Caching\Cache;
 use Nette\Caching\IStorage;
 use Tlapnet\Report\Cache\CacheKeys;
@@ -14,9 +15,9 @@ class CachedDataSource implements DataSource
 {
 
 	// Cache keys
-	const CACHE_KEY = 'key';
-	const CACHE_EXPIRATION = Cache::EXPIRATION;
-	const CACHE_SLIDING = Cache::SLIDING;
+	public const CACHE_KEY = 'key';
+	public const CACHE_EXPIRATION = Cache::EXPIRATION;
+	public const CACHE_SLIDING = Cache::SLIDING;
 
 	/** @var Cache */
 	private $cache;
@@ -24,59 +25,34 @@ class CachedDataSource implements DataSource
 	/** @var DataSource */
 	private $inner;
 
-	/** @var array */
+	/** @var mixed[] */
 	private $configuration = [];
 
-	/**
-	 * @param IStorage $storage
-	 * @param DataSource $inner
-	 */
 	public function __construct(IStorage $storage, DataSource $inner)
 	{
 		$this->cache = new Cache($storage, CacheKeys::CACHE_DATASOURCES);
 		$this->inner = $inner;
 	}
 
-	/**
-	 * CONFIGURATION ***********************************************************
-	 */
-
-	/**
-	 * @param string $key
-	 * @return void
-	 */
-	public function setKey($key)
+	public function setKey(string $key): void
 	{
 		$this->configuration[self::CACHE_KEY] = $key;
 	}
 
 	/**
-	 * @param string $expiration
-	 * @return void
+	 * @param string|int|DateTimeInterface $expiration
 	 */
-	public function setExpiration($expiration)
+	public function setExpiration($expiration): void
 	{
 		$this->configuration[self::CACHE_EXPIRATION] = $expiration;
 	}
 
-	/**
-	 * @param string $sliding
-	 * @return void
-	 */
-	public function setSliding($sliding = TRUE)
+	public function setSliding(bool $sliding = true): void
 	{
 		$this->configuration[self::CACHE_SLIDING] = $sliding;
 	}
 
-	/**
-	 * COMPILING ***************************************************************
-	 */
-
-	/**
-	 * @param Parameters $parameters
-	 * @return Resultable
-	 */
-	public function compile(Parameters $parameters)
+	public function compile(Parameters $parameters): Resultable
 	{
 		if (!isset($this->configuration[self::CACHE_KEY])) {
 			throw new InvalidStateException(sprintf('Cache "%s" is required', self::CACHE_KEY));
@@ -100,7 +76,7 @@ class CachedDataSource implements DataSource
 			];
 
 			if (isset($this->configuration[self::CACHE_SLIDING])) {
-				$dependencies[Cache::SLIDING] = TRUE;
+				$dependencies[Cache::SLIDING] = true;
 			}
 
 			$innerResult = $this->inner->compile($parameters);

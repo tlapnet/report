@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Utils;
 
@@ -10,50 +10,44 @@ final class Expander
 	/** @var string */
 	private $pattern = '#\{([\w\d\_\-]+)\}#';
 
-	/** @var array */
+	/** @var mixed[] */
 	private $parameters;
 
 	/**
-	 * @param array $parameters
+	 * @param mixed[] $parameters
 	 */
 	public function __construct(array $parameters)
 	{
 		$this->parameters = $parameters;
 	}
 
-	/**
-	 * @param string $pattern
-	 * @return void
-	 */
-	public function setPattern($pattern)
+	public function setPattern(string $pattern): void
 	{
 		$this->pattern = $pattern;
 	}
 
 	/**
-	 * API *********************************************************************
-	 */
-
-	/**
-	 * @param array|string $input
+	 * @param mixed $input
 	 * @return mixed
 	 */
 	public function execute($input)
 	{
 		if (is_array($input)) {
 			return $this->doArray($input);
-		} else if (is_string($input)) {
-			return $this->doSingle($input);
-		} else {
-			return $input;
 		}
+
+		if (is_string($input)) {
+			return $this->doSingle($input);
+		}
+
+		return $input;
 	}
 
 	/**
-	 * @param array $array
-	 * @return array
+	 * @param string[] $array
+	 * @return string[]
 	 */
-	public function doArray(array $array)
+	public function doArray(array $array): array
 	{
 		$output = [];
 		foreach ($array as $k => $v) {
@@ -66,18 +60,14 @@ final class Expander
 		return $output;
 	}
 
-	/**
-	 * @param string $str
-	 * @return string
-	 */
-	public function doSingle($str)
+	public function doSingle(string $str): string
 	{
 		return preg_replace_callback($this->pattern, function ($matches) {
 			if (count($matches) > 2) {
 				throw new InvalidStateException('Invalid pattern, only one group is allowed');
 			}
 
-			list ($whole, $param) = $matches;
+			 [$whole, $param] = $matches;
 
 			// Try to replace part with a parameter
 			if (isset($this->parameters[$param])) {

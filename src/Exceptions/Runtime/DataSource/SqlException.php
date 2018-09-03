@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Exceptions\Runtime\DataSource;
 
-use Exception;
+use Throwable;
 use Tlapnet\Report\Exceptions\Runtime\CompileException;
 
 class SqlException extends CompileException
@@ -11,26 +11,18 @@ class SqlException extends CompileException
 	/** @var string */
 	private $sql;
 
-	/**
-	 * @param string $sql
-	 * @param int $code
-	 * @param Exception $previous
-	 */
-	public function __construct($sql, $code = NULL, Exception $previous = NULL)
+	public function __construct(string $sql, int $code = 0, ?Throwable $previous = null)
 	{
-		if ($previous) {
+		if ($previous !== null) {
 			parent::__construct('Error: ' . $previous->getMessage(), $code, $previous);
 		} else {
-			parent::__construct(NULL, $code);
+			parent::__construct('', $code);
 		}
 
 		$this->sql = $sql;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getSql()
+	public function getSql(): string
 	{
 		return $this->sql;
 	}

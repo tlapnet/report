@@ -1,13 +1,15 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Dibi\DataSources;
 
 use DibiConnection;
+use DibiResult;
 use Tlapnet\Report\DataSources\AbstractMultiDataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
 use Tlapnet\Report\Parameters\Parameters;
 use Tlapnet\Report\Result\MultiResult;
 use Tlapnet\Report\Result\Result;
+use Tlapnet\Report\Result\Resultable;
 
 class MultiDibiWrapperDataSource extends AbstractMultiDataSource
 {
@@ -17,24 +19,16 @@ class MultiDibiWrapperDataSource extends AbstractMultiDataSource
 	/** @var DibiConnection */
 	protected $connection;
 
-	/**
-	 * @param DibiConnection $connection
-	 */
 	public function __construct(DibiConnection $connection)
 	{
 		$this->connection = $connection;
 	}
 
 	/**
-	 * COMPILING ***************************************************************
-	 */
-
-	/**
-	 * @param Parameters $parameters
 	 * @return Result
 	 * @throws SqlException
 	 */
-	public function compile(Parameters $parameters)
+	public function compile(Parameters $parameters): Resultable
 	{
 		// Debug panel
 		if ($this->tracyPanel) $this->createDebugPanel($this->connection);
@@ -52,20 +46,21 @@ class MultiDibiWrapperDataSource extends AbstractMultiDataSource
 				$switch->setPlaceholder('?');
 				// Replace named parameters for ? and return
 				// accurate sequenced array of arguments
-				list ($sql, $args) = $switch->execute($sql);
+				 [$sql, $args] = $switch->execute($sql);
 			} else {
 				// Keep empty arguments
 				$args = [];
 			}
 
 			// Execute nette database query
+			/** @var DibiResult $resultset */
 			$resultset = $this->connection->query($sql, $args);
 
 			// Fetch single data
 			$single = $resultset->fetchSingle();
 
 			// Check data
-			if ($single === FALSE) {
+			if ($single === false) {
 				throw new SqlException($sql);
 			}
 

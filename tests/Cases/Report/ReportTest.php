@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Report;
 
@@ -13,32 +13,19 @@ use Tlapnet\Report\Subreport\Subreport;
 final class ReportTest extends BaseTestCase
 {
 
-	/**
-	 * @covers Report::getRid
-	 * @return void
-	 */
-	public function testDefault()
+	public function testDefault(): void
 	{
-		$r = new Report(NULL);
-		$this->assertNull($r->getRid());
+		$r = new Report('');
+		$this->assertEquals('', $r->getRid());
 	}
 
-	/**
-	 * @covers Report::getRid
-	 * @return void
-	 */
-	public function testGetters()
+	public function testGetters(): void
 	{
 		$r = new Report('r1');
 		$this->assertEquals('r1', $r->getRid());
 	}
 
-	/**
-	 * @covers Report::hasSubreport
-	 * @covers Report::getSubreports
-	 * @return void
-	 */
-	public function testSubreports()
+	public function testSubreports(): void
 	{
 		$r = new Report('r1');
 		$this->assertFalse($r->hasSubreport('s1'));
@@ -52,9 +39,8 @@ final class ReportTest extends BaseTestCase
 
 	/**
 	 * @coversNothing
-	 * @return void
 	 */
-	public function testSubreportsSuggestions()
+	public function testSubreportsSuggestions(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage('Subreport "fod" not found, did you mean "foo"?');
@@ -64,12 +50,7 @@ final class ReportTest extends BaseTestCase
 		$r->getSubreport('fod');
 	}
 
-	/**
-	 * @covers Report::hasOption
-	 * @covers Report::getOption
-	 * @return void
-	 */
-	public function testOptions()
+	public function testOptions(): void
 	{
 		$r = new Report('r1');
 		$this->assertFalse($r->hasOption('foobar'));
@@ -84,9 +65,8 @@ final class ReportTest extends BaseTestCase
 
 	/**
 	 * @coversNothing
-	 * @return void
 	 */
-	public function testOptionsSuggestions()
+	public function testOptionsSuggestions(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage('Unknown key "fod", did you mean "foo"?');

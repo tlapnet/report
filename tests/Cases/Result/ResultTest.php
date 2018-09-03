@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Result;
 
@@ -10,21 +10,13 @@ use Tlapnet\Report\Result\Result;
 final class ResultTest extends BaseTestCase
 {
 
-	/**
-	 * @covers Result::getData
-	 * @return void
-	 */
-	public function testDefault()
+	public function testDefault(): void
 	{
 		$er = new Result([]);
 		$this->assertEquals([], $er->getData());
 	}
 
-	/**
-	 * @covers Result::getData
-	 * @return void
-	 */
-	public function testGetData()
+	public function testGetData(): void
 	{
 		$data = [1, 2, 3, 4, 5];
 		$r = new Result($data);
@@ -32,11 +24,7 @@ final class ResultTest extends BaseTestCase
 		$this->assertEquals($data, $r->getData());
 	}
 
-	/**
-	 * @covers Result::count
-	 * @return void
-	 */
-	public function testCount()
+	public function testCount(): void
 	{
 		$data = [1, 2, 3, 4, 5];
 		$r = new Result($data);
@@ -47,21 +35,20 @@ final class ResultTest extends BaseTestCase
 
 	/**
 	 * @coversNothing
-	 * @return void
 	 */
-	public function testArrayAccess()
+	public function testArrayAccess(): void
 	{
 		$data = [1, 2, 3, 4, 5];
 		$r = new Result($data);
 
 		// offsetExists
-		for ($i = 0; $i < count($data); $i++) {
+		foreach ($r as $i => $iValue) {
 			$this->assertTrue(isset($r[$i]));
 		}
 		$this->assertFalse(isset($r['foo']));
 
 		// offsetGet
-		for ($i = 0; $i < count($data); $i++) {
+		for ($i = 0, $iMax = count($data); $i < $iMax; $i++) {
 			$this->assertEquals($data[$i], $r[$i]);
 		}
 
@@ -75,26 +62,19 @@ final class ResultTest extends BaseTestCase
 		$this->assertEquals(1, $r[0]);
 	}
 
-	/**
-	 * @covers Result::offsetGet
-	 * @covers Result::offsetSet
-	 * @covers Result::offsetExists
-	 * @covers Result::offsetUnset
-	 * @return void
-	 */
-	public function testArrayAccessExplicit()
+	public function testArrayAccessExplicit(): void
 	{
 		$data = [1, 2, 3, 4, 5];
 		$r = new Result($data);
 
 		// offsetExists
-		for ($i = 0; $i < count($data); $i++) {
+		for ($i = 0, $iMax = count($data); $i < $iMax; $i++) {
 			$this->assertTrue($r->offsetExists($i));
 		}
 		$this->assertFalse($r->offsetExists('foo'));
 
 		// offsetGet
-		for ($i = 0; $i < count($data); $i++) {
+		foreach ($r as $i => $iValue) {
 			$this->assertEquals($r->offsetGet($i), $r[$i]);
 		}
 
@@ -108,11 +88,7 @@ final class ResultTest extends BaseTestCase
 		$this->assertEquals(1, $r->offsetGet(0));
 	}
 
-	/**
-	 * @covers Result::offsetGet
-	 * @return void
-	 */
-	public function testOffsetGetException()
+	public function testOffsetGetException(): void
 	{
 		$r = new Result([]);
 
@@ -122,11 +98,7 @@ final class ResultTest extends BaseTestCase
 		$r->offsetGet('fod');
 	}
 
-	/**
-	 * @covers Result::offsetGet
-	 * @return void
-	 */
-	public function testOffsetUnsetException()
+	public function testOffsetUnsetException(): void
 	{
 		$r = new Result([]);
 
@@ -138,9 +110,8 @@ final class ResultTest extends BaseTestCase
 
 	/**
 	 * @coversNothing
-	 * @return void
 	 */
-	public function testArrayAccessException1()
+	public function testArrayAccessException1(): void
 	{
 		$r = new Result([]);
 
@@ -152,9 +123,8 @@ final class ResultTest extends BaseTestCase
 
 	/**
 	 * @coversNothing
-	 * @return void
 	 */
-	public function testArrayAccessException2()
+	public function testArrayAccessException2(): void
 	{
 		$r = new Result([]);
 
@@ -164,26 +134,18 @@ final class ResultTest extends BaseTestCase
 		$r->offsetUnset('fod');
 	}
 
-	/**
-	 * @covers Result::getIterator
-	 * @return void
-	 */
-	public function testIterator()
+	public function testIterator(): void
 	{
 		$data = [1, 2, 3, 4, 5];
 		$r = new Result($data);
 		$i = $r->getIterator();
 
-		$this->assertEquals(count($data), count($i));
+		$this->assertCount(count($data), $i);
 	}
 
-	/**
-	 * @covers Result::toEditable
-	 * @return void
-	 */
-	public function testToEditable()
+	public function testToEditable(): void
 	{
-		$r = new Result(NULL);
+		$r = new Result([]);
 		$er = $r->toEditable();
 
 		$this->assertEquals(EditableResult::class, get_class($er));

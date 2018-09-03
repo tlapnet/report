@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Utils;
 
@@ -8,11 +8,7 @@ use Tlapnet\Report\Utils\Suggestions;
 final class SuggestionsTest extends BaseTestCase
 {
 
-	/**
-	 * @covers Suggestions::getSuggestion
-	 * @return void
-	 */
-	public function testSuggestions()
+	public function testSuggestions(): void
 	{
 		$items = ['foo', 'bar'];
 		$s = Suggestions::getSuggestion($items, 'fo');

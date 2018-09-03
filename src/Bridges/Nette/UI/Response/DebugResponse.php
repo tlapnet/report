@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\UI\Response;
 
@@ -29,12 +29,7 @@ class DebugResponse implements UIResponse
 		return $this->payload;
 	}
 
-	/**
-	 * @param IRequest $httpRequest
-	 * @param IResponse $httpResponse
-	 * @return void
-	 */
-	public function send(IRequest $httpRequest, IResponse $httpResponse)
+	public function send(IRequest $httpRequest, IResponse $httpResponse): void
 	{
 		Debugger::dump($this->payload);
 	}

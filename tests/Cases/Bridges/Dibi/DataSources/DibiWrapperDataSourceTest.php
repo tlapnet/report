@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Bridges\Dibi\DataSources;
 
@@ -12,18 +12,14 @@ use Tlapnet\Report\Parameters\Parameters;
 final class DibiWrapperDataSourceTest extends BaseTestCase
 {
 
-	/**
-	 * @covers DibiWrapperDataSource::compile
-	 * @return void
-	 */
-	public function testQuery()
+	public function testQuery(): void
 	{
 		$result = Mockery::mock('alias:DibiResult');
 
 		$connection = Mockery::mock('alias:DibiConnection');
 		$connection->shouldReceive('isConnected')
 			->once()
-			->andReturn(TRUE);
+			->andReturn(true);
 		$connection->shouldReceive('query')
 			->once()
 			->with(['SELECT * FROM [foobar]'])
@@ -38,18 +34,14 @@ final class DibiWrapperDataSourceTest extends BaseTestCase
 		$this->assertInstanceOf(LazyDibiResult::class, $result);
 	}
 
-	/**
-	 * @covers DibiWrapperDataSource::compile
-	 * @return void
-	 */
-	public function testQueryArgs()
+	public function testQueryArgs(): void
 	{
 		$result = Mockery::mock('alias:DibiResult');
 
 		$connection = Mockery::mock('alias:DibiConnection');
 		$connection->shouldReceive('isConnected')
 			->once()
-			->andReturn(TRUE);
+			->andReturn(true);
 		$connection->shouldReceive('query')
 			->once()
 			->with(['SELECT * FROM [foobar] WHERE [year]=? AND [month]=?', 2000, 10])

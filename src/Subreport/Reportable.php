@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Subreport;
 
@@ -6,20 +6,13 @@ interface Reportable
 {
 
 	/**
-	 * @param array $data
-	 * @return void
+	 * @param mixed[] $data
 	 */
-	public function attach(array $data);
+	public function attach(array $data): void;
 
-	/**
-	 * @return void
-	 */
-	public function compile();
+	public function compile(): void;
 
-	/**
-	 * @return void
-	 */
-	public function preprocess();
+	public function preprocess(): void;
 
 	/**
 	 * @return mixed

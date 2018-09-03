@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Preprocessor;
 
@@ -8,18 +8,13 @@ class Preprocessors
 {
 
 	// Vertical-datasets
-	const DATASET_KEY = 'key';
-	const DATASET_VALUE = 'value';
+	public const DATASET_KEY = 'key';
+	public const DATASET_VALUE = 'value';
 
-	/** @var array[Preprocessor[]] */
+	/** @var Preprocessor[][] */
 	private $preprocessors = [];
 
-	/**
-	 * @param string $column
-	 * @param Preprocessor $preprocessor
-	 * @return void
-	 */
-	public function add($column, Preprocessor $preprocessor)
+	public function add(string $column, Preprocessor $preprocessor): void
 	{
 		if (!isset($this->preprocessors[$column])) {
 			$this->preprocessors[$column] = [];
@@ -27,23 +22,12 @@ class Preprocessors
 		$this->preprocessors[$column][] = $preprocessor;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isEmpty()
+	public function isEmpty(): bool
 	{
-		return count($this->preprocessors) == 0;
+		return $this->preprocessors === [];
 	}
 
-	/**
-	 * PREPROCESSING ***********************************************************
-	 */
-
-	/**
-	 * @param Mutable $result
-	 * @return void
-	 */
-	public function preprocess(Mutable $result)
+	public function preprocess(Mutable $result): void
 	{
 		// Fetch data
 		$data = $result->getData();
@@ -57,28 +41,28 @@ class Preprocessors
 			// Otherwise, it's classic array/structure dataset.
 			if (is_scalar($row)) {
 				// Get preprocessors for generic key
-				$preprocessors1a = isset($this->preprocessors[self::DATASET_KEY]) ? $this->preprocessors[self::DATASET_KEY] : [];
+				$preprocessors1a = $this->preprocessors[self::DATASET_KEY] ?? [];
 				foreach ($preprocessors1a as $p1) {
 					// chain-preprocessing...
 					$key = $p1->preprocess($key);
 				}
 
 				// Get preprocessors for specific key0-N
-				$preprocessors1b = isset($this->preprocessors[self::DATASET_KEY . $pointer]) ? $this->preprocessors[self::DATASET_KEY . $pointer] : [];
+				$preprocessors1b = $this->preprocessors[self::DATASET_KEY . $pointer] ?? [];
 				foreach ($preprocessors1b as $p1) {
 					// chain-preprocessing...
 					$key = $p1->preprocess($key);
 				}
 
 				// Get preprocessors for generic value
-				$preprocessors2a = isset($this->preprocessors[self::DATASET_VALUE]) ? $this->preprocessors[self::DATASET_VALUE] : [];
+				$preprocessors2a = $this->preprocessors[self::DATASET_VALUE] ?? [];
 				foreach ($preprocessors2a as $p2) {
 					// chain-preprocessing...
 					$row = $p2->preprocess($row);
 				}
 
 				// Get preprocessors for specific value0-N
-				$preprocessors2b = isset($this->preprocessors[self::DATASET_VALUE . $pointer]) ? $this->preprocessors[self::DATASET_VALUE . $pointer] : [];
+				$preprocessors2b = $this->preprocessors[self::DATASET_VALUE . $pointer] ?? [];
 				foreach ($preprocessors2b as $p2) {
 					// chain-preprocessing...
 					$row = $p2->preprocess($row);
@@ -89,7 +73,7 @@ class Preprocessors
 				foreach ((array) $row as $column => $columnData) {
 
 					// Get preprocessors for this column
-					$preprocessors = isset($this->preprocessors[$column]) ? $this->preprocessors[$column] : [];
+					$preprocessors = $this->preprocessors[$column] ?? [];
 					foreach ($preprocessors as $p) {
 						// chain-preprocessing...
 						$columnData = $p->preprocess($columnData);

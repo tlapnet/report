@@ -1,13 +1,10 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Subreport;
 
 interface SubreportFactory
 {
 
-	/**
-	 * @return Subreport
-	 */
-	public function create();
+	public function create(): Subreport;
 
 }

@@ -1,8 +1,9 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\DataSources;
 
 use Tlapnet\Report\Parameters\Parameters;
+use Tlapnet\Report\Result\Resultable;
 
 final class CallbackDataSource implements DataSource
 {
@@ -11,18 +12,14 @@ final class CallbackDataSource implements DataSource
 	private $callback;
 
 	/**
-	 * @param callable $callback
+	 * @param callable(Parameters $parameters): Resultable $callback
 	 */
-	public function __construct($callback)
+	public function __construct(callable $callback)
 	{
 		$this->callback = $callback;
 	}
 
-	/**
-	 * @param Parameters $parameters
-	 * @return mixed
-	 */
-	public function compile(Parameters $parameters)
+	public function compile(Parameters $parameters): Resultable
 	{
 		return call_user_func($this->callback, $parameters);
 	}

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Utils;
 
@@ -7,25 +7,22 @@ use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 class Metadata
 {
 
-	/** @var array */
+	/** @var mixed[] */
 	private $data = [];
 
 	/**
-	 * @param string $key
 	 * @param mixed $value
-	 * @return void
 	 */
-	public function set($key, $value)
+	public function set(string $key, $value): void
 	{
 		$this->data[$key] = $value;
 	}
 
 	/**
-	 * @param string $key
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	public function get($key, $default = NULL)
+	public function get(string $key, $default = null)
 	{
 		if ($this->has($key)) {
 			return $this->data[$key];
@@ -39,11 +36,7 @@ class Metadata
 		return $default;
 	}
 
-	/**
-	 * @param string $key
-	 * @return bool
-	 */
-	public function has($key)
+	public function has(string $key): bool
 	{
 		return isset($this->data[$key]);
 	}

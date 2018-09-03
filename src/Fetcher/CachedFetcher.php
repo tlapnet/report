@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Fetcher;
 
+use DateTimeInterface;
 use Nette\Caching\Cache;
 use Nette\Caching\IStorage;
 use Tlapnet\Report\Cache\CacheKeys;
@@ -16,44 +17,27 @@ class CachedFetcher implements Fetcher
 	/** @var Cache */
 	private $cache;
 
-	/** @var array */
+	/** @var mixed[] */
 	private $configuration = [];
 
-	/**
-	 * @param Fetcher $inner
-	 * @param IStorage $storage
-	 */
 	public function __construct(Fetcher $inner, IStorage $storage)
 	{
 		$this->inner = $inner;
 		$this->cache = new Cache($storage, CacheKeys::CACHE_FETCHER);
 	}
 
-	/**
-	 * CONFIGURATION ***********************************************************
-	 */
-
-	/**
-	 * @param string $key
-	 * @return void
-	 */
-	public function setKey($key)
+	public function setKey(string $key): void
 	{
 		$this->configuration['key'] = $key;
 	}
 
 	/**
-	 * @param string $expiration
-	 * @return void
+	 * @param string|int|DateTimeInterface $expiration
 	 */
-	public function setExpiration($expiration)
+	public function setExpiration($expiration): void
 	{
 		$this->configuration['expiration'] = $expiration;
 	}
-
-	/**
-	 * API *********************************************************************
-	 */
 
 	/**
 	 * @return mixed
@@ -81,10 +65,10 @@ class CachedFetcher implements Fetcher
 	}
 
 	/**
-	 * @param string $column
+	 * @param string|int|null $column
 	 * @return mixed
 	 */
-	public function fetchSingle($column = NULL)
+	public function fetchSingle($column = null)
 	{
 		if (!isset($this->configuration['key'])) {
 			throw new InvalidStateException('Cache "key" is required');
@@ -108,11 +92,9 @@ class CachedFetcher implements Fetcher
 	}
 
 	/**
-	 * @param int $offset
-	 * @param int $limit
 	 * @return mixed
 	 */
-	public function fetchAll($offset = NULL, $limit = NULL)
+	public function fetchAll(?int $offset = null, ?int $limit = null)
 	{
 		if (!isset($this->configuration['key'])) {
 			throw new InvalidStateException('Cache "key" is required');
@@ -137,11 +119,9 @@ class CachedFetcher implements Fetcher
 	}
 
 	/**
-	 * @param string $key
-	 * @param string $value
 	 * @return mixed
 	 */
-	public function fetchPairs($key = NULL, $value = NULL)
+	public function fetchPairs(?string $key = null, ?string $value = null)
 	{
 		if (!isset($this->configuration['key'])) {
 			throw new InvalidStateException('Cache "key" is required');

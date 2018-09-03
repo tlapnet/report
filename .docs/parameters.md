@@ -1,13 +1,12 @@
-# Report > Parameters
+# Parameters
 
-Skrze parametry lze upravovat výstup z datasource. Např. upravovat jeho SQL dotaz.
+Through parameters could be modified output from datasource.
 
-Všechny parametry jsou pod klíčem `builder`, protože pro svoje sestavení používají 
-`ParametersBuilder`.
+All parameters are under key `builder`, because they are using `ParametersBuilder`.
 
 ```yaml
 params:
-	builder:
+    builder:
         - input1
         - ......
         - inputN
@@ -15,21 +14,19 @@ params:
 
 ## Builder
 
-`ParametersBuilder` vytvoří pole parametrů dle zadaných konfigurací a předá ho do subreportu.
-Při vykreslování subreportu se pak ověřuje, zda-li existují nějaké parametry a je případně
-vykreslen formulář.
+`ParametersBuilder` create array of parameters from entered configuration and add it to subreport.
+During subreport render is checked, if exist any parameters. If they exist then form is rendered.
 
-Formulář je defaulně nevyplněný a input nejsou povinné. Při odeslání formuláře bez dat se nic neprovede,
-až pokud se vyplnít alespoň 1 input / parameter. Výsledný vyhledávací dotaz se uloží do URL. Je tedy možné
-odeslat link a dotyčnému se zobrazí stejný výstup.
+Form is not filled and inputs are required by default. If form is send empty then nothing happens.
+At least one input (parameter) must be filled.
 
-## Inputy
+## Inputs
 
 ### Text
 
 ```yaml
 params:
-	builder:
+    builder:
         - addText({
             name: ID
             title: Identificator
@@ -45,7 +42,7 @@ params:
 
 ```yaml
 params:
-	builder:
+    builder:
         - addSelect({
             name: country
             title: Countries

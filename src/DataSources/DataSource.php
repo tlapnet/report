@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\DataSources;
 
@@ -8,10 +8,6 @@ use Tlapnet\Report\Result\Resultable;
 interface DataSource
 {
 
-	/**
-	 * @param Parameters $parameters
-	 * @return Resultable
-	 */
-	public function compile(Parameters $parameters);
+	public function compile(Parameters $parameters): Resultable;
 
 }

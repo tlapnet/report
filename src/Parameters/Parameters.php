@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Parameters;
 
@@ -13,8 +13,8 @@ class Parameters implements Attachable
 {
 
 	// States
-	const STATE_EMPTY = 1;
-	const STATE_ATTACHED = 2;
+	public const STATE_EMPTY = 1;
+	public const STATE_ATTACHED = 2;
 
 	/** @var Parameter[] */
 	private $parameters = [];
@@ -30,20 +30,12 @@ class Parameters implements Attachable
 		$this->state = self::STATE_EMPTY;
 	}
 
-	/**
-	 * @param Parameter $parameter
-	 * @return void
-	 */
-	public function add(Parameter $parameter)
+	public function add(Parameter $parameter): void
 	{
 		$this->parameters[$parameter->getName()] = $parameter;
 	}
 
-	/**
-	 * @param string $name
-	 * @return Parameter
-	 */
-	public function get($name)
+	public function get(string $name): Parameter
 	{
 		if (!isset($this->parameters[$name])) {
 			$hint = Suggestions::getSuggestion(array_keys($this->parameters), $name);
@@ -56,16 +48,15 @@ class Parameters implements Attachable
 	/**
 	 * @return Parameter[]
 	 */
-	public function getAll()
+	public function getAll(): array
 	{
 		return $this->parameters;
 	}
 
 	/**
-	 * @param array $data
-	 * @return void
+	 * @param mixed[] $data
 	 */
-	public function attach(array $data)
+	public function attach(array $data): void
 	{
 		$attached = [];
 		foreach ($data as $key => $value) {
@@ -82,15 +73,15 @@ class Parameters implements Attachable
 		}
 
 		// Change state only if data was changed
-		if ($attached) {
+		if ($attached !== []) {
 			$this->state = self::STATE_ATTACHED;
 		}
 	}
 
 	/**
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function toArray()
+	public function toArray(): array
 	{
 		$array = [];
 		foreach ($this->parameters as $parameter) {
@@ -99,9 +90,9 @@ class Parameters implements Attachable
 			// or if parameter can provide/compute value
 			if ($parameter->hasValue()) {
 				$array[$parameter->getName()] = $parameter->getValue();
-			} else if ($parameter->hasDefaultValue()) {
+			} elseif ($parameter->hasDefaultValue()) {
 				$array[$parameter->getName()] = $parameter->getDefaultValue();
-			} else if ($parameter->canProvide()) {
+			} elseif ($parameter->canProvide()) {
 				$array[$parameter->getName()] = $parameter->getProvidedValue();
 			}
 		}
@@ -109,53 +100,34 @@ class Parameters implements Attachable
 		return $array;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isEmpty()
+	public function isEmpty(): bool
 	{
 		return count($this->parameters) <= 0;
 	}
 
 
-	/**
-	 * @return bool
-	 */
-	public function isAttached()
+	public function isAttached(): bool
 	{
-		return $this->state == self::STATE_ATTACHED;
+		return $this->state === self::STATE_ATTACHED;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function canSwitch()
+	public function canSwitch(): bool
 	{
-		if ($this->isEmpty()) return FALSE;
+		if ($this->isEmpty()) return false;
 
 		foreach ($this->parameters as $parameter) {
-			if (!$parameter->canProvide()) return FALSE;
+			if (!$parameter->canProvide()) return false;
 		}
 
-		return TRUE;
+		return true;
 	}
 
-	/**
-	 * HELPERS *****************************************************************
-	 */
-
-	/**
-	 * @return Expander
-	 */
-	public function createExpander()
+	public function createExpander(): Expander
 	{
 		return new Expander($this->toArray());
 	}
 
-	/**
-	 * @return Switcher
-	 */
-	public function createSwitcher()
+	public function createSwitcher(): Switcher
 	{
 		return new Switcher($this->toArray());
 	}

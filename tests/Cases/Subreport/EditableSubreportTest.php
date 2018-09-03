@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Subreport;
 
@@ -14,15 +14,7 @@ use Tlapnet\Report\Utils\Metadata;
 final class EditableSubreportTest extends BaseTestCase
 {
 
-	/**
-	 * @covers EditableSubreport::getParameters
-	 * @covers EditableSubreport::getDataSource
-	 * @covers EditableSubreport::getRenderer
-	 * @covers EditableSubreport::getMetadata
-	 * @covers EditableSubreport::getRawResult
-	 * @return void
-	 */
-	public function testDefault()
+	public function testDefault(): void
 	{
 		$er = new EditableSubreport('s1', new Parameters(), new DevNullDataSource(), new DevNullRenderer());
 
@@ -34,11 +26,7 @@ final class EditableSubreportTest extends BaseTestCase
 		$this->assertNull($er->getRawResult());
 	}
 
-	/**
-	 * @covers EditableSubreport::setParameters
-	 * @return void
-	 */
-	public function testSetParameters()
+	public function testSetParameters(): void
 	{
 		$er = new EditableSubreport('s1', new Parameters(), new DevNullDataSource(), new DevNullRenderer());
 		$er->setParameters($p = new Parameters());
@@ -46,11 +34,7 @@ final class EditableSubreportTest extends BaseTestCase
 		$this->assertSame($p, $er->getParameters());
 	}
 
-	/**
-	 * @covers EditableSubreport::setDataSource
-	 * @return void
-	 */
-	public function testSetDataSource()
+	public function testSetDataSource(): void
 	{
 		$er = new EditableSubreport('s1', new Parameters(), new DevNullDataSource(), new DevNullRenderer());
 		$er->setDataSource($d = new DevNullDataSource());
@@ -58,11 +42,7 @@ final class EditableSubreportTest extends BaseTestCase
 		$this->assertSame($d, $er->getDataSource());
 	}
 
-	/**
-	 * @covers EditableSubreport::setRenderer
-	 * @return void
-	 */
-	public function testSetRenderer()
+	public function testSetRenderer(): void
 	{
 		$er = new EditableSubreport('s1', new Parameters(), new DevNullDataSource(), new DevNullRenderer());
 		$er->setRenderer($r = new DevNullRenderer());
@@ -70,11 +50,7 @@ final class EditableSubreportTest extends BaseTestCase
 		$this->assertSame($r, $er->getRenderer());
 	}
 
-	/**
-	 * @covers EditableSubreport::setResult
-	 * @return void
-	 */
-	public function testSetResult()
+	public function testSetResult(): void
 	{
 		$er = new EditableSubreport('s1', new Parameters(), new DevNullDataSource(), new DevNullRenderer());
 		$er->setResult($r = new Result([]));
@@ -83,11 +59,7 @@ final class EditableSubreportTest extends BaseTestCase
 		$this->assertSame($r, $er->getRawResult());
 	}
 
-	/**
-	 * @covers EditableSubreport::setMetadata
-	 * @return void
-	 */
-	public function testSetMetadata()
+	public function testSetMetadata(): void
 	{
 		$er = new EditableSubreport('s1', new Parameters(), new DevNullDataSource(), new DevNullRenderer());
 		$er->setMetadata($m = new Metadata());
@@ -95,11 +67,7 @@ final class EditableSubreportTest extends BaseTestCase
 		$this->assertSame($m, $er->getMetadata());
 	}
 
-	/**
-	 * @covers EditableSubreport::setPreprocessors
-	 * @return void
-	 */
-	public function testSetPreprocessors()
+	public function testSetPreprocessors(): void
 	{
 		$er = new EditableSubreport('s1', new Parameters(), new DevNullDataSource(), new DevNullRenderer());
 		$er->setPreprocessors($p = new Preprocessors());

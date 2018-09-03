@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <ruleset name="Tlapnet">
-    <!-- Extending ruleset -->
-    <rule ref="vendor/ninjify/coding-standard/ruleset.xml"/>
+	<!-- Contributte Coding Standard -->
+	<rule ref="./vendor/ninjify/coding-standard/contributte.xml">
+		<exclude name="Squiz.Commenting.FunctionComment.InvalidTypeHint"/> <!-- Throws invalid error 'Unknown type hint "string" found for $default' -->
+	</rule>
 
-    <!-- Project rules -->
+    <!-- Package specific rules -->
     <rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
         <properties>
             <property name="rootNamespaces" type="array" value="
@@ -13,6 +15,6 @@
         </properties>
     </rule>
 
-    <!-- Exclude folders -->
-    <exclude-pattern>/tests/tmp</exclude-pattern>
+    <!-- Exclude generated files -->
+	<exclude-pattern>/tests/tmp</exclude-pattern>
 </ruleset>

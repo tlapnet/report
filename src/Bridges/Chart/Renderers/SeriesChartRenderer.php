@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Chart\Renderers;
 
+use Tlapnet\Chart\AbstractChart;
 use Tlapnet\Chart\CategoryChart;
 use Tlapnet\Chart\Chart;
 use Tlapnet\Chart\DateChart;
@@ -10,17 +11,13 @@ use Tlapnet\Chart\Serie\AbstractSerie;
 abstract class SeriesChartRenderer extends AbstractChartRenderer
 {
 
-	/**
-	 * @param object $serie
-	 * @return AbstractSerie
-	 */
-	abstract protected function createSerie($serie);
+	abstract protected function createSerie(object $serie): AbstractSerie;
 
 	/**
-	 * @param array $series
+	 * @param object[] $series
 	 * @return AbstractSerie[]
 	 */
-	protected function doPrepareSeries(array $series)
+	protected function doPrepareSeries(array $series): array
 	{
 		$_series = [];
 		foreach ($series as $sid => $serie) {
@@ -33,9 +30,8 @@ abstract class SeriesChartRenderer extends AbstractChartRenderer
 	/**
 	 * @param CategoryChart|Chart|DateChart $chart
 	 * @param AbstractSerie[] $series
-	 * @return void
 	 */
-	protected function doAddSeries($chart, array $series)
+	protected function doAddSeries(AbstractChart $chart, array $series): void
 	{
 		foreach ($series as $sid => $serie) {
 			$chart->addSerie($serie, $this->getGroupBySerie($sid));
@@ -43,11 +39,11 @@ abstract class SeriesChartRenderer extends AbstractChartRenderer
 	}
 
 	/**
-	 * @param array $seriesBys
-	 * @param array $data
-	 * @return array
+	 * @param object[] $seriesBys
+	 * @param mixed[] $data
+	 * @return mixed[]
 	 */
-	protected function doFilterData($seriesBys, array $data)
+	protected function doFilterData(array $seriesBys, array $data): array
 	{
 		$filtered = [];
 
@@ -59,7 +55,7 @@ abstract class SeriesChartRenderer extends AbstractChartRenderer
 		// Filter data
 		foreach ($data as $item) {
 			foreach ($seriesBys as $serieBy) {
-				if (empty($serieBy->conditions)) {
+				if ($serieBy->conditions !== []) {
 					// Common serie
 					$filtered[$serieBy->id][] = $item;
 				} else {
@@ -76,19 +72,17 @@ abstract class SeriesChartRenderer extends AbstractChartRenderer
 	}
 
 	/**
-	 * @param array $item
-	 * @param object $serieBy
-	 * @return bool
+	 * @param mixed[] $item
 	 */
-	protected function isItemMatched($item, $serieBy)
+	protected function isItemMatched(array $item, object $serieBy): bool
 	{
 		foreach ($serieBy->conditions as $column => $value) {
-			if ($item[$column] == $value) {
-				return TRUE;
+			if ($item[$column] === $value) {
+				return true;
 			}
 		}
 
-		return FALSE;
+		return false;
 	}
 
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Fetcher;
 
@@ -11,23 +11,19 @@ interface Fetcher
 	public function fetch();
 
 	/**
-	 * @param string $column
+	 * @param string|int|null $column
 	 * @return mixed
 	 */
-	public function fetchSingle($column = NULL);
+	public function fetchSingle($column = 0);
 
 	/**
-	 * @param int $offset
-	 * @param int $limit
 	 * @return mixed
 	 */
-	public function fetchAll($offset = NULL, $limit = NULL);
+	public function fetchAll(?int $offset = null, ?int $limit = null);
 
 	/**
-	 * @param string $key
-	 * @param string $value
 	 * @return mixed
 	 */
-	public function fetchPairs($key = NULL, $value = NULL);
+	public function fetchPairs(?string $key = null, ?string $value = null);
 
 }

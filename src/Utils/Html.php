@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Utils;
 
@@ -633,13 +633,6 @@ class Html implements \ArrayAccess, \Countable, \IteratorAggregate
 
 		$s = '';
 		$attrs = $this->attrs;
-		if (isset($attrs['data']) && is_array($attrs['data'])) { // deprecated
-			trigger_error('Expanded attribute "data" is deprecated.', E_USER_DEPRECATED);
-			foreach ($attrs['data'] as $key => $value) {
-				$attrs['data-' . $key] = $value;
-			}
-			unset($attrs['data']);
-		}
 
 		foreach ($attrs as $key => $value) {
 			if ($value === NULL || $value === FALSE) {

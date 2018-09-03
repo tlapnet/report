@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\Database\Fetcher;
 
@@ -14,11 +14,7 @@ final class NetteDatabaseFetcher extends AbstractFetcher
 	/** @var Connection */
 	private $connection;
 
-	/**
-	 * @param string $sql
-	 * @param Connection $connection
-	 */
-	public function __construct($sql, Connection $connection)
+	public function __construct(string $sql, Connection $connection)
 	{
 		parent::__construct($sql);
 		$this->connection = $connection;
@@ -27,13 +23,13 @@ final class NetteDatabaseFetcher extends AbstractFetcher
 	/**
 	 * @return IRow|Row
 	 */
-	public function fetch()
+	public function fetch(): IRow
 	{
 		return $this->doQuery()->fetch();
 	}
 
 	/**
-	 * @param string|int $column
+	 * @param string|int|null $column
 	 * @return mixed
 	 */
 	public function fetchSingle($column = 0)
@@ -42,33 +38,22 @@ final class NetteDatabaseFetcher extends AbstractFetcher
 	}
 
 	/**
-	 * @param int $offset
-	 * @param int $limit
 	 * @return IRow[]|Row[]
 	 */
-	public function fetchAll($offset = NULL, $limit = NULL)
+	public function fetchAll(?int $offset = null, ?int $limit = null): array
 	{
 		return $this->doQuery()->fetchAll();
 	}
 
 	/**
-	 * @param string $key
-	 * @param string $value
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function fetchPairs($key = NULL, $value = NULL)
+	public function fetchPairs(?string $key = null, ?string $value = null): array
 	{
 		return $this->doQuery()->fetchPairs($key, $value);
 	}
 
-	/**
-	 * HELPERS *****************************************************************
-	 */
-
-	/**
-	 * @return ResultSet
-	 */
-	protected function doQuery()
+	protected function doQuery(): ResultSet
 	{
 		return $this->connection->query($this->sql);
 	}

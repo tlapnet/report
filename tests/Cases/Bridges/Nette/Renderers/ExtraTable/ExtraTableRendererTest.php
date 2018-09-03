@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Bridges\Nette\Renderers\ExtraTable;
 
@@ -15,13 +15,10 @@ use Tlapnet\Report\Result\Result;
 final class ExtraTableRendererTest extends BaseTestCase
 {
 
-	/**
-	 * @return TemplateFactory
-	 */
-	private function createTemplateFactory()
+	private function createTemplateFactory(): TemplateFactory
 	{
 		$latteFactory = new LatteFactory();
-		$latteFactory->onCreate(function (Engine $engine) {
+		$latteFactory->onCreate(function (Engine $engine): void {
 			$presenter = Mockery::mock(Presenter::class);
 			$presenter->shouldReceive('link')->andReturn('FOOBAR');
 			$engine->addProvider('uiPresenter', $presenter);
@@ -31,10 +28,7 @@ final class ExtraTableRendererTest extends BaseTestCase
 		return $templateFactory;
 	}
 
-	/**
-	 * @return LinkGenerator
-	 */
-	private function createLinkGenerator()
+	private function createLinkGenerator(): LinkGenerator
 	{
 		$linkGenerator = Mockery::mock(LinkGenerator::class);
 		$linkGenerator->shouldReceive('link')
@@ -54,12 +48,7 @@ final class ExtraTableRendererTest extends BaseTestCase
 		return $linkGenerator;
 	}
 
-	/**
-	 * @covers ExtraTableRenderer::addColumn
-	 * @covers ExtraTableRenderer::render
-	 * @return void
-	 */
-	public function testOutput1()
+	public function testOutput1(): void
 	{
 		$templateFactory = $this->createTemplateFactory();
 		$linkGenerator = $this->createLinkGenerator();
@@ -78,12 +67,7 @@ final class ExtraTableRendererTest extends BaseTestCase
 		$this->assertStringEqualsFile(__DIR__ . '/files/output1.html', $output);
 	}
 
-	/**
-	 * @covers ExtraTableRenderer::addColumn
-	 * @covers ExtraTableRenderer::render
-	 * @return void
-	 */
-	public function testOutput2()
+	public function testOutput2(): void
 	{
 		$templateFactory = $this->createTemplateFactory();
 		$linkGenerator = $this->createLinkGenerator();
@@ -102,12 +86,7 @@ final class ExtraTableRendererTest extends BaseTestCase
 		$this->assertStringEqualsFile(__DIR__ . '/files/output2.html', $output);
 	}
 
-	/**
-	 * @covers ExtraTableRenderer::addColumn
-	 * @covers ExtraTableRenderer::render
-	 * @return void
-	 */
-	public function testOutput3()
+	public function testOutput3(): void
 	{
 		$templateFactory = $this->createTemplateFactory();
 		$linkGenerator = $this->createLinkGenerator();
@@ -129,12 +108,7 @@ final class ExtraTableRendererTest extends BaseTestCase
 		$this->assertStringEqualsFile(__DIR__ . '/files/output3.html', $output);
 	}
 
-	/**
-	 * @covers ExtraTableRenderer::addColumn
-	 * @covers ExtraTableRenderer::render
-	 * @return void
-	 */
-	public function testOutput4()
+	public function testOutput4(): void
 	{
 		$templateFactory = $this->createTemplateFactory();
 		$linkGenerator = $this->createLinkGenerator();

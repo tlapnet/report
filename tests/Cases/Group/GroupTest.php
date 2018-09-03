@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Group;
 
@@ -10,54 +10,33 @@ use Tlapnet\Report\Report\Report;
 final class GroupTest extends BaseTestCase
 {
 
-	/**
-	 * @covers Group::getGid
-	 * @covers Group::getName
-	 * @return void
-	 */
-	public function testGetters()
+	public function testGetters(): void
 	{
 		$g = new Group('g1', 'foobar');
 		$this->assertEquals('g1', $g->getGid());
 		$this->assertEquals('foobar', $g->getName());
 	}
 
-	/**
-	 * @covers Group::getReports
-	 * @return void
-	 */
-	public function testEmpty()
+	public function testEmpty(): void
 	{
 		$g = new Group('g1', 'foobar');
 		$this->assertEmpty($g->getReports());
 	}
 
-	/**
-	 * @covers Group::hasReport
-	 * @return void
-	 */
-	public function testHasReport1()
+	public function testHasReport1(): void
 	{
 		$g = new Group('g1', 'foobar');
 		$this->assertFalse($g->hasReport('foobar'));
 	}
 
-	/**
-	 * @covers Group::hasReport
-	 * @return void
-	 */
-	public function testHasReport2()
+	public function testHasReport2(): void
 	{
 		$g = new Group('g1', 'foobar');
 		$g->addReport(new Report('r1'));
 		$this->assertTrue($g->hasReport('r1'));
 	}
 
-	/**
-	 * @covers Group::getReport
-	 * @return void
-	 */
-	public function testGetReport()
+	public function testGetReport(): void
 	{
 		$g = new Group('g1', 'foobar');
 		$g->addReport($r = new Report('r1'));
@@ -66,9 +45,8 @@ final class GroupTest extends BaseTestCase
 
 	/**
 	 * @coversNothing
-	 * @return void
 	 */
-	public function testGetReportSuggestions()
+	public function testGetReportSuggestions(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage('Report "fod" not found, did you mean "foo"?');
@@ -78,22 +56,14 @@ final class GroupTest extends BaseTestCase
 		$g->getReport('fod');
 	}
 
-	/**
-	 * @covers Group::getReports
-	 * @return void
-	 */
-	public function testGetReports1()
+	public function testGetReports1(): void
 	{
 		$g = new Group('g1', 'foobar');
 		$g->addReport($r = new Report('r1'));
 		$this->assertEquals(['r1' => $r], $g->getReports());
 	}
 
-	/**
-	 * @covers Group::getReports
-	 * @return void
-	 */
-	public function testGetReports2()
+	public function testGetReports2(): void
 	{
 		$g = new Group('g1', 'foobar');
 		$g->addReport($r = new Report('r1'));

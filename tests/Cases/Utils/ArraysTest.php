@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Utils;
 
@@ -8,20 +8,12 @@ use Tlapnet\Report\Utils\Arrays;
 final class ArraysTest extends BaseTestCase
 {
 
-	/**
-	 * @covers Arrays::pop
-	 * @return void
-	 */
-	public function testPop()
+	public function testPop(): void
 	{
 		$this->assertEquals('bar', Arrays::pop(['foo', 'bar']));
 	}
 
-	/**
-	 * @covers Arrays::shift
-	 * @return void
-	 */
-	public function testShift()
+	public function testShift(): void
 	{
 		$this->assertEquals('foo', Arrays::shift(['foo', 'bar']));
 	}

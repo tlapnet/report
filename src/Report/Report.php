@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Report;
 
@@ -13,34 +13,24 @@ class Report
 
 	use TOptions;
 
-	/** @var mixed */
+	/** @var string */
 	protected $rid;
 
 	/** @var Subreport[] */
 	protected $subreports = [];
 
-	/**
-	 * @param mixed $rid
-	 */
-	public function __construct($rid)
+	public function __construct(string $rid)
 	{
 		$this->rid = $rid;
 		$this->metadata = new Metadata();
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getRid()
+	public function getRid(): string
 	{
 		return $this->rid;
 	}
 
-	/**
-	 * @param Subreport $subreport
-	 * @return void
-	 */
-	public function addSubreport(Subreport $subreport)
+	public function addSubreport(Subreport $subreport): void
 	{
 		$this->subreports[$subreport->getSid()] = $subreport;
 	}
@@ -48,16 +38,12 @@ class Report
 	/**
 	 * @return Subreport[]
 	 */
-	public function getSubreports()
+	public function getSubreports(): array
 	{
 		return $this->subreports;
 	}
 
-	/**
-	 * @param string $sid
-	 * @return Subreport
-	 */
-	public function getSubreport($sid)
+	public function getSubreport(string $sid): Subreport
 	{
 		if (!$this->hasSubreport($sid)) {
 			$hint = Suggestions::getSuggestion(array_map(function (Subreport $subreport) {
@@ -70,11 +56,7 @@ class Report
 		return $this->subreports[$sid];
 	}
 
-	/**
-	 * @param string $bid
-	 * @return bool
-	 */
-	public function hasSubreport($bid)
+	public function hasSubreport(string $bid): bool
 	{
 		return isset($this->subreports[$bid]);
 	}

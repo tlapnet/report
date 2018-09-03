@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\DataSource;
 
@@ -8,32 +8,31 @@ use Tlapnet\Report\Exceptions\Logic\InvalidArgumentException;
 use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 use Tlapnet\Report\Parameters\Parameters;
 use Tlapnet\Report\Result\Result;
+use Tlapnet\Report\Result\Resultable;
 use Tlapnet\Report\Utils\DateTime;
 
 class RandomDataSource implements DataSource
 {
 
 	// Types
-	const TYPE_INT = 'int';
-	const TYPE_FLOAT = 'float';
-	const TYPE_RANGE = 'range';
-	const TYPE_STRING = 'string';
-	const TYPE_DATE = 'date';
-	const TYPE_DATETIME = 'datetime';
-	const TYPE_EMAIL = 'email';
+	public const TYPE_INT = 'int';
+	public const TYPE_FLOAT = 'float';
+	public const TYPE_RANGE = 'range';
+	public const TYPE_STRING = 'string';
+	public const TYPE_DATE = 'date';
+	public const TYPE_DATETIME = 'datetime';
+	public const TYPE_EMAIL = 'email';
 
-	/** @var array */
+	/** @var object[] */
 	protected $columns = [];
 
 	/** @var int */
 	protected $rows = 100;
 
 	/**
-	 * @param string $name
-	 * @param array $options
-	 * @return void
+	 * @param mixed[] $options
 	 */
-	protected function addColumn($name, array $options)
+	protected function addColumn(string $name, array $options): void
 	{
 		if (isset($this->columns[$name])) {
 			throw new InvalidStateException(sprintf('Column "%s" already exists', $name));
@@ -43,12 +42,7 @@ class RandomDataSource implements DataSource
 		$this->columns[$name] = (object) $column;
 	}
 
-	/**
-	 * @param string $name
-	 * @param int $length
-	 * @return void
-	 */
-	public function addString($name, $length = 20)
+	public function addString(string $name, int $length = 20): void
 	{
 		$this->addColumn($name, [
 			'type' => self::TYPE_STRING,
@@ -56,12 +50,7 @@ class RandomDataSource implements DataSource
 		]);
 	}
 
-	/**
-	 * @param string $name
-	 * @param int $length
-	 * @return void
-	 */
-	public function addInt($name, $length = 10)
+	public function addInt(string $name, int $length = 10): void
 	{
 		$this->addColumn($name, [
 			'type' => self::TYPE_INT,
@@ -69,12 +58,7 @@ class RandomDataSource implements DataSource
 		]);
 	}
 
-	/**
-	 * @param string $name
-	 * @param int $length
-	 * @return void
-	 */
-	public function addFloat($name, $length = 10)
+	public function addFloat(string $name, int $length = 10): void
 	{
 		$this->addColumn($name, [
 			'type' => self::TYPE_FLOAT,
@@ -82,13 +66,7 @@ class RandomDataSource implements DataSource
 		]);
 	}
 
-	/**
-	 * @param string $name
-	 * @param int $from
-	 * @param int $to
-	 * @return void
-	 */
-	public function addRange($name, $from, $to)
+	public function addRange(string $name, int $from, int $to): void
 	{
 		$this->addColumn($name, [
 			'type' => self::TYPE_RANGE,
@@ -96,12 +74,7 @@ class RandomDataSource implements DataSource
 		]);
 	}
 
-	/**
-	 * @param string $name
-	 * @param string $format
-	 * @return void
-	 */
-	public function addDate($name, $format = 'd.m.Y')
+	public function addDate(string $name, string $format = 'd.m.Y'): void
 	{
 		$this->addColumn($name, [
 			'type' => self::TYPE_DATE,
@@ -109,12 +82,7 @@ class RandomDataSource implements DataSource
 		]);
 	}
 
-	/**
-	 * @param string $name
-	 * @param string $format
-	 * @return void
-	 */
-	public function addDateTime($name, $format = 'd.m.Y H:i:s')
+	public function addDateTime(string $name, string $format = 'd.m.Y H:i:s'): void
 	{
 		$this->addColumn($name, [
 			'type' => self::TYPE_DATETIME,
@@ -122,35 +90,22 @@ class RandomDataSource implements DataSource
 		]);
 	}
 
-	/**
-	 * @param string $name
-	 * @return void
-	 */
-	public function addEmail($name)
+	public function addEmail(string $name): void
 	{
 		$this->addColumn($name, [
 			'type' => self::TYPE_EMAIL,
 		]);
 	}
 
-	/**
-	 * @param int $rows
-	 * @return void
-	 */
-	public function setRows($rows)
+	public function setRows(int $rows): void
 	{
 		$this->rows = $rows;
 	}
 
 	/**
-	 * COMPILING ***************************************************************
-	 */
-
-	/**
-	 * @param Parameters $parameters
 	 * @return Result
 	 */
-	public function compile(Parameters $parameters)
+	public function compile(Parameters $parameters): Resultable
 	{
 		$data = [];
 
@@ -163,20 +118,13 @@ class RandomDataSource implements DataSource
 			$data[] = $row;
 		}
 
-		$report = new Result($data);
-
-		return $report;
+		return new Result($data);
 	}
 
 	/**
-	 * HELPERS *****************************************************************
-	 */
-
-	/**
-	 * @param object $column
 	 * @return mixed
 	 */
-	protected function generate($column)
+	protected function generate(object $column)
 	{
 		switch ($column->type) {
 			case self::TYPE_INT:

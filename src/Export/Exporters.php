@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Export;
 
@@ -13,12 +13,7 @@ class Exporters
 	/** @var Exporter[] */
 	private $exporters = [];
 
-	/**
-	 * @param string $name
-	 * @param Exporter $exporter
-	 * @return void
-	 */
-	public function add($name, Exporter $exporter)
+	public function add(string $name, Exporter $exporter): void
 	{
 		if (isset($this->exporters[$name])) {
 			throw new InvalidStateException(sprintf('Exporter "%s" already exists', $name));
@@ -27,36 +22,25 @@ class Exporters
 		$this->exporters[$name] = $exporter;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isEmpty()
+	public function isEmpty(): bool
 	{
-		return count($this->exporters) == 0;
+		return $this->exporters === [];
 	}
 
 	/**
 	 * @return Exporter[]
 	 */
-	public function getAll()
+	public function getAll(): array
 	{
 		return $this->exporters;
 	}
 
-	/**
-	 * @param string $name
-	 * @return bool
-	 */
-	public function has($name)
+	public function has(string $name): bool
 	{
-		return isset($this->exporters, $name);
+		return isset($this->exporters[$name]);
 	}
 
-	/**
-	 * @param string $name
-	 * @return Exporter
-	 */
-	public function get($name)
+	public function get(string $name): Exporter
 	{
 		if (!$this->has($name)) {
 			$hint = Suggestions::getSuggestion(array_keys($this->exporters), $name);
@@ -67,21 +51,12 @@ class Exporters
 	}
 
 	/**
-	 * EXPORT ******************************************************************
+	 * @param mixed[] $options
 	 */
-
-	/**
-	 * @param string $name
-	 * @param Resultable $result
-	 * @param array $options
-	 * @return Exportable
-	 */
-	public function export($name, Resultable $result, array $options = [])
+	public function export(string $name, Resultable $result, array $options = []): Exportable
 	{
 		$exporter = $this->get($name);
-		$exportable = $exporter->export($result, $options);
-
-		return $exportable;
+		return $exporter->export($result, $options);
 	}
 
 }

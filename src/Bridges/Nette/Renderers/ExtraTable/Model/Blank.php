@@ -1,34 +1,19 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\Renderers\ExtraTable\Model;
 
 class Blank extends Component
 {
 
-	/** @var callable */
+	/** @var callable|null */
 	private $callback;
 
-	/**
-	 * GETTERS *****************************************************************
-	 */
-
-	/**
-	 * @return callable
-	 */
-	public function getCallback()
+	public function getCallback(): ?callable
 	{
 		return $this->callback;
 	}
 
-	/**
-	 * BUILDER *****************************************************************
-	 */
-
-	/**
-	 * @param callable $callback
-	 * @return void
-	 */
-	public function callback(callable $callback)
+	public function callback(callable $callback): void
 	{
 		$this->callback = $callback;
 	}

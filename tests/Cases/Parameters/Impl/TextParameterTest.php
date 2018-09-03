@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Parameters\Impl;
 
@@ -9,15 +9,7 @@ use Tlapnet\Report\Parameters\Impl\TextParameter;
 final class TextParameterTest extends BaseTestCase
 {
 
-	/**
-	 * @covers TextParameter::getName
-	 * @covers TextParameter::getType
-	 * @covers TextParameter::getTitle
-	 * @covers TextParameter::getValue
-	 * @covers TextParameter::getDefaultValue
-	 * @return void
-	 */
-	public function testDefault()
+	public function testDefault(): void
 	{
 		$p = new TextParameter('foo');
 		$this->assertEquals('foo', $p->getName());
@@ -27,15 +19,7 @@ final class TextParameterTest extends BaseTestCase
 		$this->assertNull($p->getDefaultValue());
 	}
 
-	/**
-	 * @covers TextParameter::getName
-	 * @covers TextParameter::getType
-	 * @covers TextParameter::setTitle
-	 * @covers TextParameter::setValue
-	 * @covers TextParameter::setDefaultValue
-	 * @return void
-	 */
-	public function testGettersSetters()
+	public function testGettersSetters(): void
 	{
 		$p = new TextParameter('foo1');
 		$this->assertEquals('foo1', $p->getName());

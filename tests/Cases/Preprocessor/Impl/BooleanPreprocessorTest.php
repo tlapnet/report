@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Preprocessor\Impl;
 
@@ -8,11 +8,7 @@ use Tlapnet\Report\Preprocessor\Impl\BooleanPreprocessor;
 final class BooleanPreprocessorTest extends BaseTestCase
 {
 
-	/**
-	 * @covers BooleanPreprocessor::preprocess
-	 * @return void
-	 */
-	public function testPreprocessor()
+	public function testPreprocessor(): void
 	{
 		$b = new BooleanPreprocessor();
 		$this->assertEquals('Ano', $b->preprocess(1));

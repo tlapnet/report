@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Result;
 
@@ -6,10 +6,9 @@ final class Helpers
 {
 
 	/**
-	 * @param Result $result
-	 * @return array
+	 * @return mixed[]
 	 */
-	public static function toArray(Result $result)
+	public static function toArray(Result $result): array
 	{
 		// Fetch data
 		$data = $result->getData();

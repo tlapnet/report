@@ -1,20 +1,17 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Result;
 
 use AppendIterator;
+use Iterator;
 
-class MultiResult extends Result implements Editable
+class MultiResult extends Result
 {
 
 	/** @var Result[] */
 	private $results = [];
 
-	/**
-	 * @param Result $result
-	 * @return void
-	 */
-	public function add(Result $result)
+	public function add(Result $result): void
 	{
 		$this->results[] = $result;
 	}
@@ -22,19 +19,15 @@ class MultiResult extends Result implements Editable
 	/**
 	 * @return Result[]
 	 */
-	public function getData()
+	public function getData(): array
 	{
 		return $this->results;
 	}
 
 	/**
-	 * EDITABLE ****************************************************************
+	 * @return EditableResult
 	 */
-
-	/**
-	 * @return Mutable|EditableResult
-	 */
-	public function toEditable()
+	public function toEditable(): Mutable
 	{
 		$data = [];
 		$iterator = $this->getIterator();
@@ -48,13 +41,9 @@ class MultiResult extends Result implements Editable
 	}
 
 	/**
-	 * ITERATOR ****************************************************************
-	 */
-
-	/**
 	 * @return AppendIterator
 	 */
-	public function getIterator()
+	public function getIterator(): Iterator
 	{
 		$iterator = new AppendIterator();
 

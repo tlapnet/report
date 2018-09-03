@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Preprocessor\Impl;
 
@@ -8,11 +8,7 @@ use Tlapnet\Report\Preprocessor\Impl\DatePreprocessor;
 final class DatePreprocessorTest extends BaseTestCase
 {
 
-	/**
-	 * @covers DatePreprocessor::preprocess
-	 * @return void
-	 */
-	public function testPreprocessor()
+	public function testPreprocessor(): void
 	{
 		$p = new DatePreprocessor();
 		$this->assertEquals('01.01.2000', $p->preprocess('2000-01-01'));
@@ -21,11 +17,7 @@ final class DatePreprocessorTest extends BaseTestCase
 		$this->assertEquals('01.01.2000', $p->preprocess(strtotime('2000/01/01 15:00')));
 	}
 
-	/**
-	 * @covers DatePreprocessor::preprocess
-	 * @return void
-	 */
-	public function testPreprocessorFormat()
+	public function testPreprocessorFormat(): void
 	{
 		$p = new DatePreprocessor('Y');
 		$this->assertEquals('2000', $p->preprocess('2000-01-01'));

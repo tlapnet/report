@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Subreport;
 
@@ -6,9 +6,8 @@ interface Attachable
 {
 
 	/**
-	 * @param array $data
-	 * @return void
+	 * @param mixed[] $data
 	 */
-	public function attach(array $data);
+	public function attach(array $data): void;
 
 }

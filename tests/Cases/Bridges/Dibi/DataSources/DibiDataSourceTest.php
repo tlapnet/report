@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Bridges\Dibi\DataSources;
 
@@ -12,11 +12,7 @@ use Tlapnet\Report\Parameters\Parameters;
 final class DibiDataSourceTest extends BaseTestCase
 {
 
-	/**
-	 * @covers DibiDataSource::compile
-	 * @return void
-	 */
-	public function testQuery()
+	public function testQuery(): void
 	{
 		$result = Mockery::mock('alias:DibiResult');
 
@@ -43,11 +39,7 @@ final class DibiDataSourceTest extends BaseTestCase
 		$this->assertInstanceOf(LazyDibiResult::class, $result);
 	}
 
-	/**
-	 * @covers DibiDataSource::compile
-	 * @return void
-	 */
-	public function testQueryArgs()
+	public function testQueryArgs(): void
 	{
 		$result = Mockery::mock('alias:DibiResult');
 

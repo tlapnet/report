@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Dibi\DataSources;
 
 use DibiResult;
+use Iterator;
 use Tlapnet\Report\Result\Result;
-use Traversable;
 
 class LazyDibiResult extends Result
 {
@@ -12,9 +12,6 @@ class LazyDibiResult extends Result
 	/** @var DibiResult */
 	private $result;
 
-	/**
-	 * @param DibiResult $result
-	 */
 	public function __construct(DibiResult $result)
 	{
 		parent::__construct();
@@ -22,25 +19,19 @@ class LazyDibiResult extends Result
 	}
 
 	/**
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function getData()
+	public function getData(): array
 	{
 		return $this->result->fetchAll();
 	}
 
-	/**
-	 * @return int
-	 */
-	public function count()
+	public function count(): int
 	{
 		return $this->result->count();
 	}
 
-	/**
-	 * @return Traversable
-	 */
-	public function getIterator()
+	public function getIterator(): Iterator
 	{
 		return $this->result->getIterator();
 	}

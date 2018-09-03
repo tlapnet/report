@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Data\Lists;
 
@@ -7,10 +7,10 @@ use Tlapnet\Report\Exceptions\Logic\InvalidStateException;
 abstract class AbstractList
 {
 
-	/** @var static */
+	/** @var self|null */
 	protected static $instance;
 
-	/** @var array */
+	/** @var mixed[] */
 	protected $data = [];
 
 	/** @var callable[] */
@@ -20,18 +20,14 @@ abstract class AbstractList
 	protected $lang = 'cs';
 
 	/**
-	 * @param array $data
+	 * @param mixed[] $data
 	 */
 	protected function __construct(array $data = [])
 	{
 		$this->data = $data;
 	}
 
-	/**
-	 * @param string $lang
-	 * @return static
-	 */
-	public static function lang($lang)
+	public static function lang(string $lang): self
 	{
 		self::getInstance()->lang = $lang;
 
@@ -39,19 +35,19 @@ abstract class AbstractList
 	}
 
 	/**
-	 * @return mixed
+	 * @return mixed[]
 	 */
-	public static function get()
+	public static function get(): array
 	{
 		$that = self::getInstance();
 
-		if ($that->lang && !isset($that->data[$that->lang])) {
+		if (!isset($that->data[$that->lang])) {
 			throw new InvalidStateException(sprintf('Missing dataset for "%s" language', $that->lang));
 		}
 
 		$data = $that->data[$that->lang];
 
-		if ($that->filters) {
+		if ($that->filters !== []) {
 			foreach ($that->filters as $filter) {
 				$data = array_map($filter, $data);
 			}
@@ -61,14 +57,7 @@ abstract class AbstractList
 		return $data;
 	}
 
-	/**
-	 * FILTERS *****************************************************************
-	 */
-
-	/**
-	 * @return static
-	 */
-	public static function lower()
+	public static function lower(): self
 	{
 		self::getInstance()->filters[] = function ($item) {
 			return mb_strtolower($item);
@@ -77,10 +66,7 @@ abstract class AbstractList
 		return self::getInstance();
 	}
 
-	/**
-	 * @return static
-	 */
-	public static function upper()
+	public static function upper(): self
 	{
 		self::getInstance()->filters[] = function ($item) {
 			return mb_strtoupper($item);
@@ -89,10 +75,7 @@ abstract class AbstractList
 		return self::getInstance();
 	}
 
-	/**
-	 * @return static
-	 */
-	public static function ucwords()
+	public static function ucwords(): self
 	{
 		self::getInstance()->filters[] = function ($item) {
 			return ucwords($item);
@@ -101,10 +84,7 @@ abstract class AbstractList
 		return self::getInstance();
 	}
 
-	/**
-	 * @return static
-	 */
-	public static function ucfirst()
+	public static function ucfirst(): self
 	{
 		self::getInstance()->filters[] = function ($item) {
 			return ucfirst($item);
@@ -113,16 +93,9 @@ abstract class AbstractList
 		return self::getInstance();
 	}
 
-	/**
-	 * SINGLETON ***************************************************************
-	 */
-
-	/**
-	 * @return static
-	 */
-	public static function getInstance()
+	public static function getInstance(): self
 	{
-		if (!self::$instance) {
+		if (self::$instance === null) {
 			self::$instance = new static();
 		}
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\Database\DataSources;
 
@@ -10,37 +10,22 @@ trait TNetteDatabaseDebugPanel
 {
 
 	/** @var bool */
-	protected $tracyPanel = FALSE;
-
-	/**
-	 * GETTERS / SETTERS *******************************************************
-	 */
+	protected $tracyPanel = false;
 
 	/**
 	 * Show or hide tracy panel
-	 *
-	 * @param bool $show
-	 * @return void
 	 */
-	public function setTracyPanel($show)
+	public function setTracyPanel(bool $show): void
 	{
 		$this->tracyPanel = $show;
 	}
 
-	/**
-	 * HELPERS *****************************************************************
-	 */
-
-	/**
-	 * @param Connection $connection
-	 * @return void
-	 */
-	protected function createDebugPanel(Connection $connection)
+	protected function createDebugPanel(Connection $connection): void
 	{
 		if (!class_exists(Debugger::class)) return;
 
-		$connection->onConnect[] = function () use ($connection) {
-			Helpers::createDebugPanel($connection, TRUE, 'Tlapnet.Report');
+		$connection->onConnect[] = function () use ($connection): void {
+			Helpers::createDebugPanel($connection, true, 'Tlapnet.Report');
 		};
 	}
 

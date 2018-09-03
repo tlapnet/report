@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Preprocessor\Impl;
 
@@ -9,64 +9,39 @@ final class MathRatioPreprocessor extends AbstractPreprocessor
 	protected $base;
 
 	/** @var bool */
-	protected $percentages = TRUE;
+	protected $percentages = true;
 
 	/** @var string */
 	protected $format = '%d / %d';
 
-	/**
-	 * @param int $base
-	 */
-	public function __construct($base = 100)
+	public function __construct(int $base = 100)
 	{
-		$this->base = intval($base);
+		$this->base = $base;
 	}
 
-	/**
-	 * @param int $base
-	 * @return void
-	 */
-	public function setBase($base)
+	public function setBase(int $base): void
 	{
-		$this->base = intval($base);
+		$this->base = $base;
 	}
 
-	/**
-	 * @param bool $percentages
-	 * @return void
-	 */
-	public function setPercentages($percentages)
+	public function setPercentages(bool $percentages): void
 	{
-		$this->percentages = boolval($percentages);
+		$this->percentages = $percentages;
 	}
 
-
-	/**
-	 * @param string $format
-	 * @return void
-	 */
-	public function setFormat($format)
+	public function setFormat(string $format): void
 	{
 		$this->format = $format;
 	}
 
-	/**
-	 * @param int $ratio
-	 * @param int $base
-	 * @return void
-	 */
-	public function setFloating($ratio = 2, $base = 0)
+	public function setFloating(int $ratio = 2, int $base = 0): void
 	{
-		if ($ratio && $base) {
+		if ($ratio !== 0 && $base !== 0) {
 			$this->format = '%01.' . $ratio . 'f / %01.' . $base . 'f';
-		} else if ($ratio && !$base) {
+		} elseif ($ratio !== 0 && $base === 0) {
 			$this->format = '%01.' . $ratio . 'f / %d';
 		}
 	}
-
-	/**
-	 * PREPROCESSING ***********************************************************
-	 */
 
 	/**
 	 * @param mixed $data

@@ -1,36 +1,25 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Preprocessor\Impl;
 
 final class PrependPreprocessor extends AbstractPreprocessor
 {
 
-	/** @var mixed */
+	/** @var string */
 	protected $prepend;
 
-	/**
-	 * @param mixed $prepend
-	 */
-	public function __construct($prepend)
+	public function __construct(string $prepend)
 	{
 		$this->prepend = $prepend;
 	}
 
 	/**
-	 * PREPROCESSING ***********************************************************
+	 * @param string $data
+	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 */
-
-	/**
-	 * @param mixed $data
-	 * @return mixed
-	 */
-	public function preprocess($data)
+	public function preprocess($data): string
 	{
-		if ($this->prepend) {
-			return (string) $this->prepend . $data;
-		} else {
-			return $data;
-		}
+		return $this->prepend . $data;
 	}
 
 }

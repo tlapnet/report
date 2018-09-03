@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Service;
 
@@ -13,9 +13,6 @@ class CacheService
 	/** @var IntrospectionService */
 	protected $introspection;
 
-	/**
-	 * @param IntrospectionService $introspection
-	 */
 	public function __construct(IntrospectionService $introspection)
 	{
 		$this->introspection = $introspection;
@@ -24,9 +21,9 @@ class CacheService
 	/**
 	 * Returns array of subreports which have cached datasource. All lazy-loaded.
 	 *
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function findCached()
+	public function findCached(): array
 	{
 		$output = [];
 		$introspect = $this->introspection->introspect();
@@ -55,11 +52,8 @@ class CacheService
 
 	/**
 	 * Warmup subreport cache
-	 *
-	 * @param string $subreport
-	 * @return Resultable
 	 */
-	public function warmupSubreport($subreport)
+	public function warmupSubreport(string $subreport): Resultable
 	{
 		$subreport = $this->introspection->getService($subreport);
 

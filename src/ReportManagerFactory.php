@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report;
 
@@ -11,19 +11,12 @@ class ReportManagerFactory implements IReportManagerFactory
 	/** @var Loader */
 	protected $loader;
 
-	/**
-	 * @param Loader $loader
-	 * @return void
-	 */
-	public function setLoader($loader)
+	public function setLoader(Loader $loader): void
 	{
 		$this->loader = $loader;
 	}
 
-	/**
-	 * @return void
-	 */
-	public function create()
+	public function create(): ReportManager
 	{
 		throw new NotImplementedException();
 	}

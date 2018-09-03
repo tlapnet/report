@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Nette\Database\DataSources;
 
@@ -7,23 +7,17 @@ use Nette\Database\DriverException;
 use Tlapnet\Report\DataSources\AbstractDatabaseConnectionDataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
 use Tlapnet\Report\Parameters\Parameters;
+use Tlapnet\Report\Result\Resultable;
 
 class NetteDatabaseDataSource extends AbstractDatabaseConnectionDataSource
 {
 
 	use TNetteDatabaseDebugPanel;
 
-	/** @var Connection */
+	/** @var Connection|null */
 	protected $connection;
 
-	/**
-	 * API *********************************************************************
-	 */
-
-	/**
-	 * @return void
-	 */
-	protected function connect()
+	protected function connect(): void
 	{
 		$this->connection = new Connection(
 			sprintf(
@@ -34,20 +28,15 @@ class NetteDatabaseDataSource extends AbstractDatabaseConnectionDataSource
 			),
 			$this->getConfig('user'),
 			$this->getConfig('password'),
-			$this->getConfig('options', ['lazy' => TRUE])
+			$this->getConfig('options', ['lazy' => true])
 		);
 	}
 
 	/**
-	 * COMPILING ***************************************************************
-	 */
-
-	/**
-	 * @param Parameters $parameters
 	 * @return LazyResultSet
 	 * @throws SqlException
 	 */
-	public function compile(Parameters $parameters)
+	public function compile(Parameters $parameters): Resultable
 	{
 		// Connect to DB
 		if (!$this->connection) $this->connect();
@@ -65,7 +54,7 @@ class NetteDatabaseDataSource extends AbstractDatabaseConnectionDataSource
 				$switch->setPlaceholder('?');
 				// Replace named parameters for ? and return
 				// accurate sequenced array of arguments
-				list ($sql, $args) = $switch->execute($sql);
+				 [$sql, $args] = $switch->execute($sql);
 			} else {
 				// Keep empty arguments
 				$args = [];
@@ -74,12 +63,10 @@ class NetteDatabaseDataSource extends AbstractDatabaseConnectionDataSource
 			// Execute nette database query
 			$resultset = $this->connection->queryArgs($sql, $args);
 		} catch (DriverException $e) {
-			throw new SqlException($sql, NULL, $e);
+			throw new SqlException($sql, 0, $e);
 		}
 
-		$result = new LazyResultSet($resultset);
-
-		return $result;
+		return new LazyResultSet($resultset);
 	}
 
 }

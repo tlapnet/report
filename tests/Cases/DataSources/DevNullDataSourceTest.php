@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\DataSources;
 
@@ -9,15 +9,10 @@ use Tlapnet\Report\Parameters\Parameters;
 final class DevNullDataSourceTest extends BaseTestCase
 {
 
-	/**
-	 * @covers DevNullDataSource::compile
-	 * @covers DevNullDataSource::getData
-	 * @return void
-	 */
-	public function testDefault()
+	public function testDefault(): void
 	{
 		$ds = new DevNullDataSource();
-		$this->assertNull($ds->compile(new Parameters())->getData());
+		$this->assertSame([], $ds->compile(new Parameters())->getData());
 	}
 
 }

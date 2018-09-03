@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Chart\Renderers;
 
@@ -10,7 +10,7 @@ use Tlapnet\Report\Utils\Suggestions;
 abstract class AbstractChartRenderer implements Renderer
 {
 
-	/** @var array */
+	/** @var mixed[] */
 	protected $mapping = [
 		'segments' => [],
 		'series' => [],
@@ -18,25 +18,19 @@ abstract class AbstractChartRenderer implements Renderer
 		'groups' => [],
 	];
 
-	/** @var string */
+	/** @var string|null */
 	protected $valueSuffix;
 
-	/**
-	 * @param string $from
-	 * @param string $to
-	 * @return void
-	 */
-	public function addSegment($from, $to)
+	public function addSegment(string $from, string $to): void
 	{
 		$this->mapping['segments'][$from] = $to;
 	}
 
 	/**
-	 * @param string $key
 	 * @param mixed $default
 	 * @return mixed
 	 */
-	protected function getSegment($key, $default = NULL)
+	protected function getSegment(string $key, $default = null)
 	{
 		if (isset($this->mapping['segments'][$key])) {
 			return $this->mapping['segments'][$key];
@@ -51,30 +45,25 @@ abstract class AbstractChartRenderer implements Renderer
 	}
 
 	/**
-	 * @return array
+	 * @return mixed[]
 	 */
-	protected function getSegments()
+	protected function getSegments(): array
 	{
 		return $this->mapping['segments'];
 	}
 
 	/**
-	 * @return array
+	 * @return mixed[]
 	 */
-	protected function getSeriesBys()
+	protected function getSeriesBys(): array
 	{
 		return $this->mapping['seriesBy'];
 	}
 
 	/**
-	 * @param array $conditions
-	 * @param string $type
-	 * @param string $title
-	 * @param string $color
-	 * @param string $group
-	 * @return void
+	 * @param mixed[] $conditions
 	 */
-	public function addSerie(array $conditions = [], $type, $title, $color = NULL, $group = NULL)
+	public function addSerie(array $conditions = [], string $type, string $title, ?string $color = null, ?string $group = null): void
 	{
 		// Generate unique serie ID
 		$sid = md5(serialize([$conditions, $type, $title, $color]));
@@ -95,10 +84,9 @@ abstract class AbstractChartRenderer implements Renderer
 	}
 
 	/**
-	 * @param string $key
 	 * @return mixed
 	 */
-	protected function getSerie($key)
+	protected function getSerie(string $key)
 	{
 		if (isset($this->mapping['series'][$key])) {
 			return $this->mapping['series'][$key];
@@ -109,56 +97,40 @@ abstract class AbstractChartRenderer implements Renderer
 	}
 
 	/**
-	 * @return array
+	 * @return mixed[]
 	 */
-	protected function getSeries()
+	protected function getSeries(): array
 	{
 		return $this->mapping['series'];
 	}
 
 	/**
-	 * @return array
+	 * @return mixed[]
 	 */
-	protected function getGroups()
+	protected function getGroups(): array
 	{
 		return $this->mapping['groups'];
 	}
 
-	/**
-	 * @param string $sid
-	 * @return string|NULL
-	 */
-	protected function getGroupBySerie($sid)
+	protected function getGroupBySerie(string $sid): ?string
 	{
 		foreach ($this->mapping['groups'] as $_sid => $group) {
-			if ($_sid == $sid) {
+			if ($_sid === $sid) {
 				return $group;
 			}
 		}
 
-		return NULL;
+		return null;
 	}
 
-	/**
-	 * @param string $suffix
-	 * @return void
-	 */
-	public function setValueSuffix($suffix)
+	public function setValueSuffix(string $suffix): void
 	{
 		$this->valueSuffix = $suffix;
 	}
 
-	/**
-	 * HELPERS *****************************************************************
-	 */
-
-	/**
-	 * @param AbstractChart $chart
-	 * @return AbstractChart
-	 */
-	protected function createChart(AbstractChart $chart)
+	protected function createChart(AbstractChart $chart): AbstractChart
 	{
-		if ($this->valueSuffix) {
+		if ($this->valueSuffix !== null) {
 			$chart->setValueSuffix($this->valueSuffix);
 		}
 

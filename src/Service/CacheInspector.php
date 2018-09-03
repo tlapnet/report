@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Service;
 
@@ -12,9 +12,6 @@ class CacheInspector
 	/** @var Container */
 	protected $container;
 
-	/**
-	 * @param Container $container
-	 */
 	public function __construct(Container $container)
 	{
 		$this->container = $container;
@@ -23,7 +20,7 @@ class CacheInspector
 	/**
 	 * @return Subreport[]
 	 */
-	public function findSubreports()
+	public function findSubreports(): array
 	{
 		$services = [];
 		$names = $this->container->findByType(CachedDataSource::class);

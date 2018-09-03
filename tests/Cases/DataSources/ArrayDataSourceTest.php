@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\DataSources;
 
@@ -9,12 +9,7 @@ use Tlapnet\Report\Parameters\Parameters;
 final class ArrayDataSourceTest extends BaseTestCase
 {
 
-	/**
-	 * @covers ArrayDataSource::compile
-	 * @covers ArrayDataSource::getData
-	 * @return void
-	 */
-	public function testDefault()
+	public function testDefault(): void
 	{
 		$parameters = new Parameters();
 		$data = [['foo' => 'bar']];

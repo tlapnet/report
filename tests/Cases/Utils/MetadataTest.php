@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Utils;
 
@@ -9,13 +9,7 @@ use Tlapnet\Report\Utils\Metadata;
 final class MetadataTest extends BaseTestCase
 {
 
-	/**
-	 * @covers Metadata::set
-	 * @covers Metadata::get
-	 * @covers Metadata::has
-	 * @return void
-	 */
-	public function testMethods()
+	public function testMethods(): void
 	{
 		$md = new Metadata();
 		$md->set('foo', 'bar');
@@ -31,9 +25,8 @@ final class MetadataTest extends BaseTestCase
 
 	/**
 	 * @coversNothing
-	 * @return void
 	 */
-	public function testSuggestions1()
+	public function testSuggestions1(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage('Unknown key "fod", did you mean "foo"?');
@@ -45,9 +38,8 @@ final class MetadataTest extends BaseTestCase
 
 	/**
 	 * @coversNothing
-	 * @return void
 	 */
-	public function testSuggestions2()
+	public function testSuggestions2(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage('Unknown key "bar".');

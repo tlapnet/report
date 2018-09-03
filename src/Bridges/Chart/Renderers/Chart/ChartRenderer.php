@@ -1,9 +1,11 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Bridges\Chart\Renderers\Chart;
 
+use Tlapnet\Chart\AbstractChart;
 use Tlapnet\Chart\Chart;
 use Tlapnet\Chart\Segment\Segment;
+use Tlapnet\Chart\Serie\AbstractSerie;
 use Tlapnet\Chart\Serie\Serie;
 use Tlapnet\Report\Bridges\Chart\Renderers\SeriesChartRenderer;
 use Tlapnet\Report\Result\Result;
@@ -12,23 +14,17 @@ class ChartRenderer extends SeriesChartRenderer
 {
 
 	/**
-	 * @param object $serie
 	 * @return Serie
 	 */
-	protected function createSerie($serie)
+	protected function createSerie(object $serie): AbstractSerie
 	{
 		return new Serie($serie->type, $serie->title, $serie->color);
 	}
 
 	/**
-	 * RENDERERING *************************************************************
+	 * @return Chart
 	 */
-
-	/**
-	 * @param Result $result
-	 * @return mixed
-	 */
-	public function render(Result $result)
+	public function render(Result $result): AbstractChart
 	{
 		/** @var Chart $chart */
 		$chart = $this->createChart(new Chart());

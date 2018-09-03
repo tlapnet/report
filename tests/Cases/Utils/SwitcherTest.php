@@ -1,18 +1,15 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Cases\Utils;
 
+use stdClass;
 use Tests\Engine\BaseTestCase;
 use Tlapnet\Report\Utils\Switcher;
 
 final class SwitcherTest extends BaseTestCase
 {
 
-	/**
-	 * @covers Switcher::execute
-	 * @return void
-	 */
-	public function testSwitch()
+	public function testSwitch(): void
 	{
 		// One item
 		$params = ['foo' => 'bar'];
@@ -39,7 +36,7 @@ final class SwitcherTest extends BaseTestCase
 		$this->assertEquals(['example/{foobar}', []], $expander->execute('example/{foobar}'));
 
 		// Unsupported type
-		$stdClass = new \stdClass();
+		$stdClass = new stdClass();
 		$this->assertEquals($stdClass, $expander->execute($stdClass));
 	}
 

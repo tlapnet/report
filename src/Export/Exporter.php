@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tlapnet\Report\Export;
 
@@ -8,10 +8,8 @@ interface Exporter
 {
 
 	/**
-	 * @param Resultable $result
-	 * @param array $options
-	 * @return Exportable
+	 * @param mixed[] $options
 	 */
-	public function export(Resultable $result, array $options = []);
+	public function export(Resultable $result, array $options = []): Exportable;
 
 }
