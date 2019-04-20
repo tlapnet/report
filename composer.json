@@ -14,18 +14,22 @@
     "php": ">=7.2"
   },
   "require-dev": {
-    "ninjify/qa": "^0.8.0",
-    "mockery/mockery": "^1.1.0",
-    "phpunit/phpunit": "^7.3.5",
-    "tlapnet/chart": "^1.0.0|^2.0.0",
     "dibi/dibi": "~2.3.5",
-    "nette/di": "~2.4.13",
+    "latte/latte": "~2.4.8",
+    "mockery/mockery": "^1.1.0",
+    "ninjify/qa": "^0.8.0",
     "nette/application": "~2.4.12",
-    "nette/forms": "~2.4.8",
     "nette/database": "~2.4.6",
+    "nette/di": "~2.4.13",
+    "nette/forms": "~2.4.8",
     "nette/neon": "~2.4.3",
     "nette/utils": "~2.5.2",
-    "latte/latte": "~2.4.8",
+    "phpstan/phpstan": "^0.11",
+    "phpstan/phpstan-deprecation-rules": "^0.11",
+    "phpstan/phpstan-nette": "^0.11",
+    "phpstan/phpstan-strict-rules": "^0.11",
+    "phpunit/phpunit": "^7.3.5",
+    "tlapnet/chart": "^1.0.0|^2.0.0",
     "tracy/tracy": "~2.5.2"
   },
   "suggest": {
@@ -51,27 +55,8 @@
       "Tests\\": "tests"
     }
   },
-  "scripts": {
-    "qa": [
-      "linter src tests",
-      "codesniffer src tests"
-    ],
-    "phpunit": [
-      "phpunit tests --colors=always"
-    ],
-    "coverage": [
-      "phpunit tests --colors=always -c tests/coverage.xml"
-    ],
-    "phpstan-install": [
-      "mkdir -p temp/phpstan",
-      "composer require -d temp/phpstan phpstan/phpstan:0.10.3",
-      "composer require -d temp/phpstan phpstan/phpstan-deprecation-rules:0.10.2",
-      "composer require -d temp/phpstan phpstan/phpstan-nette:0.10.1",
-      "composer require -d temp/phpstan phpstan/phpstan-strict-rules:0.10.1"
-    ],
-    "phpstan": [
-      "temp/phpstan/vendor/bin/phpstan analyse -l max -c phpstan.neon src"
-    ]
+  "config": {
+    "sort-packages": true
   },
   "extra": {
     "branch-alias": {

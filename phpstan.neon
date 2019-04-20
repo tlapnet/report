@@ -1,8 +1,8 @@
 includes:
-	- temp/phpstan/vendor/phpstan/phpstan-deprecation-rules/rules.neon
-	- temp/phpstan/vendor/phpstan/phpstan-strict-rules/rules.neon
-	- temp/phpstan/vendor/phpstan/phpstan-nette/extension.neon
-	- temp/phpstan/vendor/phpstan/phpstan-nette/rules.neon
+	- vendor/phpstan/phpstan-deprecation-rules/rules.neon
+	- vendor/phpstan/phpstan-nette/extension.neon
+	- vendor/phpstan/phpstan-nette/rules.neon
+	- vendor/phpstan/phpstan-strict-rules/rules.neon
 
 parameters:
 	ignoreErrors:
@@ -16,18 +16,23 @@ parameters:
 		- '#^Call to an undefined method Nette\\ComponentModel\\IComponent\:\:isSubmittedBy\(\)\.$#'
 		# Should not happen
 		- '#^Method Tlapnet\\Report\\Bridges\\Dibi\\Fetcher\\DibiFetcher\:\:doQuery\(\) should return DibiResult but returns DibiResult\|int\.$#'
+		- '#^Method Tlapnet\\Report\\Utils\\Expander\:\:doSingle\(\) should return string but returns string\|null\.$#'
+		- message: '#^Parameter \#. \$str. of function levenshtein expects string, array\|string\|null given\.$#'
+		  path: %currentWorkingDirectory%/src/Utils/Suggestions.php
+		# Intended
+		- '#^Parameter \#1 \$data \(.+\) of method Tlapnet\\Report\\Preprocessor\\Impl\\.+Preprocessor\:\:preprocess\(\) should be contravariant with parameter \$data \(mixed\) of method Tlapnet\\Report\\Preprocessor\\Preprocessor\:\:preprocess\(\)$#'
 	excludes_analyse:
 		# Too magic
-		- %rootDir%/../../../../../src/Utils/Html.php
+		- %currentWorkingDirectory%/src/Utils/Html.php
 		# PHPStan dont know that it should not check null if it was already checked in previous code
-		- %rootDir%/../../../../../src/Subreport/Subreport.php
-		- %rootDir%/../../../../../src/Subreport/SubreportBuilder.php
-		- %rootDir%/../../../../../src/DataSources/PdoDataSource.php
-		- %rootDir%/../../../../../src/Bridges/Nette/Database/DataSources/NetteDatabaseDataSource.php
+		- %currentWorkingDirectory%/src/Subreport/Subreport.php
+		- %currentWorkingDirectory%/src/Subreport/SubreportBuilder.php
+		- %currentWorkingDirectory%/src/DataSources/PdoDataSource.php
+		- %currentWorkingDirectory%/src/Bridges/Nette/Database/DataSources/NetteDatabaseDataSource.php
 		# PHPStan dont know how to work with multiple type annotations
-		- %rootDir%/../../../../../src/Bridges/Nette/Form/FormFactory.php
+		- %currentWorkingDirectory%/src/Bridges/Nette/Form/FormFactory.php
 		# Nette\Diagnostics\IBarPanel not used at all, wtf?
-		- %rootDir%/../../../../../src/Bridges/Dibi/DataSources/DibiDataSource.php
-		- %rootDir%/../../../../../src/Bridges/Dibi/DataSources/DibiWrapperDataSource.php
-		- %rootDir%/../../../../../src/Bridges/Dibi/DataSources/MultiDibiWrapperDataSource.php
-		- %rootDir%/../../../../../src/Bridges/Dibi/DataSources/TDibiDebugPanel.php
+		- %currentWorkingDirectory%/src/Bridges/Dibi/DataSources/DibiDataSource.php
+		- %currentWorkingDirectory%/src/Bridges/Dibi/DataSources/DibiWrapperDataSource.php
+		- %currentWorkingDirectory%/src/Bridges/Dibi/DataSources/MultiDibiWrapperDataSource.php
+		- %currentWorkingDirectory%/src/Bridges/Dibi/DataSources/TDibiDebugPanel.php

@@ -85,9 +85,6 @@ class Result implements Countable, ArrayAccess, Resultable, Editable
 		unset($this->data[$offset]);
 	}
 
-	/**
-	 * @return ArrayIterator
-	 */
 	public function getIterator(): Iterator
 	{
 		return new ArrayIterator($this->data);

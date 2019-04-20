@@ -1,14 +1,12 @@
 # Tlapnet Report
 
------
-
 [![Build Status](https://img.shields.io/travis/tlapnet/report.svg?style=flat-square)](https://travis-ci.org/tlapnet/report)
 [![Code coverage](https://img.shields.io/coveralls/tlapnet/report.svg?style=flat-square)](https://coveralls.io/r/tlapnet/report)
 [![Licence](https://img.shields.io/packagist/l/tlapnet/report.svg?style=flat-square)](https://packagist.org/packages/tlapnet/report)
-
 [![Downloads this Month](https://img.shields.io/packagist/dm/tlapnet/report.svg?style=flat-square)](https://packagist.org/packages/tlapnet/report)
 [![Downloads total](https://img.shields.io/packagist/dt/tlapnet/report.svg?style=flat-square)](https://packagist.org/packages/tlapnet/report)
 [![Latest stable](https://img.shields.io/packagist/v/tlapnet/report.svg?style=flat-square)](https://packagist.org/packages/tlapnet/report)
+[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
 
 ## Install
 
@@ -24,7 +22,7 @@ $ compose require tlapnet/report
 | stable      | `^1.0`  | `master` | `>= 7.2` |
 | stable      | `^0.4`  | `master` | `>= 5.6` |
 
-## Overview
+## Documentation
 
 - [Nette - integration with Nette](.docs/nette.md)
 - [Model - entities and services](.docs/model.md)

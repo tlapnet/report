@@ -3,6 +3,7 @@
 namespace Tlapnet\Report\Bridges\Dibi\DataSources;
 
 use DibiResult;
+use DibiResultIterator;
 use Iterator;
 use Tlapnet\Report\Result\Result;
 
@@ -31,6 +32,9 @@ class LazyDibiResult extends Result
 		return $this->result->count();
 	}
 
+	/**
+	 * @return DibiResultIterator
+	 */
 	public function getIterator(): Iterator
 	{
 		return $this->result->getIterator();
