@@ -2,8 +2,8 @@
 
 namespace Tlapnet\Report\Bridges\Dibi\DataSources;
 
-use DibiResult;
-use DibiResultIterator;
+use Dibi\Result as DibiResult;
+use Dibi\ResultIterator as DibiResultIterator;
 use Iterator;
 use Tlapnet\Report\Result\Result;
 
