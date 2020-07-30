@@ -14,9 +14,9 @@ final class DibiDataSourceTest extends BaseTestCase
 
 	public function testQuery(): void
 	{
-		$result = Mockery::mock('alias:DibiResult');
+		$result = Mockery::mock('alias:Dibi\Result');
 
-		$connection = Mockery::mock('alias:DibiConnection');
+		$connection = Mockery::mock('alias:Dibi\Connection');
 		$connection->shouldReceive('query')
 			->once()
 			->with(['SELECT * FROM [foobar]'])
@@ -41,9 +41,9 @@ final class DibiDataSourceTest extends BaseTestCase
 
 	public function testQueryArgs(): void
 	{
-		$result = Mockery::mock('alias:DibiResult');
+		$result = Mockery::mock('alias:Dibi\Result');
 
-		$connection = Mockery::mock('alias:DibiConnection');
+		$connection = Mockery::mock('alias:Dibi\Connection');
 		$connection->shouldReceive('query')
 			->once()
 			->with(['SELECT * FROM [foobar] WHERE [year]=? AND [month]=?', 2000, 10])
