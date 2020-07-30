@@ -2,7 +2,7 @@
 
 namespace Tests\Mocks\Dibi;
 
-use DibiConnection;
+use Dibi\Connection as DibiConnection;
 use Tlapnet\Report\Bridges\Dibi\DataSources\DibiDataSource as TDibiDataSource;
 
 final class DibiDataSource extends TDibiDataSource

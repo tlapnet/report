@@ -2,7 +2,7 @@
 
 namespace Tlapnet\Report\Bridges\Dibi\Fetcher;
 
-use DibiConnection;
+use Dibi\Connection as DibiConnection;
 use Tlapnet\Report\Fetcher\Fetcher;
 use Tlapnet\Report\Fetcher\FetcherFactory;
 

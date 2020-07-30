@@ -2,10 +2,10 @@
 
 namespace Tlapnet\Report\Bridges\Dibi\Fetcher;
 
-use DibiConnection;
-use DibiException;
-use DibiResult;
-use DibiRow;
+use Dibi\Connection as DibiConnection;
+use Dibi\Exception as DibiException;
+use Dibi\Result as DibiResult;
+use Dibi\Row as DibiRow;
 use Tlapnet\Report\Fetcher\AbstractFetcher;
 
 final class DibiFetcher extends AbstractFetcher
