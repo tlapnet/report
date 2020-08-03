@@ -20,7 +20,7 @@ final class DibiFetcher extends AbstractFetcher
 		$this->connection = $connection;
 	}
 
-	/** @return array|DibiRow|null */
+	/** @return DibiRow|array[]|null */
 	public function fetch()
 	{
 		return $this->doQuery()->fetch();

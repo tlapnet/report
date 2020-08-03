@@ -2,8 +2,8 @@
 
 namespace Tlapnet\Report\Bridges\Dibi\DataSources;
 
-use Dibi\Connection as DibiConnection;
 use Dibi\Bridges\Nette\Panel as DibiNettePanel;
+use Dibi\Connection as DibiConnection;
 use Tracy\Debugger;
 
 trait TDibiDebugPanel
