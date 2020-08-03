@@ -60,7 +60,7 @@ class MultiDibiWrapperDataSource extends AbstractMultiDataSource
 			$single = $resultset->fetchSingle();
 
 			// Check data
-			if ($single === NULL) {
+			if ($single === null) {
 				throw new SqlException($sql);
 			}
 
