@@ -21,7 +21,7 @@ final class DibiFetcher extends AbstractFetcher
 	}
 
 	/** @return array|DibiRow|null */
-	public function fetch(): ?DibiRow
+	public function fetch()
 	{
 		return $this->doQuery()->fetch();
 	}
