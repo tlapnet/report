@@ -20,7 +20,8 @@ final class SwitcherTest extends BaseTestCase
 		$params = ['foo' => 'bar', 'a' => 'foobar', 'b' => 2];
 		$expander = new Switcher($params);
 		$this->assertEquals(
-			['example/?/?/?',
+			[
+				'example/?/?/?',
 				[
 					0 => 'bar',
 					1 => 2,

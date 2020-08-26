@@ -2,8 +2,8 @@
 
 namespace Tlapnet\Report\Bridges\Dibi\DataSources;
 
-use DibiConnection;
-use DibiResult;
+use Dibi\Connection as DibiConnection;
+use Dibi\Result as DibiResult;
 use Tlapnet\Report\DataSources\AbstractMultiDataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
 use Tlapnet\Report\Parameters\Parameters;
@@ -60,7 +60,7 @@ class MultiDibiWrapperDataSource extends AbstractMultiDataSource
 			$single = $resultset->fetchSingle();
 
 			// Check data
-			if ($single === false) {
+			if ($single === null) {
 				throw new SqlException($sql);
 			}
 

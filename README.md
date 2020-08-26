@@ -18,9 +18,8 @@ $ compose require tlapnet/report
 
 | State       | Version | Branch   | PHP      |
 |-------------|---------|----------|----------|
-| dev         | `^1.1`  | `master` | `>= 7.2` |
-| stable      | `^1.0`  | `master` | `>= 7.2` |
-| stable      | `^0.4`  | `master` | `>= 5.6` |
+| dev         | `^0.6`  | `master` | `>= 7.2` |
+| stable      | `^0.5`  | `master` | `>= 7.2` |
 
 ## Documentation
 

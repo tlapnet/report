@@ -2,10 +2,10 @@
 
 namespace Tlapnet\Report\Bridges\Dibi\Fetcher;
 
-use DibiConnection;
-use DibiException;
-use DibiResult;
-use DibiRow;
+use Dibi\Connection as DibiConnection;
+use Dibi\Exception as DibiException;
+use Dibi\Result as DibiResult;
+use Dibi\Row as DibiRow;
 use Tlapnet\Report\Fetcher\AbstractFetcher;
 
 final class DibiFetcher extends AbstractFetcher
@@ -20,9 +20,7 @@ final class DibiFetcher extends AbstractFetcher
 		$this->connection = $connection;
 	}
 
-	/**
-	 * @return DibiRow|false
-	 */
+	/** @return DibiRow|array|null*/// @codingStandardsIgnoreLine
 	public function fetch()
 	{
 		return $this->doQuery()->fetch();
@@ -38,7 +36,7 @@ final class DibiFetcher extends AbstractFetcher
 	}
 
 	/**
-	 * @return DibiRow[]
+	 * @return DibiRow[]|array[]
 	 */
 	public function fetchAll(?int $offset = null, ?int $limit = null): array
 	{

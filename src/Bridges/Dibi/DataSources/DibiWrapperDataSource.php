@@ -2,9 +2,9 @@
 
 namespace Tlapnet\Report\Bridges\Dibi\DataSources;
 
-use DibiConnection;
-use DibiException;
-use DibiResult;
+use Dibi\Connection as DibiConnection;
+use Dibi\Exception as DibiException;
+use Dibi\Result as DibiResult;
 use Tlapnet\Report\DataSources\AbstractDatabaseDataSource;
 use Tlapnet\Report\Exceptions\Runtime\DataSource\SqlException;
 use Tlapnet\Report\Parameters\Parameters;
