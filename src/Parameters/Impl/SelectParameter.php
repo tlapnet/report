@@ -75,7 +75,7 @@ final class SelectParameter extends Parameter
 			}
 		} else {
 			// Set value representing by his key
-			if (in_array($value, $this->items, true)) {
+			if (in_array($value, $this->items)) {
 				$this->value = $value;
 			} else {
 				throw new InvalidArgumentException(sprintf('Value "%s" not found in array [%s] (useKeys:off)', $value, implode('|', array_values($this->items))));
