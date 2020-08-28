@@ -16,7 +16,7 @@ class Form extends UIForm
 
 		foreach ($this->getValues() as $k => $v) {
 			// Skip empty and null values
-			if (strlen($v) <= 0 || $v === null) {
+			if ((is_string($v) && strlen($v) <= 0) || $v === null) {
 				continue;
 			}
 
