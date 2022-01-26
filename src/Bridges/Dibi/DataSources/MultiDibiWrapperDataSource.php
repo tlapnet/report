@@ -53,8 +53,9 @@ class MultiDibiWrapperDataSource extends AbstractMultiDataSource
 			}
 
 			// Execute nette database query
+			$query = array_merge([$sql], $args);
 			/** @var DibiResult $resultset */
-			$resultset = $this->connection->query($sql, $args);
+			$resultset = $this->connection->query($query);
 
 			// Fetch single data
 			$single = $resultset->fetchSingle();

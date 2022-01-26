@@ -20,6 +20,10 @@ parameters:
 		  path: %currentWorkingDirectory%/src/Utils/Suggestions.php
 		# Intended
 		- '#^Parameter \#1 \$data \(.+\) of method Tlapnet\\Report\\Preprocessor\\Impl\\.+Preprocessor\:\:preprocess\(\) should be contravariant with parameter \$data \(mixed\) of method Tlapnet\\Report\\Preprocessor\\Preprocessor\:\:preprocess\(\)$#'
+		# InArray strict to false
+		- message: '#^Call to function in_array\(\) requires parameter \#3 to be set\.#'
+		  path: %currentWorkingDirectory%/src/Parameters/Impl/SelectParameter.php
+
 	excludes_analyse:
 		# Too magic
 		- %currentWorkingDirectory%/src/Utils/Html.php

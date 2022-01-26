@@ -55,7 +55,7 @@ abstract class SeriesChartRenderer extends AbstractChartRenderer
 		// Filter data
 		foreach ($data as $item) {
 			foreach ($seriesBys as $serieBy) {
-				if ($serieBy->conditions !== []) {
+				if ($serieBy->conditions === []) {
 					// Common serie
 					$filtered[$serieBy->id][] = $item;
 				} else {
