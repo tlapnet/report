@@ -63,7 +63,7 @@ abstract class AbstractChartRenderer implements Renderer
 	/**
 	 * @param mixed[] $conditions
 	 */
-	public function addSerie(array $conditions = [], string $type, string $title, ?string $color = null, ?string $group = null): void
+	public function addSerie(array $conditions = [], string $type = '', string $title = '', ?string $color = null, ?string $group = null): void
 	{
 		// Generate unique serie ID
 		$sid = md5(serialize([$conditions, $type, $title, $color]));
